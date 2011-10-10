@@ -16,9 +16,9 @@
  * @package    Enlight_Application
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $$Id$$
+ * @version    $Id$
  * @author     Heiner Lohaus
- * @author     $$Author$$
+ * @author     $Author$
  */
 
 /**
