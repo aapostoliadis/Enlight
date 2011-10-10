@@ -1,7 +1,0 @@
-[alias]
-	co = checkout
-	ci = commit -a
-
-[filter "rcs-keywords"]
-	clean = .Filters/CleanVersionKeywords.pl
-	smudge = .Filters/SmudgeVersionKeywords.pl %f
