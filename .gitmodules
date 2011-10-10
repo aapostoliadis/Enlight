@@ -1,0 +1,6 @@
+[submodule "Tests/Enlight"]
+	path = Tests/Enlight
+	url = git@github.com:ShopwareAG/Enlight-Tests.git
+[submodule "Tests/Smarty"]
+	path = Tests/Smarty
+	url = git@github.com:ShopwareAG/Enlight-Tests-Smarty.git
