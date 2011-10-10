@@ -1,28 +1,99 @@
 <?php
 /**
- * Enlight Application
- * 
- * @link http://www.shopware.de
- * @copyright Copyright (c) 2011, shopware AG
- * @author Heiner Lohaus
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight_Application
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $$Id$$
+ * @author     Heiner Lohaus
+ * @author     $$Author$$
+ */
+
+/**
+ * $description$
+ *
+ * @category   Enlight
+ * @package    Enlight_Application
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Enlight_Application
 {
+	/**
+	 * @var string
+	 */
 	protected $environment;
+
+	/**
+	 * @var array
+	 */
 	protected $options;
-	
-	protected $ds;			// Directory seperator
-	protected $path;		// Framework path
-	protected $app;			// Application name
-	protected $app_path;	// Application path
-	protected $core_path;	// Framework core path
-	
-	protected static $_instance;
+
+	/**
+	 * @var string Directory seperator
+	 */
+	protected static $ds = DIRECTORY_SEPARATOR;
+
+	/**
+	 * @var Enlight_Application
+	 */
+	protected static $instance;
+
+	/**
+	 * @var string Framework path
+	 */
+	protected $path;
+
+	/**
+	 * @var string Application name
+	 */
+	protected $app;
+
+	/**
+	 * @var string Application path
+	 */
+	protected $app_path;
+
+	/**
+	 * @var string Framework core path
+	 */
+	protected $core_path;
+
+	/**
+	 * @var Enlight_Loader
+	 */
 	protected $_loader;
+
+	/**
+	 * @var Enlight_Hook_HookManager
+	 */
 	protected $_hooks;
+
+	/**
+	 * @var Enlight_Event_EventManager
+	 */
 	protected $_events;
+
+	/**
+	 * @var Enlight_Plugin_PluginManager
+	 */
 	protected $_plugins;
-	
+
+	/**
+	 * @var Enlight_Bootstrap
+	 */
 	protected $_bootstrap;
 
 	/**
@@ -33,18 +104,17 @@ class Enlight_Application
 	 */
 	public function __construct($environment, $options = null)
 	{
-		self::$_instance = $this;
+		self::$instance = $this;
 
 		$this->environment = $environment;
-		$this->ds = DIRECTORY_SEPARATOR;
-		$this->path = dirname(dirname(__FILE__)) . $this->ds;
-		$this->core_path = $this->path . 'Enlight' . $this->ds;
+		$this->path = dirname(dirname(__FILE__)) . $this->DS();
+		$this->core_path = $this->path . 'Enlight' . $this->DS();
 		
-		require_once($this->CorePath() . 'Exception.php');
-        require_once($this->CorePath() . 'Hook.php');
-        require_once($this->CorePath() . 'Singleton.php');
-		require_once($this->CorePath() . 'Class.php');
-		require_once($this->CorePath() . 'Loader.php');
+		require_once('Enlight/Exception.php');
+        require_once('Enlight/Hook.php');
+        require_once('Enlight/Singleton.php');
+		require_once('Enlight/Class.php');
+		require_once('Enlight/Loader.php');
 
 		$this->_loader = new Enlight_Loader();
 		$this->_loader->registerNamespace('Enlight', 'Enlight/');
@@ -61,9 +131,9 @@ class Enlight_Application
 			$this->app = 'Default';
 		}
 		if(!empty($options['app_path'])) {
-			$this->app_path = realpath($options['app_path']) . $this->ds;
+			$this->app_path = realpath($options['app_path']) . $this->DS();
 		} else {
-			$this->app_path = realpath('Apps/'.$this->app) . $this->ds;
+			$this->app_path = realpath('Apps/'.$this->app) . $this->DS();
 		}
 		
 		if(!file_exists($this->app_path) && !is_dir($this->app_path)) {
@@ -92,7 +162,7 @@ class Enlight_Application
 	 */
 	public static function DS()
 	{
-		return self::$_instance->ds;
+		return self::$ds;
 	}
 	
 	/**
@@ -104,8 +174,8 @@ class Enlight_Application
 	public function Path($path = null)
 	{
 		if($path !== null) {
-			$path = str_replace('_', $this->ds, $path);
-			return $this->path.$path.$this->ds;
+			$path = str_replace('_', $this->DS(), $path);
+			return $this->path . $path . $this->DS();
 		}
 		return $this->path;
 	}
@@ -119,8 +189,8 @@ class Enlight_Application
 	public function AppPath($path = null)
 	{
 		if($path !== null) {
-			$path = str_replace('_', $this->ds, $path);
-			return $this->app_path.$path.$this->ds;
+			$path = str_replace('_', $this->DS(), $path);
+			return $this->app_path . $path . $this->DS();
 		}
 		return $this->app_path;
 	}
@@ -134,8 +204,8 @@ class Enlight_Application
 	public function CorePath($path = null)
 	{
 		if($path !== null) {
-			$path = str_replace('_', $this->ds, $path);
-			return $this->core_path.$path.$this->ds;
+			$path = str_replace('_', $this->DS(), $path);
+			return $this->core_path . $path . $this->DS();
 		}
 		return $this->core_path;
 	}
@@ -149,10 +219,10 @@ class Enlight_Application
 	public function ComponentsPath($path = null)
 	{
 		if($path !== null) {
-			$path = str_replace('_', $this->ds, $path);
-			return $this->core_path.'Components'.$this->ds.$path.$this->ds;
+			$path = str_replace('_', $this->DS(), $path);
+			return $this->core_path . 'Components' . $this->DS() . $path . $this->DS();
 		}
-		return $this->core_path.'Components'.$this->ds;
+		return $this->core_path . 'Components' . $this->DS();
 	}
 		
 	/**
@@ -236,7 +306,7 @@ class Enlight_Application
 	 */
 	public static function Instance()
 	{
-		return self::$_instance;	
+		return self::$instance;
 	}
 	
 	/**
@@ -397,9 +467,9 @@ class Enlight_Application
 	public static function __callStatic($name, $value = null)
 	{
 		$enlight = self::Instance();
-		if(!$enlight->_bootstrap||!$enlight->_bootstrap->hasResource($name)) {
+		if(!$enlight->_bootstrap->hasResource($name)) {
 			throw new Enlight_Exception('Method "'.get_called_class().'::'.$name.'" not found failure', Enlight_Exception::Method_Not_Found);
 		}
-		return $enlight->_bootstrap->getResource($name);
+		return $enlight->Bootstrap()->getResource($name);
 	}
 }

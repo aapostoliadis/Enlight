@@ -157,14 +157,15 @@ class Enlight_Loader extends Enlight_Class
 	public function getClassPath($class)
 	{
 		foreach ($this->namespaces as  $namespace) {
-			if(strpos($class, $namespace['namespace'])===0) {
-				$path = substr($class, strlen($namespace['namespace'])+1);
-				$path = str_replace(str_split($namespace['separator']), DIRECTORY_SEPARATOR, $path);
-				$path = $namespace['path'].$path.$namespace['extension'];
-				$path = self::isReadable($path);
-				if($path) {
-					return $path;
-				}
+			if(strpos($class, $namespace['namespace'])!==0) {
+				continue;
+			}
+			$path = substr($class, strlen($namespace['namespace'])+1);
+			$path = str_replace(str_split($namespace['separator']), DIRECTORY_SEPARATOR, $path);
+			$path = $namespace['path'].$path.$namespace['extension'];
+			$path = self::isReadable($path);
+			if($path) {
+				return $path;
 			}
 		}
 	}
