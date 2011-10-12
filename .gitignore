@@ -1,5 +1,6 @@
 /Apps/Default/Cache
 /Tests/Enlight/Logs
+/Tests/Enlight/TempFiles
 /Tests/Smarty/cache
 /Tests/Smarty/templates_c
 /.idea

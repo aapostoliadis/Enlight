@@ -76,7 +76,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
 		} elseif(is_string($config)) {
 			$this->setName($config);
 		} else {
-			throw new Enlight_Exception('Please specify configuration data');
+			throw new Enlight_Config_Exception('Please specify configuration data');
 		}
     }
 
@@ -130,9 +130,9 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
      */
     public function get($name, $default = null)
     {
-		if($this->_data === null) {
-			$this->loadData();
-		}
+		//if($this->_data === null) {
+		//	$this->loadData();
+		//}
 
         if (array_key_exists($name, $this->_data)) {
             return $this->_data[$name];
@@ -167,8 +167,10 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
                 $value = new $this->_defaultConfigClass($value, true);
             }
 			$this->_dirtyFields[] = $name;
+			parent::__set($name, $value);
+        } else {
+            throw new Enlight_Config_Exception('Enlight_Config is read only');
         }
-		parent::__set($name, $value);
 	}
 
 	/**
@@ -223,9 +225,9 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     public function setAllowModifications($option = true)
     {
         $this->_allowModifications = (bool) $option;
-        foreach ($this->_data as $key => $value) {
+        foreach ($this->_data as $value) {
             if ($value instanceof Enlight_Config) {
-                $value->setAllowModifications($option);
+				$value->setAllowModifications($option);
             }
         }
         return $this;
@@ -268,7 +270,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     /**
      * Sets the current section of the config list.
      *
-     * @param array|string $section
+     * @param string|array $section
      * @return Enlight_Config
      */
     public function setSection($section)
@@ -278,6 +280,16 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
 		}
 		$this->_section = $section;
 		return $this;
+    }
+
+	/**
+     * Returns the current section of the config list.
+     *
+     * @return string|array
+     */
+    public function getSection()
+    {
+		return $this->_section;
     }
 
 	/**
@@ -326,6 +338,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
      *
      * @return void
      */
+	/*
     protected function loadData()
     {
 		//if($this->testCache()) {
@@ -343,4 +356,5 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
 	    	}
     	};
     }
+	*/
 }

@@ -29,35 +29,42 @@
  */
 class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
 {
-	/**
+    /**
      * Wether to exclusively lock the file or not
      *
      * @var bool
      */
     protected $_exclusiveLock = false;
 
-	/**
+    /**
      * Whether to skip extends or not
      *
      * @var bool
      */
     protected $_skipExtends = false;
 
-	/**
+    /**
      * The config dir.
      *
      * @var string
      */
     protected $_configDir;
 
-	/**
+    /**
      * The config type.
      *
      * @var string
      */
     protected $_configType = 'ini';
 
-	/**
+     /**
+     * The filename suffix.
+     *
+     * @var string
+     */
+    protected $_nameSuffix;
+
+    /**
      * Sets the options of an array.
      *
      * @param array $options
@@ -65,72 +72,108 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
      */
     public function setOptions(array $options)
     {
-    	foreach ($options as $key=>$option) {
-    		switch ($key) {
-    			case 'exclusiveLock':
-				case 'skipExtends':
-    				$this->{'_'.$key} = (bool) $option;
-    				break;
-				case 'configDir':
-				case 'configType':
-    				$this->{'_'.$key} = (bool) $option;
-    				break;
-    			default:
-					break;
-    		}
-    	}
-    	return parent::setOptions($options);
+        foreach ($options as $key=>$option) {
+            switch ($key) {
+                case 'exclusiveLock':
+                case 'skipExtends':
+                    $this->{'_'.$key} = (bool) $option;
+                    break;
+                case 'configDir':
+                case 'configType':
+                    $this->{'_'.$key} = (string) $option;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return parent::setOptions($options);
     }
 
-	/**
-	 * Returns the complete filename by config name.
-	 *
-	 * @param $name
-	 * @return string
-	 */
-	protected function getFilename($name)
+    /**
+     * Returns the complete filename by config name.
+     *
+     * @param $name
+     * @return string
+     */
+    protected function getFilename($name)
     {
-		$suffix = $this->_nameSuffix !== null ? $this->_nameSuffix : '.' . $this->_configType;
-		$name = $this->_configDir .$this->_namePrefix . $name . $suffix;
-		return $name;
-	}
+        $suffix = $this->_nameSuffix !== null ? $this->_nameSuffix : '.' . $this->_configType;
+        $name = $this->_configDir .$this->_namePrefix . $name . $suffix;
+        return $name;
+    }
 
-	/**
-	 * Reads a section from the data store.
-	 *
-	 * @param Enlight_Config $config
-	 *
-	 * @internal param array|string $section
-	 * @return Enlight_Config_Adapter_File
-	 */
+    /**
+     * Returns the complete filename by config name.
+     *
+     * @param $filename
+     *
+     * @internal param $name
+     * @return string
+     */
+    protected function readBase($filename)
+    {
+        try {
+            if(file_exists($filename)) {
+                $reader = 'Zend_Config_' . ucfirst($this->_configType);
+                $base = new $reader($filename, null, array(
+                    'skipExtends' => true,
+                    'allowModifications' => true
+                ));
+            } else {
+                $base = new Enlight_Config(array(), true);
+            }
+        } catch (Zend_Exception $e) {
+            throw new Enlight_Config_Exception($e->getMessage(), $e->getCode(), $e);
+        }
+        return $base;
+    }
+
+    /**
+     * Reads a section from the data store.
+     *
+     * @param Enlight_Config $config
+     * @return Enlight_Config_Adapter_File
+     */
     public function read(Enlight_Config $config)
     {
-		$section = $config->getSectionName();
-		$name = $this->getFilename($config->getName());
-		$reader = 'Zend_Config_' . ucfirst($this->_configType);
-		$reader = new $reader($name, $section, array(
-			'exclusiveLock' => $this->_exclusiveLock,
-			'skipExtends' => $this->_skipExtends
-		));
-		$config->merge($reader);
-		return $this;
-	}
+        $section = $config->getSection();
+        $name = $this->getFilename($config->getName());
+        $reader = 'Zend_Config_' . ucfirst($this->_configType);
+        $reader = new $reader($name, $section, array(
+            'skipExtends' => $this->_skipExtends
+        ));
+        $config->merge($reader);
+        return $this;
+    }
 
-	/**
-	  * Saves the data changes in the data store.
-	  *
-	  * @param Enlight_Config $config
-	  * @return Enlight_Config_Adapter_File
-	  */
-    public function save(Enlight_Config $config)
+    /**
+      * Saves the data changes to the data store.
+      *
+      * @param Enlight_Config $config
+      * @return Enlight_Config_Adapter_File
+      */
+    public function write(Enlight_Config $config)
     {
-		$name = $this->getFilename($config->getName());
-		$writer = 'Zend_Config_Writer_' . ucfirst($this->_configType);
-		$writer = new $writer(array(
-			'config' => $config,
-            'filename' => $name
-		));
-		$writer->write();
-		return $this;
-	}
+        $section = $config->getSection();
+        $filename = $this->getFilename($config->getName());
+
+        if(!empty($section)) {
+            $base = $this->readBase($filename);
+            $base->$section = $config;
+        } else {
+            $base = $config;
+        }
+
+        try {
+            $writer = 'Zend_Config_Writer_' . ucfirst($this->_configType);
+            $writer = new $writer(array(
+                'config' => $base,
+                'filename' => $filename
+            ));
+            $writer->write();
+        } catch (Zend_Exception $e) {
+            throw new Enlight_Config_Exception($e->getMessage(), $e->getCode(), $e);
+        }
+        return $this;
+    }
 }
