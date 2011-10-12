@@ -34,6 +34,10 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
 	{
 		$this->_return = $return;
 	}
+
+    /**
+     * @return mixed
+     */
 	public function getReturn()
 	{
 		return $this->_return;

@@ -111,7 +111,8 @@ class Enlight_Collection_ArrayCollection implements Enlight_Collection_Collectio
 	 * Returns a value of an element in the list.
 	 *
 	 * @param string $key
-	 */
+     * @return mixed
+     */
 	public function offsetGet($key)
 	{
 		return $this->get($key);
@@ -154,7 +155,8 @@ class Enlight_Collection_ArrayCollection implements Enlight_Collection_Collectio
 	 * Returns a value of an element in the list.
 	 *
 	 * @param string $key
-	 */
+     * @return mixed
+     */
 	public function __get($key)
 	{
 		return $this->get($key);

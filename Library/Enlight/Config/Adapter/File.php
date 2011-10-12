@@ -132,6 +132,8 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
      * Reads a section from the data store.
      *
      * @param Enlight_Config $config
+     *
+     * @internal param array|string $section
      * @return Enlight_Config_Adapter_File
      */
     public function read(Enlight_Config $config)
