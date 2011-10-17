@@ -102,10 +102,9 @@
       * Reads a section from the data store.
       *
       * @param Enlight_Config $config
-      * @param string|array $section
       * @return array
       */
-    public function read(Enlight_Config $config, $section)
+    public function read(Enlight_Config $config)
     {
         $name = $this->_namePrefix . $config->getName() . $this->_nameSuffix;
 

@@ -65,7 +65,7 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
     protected $_nameSuffix;
 
     /**
-     * Sets the options of an array.
+     * Sets the options from an array.
      *
      * @param array $options
      * @return Enlight_Config_Adapter
@@ -105,10 +105,8 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
     /**
      * Returns the complete filename by config name.
      *
-     * @param $filename
-     *
-     * @internal param $name
-     * @return string
+     * @param   string $filename
+     * @return  Enlight_Config
      */
     protected function readBase($filename)
     {
@@ -132,8 +130,6 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
      * Reads a section from the data store.
      *
      * @param Enlight_Config $config
-     *
-     * @internal param array|string $section
      * @return Enlight_Config_Adapter_File
      */
     public function read(Enlight_Config $config)
@@ -144,7 +140,8 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
         $reader = new $reader($name, $section, array(
             'skipExtends' => $this->_skipExtends
         ));
-        $config->merge($reader);
+        $config->setData($reader->toArray());
+        //$config->merge($reader);
         return $this;
     }
 

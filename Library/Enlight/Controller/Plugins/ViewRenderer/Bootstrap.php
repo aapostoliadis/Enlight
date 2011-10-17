@@ -1,5 +1,5 @@
 <?php
-class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_Bootstrap
+class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_PluginBootstrap
 {
 	public function init()
 	{

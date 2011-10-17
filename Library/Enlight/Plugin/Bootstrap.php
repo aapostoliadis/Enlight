@@ -27,7 +27,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license/new-bsd     New BSD License
  */
-abstract class Enlight_Plugin_PluginBootstrap extends Enlight_Class implements Enlight_Singleton
+abstract class Enlight_Plugin_Bootstrap extends Enlight_Class implements Enlight_Singleton
 {
     /**
      * @var Enlight_Plugin_PluginCollection
@@ -38,17 +38,6 @@ abstract class Enlight_Plugin_PluginBootstrap extends Enlight_Class implements E
      * @var string
      */
 	protected $name;
-
-    /**
-     * @param   Enlight_Plugin_PluginCollection $namespace
-     * @param   $name
-     */
-	public function __construct(Enlight_Plugin_PluginCollection $namespace, $name)
-	{
-		$this->namespace = $namespace;
-		$this->name = $name;
-		parent::__construct();
-	}
 
     /**
      * @return  string

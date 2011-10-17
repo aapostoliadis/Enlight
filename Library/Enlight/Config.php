@@ -34,6 +34,13 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
 	 */
 	protected $_defaultConfigClass = __CLASS__;
 
+    /**
+     * Whether in-memory modifications to configuration data are allowed
+     *
+     * @var boolean
+     */
+    protected $_allowModifications = false;
+
 	/**
 	 * The config name.
 	 *
@@ -61,19 +68,43 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
 	 * @var string
 	 */
 	protected $_sectionSeparator = ':';
-		
-	/**
-	 * Constructor method
-	 *
-	 * @param array|null|string $config
-	 * @param bool $allowModifications
-	 */
-	public function __construct($config = null, $allowModifications = false)
+
+    /**
+     * @var Enlight_Config_Adapter
+     */
+    protected static $_defaultAdapter;
+
+    /**
+     * @var Enlight_Config_Adapter
+     */
+    protected $_adapter;
+
+    /**
+     * Constructor method
+     *
+     * @param array|null|string $config
+     * @param array|bool $options
+     * @return \Enlight_Config
+     */
+	public function __construct($config, $options = null)
     {
-		$this->_allowModifications = (bool) $allowModifications;
+        if(!is_array($options)) {
+            $options = array('allowModifications' => $options);
+        }
+        if(isset($options['allowModifications'])) {
+            $this->_allowModifications = (bool) $options['allowModifications'];
+        }
+        if(isset($options['adapter']) && $options['adapter'] instanceof Enlight_Config_Adapter) {
+            $this->_adapter = $options['adapter'];
+        } else {
+            $this->_adapter = self::$_defaultAdapter;
+        }
+        if(isset($options['section'])) {
+            $this->_section = (string) $options['section'];
+        }
 		if(is_array($config)) {
 			$this->setData($config);
-		} elseif(is_string($config)) {
+		} elseif(!empty($config)) {
 			$this->setName($config);
 		} else {
 			throw new Enlight_Config_Exception('Please specify configuration data');
@@ -130,9 +161,9 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
      */
     public function get($name, $default = null)
     {
-		//if($this->_data === null) {
-		//	$this->loadData();
-		//}
+		if($this->_data === null) {
+			$this->read();
+		}
 
         if (array_key_exists($name, $this->_data)) {
             return $this->_data[$name];
@@ -153,6 +184,17 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
 		$this->__set($name, $value);
 		return $this;
 	}
+
+    /**
+     * Defined by Iterator interface
+     */
+    public function rewind()
+    {
+        if($this->_data === null) {
+			$this->read();
+		}
+        parent::rewind();
+    }
 	
 	/**
 	 * Set value method
@@ -166,8 +208,13 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
             if (is_array($value)) {
                 $value = new $this->_defaultConfigClass($value, true);
             }
-			$this->_dirtyFields[] = $name;
-			parent::__set($name, $value);
+            if($name === null) {
+                $this->_data[] = $value;
+                $this->_count = count($this->_data);
+            } else {
+			    $this->_dirtyFields[] = $name;
+			    parent::__set($name, $value);
+            }
         } else {
             throw new Enlight_Config_Exception('Enlight_Config is read only');
         }
@@ -225,9 +272,11 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     public function setAllowModifications($option = true)
     {
         $this->_allowModifications = (bool) $option;
-        foreach ($this->_data as $value) {
-            if ($value instanceof Enlight_Config) {
-				$value->setAllowModifications($option);
+        if($this->_data !== null) {
+            foreach ($this->_data as $value) {
+                if ($value instanceof Enlight_Config) {
+                    $value->setAllowModifications($option);
+                }
             }
         }
         return $this;
@@ -263,7 +312,6 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
 	 */
 	public function getDirtyFields()
 	{
-		$this->_dirtyFields = array_unique($this->_dirtyFields);
 		return $this->_dirtyFields;
 	}
 	
@@ -334,27 +382,53 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     }
 
     /**
-     * Loads the default data and the sections from the data store.
+     * Returns the current config adapter.
      *
+     * @return Enlight_Config_Adapter
+     */
+    public function getAdapter()
+    {
+        return $this->_adapter;
+    }
+
+    /**
+     * Returns the default config adapter.
+     *
+     * @return Enlight_Config_Adapter
+     */
+    public static function getDefaultAdapter()
+    {
+        return self::$_defaultAdapter;
+    }
+
+    /**
+     * Sets the default config adapter.
+     *
+     * @param Enlight_Config_Adapter $adapter
      * @return void
      */
-	/*
-    protected function loadData()
+    public static function setDefaultAdapter(Enlight_Config_Adapter $adapter)
     {
-		//if($this->testCache()) {
-    	//	$this->loadCache();
-    	//} else {
-    	//	$this->saveCache();
-    	//}
-
-    	$extendingSection = $this->_section;
-    	$this->_data = $this->_arrayMergeRecursive($this->readSection($extendingSection), $this->_data);
-    	if(!empty($this->_extends)) {
-    		while (isset($this->_extends[$extendingSection])) {
-	    		$extendingSection = $this->_extends[$extendingSection];
-	    		$this->_data = $this->_arrayMergeRecursive($this->readSection($extendingSection), $this->_data);
-	    	}
-    	};
+        self::$_defaultAdapter = $adapter;
     }
-	*/
-}
+
+    /**
+     * Loads the default data and the sections from the data store.
+     *
+     * @return Enlight_Config
+     */
+    public function read()
+    {
+        $this->_adapter->read($this);
+        return $this;
+    }
+
+    /**
+     * @return Enlight_Config
+     */
+    public function write()
+    {
+        $this->_adapter->write($this);
+        return $this;
+    }
+} 

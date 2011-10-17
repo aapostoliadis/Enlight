@@ -22,7 +22,7 @@ class Enlight_Collection_ArrayCollection implements Enlight_Collection_Collectio
 	 * 
 	 * Expects an array as a parameter with default elements.
 	 *
-	 * @param array $elements
+	 * @param   array $elements
 	 */
 	public function __construct($elements = array())
 	{

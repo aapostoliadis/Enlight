@@ -29,8 +29,18 @@
  */
 abstract class Enlight_Config_Adapter extends Enlight_Class
 {
+    /**
+     * A prefix for config names
+     *
+     * @var string
+     */
 	protected $_namePrefix = '';
 
+    /**
+     * A suffix for config names
+     *
+     * @var string
+     */
 	protected $_nameSuffix = '';
 
 	/**
@@ -42,6 +52,8 @@ abstract class Enlight_Config_Adapter extends Enlight_Class
     }
 
 	/**
+     * Sets the options of an array.
+     *
 	 * @param array $options
 	 * @return Enlight_Config_Adapter
 	 */
@@ -59,4 +71,20 @@ abstract class Enlight_Config_Adapter extends Enlight_Class
     	}
 		return $this;
 	}
+
+    /**
+     * Reads a section from the data store.
+     *
+     * @param Enlight_Config $config
+     * @return Enlight_Config_Adapter_File
+     */
+    abstract public function read(Enlight_Config $config);
+
+    /**
+      * Saves the data changes to the data store.
+      *
+      * @param Enlight_Config $config
+      * @return Enlight_Config_Adapter_File
+      */
+    abstract public function write(Enlight_Config $config);
 }

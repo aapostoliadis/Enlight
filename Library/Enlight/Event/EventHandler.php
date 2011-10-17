@@ -98,7 +98,10 @@ class Enlight_Event_EventHandler
      */
 	public function execute($args=null)
 	{
-		return call_user_func_array($this->listener, (array) $args);
+        if(!is_array($args)) {
+            $args = array($args);
+        }
+		return call_user_func_array($this->listener, $args);
 	}
 
     /**

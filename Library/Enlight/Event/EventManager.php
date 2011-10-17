@@ -35,6 +35,8 @@ class Enlight_Event_EventManager extends Enlight_Class
     protected $listeners = array();
 
     /**
+     * Register a listener to an event.
+     *
      * @param   Enlight_Event_EventHandler $handler
      * @return  Enlight_Event_EventManager
      */
@@ -60,6 +62,8 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
+     * Remove an event listener.
+     *
      * @param   Enlight_Event_EventHandler $handler
      * @return  Enlight_Event_EventManager
      */
@@ -84,6 +88,8 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
+     * Retrieve a list of listeners registered to a given event.
+     *
      * @param   $event
      * @return  array
      */
@@ -97,6 +103,8 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
+     * Get a list of events for which this collection has listeners.
+     *
      * @return  array
      */
     public function getEvents()
@@ -194,13 +202,12 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
-     * @param   Enlight_Event_EventSubscriber $subscriber
+     * @param   Enlight_Event_Subscriber_Subscriber $subscriber
      * @return  void
      */
-    public function addSubscriber(Enlight_Event_EventSubscriber $subscriber)
+    public function addSubscriber(Enlight_Event_Subscriber_Subscriber $subscriber)
     {
-        $listeners = $subscriber->getSubscribedEvents();
-        if(!empty($listeners))
+        $listeners = $subscriber->getListeners();
         foreach ($listeners as $listener) {
             $this->registerListener($listener);
         }

@@ -12,8 +12,6 @@ abstract class Enlight_Components_Test_Selenium_TestCase extends PHPUnit_Extensi
 {
     protected $browserUrl = 'http://192.168.178.50/';
     protected $captureScreenshotOnFailure = true;
-    protected $screenshotUrl = 'http://hl.shopvm.de/screenshots';
-    protected $screenshotPath = 'D:\\XAMPP\\xampplite\\htdocs\\screenshots\\';
 
 	/**
 	 * Setup Shop - Set base url

@@ -1,13 +1,37 @@
 <?php
 /**
- * Enlight Class
- * 
- * @link http://www.shopware.de
- * @copyright Copyright (c) 2011, shopware AG
- * @author Heiner Lohaus
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license/new-bsd     New BSD License
+ * @version    $Id$
+ * @author     Heiner Lohaus
+ * @author     $Author$
+ */
+
+/**
+ * @category   Enlight
+ * @package    Enlight
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license/new-bsd     New BSD License
  */
 abstract class Enlight_Class
 {
+    /**
+     * @var array
+     */
 	static protected $instances = array();
 	
 	/**
@@ -65,11 +89,11 @@ abstract class Enlight_Class
 	}
 
 	/**
-	 * Returns a instance
+	 * Returns a new class instance.
 	 *
-	 * @param string $class
-	 * @param array $args
-	 * @return Enlight_Class
+	 * @param   string $class
+	 * @param   array $args
+	 * @return  Enlight_Class
 	 */
 	static public function Instance($class=null, $args=null)
 	{
@@ -91,7 +115,7 @@ abstract class Enlight_Class
 	/**
 	 * Reset a instance
 	 *
-	 * @param mixed $class
+	 * @param   mixed $class
 	 */
 	static public function resetInstance($class=null)
 	{
@@ -102,8 +126,8 @@ abstract class Enlight_Class
 	/**
 	 * Magic caller
 	 *
-	 * @param string $name
-	 * @param array $args
+	 * @param   string $name
+	 * @param   array $args
 	 */
 	public function __call($name, $args=null)
 	{
@@ -113,8 +137,8 @@ abstract class Enlight_Class
 	/**
 	 * Magic static caller
 	 *
-	 * @param string $name
-	 * @param array $args
+	 * @param   string $name
+	 * @param   array $args
 	 */
 	static public function __callStatic($name, $args=null)
 	{
@@ -124,7 +148,7 @@ abstract class Enlight_Class
 	/**
 	 * Magic getter
 	 *
-	 * @param string $name
+	 * @param   string $name
 	 */
 	public function __get($name)
 	{
@@ -134,8 +158,8 @@ abstract class Enlight_Class
 	/**
 	 * Magic setter
 	 *
-	 * @param string $name
-	 * @param mixed $value
+	 * @param   string $name
+	 * @param   mixed $value
 	 */
 	public function __set($name, $value=null)
 	{

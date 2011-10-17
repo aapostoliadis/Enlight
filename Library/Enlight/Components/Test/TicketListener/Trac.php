@@ -13,12 +13,14 @@ class Enlight_Components_Test_TicketListener_Trac extends PHPUnit_Extensions_Tic
 	protected $serverAddress;
 	protected $printTicketStateChanges;
 	protected $notifyTicketStateChanges;
-	
-	/**
-	 * Constructor method
-	 * 
-	 * @param string|array $options
-	 */
+
+    /**
+     * Constructor method
+     *
+     * @param $serverAddress
+     * @param bool $printTicketStateChanges
+     * @param bool $notifyTicketStateChanges
+     */
 	public function __construct($serverAddress, $printTicketStateChanges=false , $notifyTicketStateChanges=false)
     {
     	$this->serverAddress = $serverAddress;

@@ -27,7 +27,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license/new-bsd     New BSD License
  */
-abstract class Enlight_Plugin_PluginNamespace extends Enlight_Plugin_PluginCollection
+abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
 {
     /**
      * @var Enlight_Plugin_PluginManager
@@ -38,6 +38,15 @@ abstract class Enlight_Plugin_PluginNamespace extends Enlight_Plugin_PluginColle
      * @var string
      */
     protected $name;
+
+    /**
+     * @param   string $name
+     */
+    public function __construct($name)
+    {
+        $this->name = $name;
+        parent::__construct();
+    }
 
     /**
      * @return string

@@ -35,7 +35,7 @@ class Enlight_Components_Test_Database_DefaultTester extends PHPUnit_Extensions_
     public function getConnection()
     {
     	if($this->connection === null) {
-    		$pdo = Enlight::Instance()->Db()->getConnection();
+    		$pdo = Enlight_Application::Instance()->Db()->getConnection();
 			$this->connection = $this->createDefaultDBConnection($pdo);
     	}
         return $this->connection;

@@ -35,30 +35,13 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     protected $prefixPaths = array();
 
     /**
-     * @param   string $name
-     */
-    public function __construct($name)
-    {
-        $this->name = $name;
-        parent::__construct();
-    }
-
-    /**
-     * @return  string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * @param   $name
      * @return  Enlight_Plugin_Bootstrap
      */
     public function get($name)
     {
         if(!$this->plugins->offsetExists($name)) {
-            $this->loadPlugin($name);
+            $this->load($name);
         }
         return $this->plugins->offsetGet($name);
     }
@@ -67,7 +50,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
      * @param $name
      * @return bool
      */
-    public function loadPlugin($name)
+    public function load($name)
     {
         if($this->plugins->offsetExists($name)) {
             return $this;
@@ -77,12 +60,24 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
             if(!file_exists($file)) {
                 continue;
             }
-            $class = implode('_', array($prefix, $plugin, 'Bootstrap'));
-            Enlight_Application::Instance()->Loader()->loadClass($class, $file);
-            $this->plugins[$plugin] = Enlight_Class::Instance($class, array($this, $plugin));
+            $this->plugins[$name] = $this->initPlugin($name, $prefix, $file);
             return $this;
         }
         throw new Enlight_Exception();
+    }
+
+    /**
+     * @param $name
+     * @param $prefix
+     * @param null $file
+     */
+    protected function initPlugin($name, $prefix, $file=null)
+    {
+        $class = implode('_', array($prefix, $name, 'Bootstrap'));
+        if(!class_exists($class, false) && $file !== null) {
+            Enlight_Application::Instance()->Loader()->loadClass($class, $file);
+        }
+        $this->plugins[$name] = Enlight_Class::Instance($class, array($this, $name));
     }
 
     /**
@@ -97,7 +92,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
             throw new Enlight_Exception('Parameter path "'.$path.'" is not a valid directory failure');
         }
         $prefix = trim($prefix, '_');
-        $path = realpath($path) . $this->Application()->DS();
+        $path = realpath($path) . DIRECTORY_SEPARATOR;
         $this->prefixPaths[$path] = $prefix;
         return $this;
     }
@@ -116,53 +111,10 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
                 if(!file_exists($file)){
                     continue;
                 }
-                $plugin = $dir->getFilename();
-                $this->loadPlugin($plugin);
+                $name = $dir->getFilename();
+                $this->initPlugin($name, $prefix, $file);
             }
         }
         return $this;
-    }
-
-    /**
-     * @return  array
-     */
-    public function getList()
-    {
-        return $this->list;
-    }
-
-    /**
-     * @return  Enlight_Plugin_PluginNamespace
-     */
-    public function resetPlugins()
-    {
-        $this->list = array();
-        return $this;
-    }
-
-    /**
-     * @return  int
-     */
-    public function count()
-    {
-        return count($this->list);
-    }
-
-    /**
-     * @return  ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayObject($this->list);
-    }
-
-    /**
-     * @param   string $name
-     * @param   null|array $args
-     * @return  Enlight_Plugin_PluginBootstrap
-     */
-    public function __call ($name, $args=null)
-    {
-        return $this->getPlugin($name);
     }
 }

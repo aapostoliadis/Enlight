@@ -119,9 +119,9 @@ class Enlight_Application
 		$this->_loader = new Enlight_Loader();
 		$this->_loader->registerNamespace('Enlight', 'Enlight/');
 
-		$this->_hooks = new Enlight_Hook_HookManager();
-		$this->_events = new Enlight_Event_EventManager();
-		$this->_plugins = new Enlight_Plugin_PluginManager();
+		$this->_hooks = new Enlight_Hook_HookManager($this);
+		$this->_events = new Enlight_Event_EventManager($this);
+		$this->_plugins = new Enlight_Plugin_PluginManager($this);
 
 		$options = $this->loadConfig($options);
 				
