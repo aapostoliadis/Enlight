@@ -7,6 +7,9 @@
 [submodule "Apps/Default"]
 	path = Apps/Default
 	url = git@github.com:ShopwareAG/Enlight-Apps-Default.git
-[submodule "Smarty"]
-	path = /
-	url = git@github.com:ShopwareAG/Smarty.git
+[submodule "Library/Zend"]
+	path = Library/Zend
+	url = git@github.com:ShopwareAG/Zend-Library.git
+[submodule "Library/Smarty"]
+	path = Library/Smarty
+	url = git@github.com:ShopwareAG/Smarty-Library-Smarty.git
