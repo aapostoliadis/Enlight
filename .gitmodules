@@ -8,5 +8,5 @@
 	path = Apps/Default
 	url = git@github.com:ShopwareAG/Enlight-Apps-Default.git
 [submodule "Smarty"]
-	path = .
+	path = /
 	url = git@github.com:ShopwareAG/Smarty.git
