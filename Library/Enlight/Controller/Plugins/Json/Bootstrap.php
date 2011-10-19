@@ -1,5 +1,5 @@
 <?php
-class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_PluginBootstrap
+class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap_Default
 {
 	public function init()
 	{		
@@ -24,7 +24,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_PluginBoo
 		} else {
 			$callback = $this->padding;
 		}		
-		
+
 		if(empty($callback)) {
 			return;
 		}

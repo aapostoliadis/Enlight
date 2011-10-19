@@ -1,5 +1,5 @@
 <?php
-class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_PluginBootstrap
+class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap_Default
 {
 	public function init()
 	{

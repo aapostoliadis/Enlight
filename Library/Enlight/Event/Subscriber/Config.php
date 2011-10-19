@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://enlight.de/license/new-bsd
+ * http://enlight.de/license
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@shopware.de so we can send you a copy immediately.
@@ -15,7 +15,7 @@
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
@@ -25,9 +25,9 @@
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_Event_Subscriber_SubscriberDefault extends Enlight_Event_Subscriber_Subscriber
+class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
 {
     /**
      * @var array
@@ -61,6 +61,9 @@ class Enlight_Event_Subscriber_SubscriberDefault extends Enlight_Event_Subscribe
         } else {
             throw new Enlight_Event_Exception('');
         }
+        if(!isset($this->storage->listeners)) {
+            $this->storage->listeners = array();
+        }
     }
 
     /**
@@ -80,12 +83,12 @@ class Enlight_Event_Subscriber_SubscriberDefault extends Enlight_Event_Subscribe
      * Register a listener to an event.
      *
      * @param   Enlight_Event_EventHandler $handler
-     * @return  Enlight_Event_Subscriber_Subscriber
+     * @return  Enlight_Event_Subscriber
      */
     public function registerListener(Enlight_Event_EventHandler $handler)
     {
         $this->listeners[] = $handler;
-        $this->storage[] = $handler->toArray();
+        $this->storage->listeners[] = $handler->toArray();
         $this->storage->write();
         return $this;
     }
@@ -94,7 +97,7 @@ class Enlight_Event_Subscriber_SubscriberDefault extends Enlight_Event_Subscribe
      * Remove an event listener from storage.
      *
      * @param   Enlight_Event_EventHandler $handler
-     * @return  Enlight_Event_Subscriber_Subscriber
+     * @return  Enlight_Event_Subscriber
      */
     public function removeListener(Enlight_Event_EventHandler $handler)
     {
@@ -108,7 +111,7 @@ class Enlight_Event_Subscriber_SubscriberDefault extends Enlight_Event_Subscribe
     protected function loadListeners()
     {
         $this->listeners = array();
-        foreach($this->storage as $entry) {
+        foreach($this->storage->listeners as $entry) {
             if(!$entry instanceof Enlight_Config) {
                 continue;
             }

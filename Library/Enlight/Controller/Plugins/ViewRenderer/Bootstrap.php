@@ -1,6 +1,34 @@
 <?php
-class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_PluginBootstrap
+class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_Bootstrap_Default
 {
+    /**
+     * @var bool
+     */
+	protected $neverRender = false;
+
+    /**
+     * @var bool
+     */
+    protected $noRender = false;
+
+	/**
+	 * @var Enlight_Controller_Front
+	 */
+    protected $front;
+
+    /**
+     * @var Enlight_Controller_Action
+     */
+    protected $action;
+
+    /**
+     * @var Enlight_View_ViewDefault
+     */
+    protected $view;
+
+    /**
+     * @return void
+     */
 	public function init()
 	{
 		$event = new Enlight_Event_EventHandler(
@@ -36,15 +64,21 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_P
         }
         $this->front = $args->getSubject();
 	}
-	    
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
     public function onPostDispatch(Enlight_Event_EventArgs $args)
 	{
-		if ($this->shouldRender()&&$this->View()->hasTemplate()) {
+		if ($this->shouldRender() && $this->View()->hasTemplate()) {
 	        $this->render();
 	    }
 	    $this->View()->setTemplate();
 	}
-	
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
 	public function onPreDispatch(Enlight_Event_EventArgs $args)
 	{
 		if($this->shouldRender()&&!$this->View()->hasTemplate())
@@ -52,27 +86,15 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_P
 			$this->View()->loadTemplate($this->getTemplateName());
 		}
 	}
-	
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     */
 	public function onActionInit(Enlight_Event_EventArgs $args)
 	{
 		$this->action = $args->getSubject();
 		$this->initView();
 	}
-	
-	protected $neverRender = false;
-	
-    protected $noRender = false;
-	
-    protected $responseSegment = null;
-
-	/**
-	 * @var Enlight_Controller_Front
-	 */
-    protected $front;
-    
-    protected $action;
-    
-    protected $view;
     
     public function initView()
     {
@@ -82,7 +104,12 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_P
     	$this->View()->setTemplate();
     	$this->Action()->setView($this->view);
     }
-		    
+
+    /**
+     * @param   string $template
+     * @param   string $name
+     * @return void
+     */
     public function renderTemplate($template, $name = null)
     {
     	Enlight_Application::Instance()->Events()->notify('Enlight_Plugins_ViewRenderer_PreRender', array('subject'=>$this, 'template'=>$template));

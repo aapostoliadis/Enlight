@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://enlight.de/license/new-bsd
+ * http://enlight.de/license
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@shopware.de so we can send you a copy immediately.
@@ -15,7 +15,7 @@
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
@@ -25,7 +25,7 @@
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
 {
@@ -47,40 +47,6 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     }
 
     /**
-     * @param $name
-     * @return bool
-     */
-    public function load($name)
-    {
-        if($this->plugins->offsetExists($name)) {
-            return $this;
-        }
-        foreach ($this->prefixPaths as $path => $prefix) {
-            $file = $path . $name . $this->Application()->DS() . 'Bootstrap.php';
-            if(!file_exists($file)) {
-                continue;
-            }
-            $this->plugins[$name] = $this->initPlugin($name, $prefix, $file);
-            return $this;
-        }
-        throw new Enlight_Exception();
-    }
-
-    /**
-     * @param $name
-     * @param $prefix
-     * @param null $file
-     */
-    protected function initPlugin($name, $prefix, $file=null)
-    {
-        $class = implode('_', array($prefix, $name, 'Bootstrap'));
-        if(!class_exists($class, false) && $file !== null) {
-            Enlight_Application::Instance()->Loader()->loadClass($class, $file);
-        }
-        $this->plugins[$name] = Enlight_Class::Instance($class, array($this, $name));
-    }
-
-    /**
      * @throws  Enlight_Exception
      * @param   string $prefix
      * @param   string $path
@@ -98,6 +64,41 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     }
 
     /**
+     * @param   string $name
+     * @param   string $prefix
+     * @param   string|null $file
+     */
+    protected function initPlugin($name, $prefix, $file=null)
+    {
+        $class = implode('_', array($prefix, $name, 'Bootstrap'));
+        if(!class_exists($class, false)) {
+            Enlight_Application::Instance()->Loader()->loadClass($class, $file);
+        }
+        $plugin = Enlight_Class::Instance($class, array($name));
+        $this->registerPlugin($plugin);
+    }
+
+    /**
+     * @param   $name
+     * @return  bool
+     */
+    public function load($name)
+    {
+        if($this->plugins->offsetExists($name)) {
+            return $this;
+        }
+        foreach ($this->prefixPaths as $path => $prefix) {
+            $file = $path . $name . $this->Application()->DS() . 'Bootstrap.php';
+            if(!file_exists($file)) {
+                continue;
+            }
+            $this->initPlugin($name, $prefix, $file);
+            return $this;
+        }
+        throw new Enlight_Exception();
+    }
+
+    /**
      * @return  Enlight_Plugin_PluginNamespace
      */
     public function loadAll()
@@ -107,7 +108,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
                 if(!$dir->isDir() || $dir->isDot()){
                     continue;
                 }
-                $file = $dir->getPathname() . Enlight_Application::DS() . 'Bootstrap.php';
+                $file = $dir->getPathname() . DIRECTORY_SEPARATOR . 'Bootstrap.php';
                 if(!file_exists($file)){
                     continue;
                 }

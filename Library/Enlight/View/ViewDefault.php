@@ -100,10 +100,6 @@ class Enlight_View_ViewDefault extends Enlight_Class implements Enlight_View_Vie
     
     public function setTemplate($template=null)
     {
-    	if($template!==null && !$template instanceof Enlight_Template_Template)
-    	{
-    		throw new Enlight_Exception('Parameter "template" must be an instance of "Enlight_Template_Template"');
-    	}
     	$this->template = $template;
     }
     

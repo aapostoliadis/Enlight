@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://enlight.de/license/new-bsd
+ * http://enlight.de/license
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@shopware.de so we can send you a copy immediately.
@@ -15,7 +15,7 @@
  * @category   Enlight
  * @package    Enlight
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
@@ -25,7 +25,7 @@
  * @category   Enlight
  * @package    Enlight
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  */
 abstract class Enlight_Class
 {
@@ -54,8 +54,7 @@ abstract class Enlight_Class
 		}
 		if(method_exists($this, 'init')) {
             if(func_num_args()) {
-            	$arg_list =& func_get_args();
-                call_user_func_array(array($this, 'init'), $arg_list);
+                call_user_func_array(array($this, 'init'), func_get_args());
             } else {
             	$this->init();
             }

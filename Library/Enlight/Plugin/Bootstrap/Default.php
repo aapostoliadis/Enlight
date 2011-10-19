@@ -27,62 +27,27 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
+class Enlight_Plugin_Bootstrap_Default extends Enlight_Plugin_Bootstrap
 {
-    /**
-     * @var Enlight_Plugin_PluginManager
-     */
-    protected $manager;
-
     /**
      * @var string
      */
-    protected $name;
+	protected $name;
 
     /**
      * @param   string $name
      */
     public function __construct($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
         parent::__construct();
     }
 
     /**
-     * @return string
+     * @return  string
      */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Returns the application instance.
-     *
-     * @return Enlight_Application
-     */
-    public function Application()
-    {
-        return $this->manager->Application();
-    }
-
-    /**
-     * @param Enlight_Plugin_PluginCollection $manager
-     * @return Enlight_Plugin_PluginCollection
-     */
-    public function setManager(Enlight_Plugin_PluginCollection $manager)
-    {
-        $this->manager = $manager;
-        return $this;
-    }
-
-    /**
-     * Returns the application instance.
-     *
-     * @return  Enlight_Plugin_PluginManager
-     */
-    public function Manager()
-    {
-        return $this->manager;
-    }
+	public function getName()
+	{
+		return $this->name;
+	}
 }

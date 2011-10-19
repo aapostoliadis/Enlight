@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://enlight.de/license/new-bsd
+ * http://enlight.de/license
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@shopware.de so we can send you a copy immediately.
@@ -15,7 +15,7 @@
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
@@ -25,9 +25,9 @@
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  */
-abstract class Enlight_Plugin_Bootstrap extends Enlight_Class implements Enlight_Singleton
+abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
 {
     /**
      * @var Enlight_Plugin_PluginCollection
@@ -35,17 +35,9 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class implements Enlight
 	protected $namespace;
 
     /**
-     * @var string
-     */
-	protected $name;
-
-    /**
      * @return  string
      */
-	public function getName()
-	{
-		return $this->name;
-	}
+	abstract public function getName();
 
     /**
      * @param   $namespace
@@ -64,4 +56,14 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class implements Enlight
 	{
 		return $this->namespace;
 	}
+
+    /**
+     * Returns the application instance.
+     *
+     * @return Enlight_Application
+     */
+    public function Application()
+    {
+        return $this->namespace->Application();
+    }
 }
