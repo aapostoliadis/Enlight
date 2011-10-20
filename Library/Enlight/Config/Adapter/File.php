@@ -103,7 +103,7 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
     }
 
     /**
-     * Returns the complete filename by config name.
+     * Reads the base config from data store.
      *
      * @param   string $filename
      * @return  Enlight_Config

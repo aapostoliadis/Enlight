@@ -1,8 +1,64 @@
 <?php
+/**
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight_Db
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     Heiner Lohaus
+ * @author     $Author$
+ */
+
+/**
+ * @category   Enlight
+ * @package    Enlight_Db
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ */
 class Enlight_Components_Db extends Zend_Db
 {
+    /**
+     * @var string
+     */
 	protected static $_adapterNamespace = 'Enlight_Components_Db_Adapter';
-	
+
+     /**
+     * Factory for Db-Adapter classes.
+     *
+     * First argument may be a string containing the base of the adapter class
+     * name, e.g. 'Mysqli' corresponds to class Zend_Db_Adapter_Mysqli.  This
+     * name is currently case-insensitive, but is not ideal to rely on this behavior.
+     * If your class is named 'My_Company_Pdo_Mysql', where 'My_Company' is the namespace
+     * and 'Pdo_Mysql' is the adapter name, it is best to use the name exactly as it
+     * is defined in the class.  This will ensure proper use of the factory API.
+     *
+     * First argument may alternatively be an object of type Zend_Config.
+     * The adapter class base name is read from the 'adapter' property.
+     * The adapter config parameters are read from the 'params' property.
+     *
+     * Second argument is optional and may be an associative array of key-value
+     * pairs.  This is used as the argument to the adapter constructor.
+     *
+     * If the first argument is of type Zend_Config, it is assumed to contain
+     * all parameters, and the second argument is ignored.
+     *
+     * @param  mixed $adapter String name of base adapter class, or Zend_Config object.
+     * @param  mixed $config  OPTIONAL; an array or Zend_Config object with adapter parameters.
+     * @return Zend_Db_Adapter_Abstract
+     * @throws Zend_Db_Exception
+     */
 	public static function factory($adapter, $config = array())
     {
         if ($config instanceof Zend_Config) {
@@ -23,8 +79,10 @@ class Enlight_Components_Db extends Zend_Db
                 $adapter = null;
             }
         }
+
+        $adapterName = str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapter))));
         
-        if(empty($config['adapterNamespace'])) {
+        if(empty($config['adapterNamespace']) && class_exists(self::$_adapterNamespace . '_' . $adapterName)) {
         	$config['adapterNamespace'] = self::$_adapterNamespace;
         }
         

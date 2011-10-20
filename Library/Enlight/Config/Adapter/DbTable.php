@@ -72,10 +72,15 @@
     protected $_updatedColumn = 'updated';
 
     /**
+     * @var Zend_Db_Adapter_Abstract
+     */
+    protected $_db;
+
+    /**
      * Sets the options of an array.
      *
-     * @param array $options
-     * @return Enlight_Config_Adapter
+     * @param       array $options
+     * @return      Enlight_Config_Adapter
      */
     public function setOptions(array $options)
     {
@@ -86,10 +91,13 @@
                 case 'sectionColumn':
                 case 'createdColumn':
                 case 'updatedColumn':
-                    $this->{'_'.$key} = $option;
+                    $this->{'_'.$key} = (string) $option;
                     break;
                 case 'automaticSerialization':
                     $this->{'_'.$key} = (bool) $option;
+                    break;
+                case 'db':
+                    $this->{'_'.$key} = $option;
                     break;
                 default:
                     break;
@@ -101,24 +109,28 @@
      /**
       * Reads a section from the data store.
       *
-      * @param Enlight_Config $config
-      * @return array
+      * @param      Enlight_Config $config
+      * @return     Enlight_Config_Adapter_DbTable
       */
     public function read(Enlight_Config $config)
     {
         $name = $this->_namePrefix . $config->getName() . $this->_nameSuffix;
+        $section = $config->getSection();
 
-        $dbTable = new Enlight_Components_Table($name);
+        $dbTable = new Enlight_Components_Table(array(
+            'name' => $name,
+            'db' => $this->_db
+        ));
         $select = $dbTable->select()->from($dbTable->info('name'), array($this->_nameColumn, $this->_valueColumn));
 
-        if(!empty($this->_sectionColumn)) {
+        if($section !== null && $this->_sectionColumn !== null) {
             if(is_array($this->_sectionColumn)) {
                 foreach ($this->_sectionColumn as $key=>$sectionColumn) {
                     if(isset($section[$key])) {
                         $select->where($sectionColumn.'=?', $section[$key]);
                     }
                 }
-            } elseif($section!==null) {
+            } elseif($this->_sectionColumn !== null) {
                 $select->where($this->_sectionColumn.'=?', $section);
             }
         }
@@ -135,24 +147,28 @@
             }
         }
         $config->setData($data);
+
+        return $this;
     }
 
      /**
       * Saves the data changes in the data store.
       *
-      * @param Enlight_Config $config
-      * @param array $fields
-      * @param bool $update
-      * @return bool
+      * @param      Enlight_Config $config
+      * @param      array $fields
+      * @param      bool $update
+      * @return     Enlight_Config_Adapter_DbTable
       */
     public function write(Enlight_Config $config, $fields=null, $update=true)
     {
         $name = $this->_namePrefix . $config->getName() . $this->_nameSuffix;
+        $section = $config->getSection();
 
-        $dbTable = new Enlight_Components_Table($name);
+        $dbTable = new Enlight_Components_Table(array(
+            'name' => $name,
+            'db' => $this->_db
+        ));
         $db = $dbTable->getAdapter();
-
-        $section = $config->getSectionName();
 
         if($fields===null) {
             $fields = $config->getDirtyFields();
@@ -165,24 +181,27 @@
         $insertData = array();
 
         if($this->_updatedColumn!==null) {
-            $updateData[$this->_updatedColumn] = new Zend_Db_Expr('NOW()');
-            $insertData[$this->_updatedColumn] = new Zend_Db_Expr('NOW()');
+            $updateData[$this->_updatedColumn] = new Zend_Date();
+            $insertData[$this->_updatedColumn] = new Zend_Date();
         }
         if($this->_createdColumn!==null) {
-            $insertData[$this->_createdColumn] = new Zend_Db_Expr('NOW()');
+            $insertData[$this->_createdColumn] = new Zend_Date();
         }
 
         $where = array();
-        if(is_array($this->_sectionColumn)) {
-            foreach ($this->_sectionColumn as $key=>$sectionColumn) {
-                if(isset($section[$key])) {
-                    $where[] = $db->quoteInto($sectionColumn . '=?', $section[$key]);
-                    $insertData[$sectionColumn] = $section[$key];
+
+        if($section !== null) {
+            if(is_array($this->_sectionColumn)) {
+                foreach ($this->_sectionColumn as $key=>$sectionColumn) {
+                    if(isset($section[$key])) {
+                        $where[] = $db->quoteInto($sectionColumn . '=?', $section[$key]);
+                        $insertData[$sectionColumn] = $section[$key];
+                    }
                 }
+            } else {
+                $where[] = $db->quoteInto($this->_sectionColumn . '=?', $section);
+                $insertData[$this->_sectionColumn] = $section;
             }
-        } elseif($section !== null) {
-            $where[] = $db->quoteInto($this->_sectionColumn . '=?', $section);
-            $insertData[$this->_sectionColumn] = $section;
         }
 
         foreach ((array) $fields as $field) {
