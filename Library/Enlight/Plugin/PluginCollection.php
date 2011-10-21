@@ -51,12 +51,14 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     abstract public function Application();
 
     /**
+     * Registers a plugin in the collection.
+     *
      * @param Enlight_Plugin_Bootstrap $plugin
      * @return Enlight_Plugin_PluginManager
      */
     public function registerPlugin(Enlight_Plugin_Bootstrap $plugin)
     {
-        $plugin->setNamespace($this);
+        $plugin->setCollection($this);
         $this->plugins[$plugin->getName()] = $plugin;
         return $this;
     }
@@ -70,12 +72,30 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
+     * Returns a plugin by name.
+     *
      * @param $name
      * @return Enlight_Plugin_Namespace|Enlight_Plugin_Bootstrap
      */
     public function get($name)
     {
+        if(!$this->plugins->offsetExists($name)) {
+            $this->load($name);
+        }
         return $this->plugins->offsetGet($name);
+    }
+
+    /**
+     * @throws Enlight_Exception
+     * @param $name
+     * @return Enlight_Plugin_PluginCollection
+     */
+    public function load($name)
+    {
+        if(!$this->plugins->offsetExists($name)) {
+            throw new Enlight_Exception('Plugin "'.$name.'" not found failure');
+        }
+        return $this;
     }
 
     /**

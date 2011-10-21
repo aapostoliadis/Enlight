@@ -29,25 +29,5 @@
  */
 class Enlight_Plugin_Bootstrap_Default extends Enlight_Plugin_Bootstrap
 {
-    /**
-     * @var string
-     */
-	protected $name;
-
-    /**
-     * @param   string $name
-     */
-    public function __construct($name)
-    {
-        $this->name = (string) $name;
-        parent::__construct();
-    }
-
-    /**
-     * @return  string
-     */
-	public function getName()
-	{
-		return $this->name;
-	}
+    
 }

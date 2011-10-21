@@ -54,7 +54,7 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
             $this->storage = new Enlight_Config($options['storage'], array(
                 'allowModifications' => true,
                 'adapter' => isset($options['storageAdapter']) ? $options['storageAdapter'] : null,
-                'section' => isset($options['section']) ? $options['section'] : null
+                'section' => isset($options['section']) ? $options['section'] : 'production'
             ));
         } elseif($options['storage'] instanceof Enlight_Config) {
             $this->storage = $options['storage'];

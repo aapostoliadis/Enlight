@@ -27,60 +27,30 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
+class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 {
     /**
-     * @var string
+     * @var Zend_Config
      */
-	protected $name;
-
-    /**
-     * @var Enlight_Plugin_PluginCollection
-     */
-	protected $collection;
+	protected $config;
 
     /**
      * @param   string $name
+     * @param   $config
      */
-    public function __construct($name)
+    public function __construct($name, $config)
     {
-        $this->name = (string) $name;
-        parent::__construct();
+        $this->config = $config;
+        parent::__construct($name);
     }
-
-    /**
-     * @return  string
-     */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-    /**
-     * @param   $collection
-     * @return  Enlight_Plugin_PluginCollection
-     */
-	public function setCollection($collection)
-	{
-		$this->collection = $collection;
-        return $this;
-	}
-
-    /**
-     * @return  Enlight_Plugin_PluginCollection
-     */
-	public function Collection()
-	{
-		return $this->collection;
-	}
 
     /**
      * Returns the application instance.
      *
-     * @return  Enlight_Application
+     * @return  Enlight_Config
      */
-    public function Application()
+    public function Config()
     {
-        return $this->collection->Application();
+        return $this->config;
     }
 }

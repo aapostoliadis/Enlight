@@ -15,19 +15,17 @@
  * @category   Enlight
  * @package    Enlight_Application
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
 
 /**
- * $description$
- *
  * @category   Enlight
  * @package    Enlight_Application
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Application
 {

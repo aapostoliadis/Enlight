@@ -47,6 +47,9 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     }
 
     /**
+     * Adds a prefix path to the plugin namespace.
+     * Is used for the auto loading of plugins.
+     *
      * @throws  Enlight_Exception
      * @param   string $prefix
      * @param   string $path
@@ -64,9 +67,12 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     }
 
     /**
+     * Instantiates a plugin from the plugin namespace.
+     *
      * @param   string $name
      * @param   string $prefix
      * @param   string|null $file
+     * @return  Enlight_Plugin_Namespace_Loader
      */
     protected function initPlugin($name, $prefix, $file=null)
     {
@@ -74,11 +80,14 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
         if(!class_exists($class, false)) {
             Enlight_Application::Instance()->Loader()->loadClass($class, $file);
         }
-        $plugin = Enlight_Class::Instance($class, array($name));
-        $this->registerPlugin($plugin);
+        $plugin = new $class($name);
+        $this->plugins[$name] = $plugin;
+        return $this;
     }
 
     /**
+     * Loads a plugin in the plugin namespace by name.
+     *
      * @param   $name
      * @return  bool
      */
@@ -99,6 +108,8 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     }
 
     /**
+     * Loads all plugins in the plugin namespace.
+     *
      * @return  Enlight_Plugin_PluginNamespace
      */
     public function loadAll()
