@@ -4,9 +4,6 @@
 [submodule "Tests/Smarty"]
 	path = Tests/Smarty
 	url = git@github.com:ShopwareAG/Enlight-Tests-Smarty.git
-[submodule "Apps/Default"]
-	path = Apps/Default
-	url = git@github.com:ShopwareAG/Enlight-Apps-Default.git
 [submodule "Library/Smarty"]
 	path = Library/Smarty
 	url = git@github.com:ShopwareAG/Smarty-Library.git
