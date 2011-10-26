@@ -37,10 +37,10 @@ class Enlight_Event_EventManager extends Enlight_Class
     /**
      * Register a listener to an event.
      *
-     * @param   Enlight_Event_EventHandler $handler
+     * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_EventManager
      */
-    public function registerListener(Enlight_Event_EventHandler $handler)
+    public function registerListener(Enlight_Event_Handler $handler)
     {
         $list =& $this->listeners[$handler->getName()];
 
@@ -49,11 +49,9 @@ class Enlight_Event_EventManager extends Enlight_Class
         } else {
             $position = count($list);
         }
-
         while (isset($list[$position])) {
             ++$position;
         }
-
         $list[$position] = $handler;
 
         ksort($list);
@@ -64,14 +62,14 @@ class Enlight_Event_EventManager extends Enlight_Class
     /**
      * Remove an event listener.
      *
-     * @param   Enlight_Event_EventHandler $handler
+     * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_EventManager
      */
-    public function removeListener(Enlight_Event_EventHandler $handler)
+    public function removeListener(Enlight_Event_Handler $handler)
     {
         if(!empty($this->listeners[$handler->getName()]))
-        foreach ($this->listeners[$handler->getName()] as $i => $callable) {
-            if ($handler->getListener() === $callable->getListener()) {
+        foreach ($this->listeners[$handler->getName()] as $i => $entry) {
+            if ($handler === $entry) {
                 unset($this->listeners[$handler->getName()][$i]);
             }
         }
@@ -205,7 +203,7 @@ class Enlight_Event_EventManager extends Enlight_Class
      * @param   Enlight_Event_Subscriber $subscriber
      * @return  void
      */
-    public function addSubscriber(Enlight_Event_Subscriber $subscriber)
+    public function registerSubscriber(Enlight_Event_Subscriber $subscriber)
     {
         $listeners = $subscriber->getListeners();
         foreach ($listeners as $listener) {

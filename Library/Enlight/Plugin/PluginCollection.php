@@ -74,8 +74,8 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     /**
      * Returns a plugin by name.
      *
-     * @param $name
-     * @return Enlight_Plugin_Namespace|Enlight_Plugin_Bootstrap
+     * @param   $name
+     * @return  Enlight_Plugin_Namespace|Enlight_Plugin_Bootstrap
      */
     public function get($name)
     {
@@ -86,9 +86,9 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
-     * @throws Enlight_Exception
-     * @param $name
-     * @return Enlight_Plugin_PluginCollection
+     * @throws  Enlight_Exception
+     * @param   $name
+     * @return  Enlight_Plugin_PluginCollection
      */
     public function load($name)
     {

@@ -34,17 +34,24 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	 */
 	public function install()
 	{
-		$event = $this->createEvent(
-			'Enlight_Bootstrap_InitResource_Log',
-			'onInitResourceLog'
-		);
-		$this->subscribeEvent($event);
-        
-		$event = $this->createEvent(
-			'Enlight_Controller_Front_RouteStartup',
-			'onRouteStartup'
-		);
-		$this->subscribeEvent($event);
+        /** @var $namespace Enlight_Plugin_Namespace_Config */
+        $namespace = $this->Collection();
+
+		$namespace->Subscriber()->registerListener(new Enlight_Event_Handler_Plugin(
+            'Enlight_Bootstrap_InitResource_Log',
+            null,
+            $namespace,
+            $this,
+            'onInitResourceLog'
+        ));
+
+        $namespace->Subscriber()->registerListener(new Enlight_Event_Handler_Plugin(
+            'Enlight_Controller_Front_RouteStartup',
+            null,
+            $namespace,
+            $this,
+            'onRouteStartup'
+        ));
 	}
 
 	/**
@@ -55,22 +62,29 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	 */
 	public function onInitResourceLog(Enlight_Event_EventArgs $args)
 	{
-		$log = new Zend_Log();
-        
-		$log->addPriority('TABLE', 8);
-		$log->addPriority('EXCEPTION', 9);
-		$log->addPriority('DUMP', 10);
-		$log->addPriority('TRACE', 11);
-
-		$log->setEventItem('date', date('Y-m-d H:i:s'));
-
-		$config = $this->Config();
-
+		return Enlight_Components_Log::factory(array(
+            array('writerName' => 'Null'),
+            /*array(
+                'writerName' => 'Db',
+                'writerParams' => array(
+                    'table' => 'log',
+                    'db' => $this->Application()->Db(),
+                    'columnMap' => array(
+                        'priority' => 'priorityName',
+                        'message' => 'message',
+                        'date' => 'timestamp',
+                        //'remote_address' => 'remote_address',
+                        //'user_agent' => 'user_agent',
+                    )
+                )
+            ),*/
+        ));
+        /*
 		if(!empty($config->logDb)) {
 			$writer = Zend_Log_Writer_Db::factory(array(
 				'db' => $this->Application()->Db(),
 				'table' => 's_core_log',
-				'columnmap' => array(
+				'columnMap' => array(
 					'key' => 'priorityName',
 					'text' => 'message',
 					'datum' => 'date',
@@ -81,7 +95,8 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 			$writer->addFilter(Zend_Log::ERR);
 			$log->addWriter($writer);
 		}
-
+        */
+        /*
 		if(!empty($config->logMail)) {
 			$mail = clone Shopware()->Mail();
 			$mail->addTo(Shopware()->Config()->Mail);
@@ -90,26 +105,26 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 			$writer->addFilter(Zend_Log::WARN);
 			$log->addWriter($writer);
 		}
-
-		$log->addWriter(new Zend_Log_Writer_Null());
-
-		return $log;
+        $log->addWriter(new Zend_Log_Writer_Null());
+        return $log;
+        */
 	}
 
 	/**
 	 * On Route add user-agent and remote-address to log component
      *
 	 * @param Enlight_Event_EventArgs $args
-	 * @return void
 	 */
 	public function onRouteStartup(Enlight_Event_EventArgs $args)
 	{
         /** @var $request Enlight_Controller_Request_RequestHttp */
 		$request = $args->getSubject()->Request();
+
+
         /** @var $log Zend_Log */
 		$log = $this->Application()->Log();
+
 		$log->setEventItem('remote_address', $request->getClientIp(false));
 		$log->setEventItem('user_agent', $request->getServer('HTTP_USER_AGENT'));
-	}
+	}      
 }
-

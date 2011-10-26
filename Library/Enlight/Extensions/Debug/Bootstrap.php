@@ -67,6 +67,7 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 			return;
 		}
 
+        /** @var $errorHandler  */
 		$errorHandler = $this->Application()->Extensions()->ErrorHandler();
 		$errorHandler->setEnabledLog(true);
 		$errorHandler->registerErrorHandler(E_ALL | E_STRICT);
@@ -79,21 +80,19 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 		  && strpos($request->getServer('HTTP_USER_AGENT'), 'FirePHP/')!==false) {
             Zend_Wildfire_Channel_HttpHeaders::getInstance();
             $writer = new Zend_Log_Writer_Firebug();
-            $writer->setPriorityStyle(8, 'TABLE');
-            $writer->setPriorityStyle(9, 'EXCEPTION');
-            $writer->setPriorityStyle(10, 'DUMP');
-            $writer->setPriorityStyle(11, 'TRACE');
             $this->Application()->Log()->addWriter($writer);
 		}
 
-		$event = new Enlight_Event_EventHandler(
+		$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Controller_Front_DispatchLoopShutdown',
+            null,
 	 		array($this, 'onDispatchLoopShutdown')
 	 	);
 		$this->Application()->Events()->registerListener($event);
 
-		$event = new Enlight_Event_EventHandler(
+		$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Plugins_ViewRenderer_PreRender',
+            null,
 	 		array($this, 'onAfterRenderView')
 	 	);
 		$this->Application()->Events()->registerListener($event);

@@ -30,13 +30,13 @@
 class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 {
     /**
-     * @var Zend_Config
+     * @var Enlight_Config
      */
 	protected $config;
 
     /**
      * @param   string $name
-     * @param   $config
+     * @param   Enlight_Config $config
      */
     public function __construct($name, $config)
     {

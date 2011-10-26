@@ -10,7 +10,7 @@ class Default_Bootstrap extends Enlight_Bootstrap
     {
         $this->loadResource('Zend');
         $this->loadResource('ConfigAdapter');
-        $this->loadResource('Subscriber');
+        $this->loadResource('Extensions');
 
         //$this->getResource('Subscriber')->registerListener(new Enlight_Event_EventHandler('test', 'strlen', 100));
         //$this->getResource('Subscriber')->registerListener(new Enlight_Event_EventHandler('test', 'strlen', 200));
@@ -20,15 +20,25 @@ class Default_Bootstrap extends Enlight_Bootstrap
         //$config->test = true;
         //$config->write();
 
-        $adapter = $this->getResource('ConfigAdapterDbTable');
-
+        /** @var $namespace Enlight_Plugin_Namespace_Config */
+        
+        //$namespace = $this->getResource('Extensions');
+        //$plugin = new Enlight_Extensions_Log_Bootstrap('Log', new Enlight_Config(array()));
+        //$namespace->registerPlugin($plugin);
+        //plugin->install();
+        //$namespace->write();
+        
+        /*
         $config = new Enlight_Config('test', array(
             'adapter' => $adapter,
             'section' => 'test',
             'allowModifications' => true
         ));
-        //$config->test = 2;
-        //$config->write();
+        $config->test = 2;
+        $config->write();
+        */
+
+        $this->Application()->Log()->debug('test');
         
         return parent::run();
     }
@@ -50,16 +60,14 @@ class Default_Bootstrap extends Enlight_Bootstrap
     }
 
     /**
-     * @return Enlight_Event__SubscriberDefault
+     * @return Enlight_Plugin_Namespace_Config
      */
-    public function initSubscriber()
+    public function initExtensions()
     {
-        $subscriber = new Enlight_Event_Subscriber_Config(array(
-            'section' => 'production',
-            'storageAdapter' => $this->getResource('ConfigAdapter')
-        ));
-        $this->Application()->Events()->addSubscriber($subscriber);
-        return $subscriber;
+        $namespace = new Enlight_Plugin_Namespace_Config('Core');
+        $this->Application()->Plugins()->registerNamespace($namespace);
+        $this->Application()->Events()->registerSubscriber($namespace->Subscriber());
+        return $namespace;
     }
 
     /**

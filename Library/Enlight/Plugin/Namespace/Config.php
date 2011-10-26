@@ -33,15 +33,20 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
      * @var Enlight_Config
      */
     protected $storage;
+    
+    /**
+     * @var Enlight_Event_Subscriber
+     */
+	protected $subscriber;
 
     /**
-     * @param $name
-     * @param null $options
+     * @param   string $name
+     * @param   null|array $options
      */
     public function __construct($name, $options = null)
     {
         if(is_array($name)) {
-            $name = $options;
+            $options = $name;
         }
 
         if(is_string($options)) {
@@ -59,53 +64,81 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
         } elseif($options['storage'] instanceof Enlight_Config) {
             $this->storage = $options['storage'];
         }
+
+        parent::__construct($name);
     }
 
     /**
      * Loads a plugin in the plugin namespace by name.
      *
-     * @throws Enlight_Exception
-     * @param $name
-     * @return Enlight_Plugin_Namespace_Config
+     * @throws  Enlight_Exception
+     * @param   $name
+     * @return  Enlight_Plugin_Namespace_Config
      */
     public function load($name)
     {
-        if(!isset($this->storage->$name)) {
+        if($this->storage->plugins->$name === null
+          || $this->plugins->offsetExists($name)) {
             return parent::load($name);
         }
-        $config = $this->storage->$name;
+        $item = $this->storage->plugins->$name;
 
         /** @var $plugin Enlight_Plugin_Bootstrap_Config */
-        $plugin = new $config->class($name, $config);
-        $plugin->setNamespace($this);
+        $plugin = new $item->class($name, $item->config);
+        return parent::registerPlugin($plugin);
+    }
 
-        $this->plugins[$name] = $plugin;
+    /**
+     * @return  Enlight_Plugin_Namespace_Config
+     */
+    public function write()
+    {
+        $this->storage->plugins = $this->toArray();
+        $this->storage->listeners = $this->Subscriber()->toArray();
+        $this->storage->write();
         return $this;
     }
 
     /**
      * Loads all plugins in the plugin namespace.
      *
-     * @return  Enlight_Plugin_PluginNamespace
+     * @return  Enlight_Plugin_Namespace_Config
      */
-    public function loadAll()
+    public function read()
     {
-        foreach($this->storage as $name => $value) {
-            $this->load($name);
+        if($this->storage->plugins !== null) {
+            foreach($this->storage->plugins as $name => $value) {
+                $this->load($name);
+            }
         }
         return $this;
     }
 
     /**
-     * @param Enlight_Plugin_Bootstrap $plugin
-     * @return Enlight_Plugin_Namespace_Config
+     * Returns the application instance.
+     *
+     * @return  Enlight_Event_Subscriber_Plugin
      */
-    public function registerPlugin(Enlight_Plugin_Bootstrap $plugin)
+    public function Subscriber()
     {
-        $this->storage->set($plugin->getName(), array(
-            'name' => $plugin->getName(),
-            'class' => get_class($plugin)
-        ))->write();
-        return parent::registerPlugin($plugin);
+        if($this->subscriber === null) {
+            $this->subscriber = new Enlight_Event_Subscriber_Plugin($this, $this->storage);
+        }
+        return $this->subscriber;
+    }
+
+    public function toArray()
+    {
+        $this->read();
+        $plugins = array();
+        /** @var $plugin Enlight_Plugin_Bootstrap_Config */
+        foreach($this->plugins as $name => $plugin) {
+            $plugins[$name] =  array(
+                'name' => $plugin->getName(),
+                'class' => get_class($plugin),
+                'config' => $plugin->Config()
+            );
+        }
+        return $plugins;
     }
 }

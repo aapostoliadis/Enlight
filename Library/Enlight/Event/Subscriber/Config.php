@@ -40,29 +40,23 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     protected $storage;
 
     /**
-     * @param null $options
+     * @param   null $options
      */
     public function __construct($options = null)
     {
-        if(is_string($options)) {
+        if(!is_array($options)) {
             $options = array('storage' => $options);
         }
-        if(!isset($options['storage'])) {
-            $options['storage'] = 'event-subscriber';
-        }
-        if(is_string($options['storage'])) {
+        if(isset($options['storage']) && is_string($options['storage'])) {
             $this->storage = new Enlight_Config($options['storage'], array(
                 'allowModifications' => true,
                 'adapter' => isset($options['storageAdapter']) ? $options['storageAdapter'] : null,
                 'section' => isset($options['section']) ? $options['section'] : 'production'
             ));
-        } elseif($options['storage'] instanceof Enlight_Config) {
+        } elseif(isset($options['storage']) && $options['storage'] instanceof Enlight_Config) {
             $this->storage = $options['storage'];
         } else {
             throw new Enlight_Event_Exception('');
-        }
-        if(!isset($this->storage->listeners)) {
-            $this->storage->listeners = array();
         }
     }
 
@@ -74,7 +68,7 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     public function getListeners()
     {
         if($this->listeners === null) {
-            $this->loadListeners();
+            $this->read();
         }
         return $this->listeners;
     }
@@ -82,44 +76,61 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     /**
      * Register a listener to an event.
      *
-     * @param   Enlight_Event_EventHandler $handler
+     * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_Subscriber
      */
-    public function registerListener(Enlight_Event_EventHandler $handler)
+    public function registerListener(Enlight_Event_Handler $handler)
     {
         $this->listeners[] = $handler;
-        $this->storage->listeners[] = $handler->toArray();
-        $this->storage->write();
         return $this;
     }
 
     /**
      * Remove an event listener from storage.
      *
-     * @param   Enlight_Event_EventHandler $handler
+     * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_Subscriber
      */
-    public function removeListener(Enlight_Event_EventHandler $handler)
+    public function removeListener(Enlight_Event_Handler $handler)
     {
         $this->listeners = array_diff($this->listeners, array($handler));
         return $this;
     }
 
     /**
-     * Loads the event listener from storage.
+     * @return  Enlight_Event_Subscriber_Config
      */
-    protected function loadListeners()
+    public function write()
+    {
+        $listeners = array();
+        foreach($this->listeners as $handler) {
+           $listeners[] =  $handler->toArray();
+        }
+        $this->storage->listeners = $listeners;
+        $this->storage->write();
+        return $this;
+    }
+
+    /**
+     * Loads the event listener from storage.
+     *
+     * @return  Enlight_Event_Subscriber_Config
+     */
+    public function read()
     {
         $this->listeners = array();
+
+        if($this->storage->listeners !== null)
         foreach($this->storage->listeners as $entry) {
             if(!$entry instanceof Enlight_Config) {
                 continue;
             }
-            $this->listeners[] = new Enlight_Event_EventHandler(
+            $this->listeners[] = new Enlight_Event_Handler_Default(
                 $entry->name,
-                $entry->listener,
-                $entry->position
+                $entry->position,
+                $entry->listener
             );
         }
+        return $this;
     }
 }

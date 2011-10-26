@@ -31,28 +31,28 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
 	public function init()
 	{
-		$event = new Enlight_Event_EventHandler(
+		$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Controller_Front_DispatchLoopStartup',
-	 		array($this, 'onDispatchLoopStartup'),
-	 		400
+	 		400,
+            array($this, 'onDispatchLoopStartup')
 	 	);
 		Enlight_Application::Instance()->Events()->registerListener($event);
-		$event = new Enlight_Event_EventHandler(
+		$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Controller_Action_PostDispatch',
-	 		array($this, 'onPostDispatch'),
-	 		400
+            400,
+	 		array($this, 'onPostDispatch')
 	 	);
 		Enlight_Application::Instance()->Events()->registerListener($event);
-		$event = new Enlight_Event_EventHandler(
+		$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Controller_Action_PreDispatch',
-	 		array($this, 'onPreDispatch'),
-	 		400
+            400,
+	 		array($this, 'onPreDispatch')
 	 	);
 		Enlight_Application::Instance()->Events()->registerListener($event);
-		$event = new Enlight_Event_EventHandler(
+		$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Controller_Action_Init',
-	 		array($this, 'onActionInit'),
-	 		400
+            400,
+	 		array($this, 'onActionInit')
 	 	);
 		Enlight_Application::Instance()->Events()->registerListener($event);
 	}

@@ -27,28 +27,42 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-abstract class Enlight_Event_Subscriber extends Enlight_Class
+class Enlight_Event_Handler_Default extends Enlight_Event_Handler
 {
     /**
-     * Retrieve a list of listeners registered to a given event.
-     *
-     * @return  array
+     * @var callback
      */
-    abstract public function getListeners();
+    protected $listener;
 
     /**
-     * Register a listener to an event.
-     *
-     * @param   Enlight_Event_Handler $handler
-     * @return  Enlight_Event_Subscriber
+     * @throws  Enlight_Exception
+     * @param   string $event
+     * @param   callback $listener
+     * @param   null $position
      */
-    abstract public function registerListener(Enlight_Event_Handler $handler);
+	public function __construct($event, $position=null, $listener)
+	{
+		parent::__construct($event, $position);
+        if(!is_callable($listener, true, $listener_event)) {
+			throw new Enlight_Event_Exception('Listener "'.$listener_event.'" is not callable');
+		}
+        $this->listener = $listener;
+	}
 
     /**
-     * Remove an event listener.
-     *
-     * @param   Enlight_Event_Handler $handler
-     * @return  Enlight_Event_Subscriber
+     * @return  callback
      */
-    abstract public function removeListener(Enlight_Event_Handler $handler);
+	public function getListener()
+	{
+		return $this->listener;
+	}
+
+    /**
+     * @param   Enlight_Event_EventArgs $args
+     * @return  mixed
+     */
+	public function execute(Enlight_Event_EventArgs $args)
+	{
+		return call_user_func($this->listener, $args);
+	}
 }

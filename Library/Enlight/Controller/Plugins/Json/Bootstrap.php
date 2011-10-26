@@ -3,8 +3,9 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 {
 	public function init()
 	{		
-	 	$event = new Enlight_Event_EventHandler(
+	 	$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Controller_Front_SendResponse',
+             null,
 	 		array($this, 'onSendResponse')
 	 	);
 		Enlight()->Events()->registerListener($event);

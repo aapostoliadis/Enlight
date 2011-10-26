@@ -229,7 +229,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     	);
     	$listeners = array();
     	foreach ($events as $event) {
-    		$listeners[] = new Enlight_Event_EventHandler($event, array($this, 'onBenchmarkEvent'), -99);
+    		$listeners[] = new Enlight_Event_Handler($event, array($this, 'onBenchmarkEvent'), -99);
     	}
     	return $listeners;
     }

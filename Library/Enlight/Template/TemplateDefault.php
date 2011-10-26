@@ -39,7 +39,6 @@ class Enlight_Template_TemplateDefault extends Smarty_Internal_Template
     	} catch (Exception $e) {
 			while (ob_get_level() > $obLevel) {
 				ob_get_clean();
-				$curObLevel = ob_get_level();
 			}
     		throw $e;
     	}
