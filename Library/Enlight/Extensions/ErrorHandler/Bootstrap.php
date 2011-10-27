@@ -99,11 +99,11 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
 	 */
 	public function install()
 	{
-		$event = $this->createEvent(
+		 $this->subscribeEvent(
 			'Enlight_Controller_Front_StartDispatch',
+             null,
 			'onStartDispatch'
 		);
-		$this->subscribeEvent($event);
 	}
 
 	/**

@@ -1,6 +1,37 @@
 <?php
+/**
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight_Controller
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     Heiner Lohaus
+ * @author     $Author$
+ */
+
+/**
+ * @category   Enlight
+ * @package    Enlight_Controller
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ */
 class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap_Default
 {
+    /**
+     * @return void
+     */
 	public function init()
 	{
 		$event = new Enlight_Event_Handler_Default(
@@ -9,6 +40,7 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
 	 		array($this, 'onRouteShutdown')
 	 	);
 		Enlight_Application::Instance()->Events()->registerListener($event);
+        
 		$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Controller_Front_PostDispatch',
 	 		500,
@@ -16,12 +48,20 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
 	 	);
 		Enlight_Application::Instance()->Events()->registerListener($event);
 	}
-	
+
+    /**
+     * @param   Enlight_Event_EventArgs $args
+     * @return  void
+     */
 	public function onRouteShutdown(Enlight_Event_EventArgs $args)
 	{
 		$this->handleError($args->getSubject(), $args->getRequest());
 	}
-	
+
+    /**
+     * @param   Enlight_Event_EventArgs $args
+     * @return  void
+     */
 	public function onPostDispatch(Enlight_Event_EventArgs $args)
 	{
 		$this->handleError($args->getSubject(), $args->getRequest());
@@ -46,16 +86,22 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
     
     /**
      * Flag; are we already inside the error handler loop?
+     *
      * @var bool
      */
     protected $_isInsideErrorHandlerLoop = false;
 
     /**
      * Exception count logged at first invocation of plugin
+     *
      * @var int
      */
     protected $_exceptionCountAtFirstEncounter = 0;
-	
+
+    /*
+     * @var     Enlight_Controller_Front $front
+     * @var     Enlight_Controller_Request_Request $request
+     */
 	protected function handleError($front, Enlight_Controller_Request_Request $request)
     {
         if ($front->getParam('noErrorHandler')) {

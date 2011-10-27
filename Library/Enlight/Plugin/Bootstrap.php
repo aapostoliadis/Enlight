@@ -30,12 +30,12 @@
 abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
 {
     /**
-     * @var string
+     * @var     string
      */
 	protected $name;
 
     /**
-     * @var Enlight_Plugin_PluginCollection
+     * @var     Enlight_Plugin_PluginCollection
      */
 	protected $collection;
 

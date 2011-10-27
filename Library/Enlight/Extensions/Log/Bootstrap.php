@@ -29,29 +29,33 @@
  */
 class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
+    /**
+     * @var Zend_Wildfire_Channel_HttpHeaders
+     */
+    protected $channel;
+
 	/**
 	 * Install log plugin
 	 */
 	public function install()
 	{
-        /** @var $namespace Enlight_Plugin_Namespace_Config */
-        $namespace = $this->Collection();
-
-		$namespace->Subscriber()->registerListener(new Enlight_Event_Handler_Plugin(
+		$this->subscribeEvent(
             'Enlight_Bootstrap_InitResource_Log',
             null,
-            $namespace,
-            $this,
             'onInitResourceLog'
-        ));
+        );
 
-        $namespace->Subscriber()->registerListener(new Enlight_Event_Handler_Plugin(
+        $this->subscribeEvent(
             'Enlight_Controller_Front_RouteStartup',
             null,
-            $namespace,
-            $this,
             'onRouteStartup'
-        ));
+        );
+
+        $this->subscribeEvent(
+            'Enlight_Controller_Front_DispatchLoopShutdown',
+            500,
+			'onDispatchLoopShutdown'
+        );
 	}
 
 	/**
@@ -64,50 +68,40 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	{
 		return Enlight_Components_Log::factory(array(
             array('writerName' => 'Null'),
-            /*array(
+            array('writerName' => 'Firebug'),
+            array(
                 'writerName' => 'Db',
                 'writerParams' => array(
                     'table' => 'log',
                     'db' => $this->Application()->Db(),
                     'columnMap' => array(
-                        'priority' => 'priorityName',
-                        'message' => 'message',
-                        'date' => 'timestamp',
-                        //'remote_address' => 'remote_address',
-                        //'user_agent' => 'user_agent',
+                        'priority'       => 'priorityName',
+                        'message'        => 'message',
+                        'date'           => 'timestamp',
+                        'remote_address' => 'remote_address',
+                        'user_agent'     => 'user_agent',
                     )
+                ),
+                'filterName' => 'Priority',
+                'filterParams' => array(
+                    'priority' => Enlight_Components_Log::ERR
                 )
-            ),*/
+            )
+            /*
+            array(
+                'writerName' => 'Mail',
+                'writerParams' => array(
+                    //'mail' => '',
+                    'from' => 'hl@shopware.de',
+                    'to' => 'hl@shopware.de',
+                    'subjectPrependText' => 'Fehler: '
+                ),
+                'filterName' => 'Priority',
+                'filterParams' => array(
+                    'priority' => Enlight_Components_Log::WARN
+                )
+            )*/
         ));
-        /*
-		if(!empty($config->logDb)) {
-			$writer = Zend_Log_Writer_Db::factory(array(
-				'db' => $this->Application()->Db(),
-				'table' => 's_core_log',
-				'columnMap' => array(
-					'key' => 'priorityName',
-					'text' => 'message',
-					'datum' => 'date',
-					'value2' => 'remote_address',
-					'value3' => 'user_agent',
-				)
-			));
-			$writer->addFilter(Zend_Log::ERR);
-			$log->addWriter($writer);
-		}
-        */
-        /*
-		if(!empty($config->logMail)) {
-			$mail = clone Shopware()->Mail();
-			$mail->addTo(Shopware()->Config()->Mail);
-			$writer = new Zend_Log_Writer_Mail($mail);
-			$writer->setSubjectPrependText('Fehler im Shop "' . Shopware()->Config()->Shopname . '" aufgetreten!');
-			$writer->addFilter(Zend_Log::WARN);
-			$log->addWriter($writer);
-		}
-        $log->addWriter(new Zend_Log_Writer_Null());
-        return $log;
-        */
 	}
 
 	/**
@@ -119,12 +113,29 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	{
         /** @var $request Enlight_Controller_Request_RequestHttp */
 		$request = $args->getSubject()->Request();
-
-
+        /** @var $request Enlight_Controller_Request_ResponseHttp */
+		$response = $args->getSubject()->Response();
+  
         /** @var $log Zend_Log */
 		$log = $this->Application()->Log();
 
 		$log->setEventItem('remote_address', $request->getClientIp(false));
 		$log->setEventItem('user_agent', $request->getServer('HTTP_USER_AGENT'));
-	}      
+
+        $this->channel = Zend_Wildfire_Channel_HttpHeaders::getInstance();
+        $this->channel->setRequest($request);
+        $this->channel->setResponse($response);
+	}
+
+    /**
+	 * On Dispatch Shutdown collect sql performance results and dump to log component
+	 *
+	 * @param Enlight_Event_EventArgs $args
+	 */
+	public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
+    {
+        if($this->channel !== null) {
+            $this->channel->flush();
+        }
+	}
 }

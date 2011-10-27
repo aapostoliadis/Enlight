@@ -71,4 +71,28 @@ class Enlight_Components_Log extends Zend_Log
 
         return $log;
     }
+
+     /**
+     * Add a writer.  A writer is responsible for taking a log
+     * message and writing it out to storage.
+     *
+     * @param  mixed $writer Zend_Log_Writer_Abstract or Config array
+     * @return Zend_Log
+     */
+    public function addWriter($writer)
+    {
+        if (is_array($writer) || $writer instanceof  Zend_Config) {
+            $writer = $this->_constructWriterFromConfig($writer);
+        }
+
+        if($writer instanceof Zend_Log_Writer_Firebug) {
+            /** @var $writer Zend_Log_Writer_Firebug */
+            $writer->setPriorityStyle(self::TABLE, 'TABLE');
+            $writer->setPriorityStyle(self::EXCEPTION, 'EXCEPTION');
+            $writer->setPriorityStyle(self::DUMP, 'DUMP');
+            $writer->setPriorityStyle(self::TRACE, 'TRACE');
+        }
+        
+        return parent::addWriter($writer);
+    }
 }

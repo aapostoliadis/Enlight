@@ -83,9 +83,5 @@ class Enlight_Tests_Config_AdapterDbTest extends Enlight_Components_Test_TestCas
             'adapter' => $adapter
         ));
         $this->assertEquals(1, $config->get('test'));
-
-        //$this->assert();
-
-        //$adapter->write($config);
     }
 }

@@ -29,45 +29,31 @@
  */
 class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
+    /**
+     * @var Enlight_Components_Log
+     */
+    protected $log;
+
     protected $results = array();
 	protected $startTime = null;
 	protected $startMemory = null;
-
-	/**
-	 * Activate template debugging
-	 */
-	public function init()
-	{
-		if(!$this->Application()->Bootstrap()->hasResource('Log')){
-			return;
-		}
-
-		$this->Application()->Template()->setDebugging(true);
-		$this->Application()->Template()->setDebugTemplate('string:');
-		//$this->Application()->Events()->addSubscriber($this);
-	}
 
 	/**
 	 * Install benchmark plugin
 	 */
 	public function install()
 	{
-		$event = $this->createEvent(
-			'Enlight_Controller_Front_StartDispatch',
+		$this->subscribeEvent(
+            'Enlight_Controller_Front_StartDispatch',
+            null,
 			'onStartDispatch'
-		);
-		$this->subscribeEvent($event);
-		$event = $this->createEvent(
-			'Enlight_Bootstrap_InitResource_Benchmark',
-			'onInitResourceBenchmark'
-		);
-		$this->subscribeEvent($event);
+        );
 
-		$event = $this->createEvent(
-	 		'Enlight_Controller_Front_DispatchLoopShutdown',
-	 		'onDispatchLoopShutdown'
-	 	);
-		$this->subscribeEvent($event);
+        $this->subscribeEvent(
+            'Enlight_Controller_Front_DispatchLoopShutdown',
+            null,
+			'onDispatchLoopShutdown'
+        );
 	}
 
 	/**
@@ -78,24 +64,48 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
 	 */
 	public function onStartDispatch(Enlight_Event_EventArgs $args)
     {
-    	$this->Application()->Plugins()->Core()->Benchmark();
+        $this->log = $this->Application()->Log();
+        
+        if($this->log === null){
+			return;
+		}
+
 		$this->Application()->Db()->getProfiler()->setEnabled(true);
+        $this->Application()->Template()->setDebugging(true);
+		$this->Application()->Template()->debug_tpl = 'string:';
+
+		$this->Application()->Events()->registerSubscriber(
+            new Enlight_Event_Subscriber_Array($this->getListeners())
+        );
     }
 
 	/**
 	 * On Dispatch Shutdown collect sql performance results and dump to log component
 	 * 
 	 * @param Enlight_Event_EventArgs $args
-	 * @return
 	 */
 	public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
     {
-		if(!$this->Application()->Bootstrap()->hasResource('Log')){
+		if($this->log === null){
 			return;
 		}
+
+        $this->logDb();
+        $this->logTemplate();
+    	$this->logController();
+	}
+
+    /**
+	 * Log template compile and render times
+     *
+	 * @return void
+	 */
+    public function logDb()
+    {
+         /** @var $profiler Zend_Db_Profiler */
 		$profiler = $this->Application()->Db()->getProfiler();
 
-        $rows = array(array('time','count','sql','params'));
+        $rows = array(array('time', 'count', 'sql', 'params'));
 		$counts = array(10000);
 		$total_time = 0;
 		$queryProfiles = $profiler->getQueryProfiles();
@@ -103,7 +113,8 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
 		if(!$queryProfiles) {
 			return;
         }
-        
+
+        /** @var $query Zend_Db_Profiler_Query */
 		foreach ($queryProfiles as $query) {
 			$id = md5($query->getQuery());
 			$total_time += $query->getElapsedSecs();
@@ -126,13 +137,13 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
 		$rows = array_values($rows);
 		$total_time = round($total_time, 5);
 		$total_count = $profiler->getTotalNumQueries();
-        
+
 		$label = "Database Querys ($total_count @ $total_time sec)";
 		$table = array($label,
 			$rows
 		);
 		$this->Application()->Log()->table($table);
-	}
+    }
 
 	/**
 	 * Benchmark Controllers
@@ -153,11 +164,6 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     		1 => $this->formatMemory(memory_get_peak_usage(true)-$this->startMemory),
     		2 => $this->formatTime(microtime(true)-$this->startTime)
     	);
-
-    	if($args->getName() == 'Enlight_Controller_Front_DispatchLoopShutdown') {
-    		$this->logTemplate();
-    		$this->logController();
-    	}
     }
 
 	/**
@@ -174,11 +180,10 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
 			$total_time += $template_file['cache_time'];
 			$template_file['name'] = str_replace($this->Application()->CorePath(), '', $template_file['name']);
 			$template_file['name'] = str_replace($this->Application()->AppPath(), '', $template_file['name']);
-			$template_file['name'] = str_replace($this->Application()->OldPath(), '', $template_file['name']);
 			$template_file['compile_time'] = $this->formatTime($template_file['compile_time']);
 			$template_file['render_time'] = $this->formatTime($template_file['render_time']);
 			$template_file['cache_time'] = $this->formatTime($template_file['cache_time']);
-			unset($template_file['startTime']);
+			unset($template_file['start_time']);
 			$rows[] = array_values($template_file);
 		}
 		$total_time = round($total_time, 5);
@@ -187,7 +192,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
 		$table = array($label,
 			$rows
 		);
-		$this->Application()->Log()->table($table);
+		$this->log->table($table);
     }
 
 	/**
@@ -229,7 +234,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     	);
     	$listeners = array();
     	foreach ($events as $event) {
-    		$listeners[] = new Enlight_Event_Handler($event, array($this, 'onBenchmarkEvent'), -99);
+    		$listeners[] = new Enlight_Event_Handler_Default($event, -99, array($this, 'onBenchmarkEvent'));
     	}
     	return $listeners;
     }

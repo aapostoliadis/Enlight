@@ -21,12 +21,14 @@ class Default_Bootstrap extends Enlight_Bootstrap
         //$config->write();
 
         /** @var $namespace Enlight_Plugin_Namespace_Config */
-        
-        //$namespace = $this->getResource('Extensions');
-        //$plugin = new Enlight_Extensions_Log_Bootstrap('Log', new Enlight_Config(array()));
-        //$namespace->registerPlugin($plugin);
-        //plugin->install();
-        //$namespace->write();
+
+        /*
+        $namespace = $this->getResource('Extensions');
+        $plugin = new Enlight_Extensions_ErrorHandler_Bootstrap('ErrorHandler', new Enlight_Config(array()));
+        $namespace->registerPlugin($plugin);
+        $plugin->install();
+        $namespace->write();
+        */
         
         /*
         $config = new Enlight_Config('test', array(
@@ -37,9 +39,6 @@ class Default_Bootstrap extends Enlight_Bootstrap
         $config->test = 2;
         $config->write();
         */
-
-        $this->Application()->Log()->debug('test');
-        
         return parent::run();
     }
 

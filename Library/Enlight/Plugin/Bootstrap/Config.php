@@ -30,7 +30,7 @@
 class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 {
     /**
-     * @var Enlight_Config
+     * @var     Enlight_Config
      */
 	protected $config;
 
@@ -52,5 +52,29 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
     public function Config()
     {
         return $this->config;
+    }
+
+    /**
+     * @return  Enlight_Plugin_Namespace_Config
+     */
+	public function Collection()
+	{
+		return $this->collection;
+	}
+
+    /**
+     * @param   $event
+     * @param   null $position
+     * @param   $listener
+     * @return  Enlight_Plugin_Bootstrap_Config
+     */
+    public function subscribeEvent($event, $position = null, $listener)
+    {
+        $namespace = $this->Collection();
+        $handler = new Enlight_Event_Handler_Plugin(
+            $event, $position, $namespace, $this, $listener
+        );
+        $namespace->Subscriber()->registerListener($handler);
+        return $this;
     }
 }

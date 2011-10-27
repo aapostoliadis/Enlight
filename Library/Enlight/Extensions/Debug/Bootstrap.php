@@ -29,36 +29,39 @@
  */
 class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
+    /**
+     * @var Enlight_Components_Log
+     */
+    protected $log;
+
 	/**
 	 * Plugin install method
 	 */
 	public function install()
 	{
-		$event = $this->createEvent(
-			'Enlight_Controller_Front_StartDispatch',
+		$this->subscribeEvent(
+            'Enlight_Controller_Front_StartDispatch',
+            null,
 			'onStartDispatch'
-		);
-		$this->subscribeEvent($event);
-	}
+         );
 
-	/**
-	 * Plugin uninstall method
-	 */
-	public function uninstall()
-	{
-
+        $this->subscribeEvent(
+            'Enlight_Controller_Front_DispatchLoopShutdown',
+            null,
+			'onDispatchLoopShutdown'
+        );
 	}
 
 	/**
 	 * Plugin event method
 	 *
-	 * @param Enlight_Event_EventArgs $args
+	 * @param   Enlight_Event_EventArgs $args
 	 */
 	public function onStartDispatch(Enlight_Event_EventArgs $args)
 	{
-		$config = $this->Config();
+        $this->log = $this->Application()->Log();
 
-        /** @var $request Enlight_Controller_Request_RequestHttp */
+        /*
         $request = $args->getSubject()->Request();
 
 		if ($request->getClientIp(false)
@@ -66,42 +69,18 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 		  && strpos($config->allowIp, $request->getClientIp(false))===false){
 			return;
 		}
+        */
 
         /** @var $errorHandler  */
 		$errorHandler = $this->Application()->Extensions()->ErrorHandler();
 		$errorHandler->setEnabledLog(true);
 		$errorHandler->registerErrorHandler(E_ALL | E_STRICT);
-
-		if(!$this->Application()->Bootstrap()->hasResource('Log')){
-			return;
-		}
-
-		if($request->getServer('HTTP_USER_AGENT') !== null
-		  && strpos($request->getServer('HTTP_USER_AGENT'), 'FirePHP/')!==false) {
-            Zend_Wildfire_Channel_HttpHeaders::getInstance();
-            $writer = new Zend_Log_Writer_Firebug();
-            $this->Application()->Log()->addWriter($writer);
-		}
-
-		$event = new Enlight_Event_Handler_Default(
-	 		'Enlight_Controller_Front_DispatchLoopShutdown',
-            null,
-	 		array($this, 'onDispatchLoopShutdown')
-	 	);
-		$this->Application()->Events()->registerListener($event);
-
-		$event = new Enlight_Event_Handler_Default(
-	 		'Enlight_Plugins_ViewRenderer_PreRender',
-            null,
-	 		array($this, 'onAfterRenderView')
-	 	);
-		$this->Application()->Events()->registerListener($event);
-	}
+    }
 
 	/**
 	 * Plugin event method
 	 *
-	 * @param Enlight_Event_EventArgs $args
+	 * @param   Enlight_Event_EventArgs $args
 	 */
 	public function onAfterRenderView(Enlight_Event_EventArgs $args)
 	{
@@ -112,21 +91,31 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	/**
 	 * Plugin event method
 	 *
-	 * @param Enlight_Event_EventArgs $args
+	 * @param   Enlight_Event_EventArgs $args
 	 */
 	public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
 	{
-		$this->logError();
-		$this->logException();
+        $errorHandler = $this->Application()->Extensions()->ErrorHandler();
+		$this->logError($errorHandler);
+
+        $response = $this->Application()->Front()->Response();
+		$this->logException($response);
+
+        $template = $this->Application()->Template();
+		$this->logTemplate($template);
 	}
 
-	/**
-	 * Log error method
-	 */
-	public function logError()
+    /**
+     * Log error method
+     * 
+     * @param   $errorHandler
+     */
+	public function logError($errorHandler)
 	{
-		$errorHandler = $this->Application()->Extensions()->ErrorHandler();
 		$errors = $errorHandler->getErrorLog();
+        if(empty($errors)) {
+            return;
+        }
 
 		$counts = array();
 		foreach ($errors as $errorKey => $error) {
@@ -134,24 +123,23 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 		}
 		array_multisort($counts, SORT_NUMERIC, SORT_DESC, $errors);
 
-		if(!empty($errors)) {
-			$rows = array();
-			foreach ($errors as $error)
-			{
-				if(!$rows) $rows[] = array_keys($error);
-				$rows[] = array_values($error);
-			}
-			$table = array('Error Log ('.count($errors).')',
-				$rows
-			);
-			$this->Application()->Log()->table($table);
-		}
+        $rows = array();
+        foreach ($errors as $error)
+        {
+            if(!$rows) $rows[] = array_keys($error);
+            $rows[] = array_values($error);
+        }
+        $table = array('Error Log ('.count($errors).')',
+            $rows
+        );
+
+        $this->log->table($table);
 	}
 
     /**
      * Log template method
-     * @param $template
-     * @return
+     *
+     * @param   $template
      */
 	public function logTemplate($template)
 	{
@@ -167,7 +155,8 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 			$rows
 		);
 
-		$this->Application()->Log()->table($table);
+		$this->log->table($table);
+
 		$config_vars = $template->getConfigVars();
 		if(!empty($config_vars)) {
 			$rows = array(array('spec', 'value'));
@@ -178,7 +167,40 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 			$table = array('Config Vars',
 				$rows
 			);
-			$this->Application()->Log()->table($table);
+			$this->log->table($table);
+		}
+	}
+    
+    /**
+     * Log exception method
+     *
+     * @param   $response
+     */
+	public function logException($response)
+	{
+		$exceptions = $response->getException();
+		if(empty($exceptions)) {
+			return;
+		}
+        
+		$rows = array(array('code', 'name', 'message', 'line', 'file', 'trace'));
+		foreach ($exceptions as $exception) {
+			$rows[] = array(
+				$exception->getCode(),
+				get_class($exception),
+				$exception->getMessage(),
+				$exception->getLine(),
+				$exception->getFile(),
+				explode("\n", $exception->getTraceAsString())
+			);
+		}
+		$table = array('Exception Log ('.count($exceptions).')',
+			$rows
+		);
+		$this->log->table($table);
+
+		foreach ($exceptions as $exception) {
+			$this->log->err((string) $exception);
 		}
 	}
 
@@ -207,36 +229,5 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 			$data = get_class($data);
 		}
 		return $data;
-	}
-
-	/** 
-	 * Log exception method
-	 */
-	public function logException()
-	{
-		$response = $this->Application()->Front()->Response();
-		$exceptions = $response->getException();
-		if(empty($exceptions)) {
-			return;
-		}
-		$rows = array(array('code', 'name', 'message', 'line', 'file', 'trace'));
-		foreach ($exceptions as $exception) {
-			$rows[] = array(
-				$exception->getCode(),
-				get_class($exception),
-				$exception->getMessage(),
-				$exception->getLine(),
-				$exception->getFile(),
-				explode("\n", $exception->getTraceAsString())
-			);
-		}
-		$table = array('Exception Log ('.count($exceptions).')',
-			$rows
-		);
-		$this->Application()->Log()->table($table);
-
-		foreach ($exceptions as $exception) {
-			$this->Application()->Log()->err((string) $exception);
-		}
 	}
 }

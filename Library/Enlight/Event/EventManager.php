@@ -157,7 +157,7 @@ class Enlight_Event_EventManager extends Enlight_Class
         }
         $eventArgs->setName($event);
         $eventArgs->setProcessed(false);
-        foreach ($this->getListeners($eventArgs->getName()) as $listener) {
+        foreach ($this->getListeners($event) as $listener) {
             if (null !== ($return = $listener->execute($eventArgs))
               || $eventArgs->isProcessed()) {
                 $eventArgs->setProcessed(true);
