@@ -67,11 +67,8 @@ class Enlight_Event_EventManager extends Enlight_Class
      */
     public function removeListener(Enlight_Event_Handler $handler)
     {
-        if(!empty($this->listeners[$handler->getName()]))
-        foreach ($this->listeners[$handler->getName()] as $i => $entry) {
-            if ($handler === $entry) {
-                unset($this->listeners[$handler->getName()][$i]);
-            }
+        if(!empty($this->listeners[$handler->getName()])) {
+            $this->listeners[$handler->getName()] = array_diff($this->listeners[$handler->getName()], array($handler));
         }
         return $this;
     }

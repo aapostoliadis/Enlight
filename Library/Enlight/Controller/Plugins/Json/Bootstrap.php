@@ -8,7 +8,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
              null,
 	 		array($this, 'onSendResponse')
 	 	);
-		Enlight()->Events()->registerListener($event);
+		$this->Application()->registerListener($event);
 	}
 
 	protected $padding;

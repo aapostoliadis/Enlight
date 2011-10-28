@@ -80,7 +80,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
         if(!class_exists($class, false)) {
             Enlight_Application::Instance()->Loader()->loadClass($class, $file);
         }
-        $plugin = new $class($name);
+        $plugin = new $class($this, $name);
         $this->plugins[$name] = $plugin;
         return $this;
     }

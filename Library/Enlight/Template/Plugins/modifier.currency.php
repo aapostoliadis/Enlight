@@ -1,7 +1,7 @@
 <?php
 function smarty_modifier_currency($value, $config=null, $position=null)
 {
-	if(!Enlight::Instance()->Bootstrap()->hasResource('Currency')) {
+	if(!Enlight_Application::Instance()->Bootstrap()->hasResource('Currency')) {
 		return $value;
 	}
 	if($config == null) {
@@ -36,7 +36,7 @@ function smarty_modifier_currency($value, $config=null, $position=null)
 				break;
 		}
 	}
-	$currency = Enlight::Instance()->Currency();
+	$currency = Enlight_Application::Instance()->Currency();
 	$value = floatval(str_replace(',', '.', $value));
 	$value = $currency->toCurrency($value, $config);
 	if(function_exists('mb_convert_encoding')) {

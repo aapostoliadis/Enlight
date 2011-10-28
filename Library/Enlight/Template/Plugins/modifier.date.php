@@ -23,7 +23,7 @@ function smarty_modifier_date($value, $format=null, $type=null)
 		$type = strtolower($type);
 	}
 	
-	$date = clone Enlight()->Date();
+	$date = clone Enlight_Application::Instance()->Date();
 	$date->set($value);
 	$value = $date->toString($format, $type);
 	$value = htmlentities($value, ENT_COMPAT, 'UTF-8', false);

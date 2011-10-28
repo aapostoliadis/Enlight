@@ -36,12 +36,12 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 
     /**
      * @param   string $name
-     * @param   Enlight_Config $config
+     * @param   Enlight_Plugin_Namespace_Config $namespace
      */
-    public function __construct($name, $config)
+    public function __construct($namespace, $name)
     {
-        $this->config = $config;
-        parent::__construct($name);
+        parent::__construct($namespace, $name);
+        $this->config = $namespace->getConfig($name);
     }
 
     /**
@@ -76,5 +76,13 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
         );
         $namespace->Subscriber()->registerListener($handler);
         return $this;
+    }
+
+    /**
+     * @return void
+     */
+    public function install()
+    {
+
     }
 }

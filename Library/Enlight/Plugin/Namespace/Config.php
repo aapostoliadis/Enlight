@@ -84,7 +84,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
         $item = $this->storage->plugins->$name;
 
         /** @var $plugin Enlight_Plugin_Bootstrap_Config */
-        $plugin = new $item->class($name, $item->config);
+        $plugin = new $item->class($this, $name);
         return parent::registerPlugin($plugin);
     }
 
@@ -127,6 +127,33 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
         return $this->subscriber;
     }
 
+    /**
+     * Returns the application instance.
+     *
+     * @param   string $name
+     * @return  Enlight_Config
+     */
+    public function getConfig($name)
+    {
+        $item = $this->storage->plugins->$name;
+        return $item->config;
+    }
+
+    /**
+     * Registers a plugin in the collection.
+     *
+     * @param   Enlight_Plugin_Bootstrap $plugin
+     * @return  Enlight_Plugin_PluginManager
+     */
+    public function registerPlugin(Enlight_Plugin_Bootstrap $plugin)
+    {
+        $plugin->install();
+        return  $this->registerPlugin($plugin);
+    }
+
+    /**
+     * @return  array
+     */
     public function toArray()
     {
         $this->read();

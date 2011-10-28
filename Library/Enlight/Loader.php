@@ -1,17 +1,45 @@
 <?php
 /**
- * Enlight Loader
- * 
- * @link http://www.shopware.de
- * @copyright Copyright (c) 2011, shopware AG
- * @author Heiner Lohaus
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight_Plugin
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     Heiner Lohaus
+ * @author     $Author$
+ */
+
+/**
+ * @category   Enlight
+ * @package    Enlight_Plugin
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Loader extends Enlight_Class
-{	
+{
+    /**
+     * @var array
+     */
 	protected $namespaces = array();
+
+    /**
+     * @var array
+     */
 	protected $loadedClasses = array();
-	
-	const DEFAULT_SEPARATOR = '_\\';
+
+    const DEFAULT_SEPARATOR = '_\\';
 	const DEFAULT_EXTENSION = '.php';
 	
 	const POSITION_APPEND = 'append';
@@ -31,11 +59,11 @@ class Enlight_Loader extends Enlight_Class
 	}
 	
 	/**
-	 * Load class method
+	 * Loads a class by name.
 	 *
-	 * @param string|array $class
-	 * @param string $path
-	 * @return bool
+	 * @param   string|array $class
+	 * @param   string $path
+	 * @return  bool
 	 */
 	public function loadClass($class, $path=null)
 	{
@@ -62,10 +90,10 @@ class Enlight_Loader extends Enlight_Class
 	}
 	
 	/**
-	 * Load file method
+	 * Loads file method
 	 *
-	 * @param string $path
-	 * @return mixed
+	 * @param   string $path
+	 * @return  mixed
 	 */
 	public static function loadFile($path)
 	{
@@ -86,10 +114,10 @@ class Enlight_Loader extends Enlight_Class
 	}
 	
 	/**
-	 * Check file is readable
+	 * Checks the file is readable
 	 *
-	 * @param string $path
-	 * @return string|bool
+	 * @param   string $path
+	 * @return  string|bool
 	 */
 	public static function isReadable($path)
 	{
@@ -128,8 +156,8 @@ class Enlight_Loader extends Enlight_Class
 	/**
 	 * Explode include path 
 	 *
-	 * @param string $path
-	 * @return array
+	 * @param   string $path
+	 * @return  array
 	 */
 	public static function explodeIncludePath($path = null)
     {
@@ -151,8 +179,8 @@ class Enlight_Loader extends Enlight_Class
     /**
      * Returns class path
      *
-     * @param string $class
-     * @return string|void
+     * @param   string $class
+     * @return  string|void
      */
 	public function getClassPath($class)
 	{
@@ -168,32 +196,34 @@ class Enlight_Loader extends Enlight_Class
 				return $path;
 			}
 		}
+        return null;
 	}
 	
 	/**
 	 * Check class is loaded
 	 *
-	 * @param string $class
-	 * @return bool
+	 * @param   string $class
+	 * @return  bool
 	 */
 	public static function isLoaded($class)
 	{
-		return class_exists($class, false)||interface_exists($class, false);
+		return class_exists($class, false) || interface_exists($class, false);
 	}
 	
 	/**
 	 * Register namespace
 	 *
-	 * @param string $namespace
-	 * @param string $path
-	 * @param string $separator
-	 * @param string $extension
-	 * @param string $postion
-	 */
+	 * @param   string $namespace
+	 * @param   string $path
+	 * @param   string $separator
+	 * @param   string $extension
+	 * @param   string $position
+     * @return  Enlight_Loader
+     */
 	public function registerNamespace($namespace, $path,
 	  $separator=self::DEFAULT_SEPARATOR, 
 	  $extension=self::DEFAULT_EXTENSION,
-	  $postion=self::POSITION_APPEND)
+	  $position=self::POSITION_APPEND)
 	{
 		$namespace = array(
 			'namespace' => $namespace,
@@ -202,7 +232,7 @@ class Enlight_Loader extends Enlight_Class
 			'extension' => $extension
 		);
 		
-		switch ($postion) {
+		switch ($position) {
 			case self::POSITION_APPEND:
 				array_push($this->namespaces, $namespace);
 				break;
@@ -212,16 +242,19 @@ class Enlight_Loader extends Enlight_Class
 			default:
 				break;
 		}
+
+        return $this;
 	}
 	
 	/**
-	 * Add include path
+	 * Adds a path to the include paths
+     * Returns the old include paths
 	 *
-	 * @param string $path
-	 * @param string $postion
-	 * @return string
+	 * @param   string $path
+	 * @param   string $position
+	 * @return  string
 	 */
-	public static function addIncludePath($path, $postion=self::POSITION_APPEND)
+	public static function addIncludePath($path, $position=self::POSITION_APPEND)
 	{
 		if(is_array($path)) {
 			return (bool) array_map(__METHOD__, $path);
@@ -236,7 +269,7 @@ class Enlight_Loader extends Enlight_Class
 			unset($paths[$key]);
 		}
 		
-		switch ($postion) {
+		switch ($position) {
 			case self::POSITION_APPEND:
 				array_push($paths, $path);
 				break;
@@ -251,10 +284,11 @@ class Enlight_Loader extends Enlight_Class
 	}
 	
 	/**
-	 * Set include path
+	 * Sets the include path
+     * Returns the old include paths 
 	 *
-	 * @param string|array $path
-	 * @return string
+	 * @param   string|array $path
+	 * @return  string
 	 */
 	public static function setIncludePath($path)
 	{
@@ -274,7 +308,7 @@ class Enlight_Loader extends Enlight_Class
 	/**
 	 * Returns loaded classes
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public function getLoadedClasses()
 	{
@@ -282,9 +316,9 @@ class Enlight_Loader extends Enlight_Class
 	}
 	
 	/**
-	 * Autoload class method
+	 * Callback for auto loading of classes.
 	 *
-	 * @param string $class
+	 * @param   string $class
 	 */
 	public function autoload($class)
 	{
@@ -297,8 +331,8 @@ class Enlight_Loader extends Enlight_Class
 	/**
 	 * Security check file
 	 *
-	 * @param string $path
-	 * @return bool
+	 * @param   string $path
+	 * @return  bool
 	 */
 	public static function checkFile($path)
     {

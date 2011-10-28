@@ -131,7 +131,7 @@ class Enlight_Application
 		if(!empty($options['app_path'])) {
 			$this->app_path = realpath($options['app_path']) . $this->DS();
 		} else {
-			$this->app_path = realpath('Apps/'.$this->app) . $this->DS();
+			$this->app_path = realpath('Apps/' . $this->app) . $this->DS();
 		}
 		
 		if(!file_exists($this->app_path) && !is_dir($this->app_path)) {
@@ -144,9 +144,9 @@ class Enlight_Application
 	}
 	
 	/**
-	 * Run application method
+	 * Runs the application
 	 *
-	 * @return unknown
+	 * @return mixed
 	 */
 	public function run()
 	{
@@ -353,7 +353,7 @@ class Enlight_Application
 	}
 
 	/**
-	 * Set options method
+	 * Sets the options from config
 	 *
 	 * @param array $options
 	 * @return Enlight_Application
@@ -409,7 +409,7 @@ class Enlight_Application
     }
     
     /**
-     * Set php settings
+     * Sets the php settings from config
      *
      * @param array $settings
      * @param string $prefix
@@ -429,7 +429,7 @@ class Enlight_Application
     }
     
     /**
-     * Set include paths
+     * Sets include paths
      *
      * @param array $paths
      * @return Enlight_Application
@@ -465,7 +465,7 @@ class Enlight_Application
 	public static function __callStatic($name, $value = null)
 	{
 		$enlight = self::Instance();
-		if(!$enlight->_bootstrap->hasResource($name)) {
+		if(!$enlight->Bootstrap()->hasResource($name)) {
 			throw new Enlight_Exception('Method "'.get_called_class().'::'.$name.'" not found failure', Enlight_Exception::Method_Not_Found);
 		}
 		return $enlight->Bootstrap()->getResource($name);
