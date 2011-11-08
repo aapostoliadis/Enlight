@@ -16,7 +16,13 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
 	 * @var Enlight_View_ViewDefault
 	 */
 	protected $view;
+	/**
+	 * @var Enlight_Controller_Request_Request
+	 */
 	protected $request;
+	/**
+	 * @var Enlight_Controller_Response_Response
+	 */
 	protected $response;
 	
 	/**

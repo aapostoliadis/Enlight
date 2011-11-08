@@ -29,7 +29,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Enlight_Tests_Config_AllTests
+class Enlight_Tests_Components_Auth_Adapter_AllTests
 {
 	/**
 	 * Returns the test suite

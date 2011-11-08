@@ -12,33 +12,9 @@ class Default_Bootstrap extends Enlight_Bootstrap
         $this->loadResource('ConfigAdapter');
         $this->loadResource('Extensions');
 
-        //$this->getResource('Subscriber')->registerListener(new Enlight_Event_EventHandler('test', 'strlen', 100));
-        //$this->getResource('Subscriber')->registerListener(new Enlight_Event_EventHandler('test', 'strlen', 200));
-        //$this->getResource('Subscriber')->registerListener(new Enlight_Event_EventHandler('test2', 'strlen', 200));
+//		$namespace = new Enlight_Plugin_Namespace_Config('Core');
+//		$test = new Enlight_Extensions_JsonRenderer_Bootstrap($namespace,'JsonRenderer');
 
-        //$config = new Enlight_Config('test', true);
-        //$config->test = true;
-        //$config->write();
-
-        /** @var $namespace Enlight_Plugin_Namespace_Config */
-
-        /*
-        $namespace = $this->getResource('Extensions');
-        $plugin = new Enlight_Extensions_ErrorHandler_Bootstrap('ErrorHandler', new Enlight_Config(array()));
-        $namespace->registerPlugin($plugin);
-        $plugin->install();
-        $namespace->write();
-        */
-        
-        /*
-        $config = new Enlight_Config('test', array(
-            'adapter' => $adapter,
-            'section' => 'test',
-            'allowModifications' => true
-        ));
-        $config->test = 2;
-        $config->write();
-        */
         return parent::run();
     }
 
@@ -57,6 +33,7 @@ class Default_Bootstrap extends Enlight_Bootstrap
 		Zend_Db_Table_Abstract::setDefaultAdapter($db);
         return $db;
     }
+
 
     /**
      * @return Enlight_Plugin_Namespace_Config

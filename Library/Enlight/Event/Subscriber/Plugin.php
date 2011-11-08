@@ -50,7 +50,7 @@ class Enlight_Event_Subscriber_Plugin extends Enlight_Event_Subscriber_Config
     public function write()
     {
         $this->storage->listeners = $this->toArray();
-        $this->storage->write();
+		$this->storage->write();
         return $this;
     }
 

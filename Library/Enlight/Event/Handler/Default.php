@@ -65,4 +65,16 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
 	{
 		return call_user_func($this->listener, $args);
 	}
+
+	public function toArray()
+	{
+		$listener = $this->getListener();
+
+		return array(
+            'name' => $this->name,
+            'position' => $this->position,
+            'plugin' => $this->getName(),
+            'listener' => $this->listener
+        );
+	}
 }

@@ -1,63 +1,10 @@
 <?php
 /**
  * Enlight Auth Adapter
- * 
- * @link http://www.shopware.de
- * @copyright Copyright (c) 2011, shopware AG
- * @author Heiner Lohaus
- * @package Enlight
- * @subpackage Components
  */
-class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
+class Enlight_Components_Form_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 {
-	/**
-	 * Name of column which holds the date on how long a account is blocked
-	 *
-	 * @var String
-	 */
-	protected $lockedUntilColumn = null;
 
-	/**
-	 * Date until a account has been disabled caused by a brute force attack
-	 *
-	 * @var String - Date
-	 */
-	protected $lockedUntil;
-
-	/**
-	 * How long should an account be blocked after a failed login attempt in seconds
-	 *
-	 * @var int
-	 */
-	protected $lockSeconds = 30;
-
-	/**
-	 * The expiry Column value
-	 *
-	 * @var string
-	 */
-	protected $expiryColumn;
-
-	/**
-	 * The expiry value
-	 *
-	 * @var int
-	 */
-	protected $expiry;
-
-	/**
-	 * The session id value
-	 *
-	 * @var string
-	 */
-	protected $sessionId;
-
-	/**
-	 * The session id column value
-	 *
-	 * @var string
-	 */
-	protected $sessionIdColumn;
 	
 	/**
 	 * Adds a where-condition to the db-select.
@@ -72,8 +19,6 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	}
 
 	/**
-	 * Sets the database field which holds the date until an account has been disabled.
-	 *
 	 * @throws Exception
 	 * @param $lockedUntilColumn
 	 * @return Enlight_Components_Auth_Adapter_DbTable
@@ -125,8 +70,6 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	
 	/**
 	 * Updates the expiration date to now.
-	 *
-	 * @return void
 	 */
 	protected function updateExpiry()
 	{
@@ -144,8 +87,6 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	
 	/**
 	 * Update the session id field in the session db.
-	 *
-	 * @return Enlight_Components_Auth_Adapter_DbTable
 	 */
 	protected function updateSessionId()
 	{
@@ -167,17 +108,8 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 			$this->_zendDb->quoteIdentifier($this->sessionIdColumn, true) . ' = ?',
 			$this->sessionId
 		));
-		return $this;
 	}
 
-	/**
-	 * Updates the date until an account has been disabled.
-	 * $date has to be an MySQL Datetime format yyyy-mm-dd hh:mm:ss
-	 *
-	 * @throws Exception
-	 * @param $date
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
 	protected function updateLockUntilDate($date)
 	{
 		if($this->lockedUntilColumn === null) {
@@ -188,7 +120,6 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 		$this->_zendDb->update($this->_tableName, array($this->lockedUntilColumn => $date),
 			$this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?',$this->_identity
 		));
-		return $this;
 	}
 	
 	/**
@@ -259,28 +190,25 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
     }
 
 	/**
-	 * Disables an account until a given date.
-	 * $date has to be an MySQL Datetime format yyyy-mm-dd hh:mm:ss
+	 * Set and Saves a date
 	 *
-	 * @param string $date
+	 * @param string $lockedUntil
 	 * @return Enlight_Components_Auth_Adapter_DbTable
 	 */
-	public function setLockedUntil($date)
+	public function setLockedUntil($lockedUntil)
 	{
-		if( !preg_match("/^\d{4}-\d{2}-\d{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$/", $date) )
+		if( !preg_match("/^\d{4}-\d{2}-\d{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$/", $lockedUntil) )
 		{
-			throw new Exception('Wrong Data type given. Expected Data type: Datetime (0000-00-00 00:00:00) '.$date);
+			throw new Exception('Wrong Data type given. Expected Data type: Datetime (0000-00-00 00:00:00) '.$lockedUntil);
 		}
-		$this->lockedUntil = $date;
-		$this->updateLockUntilDate($date);
+		$this->lockedUntil = $lockedUntil;
+		$this->updateLockUntilDate($lockedUntil);
 		$this->addCondition('lockeduntil <= NOW()');
 		return $this;
 	}
 
 	/**
-	 * Gets the date until an account has been disabled. Returns a string in MySQL datetime format yyyy-mm-dd hh:mm:ss
-	 *
-	 * @return String
+	 * @return \String
 	 */
 	public function getLockedUntil()
 	{
@@ -288,8 +216,6 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	}
 
 	/**
-	 * Defines how long (in seconds) a user has to wait until he is allowed to enter a new password again.
-	 *
 	 * @param int $lockSeconds
 	 * @return Enlight_Components_Auth_Adapter_DbTable
 	 */
@@ -300,8 +226,6 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	}
 
 	/**
-	 * Returns the amount of seconds a user has to wait until he is allowed retry a login attempt.
-	 *
 	 * @return int
 	 */
 	public function getLockSeconds()

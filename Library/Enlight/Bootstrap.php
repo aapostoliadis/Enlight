@@ -28,7 +28,7 @@
  * @license    http://enlight.de/license     New BSD License
  */
 abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
-{		
+{
 	const STATUS_BOOTSTRAP = 0;
 	const STATUS_LOADED = 1;
 	const STATUS_NOT_FOUND = 2;
@@ -100,7 +100,8 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
      */
     public function run()
     {
-    	$front = $this->getResource('Front');
+    	/** @var $front Enlight_Controller_Front */
+		$front = $this->getResource('Front');
         return $front->dispatch();
     }
     
