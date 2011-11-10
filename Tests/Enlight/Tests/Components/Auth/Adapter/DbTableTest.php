@@ -41,7 +41,7 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 	/**
 	 * @var Enlight_Components_Auth_Adapter_DbTable
 	 */
-	protected $authAdapter;
+	protected $authAdapter; 
 
     /**
      * Set up the test case

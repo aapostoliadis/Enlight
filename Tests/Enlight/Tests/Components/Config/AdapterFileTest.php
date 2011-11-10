@@ -55,7 +55,7 @@ class Enlight_Tests_Config_AdapterFileTest extends Enlight_Components_Test_TestC
      */
     public function testConfigWriteFile()
     {
-       //$this->setExpectedException('Enlight_Config_Exception');
+       $this->setExpectedException('Enlight_Config_Exception');
 
         $adapter = new Enlight_Config_Adapter_File(array(
             'configDir' => '/fail',
@@ -75,7 +75,7 @@ class Enlight_Tests_Config_AdapterFileTest extends Enlight_Components_Test_TestC
      */
     public function testConfigReadBase()
     {
-       //$this->setExpectedException('Enlight_Config_Exception');
+       $this->setExpectedException('Enlight_Config_Exception');
         
         $adapter = new Enlight_Config_Adapter_File(array(
             'configDir' => '/fail',
