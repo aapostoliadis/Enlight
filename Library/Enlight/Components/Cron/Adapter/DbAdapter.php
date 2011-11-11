@@ -154,6 +154,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 				case 'start':
 				case 'end':
 				case 'inform_template':
+				case 'crontab':
 				case 'inform_mail':
 					if(!empty($option))
                     	$this->{'_'.$key} = (string)$option;
@@ -192,7 +193,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	{
 		$db = $this->_db;
 
-		$sql = 'UPDATE s_crontab
+		$sql = 'UPDATE '.$this->_crontab.'
 				SET
 					`name` = ?,
 					`action` = ?,
@@ -247,13 +248,12 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		}
 		$sql = '
 			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM s_crontab WHERE '.$where.'
+			FROM '.$this->_crontab.' WHERE '.$where.'
 		';
 		$jobs =  $db->fetchAll($sql);
 
 		$retVal = array();
 		foreach ($jobs as $jobData) {
-			//$name = 'Enlight_Component_Cron_CronJob'.str_replace(' ','',ucwords(str_replace('_',' ',)));
 			$name = Enlight_Components_Cron_CronManager::getCronAction($jobData['action']);
 		    $retVal[$jobData['id']] = new Enlight_Components_Cron_CronJob($name, $jobData);
 		}
@@ -277,7 +277,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$db = $this->_db;
 		$sql = '
 			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM s_crontab WHERE active=1 AND next < ? AND end IS NOT NULL
+			FROM '.$this->_crontab.' WHERE active=1 AND next < ? AND end IS NOT NULL
 			ORDER BY next
 		';
 		// collect cron jobs from the database
@@ -286,7 +286,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		if(empty($jobs)){
 			return null;
 		}
-		//$name = 'Shopware_CronJob_'.str_replace(' ','',ucwords(str_replace('_',' ',$jobs['name'])));
+
 		$name = Enlight_Components_Cron_CronManager::getCronAction($jobs['action']);
 		$job = new Enlight_Components_Cron_CronJob($name, $jobs);
 
@@ -304,7 +304,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$db = $this->_db;
 		$sql = '
 			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM s_crontab WHERE id=?
+			FROM '.$this->_crontab.' WHERE id=?
 		';
 		// collect cron jobs from the database
 		$jobs = $db->fetchRow($sql, $id);
@@ -312,7 +312,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		if(empty($jobs)){
 			return null;
 		}
-		//$name = 'Shopware_CronJob_'.str_replace(' ','',ucwords(str_replace('_',' ',$jobs['name'])));
+		
 		$name = Enlight_Components_Cron_CronManager::getCronAction($jobs['action']);
 		$job = new Enlight_Components_Cron_CronJob($name, $jobs);
 		
@@ -330,7 +330,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$db = $this->_db;
 		$sql = '
 			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM s_crontab WHERE `name`=?
+			FROM '.$this->_crontab.' WHERE `name`=?
 		';
 		// collect cron jobs from the database
 		$jobs = $db->fetchRow($sql, $name);
@@ -365,7 +365,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		}
 		
 		$sql = '
-				INSERT INTO s_crontab
+				INSERT INTO '.$this->_crontab.'
 					(`id`,
 					`name`,
 					`action`,
@@ -412,7 +412,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$action = $job->action;
 
 		$sql = '
-			DELETE FROM s_crontab
+			DELETE FROM '.$this->_crontab.'
 			WHERE `id` = ?
 			AND `action` = ?
 		';
@@ -433,7 +433,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$db = $this->_db;
 		$sql = '
 			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM s_crontab WHERE `action`=?
+			FROM '.$this->_crontab.' WHERE `action`=?
 		';
 		// collect cron jobs from the database
 		$jobs = $db->fetchRow($sql, $actionName);

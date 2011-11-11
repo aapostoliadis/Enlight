@@ -147,13 +147,30 @@ class Enlight_Components_Cron_CronManager
 	 */
 	public function deleteCronJob(Enlight_Components_Cron_CronJob $job)
 	{
-		$this->_adapter->deactivateJob($job);
+		$this->_adapter->deleteCronJob($job);
 		return $this;
 	}
 
+	/**
+	 * Builds a name for a cron job - this is needed for the event system
+	 *
+	 * @static
+	 * @param $name
+	 * @return string
+	 */
 	public static function getCronAction($name)
 	{
 		return $name = 'Enlight_Test_CronJob'.str_replace(' ','',ucwords(str_replace('_',' ',$name)));
+	}
+
+	/**
+	 * Returns the next cron job who is due to execute
+	 *
+	 * @return Enlight_Components_Cron_CronJob|null
+	 */
+	public function getNextCronJob()
+	{
+		return $this->_adapter->getNextCronJob();
 	}
 
 

@@ -115,7 +115,7 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
 
 		$this->jobData = $jobData;
 		//$name = 'Enlight_Test_CronJob'.str_replace(' ','',ucwords(str_replace('_',' ',$jobData['name'])));
-		$name = Enlight_Components_Cron_CronManager::getCronAction($jobData['name']);
+		$name = Enlight_Components_Cron_CronManager::getCronAction($jobData['action']);
 		$this->job = new Enlight_Components_Cron_CronJob($name, $jobData);
     }
 
@@ -148,6 +148,7 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
 						'end' => 'end_test',
 						'inform_template' => 'inform_template_test',
 						'inform_mail' => 'inform_mail_test',
+						'crontab'	=> 's_crontab',
 						'pluginID' => 'pluginID_test');
 		
 		$this->assertInstanceOf('Enlight_Components_Cron_Adapter_Adapter', $this->object->setOptions($options));

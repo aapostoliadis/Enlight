@@ -28,46 +28,40 @@
  */
 class Enlight_Components_Cron_Scheduler implements Enlight_Components_Cron_CronScheduler
 {
-
-	/**
-	 * Contains all known cron jobs
-	 *
-	 * @var array
-	 */
-	private $_cronJobs = array();
-
-	/**
-	 * Contains all currently running cron jobs
-	 * @var array
-	 */
-	private $_cronJobsRunning = array();
-
 	/**
 	 * Stores the config adapter
-	 * @var Enlight_Config
+	 * @var Enlight_Components_Cron_CronManager
 	 */
-	private $_adapter;
-
-
-	/**
-	 * Constructor - needs an Enlight_Config object injected
-	 *
-	 * @param Enlight_Config $options
-	 */
-	public function __construct(Enlight_Config $options)
-	{
-		$this->_adapter = $options;
-	}
+	private $_cronManager;
 
 	/**
-	 * Returns an array of currently running cron jobs
-	 *
-	 * @return array
+	 * @var Enlight_Event_EventManager
 	 */
-	public function getRunningJobs()
+	private $_eventManager;
+
+	/**
+	 * Constructor - needs an Enlight_Config object injected and
+	 * a event Manager. If no EventManger provided we try to get
+	 * the system event manager.
+	 *
+	 * @param Enlight_Components_Cron_Adapter_Adapter $adapter
+	 * @param Enlight_Event_EventManger $eventManager
+	 *
+	 * @return \Enlight_Components_Cron_Scheduler
+	 *
+	 */
+	public function __construct(Enlight_Components_Cron_Adapter_Adapter $adapter, $eventManager=null)
 	{
-		return $this->_cronJobsRunning;
+		$this->_cronManager = new Enlight_Components_Cron_CronManager($adapter);
+		if(!is_null($eventManager) && ($eventManager instanceof Enlight_Event_EventManager)){
+			$this->_eventManager = $eventManager;
+		}
+		else {
+			$this->_eventManager = Enlight_Application::Instance()->Events();
+		}
 	}
+
+
 
 	/**
 	 * Returns all known cron jobs
@@ -83,43 +77,86 @@ class Enlight_Components_Cron_Scheduler implements Enlight_Components_Cron_CronS
 	 * Marks the time the cron job started
 	 *
 	 * @param Enlight_Components_Cron_CronJob $job
-	 * @return void
+	 * @return boolean
 	 */
 	function startCronJob(Enlight_Components_Cron_CronJob $job)
 	{
-		// TODO: Implement startCronJob() method.
+		// Move next date to previous date
+		$job->previous = $job->next;
+		
+		//$job->next = strtotime($job->next);
+		// $job->next gets transformed into a unix timestamp
+		$nextTimestamp = strtotime($job->next);
+
+		// re-scheduler loop
+		// updates cron job to the next runtime in the future
+		// sets $job->next to a new runtime by adding $job->interval to it
+		do {
+			$nextTimestamp += $job->interval;
+		} while($nextTimestamp < time() );
+
+		// convert the current time to a MySQL datetime format
+		$job->start = date('Y-m-d H:i:s', time());
+		$job->end = NULL;
+
+		// Save the job but don't save the next run time yet - this info has to be written when the Cron ended.
+		try {
+			$this->_cronManager->updateJob($job);
+			$job->next = date('Y-m-d H:i:s', $nextTimestamp);
+			return true;
+		}
+		catch(Exception $e) {
+			return false;
+		}
 	}
 
 	/**
-	 * Marks the time the cron job ended
+	 * Marks the time the cron job ended and updates the next datetime
+	 * field with the next date this cron is scheduled to run
 	 *
 	 * @param Enlight_Components_Cron_CronJob $job
 	 * @return void
 	 */
 	function endCronJob(Enlight_Components_Cron_CronJob $job)
 	{
-		// TODO: Implement endCronJob() method.
+		$job->end = date('Y-m-d H:i:s', time());
+		$job->data = empty($job->data) ? '' : serialize($job->data);
+		$job->next = $job->next;
+		$this->_cronManager->updateJob($job);
 	}
 
 	/**
-	 * Tries to execute the cron job
+	 * Tries to execute cron job which are due
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @internal param \Enlight_Components_Cron_CronJob $job
 	 * @return void
 	 */
-	function runCronJob(Enlight_Components_Cron_CronJob $job)
+	function runCronJobs()
 	{
-		// TODO: Implement runCronJob() method.
+		while($job = $this->readCronJob()) {
+			$this->runCronJob($job);
+		}
 	}
 
 	/**
 	 * Runs all known cron jobs
 	 *
+	 * @param \Enlight_Components_Cron_CronJob $job
 	 * @return void
 	 */
-	function runCronJobs()
+	function runCronJob(Enlight_Components_Cron_CronJob $job)
 	{
-		// TODO: Implement runCronJobs() method.
+
+		try {
+			if($this->startCronJob($job)) {
+				$this->_eventManager->notifyUntil($job->action, $job);
+				$this->endCronJob($job);
+			}
+		}
+		catch(Exception $e) {
+			$job->data = serialize(array('error'=>$e->getMessage()));
+			$this->stopCronJob($job);
+		}
 	}
 
 	/**
@@ -130,7 +167,8 @@ class Enlight_Components_Cron_Scheduler implements Enlight_Components_Cron_CronS
 	 */
 	function stopCronJob(Enlight_Components_Cron_CronJob $job)
 	{
-		// TODO: Implement stopCronJob() method.
+		$this->_cronManager->updateJob($job);
+		$this->_cronManager->deactivateJob($job);
 	}
 
 	/**
@@ -140,6 +178,6 @@ class Enlight_Components_Cron_Scheduler implements Enlight_Components_Cron_CronS
 	 */
 	function readCronJob()
 	{
-		// TODO: Implement readCronJob() method.
+		return $this->_cronManager->getNextCronJob();
 	}
 }
