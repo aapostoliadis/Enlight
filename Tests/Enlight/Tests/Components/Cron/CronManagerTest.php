@@ -116,6 +116,7 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 						'db'=>$this->db,
 						'crontab' => 's_crontab',
 						'pluginID' => 'pluginID');
+
 		$this->jobData =  array('id'=>'1',
 						  'name'=>'Lagerbestand Warnung',
 						  'action'=>'article_stock',

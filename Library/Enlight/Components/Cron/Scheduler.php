@@ -26,7 +26,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_Components_Cron_Scheduler implements Enlight_Components_Cron_CronScheduler
+class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_CronScheduler
 {
 	/**
 	 * Stores the config adapter
@@ -48,7 +48,6 @@ class Enlight_Components_Cron_Scheduler implements Enlight_Components_Cron_CronS
 	 * @param Enlight_Event_EventManger $eventManager
 	 *
 	 * @return \Enlight_Components_Cron_Scheduler
-	 *
 	 */
 	public function __construct(Enlight_Components_Cron_Adapter_Adapter $adapter, $eventManager=null)
 	{
@@ -61,17 +60,6 @@ class Enlight_Components_Cron_Scheduler implements Enlight_Components_Cron_CronS
 		}
 	}
 
-
-
-	/**
-	 * Returns all known cron jobs
-	 *
-	 * @return array
-	 */
-	public function getJobs()
-	{
-		return $this->_cronJobs;
-	}
 
 	/**
 	 * Marks the time the cron job started

@@ -39,6 +39,10 @@ class Enlight_Tests_Components_Cron_SchedulerTest extends Enlight_Components_Tes
         $this->db = Enlight_Components_Db::factory('PDO_SQLITE', array(
             'dbname'   => $dir . 'cron.db'
         ));
+		
+		$dbFile = Enlight_TestHelper::Instance()->TestPath('TempFiles') . 'cron.db';
+		if(file_exists($dbFile))
+			unlink($dbFile);
 
 		$sql = '
 				CREATE TABLE IF NOT EXISTS `s_crontab` (
@@ -76,6 +80,7 @@ class Enlight_Tests_Components_Cron_SchedulerTest extends Enlight_Components_Tes
 						'db'=>$this->db,
 						'crontab' => 's_crontab',
 						'pluginID' => 'pluginID');
+		
 		$this->jobData =  array('id'=>'1',
 						  'name'=>'Lagerbestand Warnung',
 						  'action'=>'article_stock',
@@ -109,9 +114,70 @@ class Enlight_Tests_Components_Cron_SchedulerTest extends Enlight_Components_Tes
 		parent::tearDown();
 	}
 
-	public function testNewScheduler()
-	{
+	/**
+     * @todo Implement testStartCronJob().
+     */
+    public function testStartCronJob()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+    }
 
-	}
+    /**
+     * @todo Implement testEndCronJob().
+     */
+    public function testEndCronJob()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+    }
+
+    /**
+     * @todo Implement testRunCronJobs().
+     */
+    public function testRunCronJobs()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+    }
+
+    /**
+     * @todo Implement testRunCronJob().
+     */
+    public function testRunCronJob()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+    }
+
+    /**
+     * @todo Implement testStopCronJob().
+     */
+    public function testStopCronJob()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+    }
+
+    /**
+     * @todo Implement testReadCronJob().
+     */
+    public function testReadCronJob()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+    }
 }
  

@@ -132,24 +132,18 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	 * @param array $options
 	 * @return Enlight_Components_Cron_Adapter_Adapter
 	 */
-	 public function setOptions(array $options)
-    {
-        foreach ($options as $key=>$option) {
-            switch ($key) {
+	public function setOptions(array $options)
+	{
+		foreach ($options as $key=>$option) {
+			switch ($key) {
 				case 'pluginID':
 				case 'active':
 				case 'elementID':
 				case 'interval':
-                case 'id':
-					if(!empty($option))
-						$this->{'_'.$key} = (int)$option;
-					break;
+				case 'id':
 				case 'name':
 				case 'action':
 				case 'data':
-					if(empty($option)){
-						$option = " ";
-					}
 				case 'next':
 				case 'start':
 				case 'end':
@@ -157,18 +151,18 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 				case 'crontab':
 				case 'inform_mail':
 					if(!empty($option))
-                    	$this->{'_'.$key} = (string)$option;
-                    break;
-                case 'db':
+					$this->{'_'.$key} = (string)$option;
+				break;
+				case 'db':
 					if( !empty($option) && ($option instanceof Zend_Db_Adapter_Abstract) )
-                    	$this->{'_'.$key} = $option;
-					break;
-                default:
-                    break;
-            }
-        }
-        return $this;
-    }
+					$this->{'_'.$key} = $option;
+				break;
+				default:
+				break;
+			}
+		}
+		return $this;
+	}
 
 	/**
 	 * Deactivate a given Cron Job in the crontab
@@ -195,20 +189,22 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 
 		$sql = 'UPDATE '.$this->_crontab.'
 				SET
-					`name` = ?,
-					`action` = ?,
-					`elementID` = ?,
-					`data` = ?,
-					`next` = ?,
-					`start` = ?,
-					`interval` = ?,
-					`active` = ?,
-					`end` = ?,
-					`inform_template` = ?,
-					`inform_mail` = ?,
-					`pluginID` = ?
-				WHERE id = '.$job->id.'
+					`'.$this->_name.'` = ?,
+					`'.$this->_action.'` = ?,
+					`'.$this->_elementID.'` = ?,
+					`'.$this->_data.'` = ?,
+					`'.$this->_next.'` = ?,
+					`'.$this->_start.'` = ?,
+					`'.$this->_interval.'` = ?,
+					`'.$this->_active.'` = ?,
+					`'.$this->_end.'` = ?,
+					`'.$this->_inform_template.'` = ?,
+					`'.$this->_inform_mail.'` = ?,
+					`'.$this->_pluginID.'` = ?
+				WHERE
+					`'.$this->_id.'` = '.$job->id.'
 		';
+		
 		$db->query($sql, array(
 			$job->name,
 			$job->action,
@@ -223,7 +219,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 			$job->inform_mail,
 			$job->pluginID
 		));
-		
+
 		return $this;
 	}
 
@@ -240,15 +236,30 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	{
 		$db = $this->_db;
 		if($ignoreActive){
-			$where = 'active = 1';
+			$where = '`'.$this->_active.'` = 1';
 		}
 		else
 		{
 			$where = ' 1 ';
 		}
 		$sql = '
-			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM '.$this->_crontab.' WHERE '.$where.'
+			SELECT
+				`'.$this->_id.'`,
+				`'.$this->_name.'`,
+				`'.$this->_action.'`,
+				`'.$this->_elementID.'`,
+				`'.$this->_data.'`,
+				`'.$this->_next.'`,
+				`'.$this->_start.'`,
+				`'.$this->_interval.'`,
+				`'.$this->_active.'`,
+				`'.$this->_end.'`,
+				`'.$this->_inform_template.'`,
+				`'.$this->_inform_mail.'`,
+				`'.$this->_pluginID.'`
+			FROM
+				'.$this->_crontab.'
+			WHERE '.$where.'
 		';
 		$jobs =  $db->fetchAll($sql);
 
@@ -276,10 +287,29 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	{
 		$db = $this->_db;
 		$sql = '
-			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM '.$this->_crontab.' WHERE active=1 AND next < ? AND end IS NOT NULL
-			ORDER BY next
+			SELECT `'.$this->_id.'`,
+				`'.$this->_name.'`,
+				`'.$this->_action.'`,
+				`'.$this->_elementID.'`,
+				`'.$this->_data.'`,
+				`'.$this->_next.'`,
+				`'.$this->_start.'`,
+				`'.$this->_interval.'`,
+				`'.$this->_active.'`,
+				`'.$this->_end.'`,
+				`'.$this->_inform_template.'`,
+				`'.$this->_inform_mail.'`,
+				`'.$this->_pluginID.'`
+			FROM
+				'.$this->_crontab.'
+			WHERE
+				`'.$this->_active.'`= 1
+				AND `'.$this->_next.'` < ?
+				AND `'.$this->_end.'` IS NOT NULL
+			ORDER BY
+				`'.$this->_next.'`
 		';
+
 		// collect cron jobs from the database
 		$jobs = $db->fetchRow($sql, array(date('Y-m-d H:i:s', time())));
 		// if we did not found any, return null
@@ -303,8 +333,23 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	{
 		$db = $this->_db;
 		$sql = '
-			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM '.$this->_crontab.' WHERE id=?
+			SELECT
+				`'.$this->_id.'`,
+				`'.$this->_name.'`,
+				`'.$this->_action.'`,
+				`'.$this->_elementID.'`,
+				`'.$this->_data.'`,
+				`'.$this->_next.'`,
+				`'.$this->_start.'`,
+				`'.$this->_interval.'`,
+				`'.$this->_active.'`,
+				`'.$this->_end.'`,
+				`'.$this->_inform_template.'`,
+				`'.$this->_inform_mail.'`,
+				`'.$this->_pluginID.'`
+			FROM
+				'.$this->_crontab.'
+			WHERE `'.$this->_id.'` = ?
 		';
 		// collect cron jobs from the database
 		$jobs = $db->fetchRow($sql, $id);
@@ -312,10 +357,10 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		if(empty($jobs)){
 			return null;
 		}
-		
+
 		$name = Enlight_Components_Cron_CronManager::getCronAction($jobs['action']);
 		$job = new Enlight_Components_Cron_CronJob($name, $jobs);
-		
+
 		return $job;
 	}
 
@@ -329,8 +374,24 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	{
 		$db = $this->_db;
 		$sql = '
-			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM '.$this->_crontab.' WHERE `name`=?
+			SELECT
+				`'.$this->_id.'`,
+				`'.$this->_name.'`,
+				`'.$this->_action.'`,
+				`'.$this->_elementID.'`,
+				`'.$this->_data.'`,
+				`'.$this->_next.'`,
+				`'.$this->_start.'`,
+				`'.$this->_interval.'`,
+				`'.$this->_active.'`,
+				`'.$this->_end.'`,
+				`'.$this->_inform_template.'`,
+				`'.$this->_inform_mail.'`,
+				`'.$this->_pluginID.'`
+			FROM
+				'.$this->_crontab.'
+			WHERE
+				`'.$this->_name.'` = ?
 		';
 		// collect cron jobs from the database
 		$jobs = $db->fetchRow($sql, $name);
@@ -353,7 +414,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	public function addCronJob(Enlight_Components_Cron_CronJob $job)
 	{
 		$db = $this->_db;
-		
+
 		if (empty($job->next)) {
 			$job->next = date('Y-m-d H:i:s', time());
 		}
@@ -363,24 +424,25 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		if (empty($job->end)) {
 			$job->end = date('Y-m-d H:i:s', time()-86400);
 		}
-		
+
 		$sql = '
 				INSERT INTO '.$this->_crontab.'
-					(`id`,
-					`name`,
-					`action`,
-					`elementID`,
-					`data`,
-					`next`,
-					`start`,
-					`interval`,
-					`active`,
-					`end`,
-					`inform_template`,
-					`inform_mail`,
-					`pluginID`)
+					(`'.$this->_id.'`,
+					`'.$this->_name.'`,
+					`'.$this->_action.'`,
+					`'.$this->_elementID.'`,
+					`'.$this->_data.'`,
+					`'.$this->_next.'`,
+					`'.$this->_start.'`,
+					`'.$this->_interval.'`,
+					`'.$this->_active.'`,
+					`'.$this->_end.'`,
+					`'.$this->_inform_template.'`,
+					`'.$this->_inform_mail.'`,
+					`'.$this->_pluginID.'`)
 				VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
 		';
+		
 		$db->query($sql, array(
 			$job->id,
 			$job->name,
@@ -408,17 +470,15 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	public function deleteCronJob(Enlight_Components_Cron_CronJob $job)
 	{
 		$db = $this->_db;
-		$id = $job->id;
-		$action = $job->action;
 
 		$sql = '
 			DELETE FROM '.$this->_crontab.'
-			WHERE `id` = ?
-			AND `action` = ?
+			WHERE `'.$this->_id.'` = ?
+			AND `'.$this->_action.'` = ?
 		';
 
 		$db->query($sql, array($job->id, $job->action));
-				
+
 		return $this;
 	}
 
@@ -432,8 +492,21 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	{
 		$db = $this->_db;
 		$sql = '
-			SELECT `id`, `name`, `action`, `elementID`, `data`, `next`, `start`, `interval`, `active`, `end`, `inform_template`, `inform_mail`, `pluginID`
-			FROM '.$this->_crontab.' WHERE `action`=?
+			SELECT
+				`'.$this->_id.'`,
+				`'.$this->_name.'`,
+				`'.$this->_action.'`,
+				`'.$this->_elementID.'`,
+				`'.$this->_data.'`,
+				`'.$this->_next.'`,
+				`'.$this->_start.'`,
+				`'.$this->_interval.'`,
+				`'.$this->_active.'`,
+				`'.$this->_end.'`,
+				`'.$this->_inform_template.'`,
+				`'.$this->_inform_mail.'`,
+				`'.$this->_pluginID.'`
+			FROM '.$this->_crontab.' WHERE `'.$this->_action.'` = ?
 		';
 		// collect cron jobs from the database
 		$jobs = $db->fetchRow($sql, $actionName);
