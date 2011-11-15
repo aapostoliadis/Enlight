@@ -40,24 +40,32 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	private $_eventManager;
 
 	/**
+	 * @var Enlight_Event_EventArgs
+	 */
+	private $_eventArgs;
+
+	/**
 	 * Constructor - needs an Enlight_Config object injected and
 	 * a event Manager. If no EventManger provided we try to get
 	 * the system event manager.
 	 *
 	 * @param Enlight_Components_Cron_Adapter_Adapter $adapter
-	 * @param Enlight_Event_EventManger $eventManager
+	 * @param null $eventManager
 	 *
-	 * @return \Enlight_Components_Cron_Scheduler
+	 * @param null $eventArgs
+	 * @return Enlight_Components_Cron_Scheduler
 	 */
-	public function __construct(Enlight_Components_Cron_Adapter_Adapter $adapter, $eventManager=null)
+	public function __construct(Enlight_Components_Cron_Adapter_Adapter $adapter, $eventManager = null, $eventArgs = null)
 	{
 		$this->_cronManager = new Enlight_Components_Cron_CronManager($adapter);
+
 		if(!is_null($eventManager) && ($eventManager instanceof Enlight_Event_EventManager)){
 			$this->_eventManager = $eventManager;
 		}
 		else {
 			$this->_eventManager = Enlight_Application::Instance()->Events();
 		}
+
 	}
 
 
@@ -70,27 +78,27 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	function startCronJob(Enlight_Components_Cron_CronJob $job)
 	{
 		// Move next date to previous date
-		$job->previous = $job->next;
+		//$job->previous = $job->next;
 		
 		//$job->next = strtotime($job->next);
 		// $job->next gets transformed into a unix timestamp
-		$nextTimestamp = strtotime($job->next);
+		$nextTimestamp = strtotime($job->getNext());
 
 		// re-scheduler loop
 		// updates cron job to the next runtime in the future
 		// sets $job->next to a new runtime by adding $job->interval to it
 		do {
-			$nextTimestamp += $job->interval;
+			$nextTimestamp += $job->getInterval();
 		} while($nextTimestamp < time() );
 
 		// convert the current time to a MySQL datetime format
-		$job->start = date('Y-m-d H:i:s', time());
-		$job->end = NULL;
+		$job->setStart(date('Y-m-d H:i:s', time()));
+		$job->setEnd(NULL);
 
 		// Save the job but don't save the next run time yet - this info has to be written when the Cron ended.
 		try {
 			$this->_cronManager->updateJob($job);
-			$job->next = date('Y-m-d H:i:s', $nextTimestamp);
+			$job->setNext(date('Y-m-d H:i:s', $nextTimestamp));
 			return true;
 		}
 		catch(Exception $e) {
@@ -107,9 +115,9 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	 */
 	function endCronJob(Enlight_Components_Cron_CronJob $job)
 	{
-		$job->end = date('Y-m-d H:i:s', time());
-		$job->data = empty($job->data) ? '' : serialize($job->data);
-		$job->next = $job->next;
+		$job->setEnd(date('Y-m-d H:i:s', time()));
+		//$job->setData($job->data);
+		//$job->next = $job->next;
 		$this->_cronManager->updateJob($job);
 	}
 
@@ -134,15 +142,15 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	 */
 	function runCronJob(Enlight_Components_Cron_CronJob $job)
 	{
-
+		$eventArgs = new Enlight_Event_EventArgs($job->getAction(), $job->getData());
 		try {
 			if($this->startCronJob($job)) {
-				$this->_eventManager->notifyUntil($job->action, $job);
+				$this->_eventManager->notifyUntil($eventArgs);
 				$this->endCronJob($job);
 			}
 		}
 		catch(Exception $e) {
-			$job->data = serialize(array('error'=>$e->getMessage()));
+			$job->setData((array('error'=>$e->getMessage())));
 			$this->stopCronJob($job);
 		}
 	}
