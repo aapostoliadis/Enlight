@@ -53,6 +53,7 @@ class Enlight_Components_Form extends Zend_Form
 
 		// Get Form Elements
 		$elements = $this->getElements();
+		$element = "";
 		foreach( $elements as $key=>$element){
 			$data['elements'][$key] = $this->toArrayElement($element);
 		}
@@ -192,7 +193,6 @@ class Enlight_Components_Form extends Zend_Form
 	{
 		$decorators = $element->getDecorators();
 		$retval = array();
-		$cnt = 0;
 		foreach($decorators as $decorator)		{
 			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
 			$decorOptions = $decorator->getOptions();
