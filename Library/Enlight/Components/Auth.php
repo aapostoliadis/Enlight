@@ -103,7 +103,7 @@ class Enlight_Components_Auth extends Zend_Auth
 	 * Returns an instance of Enlight_Components_Auth
 	 *
 	 * @static
-	 * @return null|Zend_Auth
+	 * @return Zend_Auth
 	 */
 	public static function getInstance()
     {

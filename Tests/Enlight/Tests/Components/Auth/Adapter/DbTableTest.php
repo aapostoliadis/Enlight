@@ -41,7 +41,9 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 	/**
 	 * @var Enlight_Components_Auth_Adapter_DbTable
 	 */
-	protected $authAdapter; 
+	protected $authAdapter;
+
+	private $lockeduntilColumn;
 
     /**
      * Set up the test case
@@ -54,62 +56,16 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
         $this->db = Enlight_Components_Db::factory('PDO_SQLITE', array(
             'dbname'   => $dir . 'auth.db'
         ));
-
-        $this->db->exec('
-          CREATE TABLE IF NOT EXISTS `s_core_auth` (
-			  `id` int(11) NOT NULL,
-			  `username` varchar(255) NOT NULL,
-			  `password` varchar(60) NOT NULL,
-			  `sessionID` varchar(50) NOT NULL,
-			  `lastlogin` datetime NOT NULL DEFAULT \'0000-00-00 00:00:00\',
-			  `name` varchar(255) NOT NULL,
-			  `email` varchar(120) NOT NULL,
-			  `active` int(1) NOT NULL DEFAULT \'0\',
-			  `sidebar` int(1) NOT NULL DEFAULT \'0\',
-			  `window_height` int(11) NOT NULL,
-			  `window_width` int(11) NOT NULL,
-			  `window_size` text NOT NULL,
-			  `admin` int(1) NOT NULL,
-			  `rights` text NOT NULL,
-			  `salted` int(1)  NOT NULL,
-			  `failedlogins` int(11) NOT NULL,
-			  `lockeduntil` datetime NOT NULL,
-		  PRIMARY KEY (`id`)
-            );
-        ');
-		$userAdd = "
-				INSERT INTO `s_core_auth`
-					(	`id`,
-						`username`,
-						`password`,
-						`sessionID`,
-						`lastlogin`,
-						`name`,
-						`email`,
-						`active`,
-						`sidebar`,
-						`window_height`,
-						`window_width`,
-						`window_size`,
-						`admin`,
-						`rights`,
-						`salted`,
-						`failedlogins`,
-						`lockeduntil`)
-					VALUES
-					(	1, 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 's4inr04o6apmclk7u88qau4r57',
-						'2011-09-28 17:28:24', 'Administrator', 'info@shopware.ag', 1, 1, 0, 0,
-						 'a:1:{s:6:\"plugin\";a:1:{i:1680;a:2:{s:6:\"height\";i:785;s:5:\"width\";i:1310;}}}',
-						 1, '', 1, 0, '0000-00-00 00:00:00'
-					);
-		";
+		$this->lockeduntilColumn = 'lockeduntil';
+		$this->createDb($this->lockeduntilColumn);
+		$this->createDefaultUser($this->lockeduntilColumn);
 		// Needed to simulate web environment - otherwise we would get a nasty notice.
 		$GLOBALS['_SESSION'] = array();
 
 		Zend_Session::$_unitTestEnabled = true;
 		Zend_Session::start();
 
-		$this->db->exec($userAdd);
+
 
 		$this->auth = Enlight_Components_Auth::getInstance();
 		$this->authAdapter = new Enlight_Components_Auth_Adapter_DbTable($this->db,'s_core_auth','username','password');
@@ -162,30 +118,101 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 	{
 		$this->authAdapter->setIdentity('demo')
 						->setCredential(md5('emod'));
-		$this->authAdapter->setLockedUntilColumn('lockeduntil');
+		$this->authAdapter->setLockedUntilColumn($this->lockeduntilColumn);
 		$this->authAdapter->setLockSeconds(30);
-		$this->assertEquals($this->getAccountLockDate(), '0000-00-00 00:00:00');
+		$this->assertEquals($this->getAccountLockDate($this->lockeduntilColumn), '0000-00-00 00:00:00');
 		
 		$authResponse = $this->auth->authenticate($this->authAdapter);
 
-		$this->assertNotEquals($this->getAccountLockDate(), '0000-00-00 00:00:00');
+		$this->assertNotEquals($this->getAccountLockDate($this->lockeduntilColumn), '0000-00-00 00:00:00');
 		
 		$this->assertFalse($authResponse->isValid());
 		$this->auth = Enlight_Components_Auth::getInstance();
+
 		$this->authAdapter = new Enlight_Components_Auth_Adapter_DbTable($this->db,'s_core_auth','username','password');
 		$this->authAdapter->setIdentity('demo')
 							->setCredential(md5('demo'));
-		$this->authAdapter->setLockedUntilColumn('lockeduntil');
+		$this->authAdapter->setLockedUntilColumn($this->lockeduntilColumn);
 		$authResponse = $this->auth->authenticate($this->authAdapter);
 		$this->assertTrue($authResponse->isValid());
 
 	}
 
-	private function getAccountLockDate()
+	public function testSetLockedUntilColumn()
 	{
-		$sql = "SELECT lockeduntil FROM s_core_auth";
+		$clearDb = "DROP TABLE IF EXISTS s_core_auth";
+		$this->db->exec($clearDb);
+
+		$this->createDb('qwetz');
+		$this->createDefaultUser('qwetz');
+		$this->authAdapter->setIdentity('demo')
+						->setCredential(md5('emod'));
+		$this->authAdapter->setLockedUntilColumn('qwetz');
+		$this->authAdapter->setLockSeconds(30);
+		$this->assertEquals($this->getAccountLockDate('qwetz'), '0000-00-00 00:00:00');
+	}
+
+	private function getAccountLockDate($lockeduntilColumn)
+	{
+		$sql = "SELECT ".$lockeduntilColumn." FROM s_core_auth";
 		return $this->db->fetchOne($sql);
 	}
 
+	private function createDb($lockeduntilColumn='lockeduntil')
+	{
+		 $this->db->exec('
+          CREATE TABLE IF NOT EXISTS `s_core_auth` (
+			  `id` int(11) NOT NULL,
+			  `username` varchar(255) NOT NULL,
+			  `password` varchar(60) NOT NULL,
+			  `sessionID` varchar(50) NOT NULL,
+			  `lastlogin` datetime NOT NULL DEFAULT \'0000-00-00 00:00:00\',
+			  `name` varchar(255) NOT NULL,
+			  `email` varchar(120) NOT NULL,
+			  `active` int(1) NOT NULL DEFAULT \'0\',
+			  `sidebar` int(1) NOT NULL DEFAULT \'0\',
+			  `window_height` int(11) NOT NULL,
+			  `window_width` int(11) NOT NULL,
+			  `window_size` text NOT NULL,
+			  `admin` int(1) NOT NULL,
+			  `rights` text NOT NULL,
+			  `salted` int(1)  NOT NULL,
+			  `failedlogins` int(11) NOT NULL,
+			  `'.$lockeduntilColumn.'` datetime NOT NULL,
+		  PRIMARY KEY (`id`)
+            );
+        ');
+	}
+
+	private function createDefaultUser($lockeduntilColumn)
+	{
+		$userAdd = "
+				INSERT INTO `s_core_auth`
+					(	`id`,
+						`username`,
+						`password`,
+						`sessionID`,
+						`lastlogin`,
+						`name`,
+						`email`,
+						`active`,
+						`sidebar`,
+						`window_height`,
+						`window_width`,
+						`window_size`,
+						`admin`,
+						`rights`,
+						`salted`,
+						`failedlogins`,
+						`".$lockeduntilColumn."`)
+					VALUES
+					(	1, 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 's4inr04o6apmclk7u88qau4r57',
+						'2011-09-28 17:28:24', 'Administrator', 'info@shopware.ag', 1, 1, 0, 0,
+						 'a:1:{s:6:\"plugin\";a:1:{i:1680;a:2:{s:6:\"height\";i:785;s:5:\"width\";i:1310;}}}',
+						 1, '', 1, 0, '0000-00-00 00:00:00'
+					);
+		";
+		$this->db->exec($userAdd);
+	}
 
 }

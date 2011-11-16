@@ -42,9 +42,9 @@ class Enlight_Tests_AllTests
 
 //		$suite->addTest(Enlight_Tests_Application_AllTests::suite());
 //		$suite->addTest(Enlight_Tests_Components_Config_AllTests::suite());
-//		$suite->addTest(Enlight_Tests_Components_Auth_Adapter_AllTests::suite());
+		$suite->addTest(Enlight_Tests_Components_Auth_Adapter_AllTests::suite());
 //		$suite->addTest(Enlight_Tests_Components_Form_AllTests::suite());
-		$suite->addTest(Enlight_Tests_Components_Cron_AllTests::suite());
+//		$suite->addTest(Enlight_Tests_Components_Cron_AllTests::suite());
 		return $suite;
 	}
 }
