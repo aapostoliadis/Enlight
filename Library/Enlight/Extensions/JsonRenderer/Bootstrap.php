@@ -59,20 +59,29 @@ class Enlight_Extensions_JsonRenderer_Bootstrap extends Enlight_Plugin_Bootstrap
 
 			/** @var $viewRenderer  Enlight_Controller_Plugins_ViewRenderer_Bootstrap*/
 			$viewRenderer = $subject->getParam('controllerPlugins')->ViewRenderer();
-			$assignedData = $viewRenderer->View()->getAssign();
-			$retVal = array();
-			foreach($assignedData as $key=>$value)
-			{
-				$encoding = mb_detect_encoding($value);
-				if($encoding != 'UTF-8')
-				{
-					$assignedData[$key] =  iconv($encoding, 'UTF-8', $value);
-				}
-			}
+			$assignedData = (array)$viewRenderer->View()->getAssign();
+			$utf8data = $this->convertToUtf8($assignedData);
+
 			$response->setHeader('Content-type', 'application/json', true);
 			$response->sendHeaders();
-			$response->setBody(Zend_Json_Encoder::encode($assignedData, true));
+			$response->setBody(Zend_Json_Encoder::encode($utf8data, true));
 		}
+	}
+
+	private function convertToUtf8(array $data)
+	{
+		foreach($data as $key=>$value)
+		{
+			if(is_array($value)) {
+				$data[$key] = $this->convertToUtf8($value);
+			} else {
+				$encoding = mb_detect_encoding($value);
+				if($encoding != 'UTF-8') {
+					$data[$key] =  iconv($encoding, 'UTF-8', $value);
+				}
+			}
+		}
+		return $data;
 	}
 
 	/**
