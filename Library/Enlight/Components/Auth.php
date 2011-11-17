@@ -33,6 +33,7 @@ class Enlight_Components_Auth extends Zend_Auth
 	 */
 	protected $_adapter;
 
+
 	/**
 	 * Returns the persistent storage handler
 	 *
@@ -98,8 +99,8 @@ class Enlight_Components_Auth extends Zend_Auth
 
        return $result;
     }
-    
-    /**
+
+	/**
 	 * Returns an instance of Enlight_Components_Auth
 	 *
 	 * @static

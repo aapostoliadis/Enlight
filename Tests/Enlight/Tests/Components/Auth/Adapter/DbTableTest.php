@@ -65,8 +65,6 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 		Zend_Session::$_unitTestEnabled = true;
 		Zend_Session::start();
 
-
-
 		$this->auth = Enlight_Components_Auth::getInstance();
 		$this->authAdapter = new Enlight_Components_Auth_Adapter_DbTable($this->db,'s_core_auth','username','password');
 
@@ -91,8 +89,6 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 		$this->authAdapter->setIdentity('demo')
 							->setCredential(md5('demo'));
 
-		;
-		
 		$authResponse = $this->auth->authenticate($this->authAdapter);
 		$this->assertTrue($authResponse->isValid());
     }
@@ -168,15 +164,10 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 			  `sessionID` varchar(50) NOT NULL,
 			  `lastlogin` datetime NOT NULL DEFAULT \'0000-00-00 00:00:00\',
 			  `name` varchar(255) NOT NULL,
-			  `email` varchar(120) NOT NULL,
-			  `active` int(1) NOT NULL DEFAULT \'0\',
-			  `sidebar` int(1) NOT NULL DEFAULT \'0\',
-			  `window_height` int(11) NOT NULL,
-			  `window_width` int(11) NOT NULL,
-			  `window_size` text NOT NULL,
-			  `admin` int(1) NOT NULL,
+			  `email` varchar(255) NOT NULL,
+			  `active` int(1)  NOT NULL,
 			  `rights` text NOT NULL,
-			  `salted` int(1)  NOT NULL,
+			  `salted` int(1),
 			  `failedlogins` int(11) NOT NULL,
 			  `'.$lockeduntilColumn.'` datetime NOT NULL,
 		  PRIMARY KEY (`id`)
@@ -196,20 +187,21 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 						`name`,
 						`email`,
 						`active`,
-						`sidebar`,
-						`window_height`,
-						`window_width`,
-						`window_size`,
-						`admin`,
 						`rights`,
-						`salted`,
 						`failedlogins`,
 						`".$lockeduntilColumn."`)
 					VALUES
-					(	1, 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 's4inr04o6apmclk7u88qau4r57',
-						'2011-09-28 17:28:24', 'Administrator', 'info@shopware.ag', 1, 1, 0, 0,
-						 'a:1:{s:6:\"plugin\";a:1:{i:1680;a:2:{s:6:\"height\";i:785;s:5:\"width\";i:1310;}}}',
-						 1, '', 1, 0, '0000-00-00 00:00:00'
+					(	1,
+						'demo',
+						'fe01ce2a7fbac8fafaed7c982a04e229',
+						's4inr04o6apmclk7u88qau4r57',
+						'2011-09-28 17:28:24',
+						'Administrator',
+						'info@shopware.ag',
+						 1,
+						 '',
+						 0,
+						 '0000-00-00 00:00:00'
 					);
 		";
 		$this->db->exec($userAdd);
