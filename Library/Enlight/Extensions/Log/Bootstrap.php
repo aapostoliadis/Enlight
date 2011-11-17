@@ -68,8 +68,9 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	{
 		return Enlight_Components_Log::factory(array(
             array('writerName' => 'Null'),
-/*
+
             array('writerName' => 'Firebug'),
+/*
             array(
                 'writerName' => 'Db',
                 'writerParams' => array(

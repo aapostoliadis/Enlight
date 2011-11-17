@@ -142,7 +142,8 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	 */
 	function runCronJob(Enlight_Components_Cron_CronJob $job)
 	{
-		$eventArgs = new Enlight_Event_EventArgs($job->getAction(), $job->getData());
+		//$eventArgs = new Enlight_Event_EventArgs($job->getAction(), $job->getData());
+		$eventArgs = new Enlight_Components_Cron_EventArgs($job);
 		try {
 			if($this->startCronJob($job)) {
 				$this->_eventManager->notifyUntil($eventArgs);

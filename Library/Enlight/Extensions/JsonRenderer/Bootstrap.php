@@ -13,14 +13,14 @@ class Enlight_Extensions_JsonRenderer_Bootstrap extends Enlight_Plugin_Bootstrap
 	 *
 	 * @return void
 	 */
-	public function install()
-	{
-		$foo = $this->subscribeEvent(
-            'Enlight_Controller_Front_SendResponse',
-            null,
-            'onSendResponse'
-        );
-	}
+//	public function install()
+//	{
+//		$foo = $this->subscribeEvent(
+//            'Enlight_Controller_Front_PostDispatch',
+//            null,
+//            'onPostDispatch'
+//        );
+//	}
 
 	/**
 	 * Default Plugin Init Method.
@@ -28,19 +28,19 @@ class Enlight_Extensions_JsonRenderer_Bootstrap extends Enlight_Plugin_Bootstrap
 	 *
 	 * @return void
 	 */
-	public function init()
-	{
-		// Create a new Event listener. Callback method called 'onSendResponse'
-	 	$event = new Enlight_Event_Handler_Default(
-	 		'Enlight_Controller_Front_SendResponse',
-             null,
-	 		array($this, 'onSendResponse')
-	 	);
-
-		/** @var $namespace Enlight_Plugin_Namespace_Config */
-		$namespace = $this->Collection();
-		$namespace->Subscriber()->registerListener($event);
-	}
+//	public function init()
+//	{
+//		// Create a new Event listener. Callback method called 'onSendResponse'
+//	 	$event = new Enlight_Event_Handler_Default(
+//	 		'Enlight_Controller_Front_PostDispatch',
+//             null,
+//	 		array($this, 'onPostDispatch')
+//	 	);
+//
+//		/** @var $namespace Enlight_Plugin_Namespace_Config */
+//		$namespace = $this->Collection();
+//		$namespace->Subscriber()->registerListener($event);
+//	}
 
 	/**
 	 * Event listener - as defined at the init method.
@@ -48,29 +48,31 @@ class Enlight_Extensions_JsonRenderer_Bootstrap extends Enlight_Plugin_Bootstrap
 	 * @param Enlight_Event_EventArgs $args
 	 * @return bool
 	 */
-	public function onSendResponse(Enlight_Event_EventArgs $args)
+	public function onPostDispatch(Enlight_Event_EventArgs $args)
 	{
-		if($this->isEnabled())
-		{
-			/** @var Enlight_Controller_Response_Response $response	 */
-			$response = $args->getResponse();
+		if($this->isEnabled()){
 			/** @var $subject Enlight_Controller_Front */
 			$subject = $args->get('subject');
 
-			/** @var $foo  Enlight_Controller_Plugins_ViewRenderer_Bootstrap*/
-			$foo = $subject->getParam('controllerPlugins')->ViewRenderer();
-			//$foo->setNoRender();
-			$bar = $foo->View()->getAssign();
-			/*
-			die('Die in ' . basename(__FILE__) . '@' . __LINE__ . ' ' . print_r($bar, true));
+			/** @var Enlight_Controller_Response_Response $response	 */
+			$response = $subject->Response();
+
+			/** @var $viewRenderer  Enlight_Controller_Plugins_ViewRenderer_Bootstrap*/
+			$viewRenderer = $subject->getParam('controllerPlugins')->ViewRenderer();
+			$assignedData = $viewRenderer->View()->getAssign();
+			$retVal = array();
+			foreach($assignedData as $key=>$value)
+			{
+				$encoding = mb_detect_encoding($value);
+				if($encoding != 'UTF-8')
+				{
+					$assignedData[$key] =  iconv($encoding, 'UTF-8', $value);
+				}
+			}
 			$response->setHeader('Content-type', 'application/json', true);
 			$response->sendHeaders();
-			echo json_encode('test');
-			*/
-			//exit;
+			$response->setBody(Zend_Json_Encoder::encode($assignedData, true));
 		}
-
-		return true;
 	}
 
 	/**
@@ -82,7 +84,6 @@ class Enlight_Extensions_JsonRenderer_Bootstrap extends Enlight_Plugin_Bootstrap
 	{
 		return $this->enabled;
 	}
-
 
 	/**
 	 * Define if this plugin is active. Default: true

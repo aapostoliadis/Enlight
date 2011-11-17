@@ -19,7 +19,7 @@ class contactForm extends Enlight_Components_Form
 				 array('validator'=>'notEmpty',
 						'options'=>array(
 							'messages'=>array(
-						   		Zend_Validate_NotEmpty::IS_EMPTY=>'leer -wat soll das?')
+						   		Zend_Validate_NotEmpty::IS_EMPTY=>'Emtpy!')
 							)
 						),
 						array(
@@ -29,8 +29,8 @@ class contactForm extends Enlight_Components_Form
 								'pattern' => '/^[+]?[-\d() .]*$/i',
 								'messages' => array(
 									Zend_Validate_Regex::NOT_MATCH =>'Look at my horse, my horse is amazing!'
-								 )
-							 )
+								 ))
+
 						 )
 					)
 			);

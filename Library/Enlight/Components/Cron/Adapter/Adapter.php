@@ -45,7 +45,7 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * @param Enlight_Components_Cron_CronJob $job
 	 * @return Enlight_Components_Cron_CronManager
 	 */
-	public function deactivateJob(Enlight_Components_Cron_CronJob $job);
+	public function diasableJob(Enlight_Components_Cron_CronJob $job);
 
 	/**
 	 * Updates a cron job in the cron tab
@@ -62,14 +62,14 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * @abstract
 	 * @return array
 	 */
-	public function getAllCronJobs();
+	public function getAllJobs();
 
 	/**
 	 * Returns the next cron job
 	 *
 	 * @return null|Enlight_Components_Cron_CronJob
 	 */
-	public function getNextCronJob();
+	public function getNextJob();
 
 	/**
 	 * Receives a single Cron job defined by its id from the crontab
@@ -78,7 +78,7 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * @param Int $id
 	 * @return Enlight_Components_Cron_CronJob
 	 */
-	public function getCronJobById($id);
+	public function getJobById($id);
 
 	/**
 	 * Receives a single cron job by its name
@@ -87,7 +87,7 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * @param String $name
 	 * @return Enlight_Components_Cron_CronJob
 	 */
-	public function getCronJobByName($name);
+	public function getJobByName($name);
 
 	/**
 	 * Adds a job to the crontab
@@ -96,7 +96,7 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * @param Enlight_Components_Cron_CronJob $job
 	 * @return void
 	 */
-	public function addCronJob(Enlight_Components_Cron_CronJob $job);
+	public function addJob(Enlight_Components_Cron_CronJob $job);
 
 	/**
 	 * Removes an job from the crontab
@@ -105,7 +105,7 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * @param Enlight_Components_Cron_CronJob $job
 	 * @return void
 	 */
-	public function deleteCronJob(Enlight_Components_Cron_CronJob $job);
+	public function removeJob(Enlight_Components_Cron_CronJob $job);
 
 	/**
 	 * Receives a single job by its defined action
@@ -114,6 +114,6 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * @param $actionName
 	 * @return void
 	 */
-	public function getCronJobByAction($actionName);
+	public function getJobByAction($actionName);
 
 }

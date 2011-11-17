@@ -39,6 +39,11 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     protected $noRender = false;
 
+	/**
+	 * @var bool
+	 */
+	protected $renderAsJson = false;
+
     /**
      * @var Enlight_Controller_Front
      */
@@ -238,6 +243,16 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
         $this->neverRender = $flag ? true : false;
         return $this;
     }
+
+	/**
+	 * @param bool $flag
+	 * @return Enlight_Controller_Plugins_ViewRenderer_Bootstrap
+	 */
+	public function setRenderAsJson($flag = true)
+	{
+		$this->renderAsJson = $flag ? true : false;
+		return $this;
+	}
 
     /**
      * @return  string
