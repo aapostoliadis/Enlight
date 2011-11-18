@@ -1,5 +1,5 @@
 <?php
-class Enlight_Components_Cron_CronJob
+class Enlight_Components_Cron_Job
 {
 	/**
 	 * @var Integer ID of the cronjob
@@ -41,6 +41,12 @@ class Enlight_Components_Cron_CronJob
 	 * @var String
 	 */
 	protected $crontab;
+	/**
+	 * Used to format the Zend_Date output to a mysql conform datetime
+	 *
+	 * @var string
+	 */
+	protected $dateFormat = "YYYY-MM-dd HH:mm:ss";
 
 
 	/**
@@ -81,6 +87,7 @@ class Enlight_Components_Cron_CronJob
 	 * name - Name or the description of the cron job: Expected data type: String
 	 * action - Name of the action which is called during the execution phase. Expected data type: String
 	 * data - Data storage. Can be used to store answers from cron job call. Expected data type: String
+	 * dateformat - Zend_Date formating string
 	 * 
 	 * @throws Enlight_Exception|Exception
 	 * @param array $options
@@ -121,6 +128,9 @@ class Enlight_Components_Cron_CronJob
 				case 'data':
 					$this->setData($value);
 					break;
+				case 'dateformat':
+					$this->setDateFormat($value);
+					break;
 				default:
 					//$this->$fieldName = (string) $value;
 			}
@@ -131,7 +141,7 @@ class Enlight_Components_Cron_CronJob
 	 * Sets the data field
 	 *
 	 * @param $data
-	 * @return Enlight_Components_Cron_CronJob
+	 * @return Enlight_Components_Cron_Job
 	 */
 	public function setData($data)
 	{
@@ -152,8 +162,6 @@ class Enlight_Components_Cron_CronJob
 	 */
 	public function getData()
 	{
-		#if(empty($this->data)) return array();
-		#return unserialize($this->data);
 		return $this->data;
 	}
 
@@ -167,7 +175,7 @@ class Enlight_Components_Cron_CronJob
 
 	/**
 	 * @param int $id
-	 * @return Enlight_Components_Cron_CronJob
+	 * @return Enlight_Components_Cron_Job
 	 */
 	public function setId($id)
 	{
@@ -184,8 +192,8 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
-	 * @param \String $name
-	 * @return Enlight_Components_Cron_CronJob
+	 * @param String $name
+	 * @return Enlight_Components_Cron_Job
 	 */
 	public function setName($name)
 	{
@@ -194,7 +202,7 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
-	 * @return \String
+	 * @return String
 	 */
 	public function getAction()
 	{
@@ -202,8 +210,8 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
-	 * @param \String $action
-	 * @return Enlight_Components_Cron_CronJob
+	 * @param String $action
+	 * @return Enlight_Components_Cron_Job
 	 */
 	public function setAction($action)
 	{
@@ -212,7 +220,7 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
-	 * @return \String
+	 * @return Zend_Date
 	 */
 	public function getNext()
 	{
@@ -220,20 +228,19 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
-	 * @param \String $next
-	 * @return Enlight_Components_Cron_CronJob
+	 * Sets the next date when the cronjob is due
+	 *
+	 * @param Zend_Date $next
+	 * @return Enlight_Components_Cron_Job
 	 */
-	public function setNext($next)
+	public function setNext(Zend_Date $next)
 	{
-		if( !preg_match("/^\d{4}-\d{2}-\d{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$/", $next) ) {
-			throw new Enlight_Exception('Wrong Data type given. Expected Data type: Datetime (0000-00-00 00:00:00)');
-		}
-		$this->next =(string)$next;
+		$this->next = $next;
 		return $this;
 	}
 
 	/**
-	 * @return \String
+	 * @return Zend_Date
 	 */
 	public function getStart()
 	{
@@ -241,20 +248,21 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
-	 * @param \String $start
-	 * @return Enlight_Components_Cron_CronJob
+	 * Sets the date and time when the cronjob has been started
+	 *
+	 * @param Zend_Date $start
+	 * @return Enlight_Components_Cron_Job
 	 */
-	public function setStart($start)
+	public function setStart(Zend_Date $start)
 	{
-		if( !preg_match("/^\d{4}-\d{2}-\d{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$/", $start) ) {
-			throw new Enlight_Exception('Wrong Data type given. Expected Data type: Datetime (0000-00-00 00:00:00)');
-		}
-		$this->start = (string)$start;
+		$this->start = $start;
 		return $this;
 	}
 
 	/**
-	 * @return \String
+	 * Returns the date and time when the cronjob finished its last run.
+	 *
+	 * @return Zend_Date
 	 */
 	public function getEnd()
 	{
@@ -262,20 +270,21 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
-	 * @param \String $end
-	 * @return Enlight_Components_Cron_CronJob
+	 * Sets the date and time when the cronjob stopped its run.
+	 *
+	 * @param Zend_Date $end
+	 * @return Enlight_Components_Cron_Job
 	 */
-	public function setEnd($end)
+	public function setEnd(Zend_Date $end)
 	{
-		if((!is_null($end) || !empty($end))&& !preg_match("/^\d{4}-\d{2}-\d{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$/", $end) ) {
-			throw new Enlight_Exception('Wrong Data type given. Expected Data type: Datetime (0000-00-00 00:00:00)');
-		}
 		if(empty($end)) $end = null;
 		$this->end = $end;
 		return $this;
 	}
 
 	/**
+	 * Returns the interval in seconds a cron has to be scheduled
+	 *
 	 * @return int
 	 */
 	public function getInterval()
@@ -284,8 +293,10 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
+	 * Sets the interval in seconds a cron has to be scheduled
+	 *
 	 * @param int $interval
-	 * @return Enlight_Components_Cron_CronJob
+	 * @return Enlight_Components_Cron_Job
 	 */
 	public function setInterval($interval)
 	{
@@ -294,6 +305,8 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
+	 * Checks if the cronjob is active
+	 *
 	 * @return int
 	 */
 	public function isActive()
@@ -302,8 +315,10 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
-	 * @param int $active
-	 * @return Enlight_Components_Cron_CronJob
+	 * Sets the cronjob either active or inactive
+	 *
+	 * @param bool $active
+	 * @return Enlight_Components_Cron_Job
 	 */
 	public function setActive($active)
 	{
@@ -312,6 +327,8 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
+	 * Returns the name of the crontab
+	 *
 	 * @return String
 	 */
 	public function getCrontab()
@@ -320,12 +337,34 @@ class Enlight_Components_Cron_CronJob
 	}
 
 	/**
-	 * @param \String $crontab
-	 * @return Enlight_Components_Cron_CronJob
+	 * Sets the name of the crontab
+	 *
+	 * @param String $crontab
+	 * @return Enlight_Components_Cron_Job
 	 */
 	public function setCrontab($crontab)
 	{
 		$this->crontab = (string)$crontab;
 		return $this;
+	}
+
+	/**
+	 * Returns the current used Zend_Date date format
+	 *
+	 * @return string
+	 */
+	public function getDateFormat()
+	{
+		return $this->dateFormat;
+	}
+
+	/**
+	 * Set the date format for the Zend_Date component.
+	 *
+	 * @param string $dateFormat
+	 */
+	public function setDateFormat($dateFormat)
+	{
+		$this->dateFormat = $dateFormat;
 	}
 }

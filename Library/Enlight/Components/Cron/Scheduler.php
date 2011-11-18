@@ -72,10 +72,10 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	/**
 	 * Marks the time the cron job started
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return boolean
 	 */
-	function startCronJob(Enlight_Components_Cron_CronJob $job)
+	function startCronJob(Enlight_Components_Cron_Job $job)
 	{
 		// Move next date to previous date
 		//$job->previous = $job->next;
@@ -110,10 +110,10 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	 * Marks the time the cron job ended and updates the next datetime
 	 * field with the next date this cron is scheduled to run
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return void
 	 */
-	function endCronJob(Enlight_Components_Cron_CronJob $job)
+	function endCronJob(Enlight_Components_Cron_Job $job)
 	{
 		$job->setEnd(date('Y-m-d H:i:s', time()));
 		//$job->setData($job->data);
@@ -124,7 +124,7 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	/**
 	 * Tries to execute cron job which are due
 	 *
-	 * @internal param \Enlight_Components_Cron_CronJob $job
+	 * @internal param \Enlight_Components_Cron_Job $job
 	 * @return void
 	 */
 	function runCronJobs()
@@ -137,10 +137,10 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	/**
 	 * Runs all known cron jobs
 	 *
-	 * @param \Enlight_Components_Cron_CronJob $job
+	 * @param \Enlight_Components_Cron_Job $job
 	 * @return void
 	 */
-	function runCronJob(Enlight_Components_Cron_CronJob $job)
+	function runCronJob(Enlight_Components_Cron_Job $job)
 	{
 		//$eventArgs = new Enlight_Event_EventArgs($job->getAction(), $job->getData());
 		$eventArgs = new Enlight_Components_Cron_EventArgs($job);
@@ -159,13 +159,13 @@ class Enlight_Components_Cron_Scheduler //implements Enlight_Components_Cron_Cro
 	/**
 	 * Marks a cron job as not running
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return void
 	 */
-	function stopCronJob(Enlight_Components_Cron_CronJob $job)
+	function stopCronJob(Enlight_Components_Cron_Job $job)
 	{
 		$this->_cronManager->updateJob($job);
-		$this->_cronManager->deactivateJob($job);
+		$this->_cronManager->removeJob($job);
 	}
 
 	/**

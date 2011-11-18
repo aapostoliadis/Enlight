@@ -82,7 +82,7 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	 *
 	 * @var string
 	 */
-	protected $dateformat = "YYYY-MM-dd HH:mm:ss";
+	protected $dateFormat = "YYYY-MM-dd HH:mm:ss";
 
 	/**
 	 * Adds a where-condition to the db-select.
@@ -191,7 +191,7 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 		if($this->lockedUntilColumn === null) {
 			return;
 		}
-		$this->_zendDb->update($this->_tableName, array($this->lockedUntilColumn => $date->get($this->dateformat)),
+		$this->_zendDb->update($this->_tableName, array($this->lockedUntilColumn => $date),
 							   $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity));
 		return $this;
 	}
@@ -311,18 +311,21 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	}
 
 	/**
+	 * Returns the current used date format
 	 * @return string
 	 */
-	public function getDateformat()
+	public function getDateFormat()
 	{
-		return $this->dateformat;
+		return $this->dateFormat;
 	}
 
 	/**
-	 * @param string $dateformat
+	 * Sets the date format which the Zend_Date component should output
+	 *
+	 * @param string $dateFormat
 	 */
-	public function setDateformat($dateformat)
+	public function setDateFormat($dateFormat)
 	{
-		$this->dateformat = (string)$dateformat;
+		$this->dateFormat = (string)$dateFormat;
 	}
 }

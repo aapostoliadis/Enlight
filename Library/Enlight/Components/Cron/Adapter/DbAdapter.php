@@ -153,10 +153,10 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	/**
 	 * Deactivate a given Cron Job in the crontab
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_Adapter_Adapter
 	 */
-	public function deactivateJob(Enlight_Components_Cron_CronJob $job)
+	public function disableJob(Enlight_Components_Cron_Job $job)
 	{
 		$job->setActive(false);
 		
@@ -166,10 +166,10 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	/**
 	 * Updates a cron job in the cron tab
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_Adapter_Adapter
 	 */
-	public function updateJob(Enlight_Components_Cron_CronJob $job)
+	public function updateJob(Enlight_Components_Cron_Job $job)
 	{
 		$db = $this->_db;
 
@@ -191,18 +191,18 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 			$job->getName(),
 			$job->getAction(),
 			serialize($job->getData()),
-			$job->getNext(),
-			$job->getStart(),
+			$job->getNext()->get($job->getDateFormat()),
+			$job->getStart()->get($job->getDateFormat()),
 			$job->getInterval(),
 			$job->isActive(),
-			$job->getEnd()
+			$job->getEnd()->get($job->getDateFormat())
 		));
 
 		return $this;
 	}
 
 	/**
-	 * Returns an array of Enlight_Components_Cron_CronJob from the crontab
+	 * Returns an array of Enlight_Components_Cron_Job from the crontab
 	 * If no cron jobs found the method will return an empty array
 	 *
 	 * @param bool $ignoreActive if set true the active flag will be ignored
@@ -210,7 +210,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	 */
 
 
-	public function getAllCronJobs($ignoreActive = false)
+	public function getAllJobs($ignoreActive = false)
 	{
 		$db = $this->_db;
 		if($ignoreActive){
@@ -238,9 +238,11 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$jobs =  $db->fetchAll($sql);
 		$retVal = array();
 		foreach ($jobs as $jobData) {
-		    $retVal[$jobData['id']] = new Enlight_Components_Cron_CronJob($jobData);
+			$jobData['next'] = new Zend_Date($jobData['next']);
+			$jobData['start'] = new Zend_Date($jobData['start']);
+			$jobData['end'] = new Zend_Date($jobData['end']);
+		    $retVal[$jobData['id']] = new Enlight_Components_Cron_Job($jobData);
 		}
-
 		if(empty($retVal)){
 			return array();
 		}
@@ -253,9 +255,9 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	/**
 	 * Returns the next cron job
 	 *
-	 * @return null|Enlight_Components_Cron_CronJob
+	 * @return null|Enlight_Components_Cron_Job
 	 */
-	public function getNextCronJob()
+	public function getNextJob()
 	{
 		$db = $this->_db;
 		$sql = '
@@ -280,12 +282,14 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		
 		// collect cron jobs from the database
 		$job = $db->fetchRow($sql, array(date('Y-m-d H:i:s', time())));
-
 		// if we did not found any, return null
 		if(empty($job)){
 			return null;
 		}
-		$job = new Enlight_Components_Cron_CronJob($job);
+		$job['next']  = new Zend_Date($job['next']);
+		$job['start'] = new Zend_Date($job['start']);
+		$job['end']   = new Zend_Date($job['end']);
+		$job = new Enlight_Components_Cron_Job($job);
 
 		return $job;
 	}
@@ -294,9 +298,9 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	 * Receives a single Cron job defined by its id from the crontab
 	 *
 	 * @param Int $id
-	 * @return Enlight_Components_Cron_CronJob|null
+	 * @return Enlight_Components_Cron_Job|null
 	 */
-	public function getCronJobById($id)
+	public function getJobById($id)
 	{
 		$db = $this->_db;
 		$sql = '
@@ -315,14 +319,15 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 			WHERE `'.$this->_id.'` = ?
 		';
 		// collect cron jobs from the database
-		$jobs = $db->fetchRow($sql, $id);
+		$job = $db->fetchRow($sql, $id);
 		// if we did not found any, return null
-		if(empty($jobs)){
+		if(empty($job)){
 			return null;
 		}
-
-		$job = new Enlight_Components_Cron_CronJob($jobs);
-
+		$job['next']  = new Zend_Date($job['next']);
+		$job['start'] = new Zend_Date($job['start']);
+		$job['end']   = new Zend_Date($job['end']);
+		$job = new Enlight_Components_Cron_Job($job);
 		return $job;
 	}
 
@@ -330,9 +335,9 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	 * Receives a single cron job by its name
 	 *
 	 * @param String $name
-	 * @return Enlight_Components_Cron_CronJob
+	 * @return Enlight_Components_Cron_Job
 	 */
-	public function getCronJobByName($name)
+	public function getJobByName($name)
 	{
 		$db = $this->_db;
 		$sql = '
@@ -352,12 +357,16 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 				`'.$this->_name.'` = ?
 		';
 		// collect cron jobs from the database
-		$jobs = $db->fetchRow($sql, $name);
+		$job = $db->fetchRow($sql, $name);
+
 		// if we did not found any, return null
-		if(empty($jobs)){
+		if(empty($job)){
 			return null;
 		}
-		$job = new Enlight_Components_Cron_CronJob($jobs);
+		$job['next']  = new Zend_Date($job['next']);
+		$job['start'] = new Zend_Date($job['start']);
+		$job['end']   = new Zend_Date($job['end']);
+		$job = new Enlight_Components_Cron_Job($job);
 
 		return $job;
 	}
@@ -365,24 +374,26 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	/**
 	 * Adds a job to the crontab
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_Adapter_Adapter
 	 */
-	public function addCronJob(Enlight_Components_Cron_CronJob $job)
+	public function addJob(Enlight_Components_Cron_Job $job)
 	{
 		$db = $this->_db;
 
 		$next = $job->getNext();
 		if ( empty($next) ){
-			$job->setNext(date('Y-m-d H:i:s', time()));
+			$job->setNext(new Zend_Date());
 		}
 		$start = $job->getStart();
 		if (empty($start)) {
-			$job->setStart(date('Y-m-d H:i:s', time()-86400));
+			$zd = new Zend_Date();
+			$job->setStart($zd->subDay(1));
 		}
 		$end = $job->getEnd();
 		if (empty($end)) {
-			$job->setEnd(date('Y-m-d H:i:s', time()-86400));
+			$zd = new Zend_Date();
+			$job->setEnd($zd->subDay(1));
 		}
 
 		$sql = '
@@ -403,11 +414,11 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 			$job->getName(),
 			$job->getAction(),
 			serialize($job->getData()),
-			$job->getNext(),
-			$job->getStart(),
+			$job->getNext()->get($job->getDateFormat()),
+			$job->getStart()->get($job->getDateFormat()),
 			$job->getInterval(),
 			$job->isActive(),
-			$job->getEnd()
+			$job->getEnd()->get($job->getDateFormat())
 		));
 		return $this;
 	}
@@ -415,21 +426,19 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	/**
 	 * Removes an job from the crontab
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return \Enlight_Components_Cron_Adapter_Adapter
 	 */
-	public function deleteCronJob(Enlight_Components_Cron_CronJob $job)
+	public function removeJob(Enlight_Components_Cron_Job $job)
 	{
 		$db = $this->_db;
-
 		$sql = '
 			DELETE FROM '.$this->_crontab.'
 			WHERE `'.$this->_id.'` = ?
 			AND `'.$this->_action.'` = ?
 		';
-
+		
 		$db->query($sql, array($job->getId(), $job->getAction()));
-
 		return $this;
 	}
 
@@ -439,7 +448,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 	 * @param $actionName
 	 * @return Enlight_Components_Cron_Adapter_Adapter|null
 	 */
-	public function getCronJobByAction($actionName)
+	public function getJobByAction($actionName)
 	{
 		$db = $this->_db;
 		$sql = '
@@ -456,12 +465,15 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 			FROM '.$this->_crontab.' WHERE `'.$this->_action.'` = ?
 		';
 		// collect cron jobs from the database
-		$jobs = $db->fetchRow($sql, $actionName);
+		$job = $db->fetchRow($sql, $actionName);
 		// if we did not found any, return null
-		if(empty($jobs)){
+		if(empty($job)){
 			return null;
 		}
-		$job = new Enlight_Components_Cron_CronJob($jobs);
+		$job['next']  = new Zend_Date($job['next']);
+		$job['start'] = new Zend_Date($job['start']);
+		$job['end']   = new Zend_Date($job['end']);
+		$job = new Enlight_Components_Cron_Job($job);
 
 		return $job;
 	}

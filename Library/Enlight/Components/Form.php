@@ -37,12 +37,10 @@ class Enlight_Components_Form extends Zend_Form
 	 * Converts the form to an array - so this array can be saved as a config object.
 	 * The optional parameter section can be uses to segment the form
 	 *
-	 * @param null|string $section
 	 * @return array
 	 */
-	public function toArray($section = 'default')
+	public function toArray()
 	{
-
 		$data = array();
 		// Get Form Header Files
 		$attributes = $this->getAttribs();
@@ -57,41 +55,26 @@ class Enlight_Components_Form extends Zend_Form
 		foreach( $elements as $key=>$element){
 			$data['elements'][$key] = $this->toArrayElement($element);
 		}
-		$retVal['decorators'] = $this->convertFormDecorators();
-		$retVal['elementDecorators'] = $this->convertDecorators($element);
+		$data['decorators'] = $this->convertFormDecorators();
+		$data['elementDecorators'] = $this->convertDecorators($element);
 
-		if(!is_null($section) && is_string($section))
-		{
-			$retVal[$section] = $data;
-		}
-		else{
-			$retVal = $data;
-		}
-		return $retVal;
+
+		return $data;
 	}
 
 
 	/**
-	 * Alias for Enlight_Form::getHtml()
-	 *
-	 * @return String HTML Code
-	 */
-	public function render()
+     * Returns a form rendered as a html form. Keeps user from hassling with zend_view
+     *
+     * @param  Zend_View_Interface $view
+     * @return string
+     */
+    public function render(Zend_View_Interface $view = null)
 	{
-		return $this->getHtml();
-	}
-
-
-	/**
-	 * Returns a form rendered as a html form. Keeps user from hassling with zend_view
-	 *
-	 * @return string
-	 */
-	public function getHtml()
-	{
-		$this->setView(new Zend_View());
+		if (null === $view) {
+			$this->setView(new Zend_View());
+		}
 		$this->setAttrib('class','enlight_form');
-		
 		return parent::render();
 	}
 
@@ -101,9 +84,10 @@ class Enlight_Components_Form extends Zend_Form
 	 * @param $name
 	 * @return string
 	 */
-	private function getShortName($name)
+	protected function getShortName($name)
 	{
 		if($name instanceof Zend_Form_Element) {
+			/** @var $name Zend_Form_Element */
 			$name = $name->getType();
 		}
 		if(is_object($name)) {
@@ -158,29 +142,28 @@ class Enlight_Components_Form extends Zend_Form
 	/**
 	 * Converts form decorators to an array
 	 *
-	 * @param $element
+	 * @param Zend_Form_Element $element
 	 * @return array
 	 */
 	private function convertDecorators($element)
 	{
 		$decorators = $element->getDecorators();
-		$retval = array();
-		$cnt = 0;
+		$retVal = array();
+
 		foreach($decorators as $decorator)		{
 			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
 			$decorOptions = $decorator->getOptions();
 			if( empty($decorOptions)){
-				$retval[] = array($decorName);
+				$retVal[] = array($decorName);
 			}
 			else{
 
 				$tmp = array($decorName,$decorOptions);
-				$retval[]=$tmp;
+				$retVal[]=$tmp;
 				unset($tmp);
 			}
 		}
-		return $retval;
-
+		return $retVal;
 	}
 
 	/**
@@ -192,21 +175,17 @@ class Enlight_Components_Form extends Zend_Form
 	private function convertElementDecorators($element)
 	{
 		$decorators = $element->getDecorators();
-		$retval = array();
+		$retVal = array();
 		foreach($decorators as $decorator)		{
 			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
 			$decorOptions = $decorator->getOptions();
-			if( empty($decorOptions)){
-				$retval[] = array($decorName);
-			}
-			else{
-
-				$tmp = array($decorName,$decorOptions);
-				$retval[]=$tmp;
-				unset($tmp);
+			if (empty($decorOptions)) {
+				$retVal[] = array($decorName);
+			} else {
+				$retVal[]= array($decorName,$decorOptions);
 			}
 		}
-		return $retval;
+		return $retVal;
 
 	}
 
@@ -218,21 +197,18 @@ class Enlight_Components_Form extends Zend_Form
 	private function convertFormDecorators()
 	{
 		$decorators = $this->getDecorators();//$element->getDecorators();
-		$retval = array();
-		$cnt = 0;
-		foreach($decorators as $decorator)		{
+		$retVal = array();
+		foreach($decorators as $decorator){
 			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
 			$decorOptions = $decorator->getOptions();
-			if( empty($decorOptions)){
-				$retval[] = array($decorName);
-			}
-			else{
+			if(empty($decorOptions)) {
+				$retVal[] = array($decorName);
+			} else {
 				$tmp = array($decorName,$decorOptions);
-				$retval[]=$tmp;
-				unset($tmp);
+				$retVal[]=array($decorName,$decorOptions);
 			}
 		}
-		return $retval;
+		return $retVal;
 
 	}
 
@@ -244,15 +220,15 @@ class Enlight_Components_Form extends Zend_Form
 	 */
 	private function convertFilters($element)
 	{
-		$retval = array();
+		$retVal = array();
 		$filters = $element->getFilters();
 		if($filters) {
 			$arrayElement['options']['filters'] = array();
 			foreach ($filters as $filterKey => $filter) {
-				$retval[$this->getShortName($filter)]  = array('filter' => $this->getShortName($filter));
+				$retVal[$this->getShortName($filter)]  = array('filter' => $this->getShortName($filter));
 			}
 		}
-		return $retval;
+		return $retVal;
 	}
 
 	/**
@@ -264,7 +240,7 @@ class Enlight_Components_Form extends Zend_Form
 	private function convertValidators($element)
 	{
 		$validators = $element->getValidators();
-		$retval = array();
+		$retVal = array();
 		if($validators) {
 			$arrayElement['options']['validators'] = array();
 			foreach ($validators as $validatorKey => $validator) {
@@ -273,7 +249,6 @@ class Enlight_Components_Form extends Zend_Form
 				if($validator_options) {
 					$array_validator['options'] = array();
 					foreach ($validator_options as $validator_option) {
-						
 						$value = $validator->$validator_option;
 						if($value !== null) {
 							$array_validator['options'][$validator_option] = $validator->$validator_option;
@@ -285,10 +260,10 @@ class Enlight_Components_Form extends Zend_Form
 						}
 					}
 				}
-				$retval[$array_validator['validator']] = $array_validator;
+				$retVal[$array_validator['validator']] = $array_validator;
 			}
 		}
-		return $retval;
+		return $retVal;
 	}
 
 	public function __construct($options)
