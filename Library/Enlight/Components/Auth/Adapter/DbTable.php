@@ -78,13 +78,6 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	protected $sessionIdColumn;
 
 	/**
-	 * Used to format the Zend_Date output to a mysql conform datetime
-	 *
-	 * @var string
-	 */
-	protected $dateFormat = "YYYY-MM-dd HH:mm:ss";
-
-	/**
 	 * Adds a where-condition to the db-select.
 	 *
 	 * @param string $condition
@@ -169,7 +162,7 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	protected function updateSessionId()
 	{
 		if($this->sessionId === null) {
-			return;
+			return $this;
 		}
 		$this->_zendDb->update($this->_tableName, array($this->sessionIdColumn => $this->sessionId),
 							   $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity));
@@ -189,7 +182,7 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	protected function updateLockUntilDate(Zend_Date $date)
 	{
 		if($this->lockedUntilColumn === null) {
-			return;
+			return $this;
 		}
 		$this->_zendDb->update($this->_tableName, array($this->lockedUntilColumn => $date),
 							   $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity));
@@ -308,24 +301,5 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	public function getLockSeconds()
 	{
 		return $this->lockSeconds;
-	}
-
-	/**
-	 * Returns the current used date format
-	 * @return string
-	 */
-	public function getDateFormat()
-	{
-		return $this->dateFormat;
-	}
-
-	/**
-	 * Sets the date format which the Zend_Date component should output
-	 *
-	 * @param string $dateFormat
-	 */
-	public function setDateFormat($dateFormat)
-	{
-		$this->dateFormat = (string)$dateFormat;
 	}
 }
