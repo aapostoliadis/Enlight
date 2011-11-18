@@ -42,22 +42,22 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * Deactivate a given Cron Job in the crontab
 	 *
 	 * @abstract
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_CronManager
 	 */
-	public function diasableJob(Enlight_Components_Cron_CronJob $job);
+	public function disableJob(Enlight_Components_Cron_Job $job);
 
 	/**
 	 * Updates a cron job in the cron tab
 	 *
 	 * @abstract
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_CronManager
 	 */
-	public function updateJob(Enlight_Components_Cron_CronJob $job);
+	public function updateJob(Enlight_Components_Cron_Job $job);
 
 	/**
-	 * Returns an array of Enlight_Components_Cron_CronJob from the crontab
+	 * Returns an array of Enlight_Components_Cron_Job from the crontab
 	 *
 	 * @abstract
 	 * @return array
@@ -67,7 +67,7 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	/**
 	 * Returns the next cron job
 	 *
-	 * @return null|Enlight_Components_Cron_CronJob
+	 * @return null|Enlight_Components_Cron_Job
 	 */
 	public function getNextJob();
 
@@ -76,7 +76,7 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 *
 	 * @abstract
 	 * @param Int $id
-	 * @return Enlight_Components_Cron_CronJob
+	 * @return Enlight_Components_Cron_Job
 	 */
 	public function getJobById($id);
 
@@ -85,7 +85,7 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 *
 	 * @abstract
 	 * @param String $name
-	 * @return Enlight_Components_Cron_CronJob
+	 * @return Enlight_Components_Cron_Job
 	 */
 	public function getJobByName($name);
 
@@ -93,19 +93,19 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * Adds a job to the crontab
 	 *
 	 * @abstract
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return void
 	 */
-	public function addJob(Enlight_Components_Cron_CronJob $job);
+	public function addJob(Enlight_Components_Cron_Job $job);
 
 	/**
 	 * Removes an job from the crontab
 	 *
 	 * @abstract
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return void
 	 */
-	public function removeJob(Enlight_Components_Cron_CronJob $job);
+	public function removeJob(Enlight_Components_Cron_Job $job);
 
 	/**
 	 * Receives a single job by its defined action

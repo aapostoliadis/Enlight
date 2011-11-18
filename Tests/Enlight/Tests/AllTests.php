@@ -43,6 +43,7 @@ class Enlight_Tests_AllTests
 		$suite->addTest(Enlight_Tests_Application_AllTests::suite());
         $suite->addTest(Enlight_Tests_Components_AllTests::suite());
         $suite->addTest(Enlight_Tests_Config_AllTests::suite());
+        
 		return $suite;
 	}
 }

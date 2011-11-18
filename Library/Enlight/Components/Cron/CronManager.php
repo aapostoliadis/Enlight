@@ -70,12 +70,12 @@ class Enlight_Components_Cron_CronManager
 	 * Deactivate a given Cron Job
 	 *
 	 * @throws Enlight_Exception
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_CronArgs $jobArgs
 	 * @return Enlight_Components_Cron_CronManager
 	 */
-	public function deactivateJob(Enlight_Components_Cron_CronJob $job)
+	public function removeJob(Enlight_Components_Cron_CronArgs $jobArgs)
 	{
-		$this->_adapter->deactivateJob($job);
+		$this->_adapter->removeJob($jobArgs->Job());
 		return $this;
 	}
 
@@ -83,23 +83,28 @@ class Enlight_Components_Cron_CronManager
 	 * Updates a cron job
 	 *
 	 * @throws Enlight_Exception
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_CronArgs $jobArgs
 	 * @return Enlight_Components_Cron_CronManager
 	 */
-	public function updateJob(Enlight_Components_Cron_CronJob $job)
+	public function updateJob(Enlight_Components_Cron_CronArgs $jobArgs)
 	{
-		$this->_adapter->updateJob($job);
+		$this->_adapter->updateJob($jobArgs->Job());
 		return $this;
 	}
 
 	/**
-	 * Returns an array of Enlight_Components_Cron_CronJob from crontab
+	 * Returns an array of Enlight_Components_Cron_Job from crontab
 	 *
-	 * @return array
+	 * @return array of Enlight_Components_Cron_CronArgs
 	 */
-	public function getAllCronJobs()
+	public function getAllJobs()
 	{
-		$retVal = $this->_adapter->getAllCronJobs();
+		$jobs = $this->_adapter->getAllJobs();
+		$retVal = array();
+		foreach($jobs as $job)
+		{
+			$retVal[] = new Enlight_Components_Cron_CronArgs($job);
+		}
 		return	$retVal;
 	}
 
@@ -107,70 +112,58 @@ class Enlight_Components_Cron_CronManager
 	 * Receives a single Cron job defined by its id from crontab
 	 *
 	 * @param Int $id
-	 * @return Enlight_Components_Cron_CronJob
+	 * @return Enlight_Components_Cron_CronArgs
 	 */
-	public function getCronJobById($id)
+	public function getJobById($id)
 	{
-		$retVal = $this->_adapter->getCronJobById((int)$id);
-		return $retVal;
+		$retVal = $this->_adapter->getJobById((int)$id);
+		return new Enlight_Components_Cron_CronArgs($retVal);
 	}
 
 	/**
 	 * Receives a single cron job by its name from the crontab
 	 *
 	 * @param String $name
-	 * @return Enlight_Components_Cron_CronJob
+	 * @return Enlight_Components_Cron_CronArgs
 	 */
-	public function getCronJobByName($name)
+	public function getJobByName($name)
 	{
-		$retVal = $this->_adapter->getCronJobByName((string)$name);
-		return $retVal;
+		$retVal = $this->_adapter->getJobByName((string)$name);
+		return new Enlight_Components_Cron_CronArgs($retVal);
 	}
 
 	/**
 	 * Adds an job to the crontab
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_CronManager
 	 */
-	public function addCronJob(Enlight_Components_Cron_CronJob $job)
+	public function addJob(Enlight_Components_Cron_Job $job)
 	{
-		$this->_adapter->addCronJob($job);
+		$this->_adapter->addJob($job);
 		return $this;
 	}
 
 	/**
 	 * Removes an job from the crontab
 	 *
-	 * @param Enlight_Components_Cron_CronJob $job
+	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_CronManager
 	 */
-	public function deleteCronJob(Enlight_Components_Cron_CronJob $job)
+	public function deleteJob(Enlight_Components_Cron_Job $job)
 	{
-		$this->_adapter->deleteCronJob($job);
+		$this->_adapter->removeJob($job);
 		return $this;
-	}
-
-	/**
-	 * Builds a name for a cron job - this is needed for the event system
-	 *
-	 * @static
-	 * @param $name
-	 * @return string
-	 */
-	public static function getCronAction($name)
-	{
-		return $name = 'Enlight_Test_CronJob'.str_replace(' ','',ucwords(str_replace('_',' ',$name)));
 	}
 
 	/**
 	 * Returns the next cron job who is due to execute
 	 *
-	 * @return Enlight_Components_Cron_CronJob|null
+	 * @return Enlight_Components_Cron_CronArgs
 	 */
 	public function getNextCronJob()
 	{
-		return $this->_adapter->getNextCronJob();
+		return new Enlight_Components_Cron_CronArgs( $this->_adapter->getNextJob());
 	}
 
 
