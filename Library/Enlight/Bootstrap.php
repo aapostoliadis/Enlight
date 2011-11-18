@@ -13,7 +13,7 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Plugin
+ * @package    Enlight_Application
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
@@ -23,7 +23,7 @@
 
 /**
  * @category   Enlight
- * @package    Enlight_Plugin
+ * @package    Enlight_Application
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
@@ -113,7 +113,8 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     protected function initFront()
     {
     	$this->loadResource('Zend');
-    	
+
+        /** @var $front Enlight_Controller_Front */
     	$front = Enlight_Class::Instance('Enlight_Controller_Front');
 
    	    $front->Dispatcher()->addModuleDirectory(
@@ -158,11 +159,12 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     /**
      * Init template method
      *
-     * @return Enlight_Template_TemplateManager
+     * @return Enlight_Template_Manager
      */ 
     protected function initTemplate()
     {
-    	$template = Enlight_Class::Instance('Enlight_Template_TemplateManager');
+        /** @var $template Enlight_Template_Manager */
+    	$template = Enlight_Class::Instance('Enlight_Template_Manager');
 
 		$template->setCompileDir($this->Application()->AppPath('Cache_Compiles'));
 		$template->setCacheDir($this->Application()->AppPath('Cache_Templates'));
@@ -171,7 +173,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
 		$config = $this->Application()->getOption('template');
 		if($config !== null) {
 			foreach ($config as $key => $value) {
-				$template->{'set'.$key}($value);
+				$template->{'set' . $key}($value);
 			}
 		}
 		

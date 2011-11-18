@@ -4,21 +4,21 @@ class Enlight_View_ViewDefault extends Enlight_Class implements Enlight_View_Vie
     /**
      * Smarty object
      * 
-     * @var Enlight_Template_TemplateManager
+     * @var     Enlight_Template_Manager
      */
     protected $engine;
     
     /**
      * Enter description here...
      *
-     * @return Enlight_Template_TemplateDefault
+     * @var     Enlight_Template_Handler
      */
     protected $template;
     
     /**
      * Enter description here...
      *
-     * @return Smarty_Internal_Data
+     * @var     Smarty_Internal_Data
      */
     protected $data;
     
@@ -26,12 +26,18 @@ class Enlight_View_ViewDefault extends Enlight_Class implements Enlight_View_Vie
     {
     	$this->resolveTemplateEngine();
     }
-    
+
+    /**
+     * @return Enlight_Template_Manager
+     */
     public function Engine()
     {
     	return $this->engine;
     }
-    
+
+    /**
+     * @return Enlight_Template_Handler
+     */
     public function Template()
     {
     	return $this->template;
@@ -39,7 +45,7 @@ class Enlight_View_ViewDefault extends Enlight_Class implements Enlight_View_Vie
     
     protected function resolveTemplateEngine()
 	{
-		if($this->engine===null) {
+		if($this->engine === null) {
 			$this->setTemplateEngine(Enlight_Application::Instance()->Bootstrap()->getResource('Template'));
 		}
 	}
@@ -123,22 +129,27 @@ class Enlight_View_ViewDefault extends Enlight_Class implements Enlight_View_Vie
 	
     public function clearAssign($spec = null)
     {
-    	if(isset($spec))
-        	$this->data->clear_all_assign();
-        else
-        	$this->data->clear_assign($spec);
+    	if(isset($spec)) {
+        	$this->data->clearAllAssign();
+        } else {
+        	$this->data->clearAssign($spec);
+        }
+        return $this;
     }
-    
+
+    /**
+     * @param   string|null $spec
+     * @return  mixed|array
+     */
     public function getAssign($spec = null)
     {
     	return $this->data->getTemplateVars($spec);
     }
-	
+
     /**
      * Verarbeitet ein Template und gibt die Ausgabe zurück
      *
-     * @param string $name Das zu verarbeitende Template
-     * @return string Die Ausgabe.
+     * @return string
      */
     public function render()
     {
@@ -190,37 +201,42 @@ class Enlight_View_ViewDefault extends Enlight_Class implements Enlight_View_Vie
     	}
     	if(is_array($cache_id)) {
     		$cache_id = implode('|', $cache_id);
-    	}
-    	if(empty($this->template->cache_id)) {
-    		$this->template->cache_id = (string) $cache_id;
     	} else {
-    		$this->template->cache_id .= '|'.(string) $cache_id;
+            $cache_id = (string) $cache_id;
+        }
+    	if(empty($this->template->cache_id)) {
+    		$this->template->cache_id = $cache_id;
+    	} else {
+    		$this->template->cache_id .= '|' . $cache_id;
     	}
     	return $this;
     }
     
     public function clearCache($template = null, $cache_id = null, $compile_id = null, $exp_time = null, $type = null)
     {
-    	return $this->engine->cache->clear($template, $cache_id, $compile_id, $exp_time, $type);
+    	return $this->engine->clearCache($template, $cache_id, $compile_id, $exp_time, $type);
     }
     
     public function clearAllCache($exp_time = null)
     {
-    	$this->engine->cache->clearAll($exp_time);
+    	$this->engine->clearAllCache($exp_time);
     }
         
     public function __set($name, $value=null)
     {
         $this->assign($name, $value);
     }
+
     public function __get($name)
     {
         return $this->getAssign($name);
     }
+
     public function __isset($name)
     {
-        return ($this->getAssign($name)!==null);
+        return ($this->getAssign($name) !== null);
     }
+
     public function __unset($name)
     {
         $this->clearAssign($name);
