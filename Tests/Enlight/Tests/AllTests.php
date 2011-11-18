@@ -40,11 +40,9 @@ class Enlight_Tests_AllTests
 	{
 		$suite = new Enlight_Components_Test_TestSuite('Enlight Tests');
 
-//		$suite->addTest(Enlight_Tests_Application_AllTests::suite());
-//		$suite->addTest(Enlight_Tests_Components_Config_AllTests::suite());
-		$suite->addTest(Enlight_Tests_Components_Auth_Adapter_AllTests::suite());
-//		$suite->addTest(Enlight_Tests_Components_Form_AllTests::suite());
-//		$suite->addTest(Enlight_Tests_Components_Cron_AllTests::suite());
+		$suite->addTest(Enlight_Tests_Application_AllTests::suite());
+        $suite->addTest(Enlight_Tests_Components_AllTests::suite());
+        $suite->addTest(Enlight_Tests_Config_AllTests::suite());
 		return $suite;
 	}
 }
