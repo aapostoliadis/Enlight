@@ -413,7 +413,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 			$job->getId(),
 			$job->getName(),
 			$job->getAction(),
-			serialize($job->getData()),
+			$job->getData(),
 			$job->getNext()->get($job->getDateFormat()),
 			$job->getStart()->get($job->getDateFormat()),
 			$job->getInterval(),
