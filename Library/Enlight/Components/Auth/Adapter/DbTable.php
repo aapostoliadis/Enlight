@@ -12,19 +12,19 @@
  * obtain it through the world-wide-web, please send an email
  * to license@shopware.de so we can send you a copy immediately.
  *
- * @category   Enlight
- * @package	Enlight_Auth
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	http://enlight.de/license	 New BSD License
- * @version	$Id$
- * @author	 $Author$
+ * @category    Enlight
+ * @package	    Enlight_Auth
+ * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license	    http://enlight.de/license	 New BSD License
+ * @version	    $Id$
+ * @author	    $Author$
  */
 
 /**
- * @category   Enlight
- * @package	Enlight_Auth
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	http://enlight.de/license	 New BSD License
+ * @category    Enlight
+ * @package	    Enlight_Auth
+ * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license	    http://enlight.de/license	 New BSD License
  */
 class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 {
@@ -76,13 +76,6 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	 * @var string
 	 */
 	protected $sessionIdColumn;
-
-	/**
-	 * Used to format the Zend_Date output to a mysql conform datetime
-	 *
-	 * @var string
-	 */
-	protected $dateformat = "YYYY-MM-dd HH:mm:ss";
 
 	/**
 	 * Adds a where-condition to the db-select.
@@ -169,7 +162,7 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	protected function updateSessionId()
 	{
 		if($this->sessionId === null) {
-			return;
+			return $this;
 		}
 		$this->_zendDb->update($this->_tableName, array($this->sessionIdColumn => $this->sessionId),
 							   $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity));
@@ -189,9 +182,9 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	protected function updateLockUntilDate(Zend_Date $date)
 	{
 		if($this->lockedUntilColumn === null) {
-			return;
+			return $this;
 		}
-		$this->_zendDb->update($this->_tableName, array($this->lockedUntilColumn => $date->get($this->dateformat)),
+		$this->_zendDb->update($this->_tableName, array($this->lockedUntilColumn => $date),
 							   $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity));
 		return $this;
 	}
@@ -308,21 +301,5 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	public function getLockSeconds()
 	{
 		return $this->lockSeconds;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDateformat()
-	{
-		return $this->dateformat;
-	}
-
-	/**
-	 * @param string $dateformat
-	 */
-	public function setDateformat($dateformat)
-	{
-		$this->dateformat = (string)$dateformat;
 	}
 }
