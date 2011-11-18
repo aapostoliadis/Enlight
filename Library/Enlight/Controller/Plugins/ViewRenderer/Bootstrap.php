@@ -39,11 +39,6 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     protected $noRender = false;
 
-	/**
-	 * @var bool
-	 */
-	protected $renderAsJson = false;
-
     /**
      * @var Enlight_Controller_Front
      */
@@ -151,10 +146,10 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     public function renderTemplate($template, $name = null)
     {
-        Enlight_Application::Instance()->Events()->notify('Enlight_Plugins_ViewRenderer_PreRender', array('subject'=>$this, 'template'=>$template));
+        $this->Application()->Events()->notify('Enlight_Plugins_ViewRenderer_PreRender', array('subject'=>$this, 'template'=>$template));
 
         $render = $this->View()->render($template);
-        $render = Enlight_Application::Instance()->Events()->filter('Enlight_Plugins_ViewRenderer_FilterRender', $render, array('subject'=>$this, 'template'=>$template));
+        $render = $this->Application()->Events()->filter('Enlight_Plugins_ViewRenderer_FilterRender', $render, array('subject'=>$this, 'template'=>$template));
 
         $this->Front()->Response()->appendBody(
             $render,
@@ -162,7 +157,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
         );
         $this->setNoRender();
 
-        Enlight_Application::Instance()->Events()->notify('Enlight_Plugins_ViewRenderer_PostRender', array('subject'=>$this));
+        $this->Application()->Events()->notify('Enlight_Plugins_ViewRenderer_PostRender', array('subject'=>$this));
 
         return $this;
     }
@@ -207,7 +202,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     }
 
     /**
-     * @return   Enlight_View_View
+     * @return   Enlight_View_ViewDefault
      */
     public function View()
     {
@@ -243,17 +238,6 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
         $this->neverRender = $flag ? true : false;
         return $this;
     }
-
-	/**
-	 * @param bool $flag
-	 * @return Enlight_Controller_Plugins_ViewRenderer_Bootstrap
-	 */
-	public function setRenderAsJson($flag = true)
-	{
-		$this->renderAsJson = $flag ? true : false;
-		return $this;
-	}
-
     /**
      * @return  string
      */
