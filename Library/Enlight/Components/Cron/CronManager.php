@@ -95,16 +95,24 @@ class Enlight_Components_Cron_CronManager
 	/**
 	 * Returns an array of Enlight_Components_Cron_Job from crontab
 	 *
-	 * @return array of Enlight_Components_Cron_CronArgs
+	 * @return null|array of Enlight_Components_Cron_CronArgs
 	 */
 	public function getAllJobs()
 	{
 		$jobs = $this->_adapter->getAllJobs();
 		$retVal = array();
+		$job = null;
+
 		foreach($jobs as $job)
 		{
-			$retVal[] = new Enlight_Components_Cron_CronArgs($job);
+			if(!empty($job)){
+				$retVal[] = new Enlight_Components_Cron_CronArgs($job);
+			}
 		}
+		if(empty($retVal)){
+			return null;
+		}
+
 		return	$retVal;
 	}
 
@@ -112,11 +120,14 @@ class Enlight_Components_Cron_CronManager
 	 * Receives a single Cron job defined by its id from crontab
 	 *
 	 * @param Int $id
-	 * @return Enlight_Components_Cron_CronArgs
+	 * @return null|Enlight_Components_Cron_CronArgs
 	 */
 	public function getJobById($id)
 	{
 		$retVal = $this->_adapter->getJobById((int)$id);
+		if(empty($retVal)) {
+			return null;
+		}
 		return new Enlight_Components_Cron_CronArgs($retVal);
 	}
 
@@ -124,11 +135,14 @@ class Enlight_Components_Cron_CronManager
 	 * Receives a single cron job by its name from the crontab
 	 *
 	 * @param String $name
-	 * @return Enlight_Components_Cron_CronArgs
+	 * @return null|Enlight_Components_Cron_CronArgs
 	 */
 	public function getJobByName($name)
 	{
 		$retVal = $this->_adapter->getJobByName((string)$name);
+		if(empty($retVal)) {
+			return null;
+		}
 		return new Enlight_Components_Cron_CronArgs($retVal);
 	}
 
@@ -144,27 +158,18 @@ class Enlight_Components_Cron_CronManager
 		return $this;
 	}
 
-	/**
-	 * Removes an job from the crontab
-	 *
-	 * @param Enlight_Components_Cron_Job $job
-	 * @return Enlight_Components_Cron_CronManager
-	 */
-	public function deleteJob(Enlight_Components_Cron_Job $job)
-	{
-		$this->_adapter->removeJob($job);
-		return $this;
-	}
 
 	/**
 	 * Returns the next cron job who is due to execute
 	 *
-	 * @return Enlight_Components_Cron_CronArgs
+	 * @return null|Enlight_Components_Cron_CronArgs
 	 */
-	public function getNextCronJob()
+	public function getNextJob()
 	{
-		return new Enlight_Components_Cron_CronArgs( $this->_adapter->getNextJob());
+		$retVal = $this->_adapter->getNextJob();
+		if(empty($retVal)) {
+			return null;
+		}
+		return new Enlight_Components_Cron_CronArgs($retVal);
 	}
-
-
 }

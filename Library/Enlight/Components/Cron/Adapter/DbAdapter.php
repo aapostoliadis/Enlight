@@ -241,6 +241,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 			$jobData['next'] = new Zend_Date($jobData['next']);
 			$jobData['start'] = new Zend_Date($jobData['start']);
 			$jobData['end'] = new Zend_Date($jobData['end']);
+			$job['data']  = unserialize($jobData['data']);
 		    $retVal[$jobData['id']] = new Enlight_Components_Cron_Job($jobData);
 		}
 		if(empty($retVal)){
@@ -289,6 +290,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$job['next']  = new Zend_Date($job['next']);
 		$job['start'] = new Zend_Date($job['start']);
 		$job['end']   = new Zend_Date($job['end']);
+		$job['data']  = unserialize($job['data']);
 		$job = new Enlight_Components_Cron_Job($job);
 
 		return $job;
@@ -327,6 +329,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$job['next']  = new Zend_Date($job['next']);
 		$job['start'] = new Zend_Date($job['start']);
 		$job['end']   = new Zend_Date($job['end']);
+		$job['data']  = unserialize($job['data']);
 		$job = new Enlight_Components_Cron_Job($job);
 		return $job;
 	}
@@ -366,6 +369,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$job['next']  = new Zend_Date($job['next']);
 		$job['start'] = new Zend_Date($job['start']);
 		$job['end']   = new Zend_Date($job['end']);
+		$job['data']  = unserialize($job['data']);
 		$job = new Enlight_Components_Cron_Job($job);
 
 		return $job;
@@ -413,7 +417,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 			$job->getId(),
 			$job->getName(),
 			$job->getAction(),
-			$job->getData(),
+			serialize($job->getData()),
 			$job->getNext()->get($job->getDateFormat()),
 			$job->getStart()->get($job->getDateFormat()),
 			$job->getInterval(),
@@ -473,6 +477,7 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 		$job['next']  = new Zend_Date($job['next']);
 		$job['start'] = new Zend_Date($job['start']);
 		$job['end']   = new Zend_Date($job['end']);
+		$job['data']  = unserialize($job['data']);
 		$job = new Enlight_Components_Cron_Job($job);
 
 		return $job;

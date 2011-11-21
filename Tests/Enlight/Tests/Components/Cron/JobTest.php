@@ -93,7 +93,7 @@ class Enlight_Tests_Components_Cron_Cronjob extends Enlight_Components_Test_Test
     public function testSetData()
     {
         $data = "A String";
-		$this->assertArrayCount(2, unserialize($this->job->getData()));
+		$this->assertArrayCount(2, $this->job->getData());
 		$this->assertInstanceOf('Enlight_Components_Cron_Job',$this->job->setData($data));
 		$this->assertEquals($data, $this->job->getData());
     }
@@ -104,7 +104,7 @@ class Enlight_Tests_Components_Cron_Cronjob extends Enlight_Components_Test_Test
     public function testGetData()
     {
         $data = "A String";
-		$this->assertArrayCount(2, unserialize($this->job->getData()));
+		$this->assertArrayCount(2, $this->job->getData());
 		$this->assertInstanceOf('Enlight_Components_Cron_Job',$this->job->setData($data));
 		$this->assertEquals($data, $this->job->getData());
     }

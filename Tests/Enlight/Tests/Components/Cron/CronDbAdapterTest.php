@@ -179,7 +179,6 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
      */
     public function testUpdateJob()
     {
-
 		$job = new Enlight_Components_Cron_Job($this->jobData);
 		$this->assertInstanceOf('Enlight_Components_Cron_Adapter_Adapter', $this->object->addJob($job));
 
@@ -261,6 +260,7 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
 		$this->object->addJob($job);
 
 		$nextJob = $this->object->getNextJob();
+		$this->assertInstanceOf('Enlight_Components_Cron_Job', $nextJob);
 	}
 
 }

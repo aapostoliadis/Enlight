@@ -145,14 +145,8 @@ class Enlight_Components_Cron_Job
 	 */
 	public function setData($data)
 	{
-		if(is_array($data) || is_object($data)){
-			$this->data = serialize($data);
-		}
-		else{
-			$this->data = $data;
-		}
-
-		return $this;
+		$this->data = $data;
+		return $this; 
 	}
 
 	/**

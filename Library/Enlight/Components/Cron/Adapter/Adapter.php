@@ -87,7 +87,7 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 * @param String $name
 	 * @return Enlight_Components_Cron_Job
 	 */
-	public function getJobByName($name);
+	public function getJobByName($name); 
 
 	/**
 	 * Adds a job to the crontab

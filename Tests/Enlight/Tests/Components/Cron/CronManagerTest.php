@@ -108,7 +108,8 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 						  'crontab'=>'s_crontab');
 		$this->jobData['next'] = new Zend_Date($this->jobData['next']);
 		$this->jobData['start'] = new Zend_Date($this->jobData['start']);
-		$this->jobData['end'] = new Zend_Date($this->jobData['end']);
+		$this->jobData['end']  = new Zend_Date($this->jobData['end']);
+		$this->jobData['data'] = array('key'=>'value');
 		
 		$this->assertInstanceOf('Enlight_Components_Cron_Adapter_Adapter', $this->_adapter = new Enlight_Components_Cron_Adapter_DbAdapter($options));
 		$this->assertInstanceOf('Enlight_Components_Cron_CronManager', $this->manager = new Enlight_Components_Cron_CronManager($this->_adapter));
@@ -144,17 +145,14 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
        $this->assertInstanceOf('Enlight_Components_Cron_Adapter_Adapter', $this->manager->getAdapter());
     }
 
-    /**
-     * @todo Implement testDeactivateJob().
-     */
     public function testDeactivateJob()
     {
-        $job = $this->manager->getJobById(1);
-		$this->assertInstanceOf('Enlight_Components_Cron_Job', $job);
-		$this->assertTrue($job->isActive());
+        $jobArgs = $this->manager->getJobById(1);
+		$this->assertInstanceOf('Enlight_Components_Cron_CronArgs', $jobArgs);
+		$this->assertTrue($jobArgs->Job()->isActive());
 
-		$this->manager->removeJob($job);
-		$jobAfter = $this->manager->getJobById($job->getId());
+		$this->manager->removeJob($jobArgs);
+		$jobAfter = $this->manager->getJobById(1);
 		$this->assertNull($jobAfter);
     }
 
@@ -163,15 +161,15 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
      */
     public function testUpdateJob()
     {
-        $job = $this->manager->getJobById(1);
-		$this->assertInstanceOf('Enlight_Components_Cron_Job', $job);
+        $cronArgs = $this->manager->getJobById(1);
+		$this->assertInstanceOf('Enlight_Components_Cron_CronArgs', $cronArgs);
 
-		$job->setName('test me');
+		$cronArgs->Job()->setName('test me');
 
-		$this->manager->updateJob($job);
+		$this->manager->updateJob($cronArgs);
 
-		$jobAfter = $this->manager->getJobById($job->getId());
-		$this->assertEquals('test me', $jobAfter->getName());
+		$jobAfter = $this->manager->getJobById($cronArgs->Job()->getId());
+		$this->assertEquals('test me', $jobAfter->Job()->getName());
 
     }
 
@@ -188,7 +186,7 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
      */
     public function testGetJobById()
     {
-        $this->assertInstanceOf('Enlight_Components_Cron_Job', $this->manager->getJobById(1));
+        $this->assertInstanceOf('Enlight_Components_Cron_CronArgs', $this->manager->getJobById(1));
     }
 
     /**
@@ -197,7 +195,7 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
     public function testGetJobByName()
     {
         // Remove the following lines when you implement this test.
-        $this->assertInstanceOf('Enlight_Components_Cron_Job', $this->manager->getJobByName('Lagerbestand Warnung'));
+        $this->assertInstanceOf('Enlight_Components_Cron_CronArgs', $this->manager->getJobByName('Lagerbestand Warnung'));
     }
 
     /**
@@ -211,28 +209,6 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 		$job = new Enlight_Components_Cron_Job($this->jobData);
 		$this->manager->addJob($job);
 		$this->assertArrayCount(2,$this->manager->getAllJobs());
-    }
-
-    /**
-     * @todo Implement testDeleteJob().
-     */
-    public function testDeleteJob()
-    {
-        // We've got one element that is for sure
-		$this->assertArrayCount(1,$this->manager->getAllJobs());
-		// Now create a new job
-		$this->jobData['action'] = $this->jobData['action']."2";
-		$this->jobData['id'] = 2;
-		// Append new job to the crontab
-        $job = new Enlight_Components_Cron_Job($this->jobData);
-		$this->manager->addJob($job);
-		// see if we have two elements now
-		$this->assertArrayCount(2,$this->manager->getAllJobs());
-		// Get first element
-		$job2delete = $this->manager->getJobById(1);
-		// Delete Element
-		$this->manager->deleteJob($job2delete);
-		$this->assertArrayCount(1,$this->manager->getAllJobs());
     }
 }
 
