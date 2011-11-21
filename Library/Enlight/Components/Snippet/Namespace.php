@@ -35,4 +35,16 @@ class Enlight_Components_Snippet_Namespace extends Enlight_Config
      * @var boolean
      */
     protected $_allowModifications = true;
+
+    /**
+     * Constructor method
+     *
+     * @param array|bool $options
+     */
+	public function __construct($options = null)
+    {
+        $name = $options['name'] !== null ? $options['name'] : '';
+        unset($options['name']);
+        parent::__construct($name, $options);
+    }
 }

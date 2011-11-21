@@ -36,7 +36,8 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
 
     /**
      * Class constructor, sets snippet manager
-     * @param $snippets Enlight_Components_Snippet_Manager
+     *
+     * @param   Enlight_Components_Snippet_Manager $snippets
      */
     public function __construct(Enlight_Components_Snippet_Manager $snippets)
     {
@@ -52,7 +53,7 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     public function populate(Smarty_Template_Source $source, Smarty_Internal_Template $_template=null)
     {
         if(!isset($source->smarty->registered_plugins[Smarty::PLUGIN_BLOCK]['snippet'])) {
-            $source->smarty->registerPlugin(Smarty::PLUGIN_BLOCK, 'snippet', array($this, 'compile'));
+            $source->smarty->registerPlugin(Smarty::PLUGIN_BLOCK, 'snippet', array($this, 'compileSnippetBlock'));
         }
         $source->smarty->default_resource_type = 'file';
         $default_resource = $source->smarty->default_resource_type;
@@ -63,34 +64,36 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     /**
      * @param   $params
      * @param   $content
-     * @param   Enlight_Template_Handler $template
+     * @param   Smarty_Internal_TemplateBase $template
      * @return  string
      */
-    public function compile($params, $content, Enlight_Template_Handler $template)
+    public function compileSnippetBlock($params, $content, Smarty_Internal_TemplateBase $template=null)
     {
-        if($content===null) {
+        if($content === null) {
             return '';
         }
 
-        if(empty($content)) {
+        if(empty($content) && !empty($params['name'])) {
             $content = '#' . $params['name'] . '#';
         }
 
-        if(!empty($params['class'])) {
-            $params['class'] .= ' ' . str_replace('/', '_', $params['namespace']);
-        } else {
-            $params['class'] = str_replace('/', '_', $params['namespace']);
+        if(!empty($params['tag']) && !empty($params['namespace'])) {
+            if(!empty($params['class'])) {
+                $params['class'] .= ' ' . str_replace('/', '_', $params['namespace']);
+            } else {
+                $params['class'] = str_replace('/', '_', $params['namespace']);
+            }
         }
 
         if(!empty($params['tag'])) {
 
             $params['tag'] = strtolower($params['tag']);
 
-            if(!empty($params['class'])) {
-                $params['class'] .= ' shopware_studio_snippet';
-            } else {
-                $params['class'] = 'shopware_studio_snippet';
-            }
+            //if(!empty($params['class'])) {
+            //    $params['class'] .= ' shopware_studio_snippet';
+            //} else {
+            //    $params['class'] = 'shopware_studio_snippet';
+            //}
 
             $attr = '';
             foreach ($params as $key => $param) {
@@ -105,28 +108,30 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
         }
 
         if (isset($params['assign'])) {
-           $template->assign($params['assign'], $content);
-           return '';
+            if($template !== null) {
+                $template->assign($params['assign'], $content);
+            }
+            return '';
         } else {
-           return $content;
+            return $content;
         }
     }
 
-	/**
+    /**
     * Load template's source from files into current template object
     *
-    * @param Smarty_Template_Source $source source object
-    * @return string template source
-    * @throws SmartyException if source cannot be loaded
+    * @param    Smarty_Template_Source $source source object
+    * @return   string template source
+    * @throws   SmartyException if source cannot be loaded
     */
     public function getContent(Smarty_Template_Source $source)
     {
         foreach ($source->components as $_component) {
             /** @var $content Smarty_Template_Source */
-            $_component->content = $this->replaceSnippet($_component);
+            $_component->content = $this->getSnippetContent($_component);
         }
         $this->snippets->write();
-    	return parent::getContent($source);
+        return parent::getContent($source);
     }
 
     /**
@@ -134,51 +139,54 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
      * @param Smarty_Template_Source $source
      * @return string
      */
-    protected function replaceSnippet(Smarty_Template_Source $source)
+    public function getSnippetContent(Smarty_Template_Source $source)
     {
-    	$_rdl = preg_quote($source->smarty->right_delimiter);
-		$_ldl = preg_quote($source->smarty->left_delimiter);
+        $_rdl = preg_quote($source->smarty->right_delimiter);
+        $_ldl = preg_quote($source->smarty->left_delimiter);
 
-		$_block_namespace = $this->getNamespace($source);
+        $_block_namespace = $this->getSnippetNamespace($source);
 
-		$pattern = "!{$_ldl}s(e?)(\s.+?)?{$_rdl}(.*?){$_ldl}/se?{$_rdl}!msi";
-		while (preg_match($pattern, $source->content, $_block_match, PREG_OFFSET_CAPTURE)) {
-			$_block_editable = !empty($_block_match[1][0]);
-			$_block_args = $_block_match[2][0];
-			$_block_default = $_block_match[3][0];
-			list($_block_tag, $_block_start) = $_block_match[0];
-			$_block_length = strlen($_block_tag);
-			if (!preg_match("!(.?)(name=)(.*?)(?=(\s|$))!", $_block_args, $_match) && empty($_block_default)) {
+        $pattern = "!{$_ldl}s(e?)(\s.+?)?{$_rdl}(.*?){$_ldl}/se?{$_rdl}!msi";
+        while (preg_match($pattern, $source->content, $_block_match, PREG_OFFSET_CAPTURE)) {
+            $_block_editable = !empty($_block_match[1][0]);
+            $_block_args = $_block_match[2][0];
+            $_block_default = $_block_match[3][0];
+            list($_block_tag, $_block_start) = $_block_match[0];
+            $_block_length = strlen($_block_tag);
+            if (!preg_match("!(.?)(name=)(.*?)(?=(\s|$))!", $_block_args, $_match) && empty($_block_default)) {
                 throw new SmartyException("\"" . $_block_tag . "\" missing name attribute");
-	        }
-	        $_block_force = (bool) preg_match('#[\s]force#', $_block_args);
-	        $_block_name = !empty($_match[3]) ? trim($_match[3], '\'"') : $_block_default;
-	        if (preg_match("!(.?)(namespace=)(.*?)(?=(\s|$))!", $_block_args, $_match)) {
-	            $_namespace = trim($_match[3], '\'"');
-	        } else {
-	        	$_namespace = $_block_namespace;
-	        }
-	        $_block_content = $this->getSnippet($_namespace, $_block_name, $_block_default, $_block_force);
+            }
+            $_block_force = (bool) preg_match('#[\s]force#', $_block_args);
+            $_block_name = !empty($_match[3]) ? trim($_match[3], '\'"') : $_block_default;
+            if (preg_match("!(.?)(namespace=)(.*?)(?=(\s|$))!", $_block_args, $_match)) {
+                $_namespace = trim($_match[3], '\'"');
+            } else {
+                $_namespace = $_block_namespace;
+            }
+            $_block_content = $this->getSnippet($_namespace, $_block_name, $_block_default, $_block_force);
 
-	        if(!empty($_block_default)) {
-	        	$_block_args .= ' default=' . var_export($_block_default, true);
-	        }
-	        if(!empty($_block_namespace)) {
-	        	$_block_args .= ' namespace=' . var_export($_block_namespace, true);
-	        }
-	        if(!empty($_block_editable)) {
-	        	$_block_args .= ' tag="span"';
+            if(!empty($_block_default)) {
+                $_block_args .= ' default=' . var_export($_block_default, true);
+            }
+            if(!empty($_block_namespace)) {
+                $_block_args .= ' namespace=' . var_export($_block_namespace, true);
+            }
+            if(!empty($_block_editable)) {
+                $_block_args .= ' tag="span"';
+            }
+            if(!empty($_block_force)) {
+                $_block_args = str_replace('force', 'force=true', $_block_args);
             }
 
             $_rdl = $source->smarty->right_delimiter;
-		    $_ldl = $source->smarty->left_delimiter;
+            $_ldl = $source->smarty->left_delimiter;
 
-	        $_block_content = "{$_ldl}snippet$_block_args{$_rdl}{$_block_content}{$_ldl}/snippet{$_rdl}";
+            $_block_content = "{$_ldl}snippet$_block_args{$_rdl}{$_block_content}{$_ldl}/snippet{$_rdl}";
 
-	        $source->content = substr_replace($source->content, $_block_content, $_block_start, $_block_length);
-		}
+            $source->content = substr_replace($source->content, $_block_content, $_block_start, $_block_length);
+        }
 
-		return $source->content;
+        return $source->content;
     }
 
     /**
@@ -190,17 +198,14 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
      */
     protected function getSnippet($namespace, $name, $default, $force=false)
     {
-    	if($this->snippets == null){
-    		return $default;
-    	}
-    	$snippet = $this->snippets->getNamespace($namespace);
-		$content = $snippet->get($name);
-		if($content === null || $force) {
-			$snippet->set($name, $default);
-			return $default;
-		} else {
-			return $content;
-		}
+        $snippet = $this->snippets->getNamespace($namespace);
+        $content = $snippet->get($name);
+        if($content === null || $force) {
+            $snippet->set($name, $default);
+            return $default;
+        } else {
+            return $content;
+        }
     }
 
     /**
@@ -208,22 +213,23 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
      * @param   Smarty_Template_Source $source
      * @return  null|string
      */
-    protected function getNamespace(Smarty_Template_Source $source)
+    public function getSnippetNamespace(Smarty_Template_Source $source)
     {
         $_rdl = preg_quote($source->smarty->right_delimiter);
-		$_ldl = preg_quote($source->smarty->left_delimiter);
+        $_ldl = preg_quote($source->smarty->left_delimiter);
 
         if(preg_match("!{$_ldl}namespace(\s.+?)?{$_rdl}!msi", $source->content, $_namespace_match)) {
-			$source->content = str_replace($_namespace_match[0], '', $source->content);
-			if (preg_match("!.?name=(.*?)(?=(\s|$))!", $_namespace_match[1], $_name_match)) {
-	            return $_name_match[1];
-	        } elseif (strpos($_namespace_match[1], 'ignore') !== false) {
-	        	return null;
-	        } else {
+            $source->content = str_replace($_namespace_match[0], '', $source->content);
+            if (preg_match("!.?name=(.*?)(?=(\s|$))!", $_namespace_match[1], $_name_match)) {
+                $_name_match[1] = trim($_name_match[1], '"\' ');
+                return $_name_match[1];
+            } elseif (strpos($_namespace_match[1], 'ignore') !== false) {
+                return null;
+            } else {
                 throw new Enlight_Exception("Missing name attribute in namespace block");
             }
-		} else {
-			$path = realpath($source->filepath);
+        } else {
+            $path = realpath($source->filepath);
             foreach ($source->smarty->getTemplateDir() as $template_dir) {
                 $template_dir = realpath($template_dir);
                 if(strpos($path, $template_dir) === 0) {
@@ -234,8 +240,8 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
                     return $namespace;
                 }
             }
-		}
-        
+        }
+
         return null;
     }
 }

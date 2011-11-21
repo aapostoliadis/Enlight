@@ -45,9 +45,9 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
 	protected $defaultNamespaceClass = 'Enlight_Components_Snippet_Namespace';
 
     /**
-     * @var     bool
+     * @var     string
      */
-    protected $ignore_namespace;
+    protected $ignoreNamespace;
 
     /**
      * @param   array|Enlight_Config_Adapter|null $options
@@ -57,8 +57,14 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
         if(!is_array($options)) {
             $options = array('adapter' => $options);
         }
-        if(isset($options['adapter']) && $options['adapter'] instanceof Enlight_Config_Adapter) {
+
+        if(isset($options['adapter'])
+          && $options['adapter'] instanceof Enlight_Config_Adapter) {
             $this->adapter = $options['adapter'];
+        }
+
+        if(isset($options['ignore_namespace'])) {
+            $this->ignoreNamespace = (bool) $options['ignoreNamespace'];
         }
     }
 
@@ -68,15 +74,25 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
 	 * @param   string $namespace
 	 * @return  Enlight_Components_Snippet_Namespace
 	 */
-	public function getNamespace($namespace)
+	public function getNamespace($namespace=null)
 	{
-        if(!isset($this->namespaces[$namespace])) {
-            $this->namespaces[$namespace] = new $this->defaultNamespaceClass($namespace, array(
-                'adapter' => $this->adapter
+        $key = $namespace===null ? '__ignore' : (string) $namespace;
+        if(!isset($this->namespaces[$key])) {
+            $this->namespaces[$key] = new $this->defaultNamespaceClass(array(
+                'adapter' => $this->adapter,
+                'name' => $namespace
             ));
         }
-        return $this->namespaces[$namespace];
+        return $this->namespaces[$key];
 	}
+
+    /**
+     * @return Enlight_Config_Adapter
+     */
+    public function Adapter()
+    {
+        return $this->adapter;
+    }
 
     /**
      * @return Enlight_Components_Snippet_Manager

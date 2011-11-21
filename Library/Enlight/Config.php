@@ -104,7 +104,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
         }
 		if(is_array($config)) {
 			$this->setData($config);
-		} elseif(!empty($config)) {
+		} elseif($config !== null) {
 			$this->setName($config);
 		} else {
 			throw new Enlight_Config_Exception('Please specify configuration data');

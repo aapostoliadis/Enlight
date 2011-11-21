@@ -37,7 +37,7 @@ class Enlight_Tests_Config_ConfigTest extends Enlight_Components_Test_TestCase
 	public function testConfigConstructor()
     {
 		$this->setExpectedException('Enlight_Config_Exception');
-    	$config = new Enlight_Config('');
+    	$config = new Enlight_Config(null);
     }
 
 	/**
