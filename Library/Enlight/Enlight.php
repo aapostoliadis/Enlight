@@ -9,18 +9,20 @@ require_once(dirname(__FILE__).'/Application.php');
  * @author Heiner Lohaus
  * @package Enlight
  */
-class Enlight extends Enlight_Application
+if(!class_exists('Enlight'))
 {
-	/**
-	 * Constructor
-	 */
-	public function __construct($environment, $options = null)
+	class Enlight extends Enlight_Application
 	{
-		Enlight($this);
-		parent::__construct($environment, $options);
+		/**
+		 * Constructor
+		 */
+		public function __construct($environment, $options = null)
+		{
+			Enlight($this);
+			parent::__construct($environment, $options);
+		}
 	}
 }
-
 /**
  * Enlight
  * 

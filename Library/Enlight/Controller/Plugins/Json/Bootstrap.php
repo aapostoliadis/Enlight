@@ -12,12 +12,19 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 	$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Controller_Action_PostDispatch',
              500,
-	 		array($this, 'Enlight_Controller_Action_PostDispatch')
+	 		array($this, 'onPostDispatch')
 	 	);
 		$this->Application()->Events()->registerListener($event);
 	}
 
+	/**
+	 * @var string
+	 */
+	protected $encoding = 'UTF-8';
 
+	/**
+	 * @var bool
+	 */
 	protected $renderDataOnly = true;
 
 	/**
@@ -33,7 +40,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 * @param Enlight_Event_EventArgs $args
 	 * @return bool
 	 */
-	public function Enlight_Controller_Action_PostDispatch(Enlight_Event_EventArgs $args)
+	public function onPostDispatch(Enlight_Event_EventArgs $args)
 	{
 		// We do not need to render the whole page
 		$this->Collection()->ViewRenderer()->setNoRender(true);
@@ -53,10 +60,10 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 		// decide if we should render the data or the whole page
 		if($this->renderDataOnly){
 			$content = $subject->View()->getAssign();
-			$content = $this->convertToUtf8($content);
+			$content = $this->convertToUtf8($content, $this->encoding);
 		} else {
 			$content =  array('data'=>$response->getBody());
-			$content = $this->convertToUtf8($content);
+			$content = $this->convertToUtf8($content, $this->encoding);
 			$content = $content['data'];
 		}
 
@@ -75,35 +82,40 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 		} else {
 			$response->setHeader('Content-type', 'application/json', true);
 		}
-		$response->sendHeaders();
+		
 		$response->setBody($jsonData);
+		$this->padding = null;
+		$this->encoding = 'UTF-8';
+		$this->renderDataOnly = true;
 
 		return true;
 	}
-	
+
 	/**
 	 * Sometimes it is necessary to pad an JSON object into a javascript function. If this behaviour need
 	 * this method can be called with a true value as parameter to enable the padding mode.
 	 * If this mode is active the system takes the name found in the GET parameter 'callback' as the javascript function
 	 * name.
 	 * Eg.: A call to /jsonTest/?callback=foo result in
-	 * 		foo({"anArray":[["element1","element2"],"element3","element"],"controllerGreetings":"Hello Enlight","SCRIPT_NAME":"\/index.php"});
+	 *		 foo({"anArray":[["element1","element2"],"element3","element"],"controllerGreetings":"Hello Enlight","SCRIPT_NAME":"\/index.php"});
 	 *
 	 * @param bool $padding
-	 * @return void
+	 * @return Enlight_Controller_Plugins_Json_Bootstrap
 	 */
 	public function setPadding($padding = true)
 	{
 		$this->padding = $padding;
+		return $this;
 	}
+
 	/**
-	 * Check if this plugin is enabled
-	 *	 *
-	 * @return boolean
+	 * Returns the Value set with setPadding()
+	 *
+	 * @return String
 	 */
-	public function isEnabled()
+	public function getPadding()
 	{
-		return $this->enabled;
+		return $this->padding;
 	}
 
 	/**
@@ -111,11 +123,44 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 * or just the data assigned to the current view.
 	 *
 	 * @param bool $renderData
-	 * @return void
+	 * @return \Enlight_Controller_Plugins_Json_Bootstrap
 	 */
 	public function setRenderer($renderData = true)
 	{
-		$this->renderDataOnly = $renderData;
+		$this->renderDataOnly = (bool)$renderData;
+		return $this;
+	}
+
+	/**
+	 * Returns the boolean field set by setRenderer
+	 *
+	 * @return bool
+	 */
+	public function getRenderer()
+	{
+		return $this->renderDataOnly;
+	}
+
+	/**
+	 * Sets the source encoding used to convert the current data to UTF-8
+	 *
+	 * @param $encoding
+	 * @return \Enlight_Controller_Plugins_Json_Bootstrap
+	 */
+	public function setEncoding($encoding)
+	{
+		$this->encoding = (string)$encoding;
+		return $this;
+	}
+
+	/**
+	 * Returns the encoding which has been set with setEncoding()
+	 *
+	 * @return string
+	 */
+	public function getEncoding()
+	{
+		return $this->encoding;
 	}
 
 	/**
@@ -133,11 +178,8 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 		foreach($data as $key => $value)
 		{
 			if(is_array($value)) {
-				$data[$key] = $this->convertToUtf8($value);
+				$data[mb_convert_encoding($key, 'UTF-8', $encoding)] = $this->convertToUtf8($value, $encoding);
 			} else {
-				if(empty($encoding)) {
-					$encoding = mb_detect_encoding($value);
-				}				
 				if($encoding != 'UTF-8') {
 					$data[mb_convert_encoding($key, 'UTF-8', $encoding)] =  mb_convert_encoding($value, 'UTF-8', $encoding);
 				}
