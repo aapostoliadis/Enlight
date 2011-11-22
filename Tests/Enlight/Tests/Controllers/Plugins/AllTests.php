@@ -29,7 +29,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Enlight_Tests_AllTests
+class Enlight_Tests_Controllers_Plugins_AllTests
 {
 	/**
 	 * Returns test suite
@@ -38,13 +38,9 @@ class Enlight_Tests_AllTests
 	 */
 	public static function suite()
 	{
-		$suite = new Enlight_Components_Test_TestSuite('Enlight Tests');
+		$suite = new Enlight_Components_Test_TestSuite('Enlight Components Tests');
 
-		$suite->addTest(Enlight_Tests_Application_AllTests::suite());
-		$suite->addTest(Enlight_Tests_Controllers_AllTests::suite());
-
-        $suite->addTest(Enlight_Tests_Components_AllTests::suite());
-        $suite->addTest(Enlight_Tests_Config_AllTests::suite());
+		$suite->addTest(Enlight_Tests_Controllers_Plugins_Json_AllTests::suite());
 
 		return $suite;
 	}

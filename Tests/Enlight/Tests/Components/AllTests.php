@@ -42,7 +42,7 @@ class Enlight_Tests_Components_AllTests
 
 		$suite->addTest(Enlight_Tests_Components_Auth_Adapter_AllTests::suite());
 		$suite->addTest(Enlight_Tests_Components_Snippet_AllTests::suite());
-		//$suite->addTest(Enlight_Tests_Components_Cron_AllTests::suite());
+		$suite->addTest(Enlight_Tests_Components_Cron_AllTests::suite());
         
 		return $suite;
 	}

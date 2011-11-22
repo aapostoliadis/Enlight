@@ -12,8 +12,7 @@ class Default_Bootstrap extends Enlight_Bootstrap
         $this->loadResource('ConfigAdapter');
         $this->loadResource('Extensions');
 
-//		$namespace = new Enlight_Plugin_Namespace_Config('Core');
-//		$test = new Enlight_Extensions_JsonRenderer_Bootstrap($namespace,'JsonRenderer');
+		$this->Application()->AppPath('Forms');
 
         return parent::run();
     }
