@@ -15,35 +15,28 @@
  * @category   Enlight
  * @package    Enlight_Tests
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license/new-bsd     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
 
 /**
- * Test suite
+ * Test case
  *
  * @category   Enlight
  * @package    Enlight_Tests
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @license    http://enlight.de/license/new-bsd     New BSD License
  */
-class Enlight_Tests_AllTests
+class Enlight_Tests_Components_Snippet_NamespaceTest extends Enlight_Components_Test_TestCase
 {
-	/**
-	 * Returns test suite
-	 *
-	 * @return PHPUnit_Framework_TestSuite
-	 */
-	public static function suite()
-	{
-		$suite = new Enlight_Components_Test_TestSuite('Enlight Tests');
-
-		$suite->addTest(Enlight_Tests_Application_AllTests::suite());
-        $suite->addTest(Enlight_Tests_Components_AllTests::suite());
-        $suite->addTest(Enlight_Tests_Config_AllTests::suite());
-        
-		return $suite;
-	}
+    /**
+     * Test case
+     */ 
+    public function testAllowModifications()
+    {
+        $namespace = new Enlight_Components_Snippet_Namespace(array('name' => 'test'));
+        $this->assertFalse($namespace->readOnly());
+    }
 }

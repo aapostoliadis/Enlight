@@ -136,12 +136,16 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
     {
         $section = $config->getSection();
         $name = $this->getFilename($config->getName());
-        $reader = 'Zend_Config_' . ucfirst($this->_configType);
-        $reader = new $reader($name, $section, array(
-            'skipExtends' => $this->_skipExtends
-        ));
-        $config->setData($reader->toArray());
-        //$config->merge($reader);
+        if(file_exists($name)) {
+            $reader = 'Zend_Config_' . ucfirst($this->_configType);
+            /** @var $reader Zend_Config */
+            $reader = new $reader($name, $section, array(
+                'skipExtends' => $this->_skipExtends
+            ));
+            $config->setData($reader->toArray());
+        } else {
+            $config->setData(array());
+        }
         return $this;
     }
 
@@ -165,6 +169,7 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
 
         try {
             $writer = 'Zend_Config_Writer_' . ucfirst($this->_configType);
+            /** @var $writer Zend_Config_Writer */
             $writer = new $writer(array(
                 'config' => $base,
                 'filename' => $filename
