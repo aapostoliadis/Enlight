@@ -44,7 +44,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     	
         $this->reset();
         
-        Enlight::Instance()->Bootstrap()
+        Enlight_Application::Instance()->Bootstrap()
         	->resetResource('Session')
         	->resetResource('Auth');
         
@@ -56,8 +56,8 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     /**
      * Dispatch the request
      *
-     * @param unknown_type $url
-     * @return unknown
+     * @param   string|null $url
+     * @return  Zend_Controller_Response_Abstract
      */
     public function dispatch($url = null)
     {
@@ -71,7 +71,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
              ->setRequest($request)
              ->setResponse($this->Response());
 
-        return Enlight::Instance()->run();
+        return Enlight_Application::Instance()->run();
     }
     
     /**
@@ -86,19 +86,20 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
         $this->_template = null;
         $this->_front = null;
         
-        foreach(Enlight::Instance()->Plugins()->getList() as $namespace) {
-        	foreach($namespace->getList() as $plugin) {
+        foreach(Enlight_Application::Instance()->Plugins() as $namespace) {
+            /** @var Enlight_Plugin_Namespace $namespace */
+        	foreach($namespace as $plugin) {
 	        	Enlight_Class::resetInstance($plugin);
 	        }
         }
         
-        Enlight::Instance()->Plugins()->resetPlugins();
-        Enlight::Instance()->Hooks()->resetHooks();
-        Enlight::Instance()->Events()->resetEvents();
+        Enlight_Application::Instance()->Plugins()->resetPlugins();
+        Enlight_Application::Instance()->Hooks()->resetHooks();
+        Enlight_Application::Instance()->Events()->resetEvents();
         
-        Enlight::Instance()->Db()->getProfiler()->clear();
+        Enlight_Application::Instance()->Db()->getProfiler()->clear();
         
-        $ressources = array(
+        $resources = array(
         	'Plugins' => 'Enlight_Plugin_PluginManager',
         	'Template' => 'Enlight_Template_TemplateManager',
         	'Front' => 'Enlight_Controller_Front',
@@ -107,16 +108,16 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
         	'Enlight_Controller_Plugins_ViewRenderer_Bootstrap'
         );
         
-        foreach ($ressources as $ressource => $class) {
+        foreach ($resources as $resource => $class) {
         	Enlight_Class::resetInstance($class);
-        	if(!is_int($ressource)) {
-        		Enlight::Instance()->Bootstrap()
-        			->resetResource($ressource)
-        			->loadResource($ressource);
+        	if(!is_int($resource)) {
+        		Enlight_Application::Instance()->Bootstrap()
+        			->resetResource($resource)
+        			->loadResource($resource);
         	}
         }
         
-        Enlight::Instance()->Bootstrap()
+        Enlight_Application::Instance()->Bootstrap()
         	->resetResource('System')
         	->resetResource('Modules')
         	->resetResource('Config')
@@ -158,7 +159,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     public function Front()
     {
         if (null === $this->_front) {
-            $this->_front = Enlight::Instance()->Bootstrap()->getResource('Front');
+            $this->_front = Enlight_Application::Instance()->Bootstrap()->getResource('Front');
         }
         return $this->_front;
     }
@@ -184,7 +185,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     public function View()
     {
         if (null === $this->_view) {
-            $this->_view = Enlight::Instance()->Bootstrap()->getResource('View');
+            $this->_view = Enlight_Application::Instance()->Bootstrap()->getResource('View');
         }
         return $this->_view;
     }
@@ -219,7 +220,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
      * Magic get method
      * 
      * @param mixed $name
-     * @return void
+     * @return mixed
      */
     public function __get($name)
     {

@@ -48,17 +48,18 @@ class Enlight_Tests_Components_Snippet_ResourceTest extends Enlight_Components_T
     {
         parent::setUp();
 
-        $dir = Enlight_TestHelper::Instance()->TestPath('TempFiles');
+        $tempDir = Enlight_TestHelper::Instance()->TestPath('TempFiles');
         $adapter = new Enlight_Config_Adapter_File(array(
             'configType' => 'ini',
-            'configDir' => $dir,
+            'configDir' => $tempDir,
             'namePrefix' => 'snippet_'
         ));
         $this->manager = new Enlight_Components_Snippet_Manager($adapter);
 
-        $this->engine = $this->getMockBuilder('Enlight_Template_Manager')
-                       ->disableOriginalConstructor()
-                       ->getMock();
+        $this->engine = new Enlight_Template_Manager();
+        $this->engine->setCompileDir($tempDir);
+        $this->engine->setCompileId('snippet');
+        $this->engine->clearCompiledTemplate(null, 'snippet');
     }
 
     /**
@@ -117,23 +118,19 @@ class Enlight_Tests_Components_Snippet_ResourceTest extends Enlight_Components_T
     public function testGetContent()
     {
         $resource = new Enlight_Components_Snippet_Resource($this->manager);
-        
-        $engine = new Enlight_Template_Manager();
-        $engine->registerResource('snippet', $resource);
-        $engine->setCompileId('snippet');
-        $engine->clearCompiledTemplate(null, 'snippet');
 
+        $this->engine->registerResource('snippet', $resource);
 
-        $this->assertEquals('test', $engine->fetch('snippet:string:{s name="test" namespace="test"}test{/s}'));
-        $this->assertEquals('test', $engine->fetch('snippet:string:{namespace name="test"}{s name="test"}test{/s}'));
+        $this->assertEquals('test', $this->engine->fetch('snippet:string:{s name="test" namespace="test"}test{/s}'));
+        $this->assertEquals('test', $this->engine->fetch('snippet:string:{namespace name="test"}{s name="test"}test{/s}'));
 
-        $this->assertEquals('force', $engine->fetch('snippet:string:{s name="force" namespace="test" force}force{/s}'));
-        $this->assertEquals('force2', $engine->fetch('snippet:string:{s name="force" namespace="test" force}force2{/s}'));
+        $this->assertEquals('force', $this->engine->fetch('snippet:string:{s name="force" namespace="test" force}force{/s}'));
+        $this->assertEquals('force2', $this->engine->fetch('snippet:string:{s name="force" namespace="test" force}force2{/s}'));
 
-        $this->assertContains('<span', $engine->fetch('snippet:string:{se name="force" namespace="test"}force{/se}'));
+        $this->assertContains('<span', $this->engine->fetch('snippet:string:{se name="force" namespace="test"}force{/se}'));
 
-        $this->assertEquals('test', $engine->fetch('snippet:string:{namespace name="ignore"}{s name="ignore"}test{/s}'));
-        $this->assertEquals('ignore', $engine->fetch('snippet:string:{namespace ignore}{s name="ignore"}ignore{/s}'));
+        $this->assertEquals('test', $this->engine->fetch('snippet:string:{namespace name="ignore"}{s name="ignore"}test{/s}'));
+        $this->assertEquals('ignore', $this->engine->fetch('snippet:string:{namespace ignore}{s name="ignore"}ignore{/s}'));
     }
 
     /**

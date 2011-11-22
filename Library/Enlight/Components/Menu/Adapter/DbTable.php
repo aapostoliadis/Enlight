@@ -28,6 +28,7 @@
  * @license	    http://enlight.de/license	 New BSD License
  */
 class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
+  implements Enlight_Components_Menu_Adapter
 {
     /**
      * @var     string
@@ -45,8 +46,8 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
 	protected $_columns = array(
 		'id' => 'id',
 		'parent' => 'parent',
-		'uri' => 'hyperlink',
-		'label' => 'name',
+		'uri' => 'uri',
+		'label' => 'label',
 		'onClick' => 'onClick',
 		'style' => 'style',
 		'class' => 'class',
@@ -80,6 +81,8 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
     }
 
     /**
+     * Reads the menu form the database.
+     *
      * @param   Enlight_Components_Menu $menu
      * @return  Enlight_Components_Menu_Adapter_DbTable
      */
@@ -88,7 +91,7 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
     	$rows = $this->fetchAll(null, $this->_order);
 		$pages = array();
 		foreach ($rows as $rowKey => $row) {
-			$page = array('order'=>$rowKey);
+			$page = array('order' => $rowKey);
 			foreach ($this->_columns as $key => $column) {
 				if (isset($row->{$column})) {
 					$page[$key] = $row->{$column};
@@ -101,6 +104,8 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
     }
 
     /**
+     * Writes the menu to the database.
+     *
      * @param   Enlight_Components_Menu $menu
      * @return  Enlight_Components_Menu_Adapter_DbTable
      */
@@ -114,7 +119,7 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
 
 			foreach ($this->_columns as $key => $column) {
 				$value = $page->get($key);
-				if($key=='parent') {
+				if($key == 'parent') {
 					if($value instanceof Zend_Navigation_Page) {
                         /** @var Zend_Navigation_Page $value */
 						$value = $value->getId();

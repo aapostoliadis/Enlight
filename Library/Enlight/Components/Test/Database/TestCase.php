@@ -17,7 +17,7 @@ abstract class Enlight_Components_Test_Database_TestCase extends PHPUnit_Extensi
      */
 	protected function getConnection()
 	{
-		$pdo = Enlight::Instance()->Db()->getConnection();
+		$pdo = Enlight_Application::Instance()->Db()->getConnection();
 		return $this->createDefaultDBConnection($pdo);
     }
 }
