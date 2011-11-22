@@ -26,6 +26,9 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license	http://enlight.de/license	 New BSD License
  */
+/**
+ * @todo remove hardcoded session dependency  (e.g. updateSession)
+ */
 class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 {
 	/**
@@ -223,11 +226,7 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 
 		if($result->isValid()) {
 			$this->updateExpiry();
-		} else {
-			$datetime = new Zend_Date();
-			$datetime->addSecond($this->lockSeconds);
-			$this->setLockedUntil($datetime);
-		}
+		} 
 
 		return $result;
 	}

@@ -76,6 +76,9 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
         if (!$this->getParam('noViewRenderer')) {
         	$this->getParam('controllerPlugins')->ViewRenderer();
         }
+		if (!$this->getParam('jsonRenderer')){
+			$this->getParam('controllerPlugins')->Json();
+		}
 		
 		Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_StartDispatch', array('subject'=>$this));
 	
