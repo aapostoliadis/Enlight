@@ -59,11 +59,17 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 			$content = $this->convertToUtf8($content);
 			$content = $content['data'];
 		}
-		if($this->padding){
-			$jsonData = $this->addPadding($content, $callback);
+
+		if(!$this->renderDataOnly) {
+			$jsonData = $content;
 		} else {
 			$jsonData = Zend_Json::encode($content);
 		}
+		
+		if($this->padding){
+			$jsonData = $this->addPadding($jsonData, $callback);
+		}
+
 		if($this->padding && !empty($callback)){
 				$response->setHeader('Content-type', 'text/javascript', true);
 		} else {
@@ -121,8 +127,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 */
 	private function convertToUtf8($data, $encoding='')
 	{
-		if(is_string($data))
-		{
+		if(is_string($data))		{
 			return mb_convert_encoding($data, 'UTF-8', $encoding);
 		}
 		foreach($data as $key => $value)
@@ -151,7 +156,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	private function addPadding($data, $callback)
 	{
 		if(empty($callback)){
-			return Zend_Json::encode($data);
+			return $data;
 		}
 		$retVal = $callback."(".Zend_Json::encode($data).");";
 		return $retVal;
