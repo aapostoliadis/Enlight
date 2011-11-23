@@ -29,5 +29,19 @@
  */
 interface Enlight_Components_Menu_Adapter
 {
-    
+    /**
+     * Reads the menu form the storage.
+     *
+     * @param   Enlight_Components_Menu $menu
+     * @return  Enlight_Components_Menu_Adapter_DbTable
+     */
+    public function read(Enlight_Components_Menu $menu);
+
+    /**
+     * Writes the menu to the storage.
+     *
+     * @param   Enlight_Components_Menu $menu
+     * @return  Enlight_Components_Menu_Adapter_DbTable
+     */
+    public function write(Enlight_Components_Menu $menu);
 }

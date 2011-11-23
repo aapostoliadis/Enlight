@@ -40,7 +40,7 @@ class Enlight_Application
 	protected $options;
 
 	/**
-	 * @var string Directory seperator
+	 * @var string Directory separator
 	 */
 	protected static $ds = DIRECTORY_SEPARATOR;
 

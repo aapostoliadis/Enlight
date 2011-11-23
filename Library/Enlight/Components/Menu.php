@@ -13,7 +13,7 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category    Enlight
- * @package	    Enlight_Components
+ * @package	    Enlight_Components_Menu
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license	    http://enlight.de/license	 New BSD License
  * @version	    $Id$
@@ -35,11 +35,13 @@ class Enlight_Components_Menu extends Zend_Navigation
 	protected $_defaultPageClass = 'Enlight_Components_Menu_Item';
 
     /**
-     * @var Enlight_Components_Menu_Adapter_DbTable
+     * @var Enlight_Components_Menu_Adapter
      */
 	protected $_adapter;
 
     /**
+     * Saves the menu on the adapter.
+     *
      * @throws  Enlight_Exception
      * @return  Enlight_Components_Menu
      */
@@ -53,12 +55,14 @@ class Enlight_Components_Menu extends Zend_Navigation
 	}
 
     /**
+     * Reads the menu form the adapter.
+     *
      * @throws  Enlight_Exception
      * @return  Enlight_Components_Menu
      */
 	public function read()
 	{
-		if($this->_adapter===null) {
+		if($this->_adapter === null) {
 			throw new Enlight_Exception('A save handler are required failure');
 		}
 		$this->_adapter->read($this);
@@ -66,68 +70,59 @@ class Enlight_Components_Menu extends Zend_Navigation
 	}
 
     /**
-     * @param   $adapter
+     * Sets the adapter instance in the menu.
+     *
+     * @param   Enlight_Components_Menu_Adapter $adapter
      * @return  Enlight_Components_Menu
      */
-	public function setAdapter($adapter)
+	public function setAdapter(Enlight_Components_Menu_Adapter $adapter)
 	{
 		$this->_adapter = $adapter;
         return $this;
 	}
 
     /**
-     * @param   array|Enlight_Components_Menu_Item $page
+     * Returns the adapter instance from the menu.
+     *
+     * @return Enlight_Components_Menu_Adapter
+     */
+    public function getAdapter()
+    {
+        return $this->_adapter;
+    }
+
+    /**
+     * Adds a page to the menu.
+     *
+     * Supports the indication of deeper containers.
+     *
+     * @param   Enlight_Components_Menu_Item|Zend_Config|array $item
      * @return  Enlight_Components_Menu
      */
-	public function addItem($page)
-	{
-		return $this->addPage($page);
+	public function addItem($item)
+	{ 
+		return $this->addPage($item);
 	}
 
     /**
-     * @param   Enlight_Config|array $pages
+     * Adds several pages at once
+     *
+     * Supports the indication of deeper containers.
+     *
+     * @param   Enlight_Config|array $items
      * @return  Enlight_Components_Menu
      */
-	public function addItems($pages)
+	public function addItems($items)
 	{
-		return $this->addPages($pages);
+		return $this->addPages($items);
 	}
 
     /**
-     * @param   Enlight_Config|array $pages
-     * @return  Enlight_Components_Menu
-     */
-	public function addPages($pages)
-	{
-		if ($pages instanceof Zend_Config) {
-            $pages = $pages->toArray();
-        }
-        while ($page = array_shift($pages)) {
-        	if ($page instanceof Zend_Config) {
-                /** @var Zend_Config $page */
-        		$page = $page->toArray();
-	        }
-	        if(is_array($page)&&empty($page['parent'])) {
-	        	unset($page['parent']);
-	        }
-        	if(is_array($page) && isset($page['parent'])
-              && !$page['parent'] instanceof Zend_Navigation_Container) {
-	        	$parent = $this->findOneBy('id', $page['parent']);
-	        	if(!empty($parent)) {
-	        		unset($page['parent']);
-	        		$parent->addPage($page);
-	        	} else {
-	        		array_push($pages, $page);
-	        	}
-	        } else {
-	        	$this->addPage($page);
-	        }
-        }
-        return $this;
-	}
-
-    /**
-     * @param   array|Enlight_Components_Menu_Item $page
+     * Adds a page to the menu.
+     *
+     * Supports the indication of deeper containers.
+     *
+     * @param   Enlight_Components_Menu_Item|Zend_Config|array $page
      * @return  Enlight_Components_Menu
      */
 	public function addPage($page)
@@ -153,6 +148,46 @@ class Enlight_Components_Menu extends Zend_Navigation
 			parent::addPage($page);
 		}
 
+        return $this;
+	}
+
+    /**
+     * Adds several pages at once
+     *
+     * Supports the indication of deeper containers.
+     * 
+     * @param   Enlight_Config|array $pages
+     * @return  Enlight_Components_Menu
+     */
+	public function addPages($pages)
+	{
+		if ($pages instanceof Zend_Config) {
+            $pages = $pages->toArray();
+        }
+        while ($page = array_shift($pages)) {
+        	if ($page instanceof Zend_Config) {
+                /** @var Zend_Config $page */
+        		$page = $page->toArray();
+	        }
+	        if(is_array($page) && empty($page['parent'])) {
+	        	unset($page['parent']);
+	        }
+        	if(is_array($page) && isset($page['parent'])
+              && !$page['parent'] instanceof Zend_Navigation_Container) {
+	        	$parent = $this->findOneBy('id', $page['parent']);
+	        	if(empty($parent)) {
+	        		array_push($pages, $page);
+                    continue;
+	        	}
+                unset($page['parent']);
+	        } else {
+                $parent = $this;
+	        }
+            if (is_array($page)) {
+                $page = call_user_func($this->_defaultPageClass . '::factory', $page);
+            }
+            $parent->addPage($page);
+        }
         return $this;
 	}
 }
