@@ -27,128 +27,50 @@
  * @license    http://enlight.de/license     New BSD License
  */
 
-class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cron_Adapter_Adapter
+class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract implements Enlight_Components_Cron_Adapter
 {
 	/**
-	 * Name of the cronjob id field
+	 * Table name
 	 *
-	 * @var int
-	 */
-	protected $_id = 'id';
-	/**
-	 * Name of the cronjob name field
 	 * @var string
 	 */
-	protected $_name = 'name';
-	/**
-	 * Name of the action method to call
-	 * @var string
-	 */
-	protected $_action = 'action';
-	/**
-	 * Name of the element ID
-	 * @var int
-	 */
-	protected $_elementID = 'elementID';
-	/**
-	 * Name of the data field which holds a serialized array
-	 * @var string
-	 */
-	protected $_data = 'data';
-	/**
-	 * Name of the next date field
-	 * @var string MySQL Datetime
-	 */
-	protected $_next = 'next';
-	/**
-	 * Name of the start field which hold the time the cron has been started
-	 * @var string MySQL Datetime
-	 */
-	protected $_start = 'start';
-	/**
-	 * Name of the field which holds the interval in which the cronjob should be running in minutes
-	 * @var int
-	 */
-	protected $_interval = 'interval';
-	/**
-	 * Name of the field which determines if a cronjob be run or not (1 yes 0 no)
-	 *
-	 * @var int
-	 */
-	protected $_active = 'active';
-	/**
-	 * Name of the field which where the timestamp is stored of the last cronjob run
-	 * @var string MySQL Datetime
-	 */
-	protected $_end = 'end';
-	/**
-	 * Name of the field which holds the name of the template which has to be informed that this cronjob has been called
-	 * @var string
-	 */
-	protected $_inform_template = 'inform_template';
-	/**
-	 * Name of the field which contained the email address where the status report should be mailed.
-	 *
-	 * @var string email address
-	 */
-	protected $_inform_mail = 'inform_mail';
-	/**
-	 * Name of the field which holds the plugin ID
-	 *
-	 * @var int
-	 */
-	protected $_pluginID = 'pluginID';
+	protected $_name = 's_crontab';
 
-	/**
-	 * Name of the crontab table
-	 *
+    /**
 	 * @var string
 	 */
-	protected $_crontab = 's_crontab';
+	protected $_primary = 'id';
 
-	/**
-	 * @var Zend_Db_Adapter_Abstract
-	 */
-	protected $_db;
+	protected $_columns = array(
+		'id' => 'id',
+		'name' => 'name',
+		'action' => 'action',
+		'elementID' => 'elementID',
+		'data' => 'data',
+		'next' => 'next',
+		'start' => 'start',
+		'interval' => 'interval',
+		'active' => 'active',
+		'end' => 'end'
+	);
 
-	public function __construct(Array $options = array())
+	public function __construct(Array $options = null)
 	{
-		if (!empty($options))
+		if (null !== $options) {
 			$this->setOptions($options);
-	}
-
-	public function __get($name)
-	{
-		if(isset($this->{'_'.$name}))
-		{
-			return $this->{'_'.$name};
 		}
-		return null;
 	}
 
-	/**
-	 * Used to set adapter specific options
-	 *
-	 * @param array $options
-	 * @return Enlight_Components_Cron_Adapter_Adapter
-	 */
 	public function setOptions(array $options)
-	{
-		foreach ($options as $key=>$option) {
-			switch ($key) {
-				case 'db':
-					if( !empty($option) && ($option instanceof Zend_Db_Adapter_Abstract) )
-					$this->{'_'.$key} = $option;
-				break;
-				default:
-					if(!empty($option))
-					$this->{'_'.$key} = (string)$option;
-				break;
-				break;
-			}
-		}
-		return $this;
-	}
+    {
+        foreach ($options as $key => $option) {
+        	if(substr($key, -6) == 'Column') {
+        		$this->_columns[substr($key, 0, -6)] = (string) $option;
+        	}
+        }
+        return parent::setOptions($options);
+    }
+
 
 	/**
 	 * Deactivate a given Cron Job in the crontab
@@ -186,16 +108,16 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 				WHERE
 					`'.$this->_id.'` = '.$job->getId().'
 		';
-		
+
 		$db->query($sql, array(
 			$job->getName(),
 			$job->getAction(),
 			serialize($job->getData()),
-			$job->getNext()->get($job->getDateFormat()),
-			$job->getStart()->get($job->getDateFormat()),
+			$job->getNext()->get(),
+			$job->getStart()->get(),
 			$job->getInterval(),
 			$job->isActive(),
-			$job->getEnd()->get($job->getDateFormat())
+			$job->getEnd()->get()
 		));
 
 		return $this;
@@ -418,11 +340,11 @@ class Enlight_Components_Cron_Adapter_DbAdapter implements Enlight_Components_Cr
 			$job->getName(),
 			$job->getAction(),
 			serialize($job->getData()),
-			$job->getNext()->get($job->getDateFormat()),
-			$job->getStart()->get($job->getDateFormat()),
+			$job->getNext()->get(),
+			$job->getStart()->get(), 
 			$job->getInterval(),
 			$job->isActive(),
-			$job->getEnd()->get($job->getDateFormat())
+			$job->getEnd()->get()
 		));
 		return $this;
 	}

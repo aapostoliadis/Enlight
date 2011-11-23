@@ -26,7 +26,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-interface Enlight_Components_Cron_Adapter_Adapter
+interface Enlight_Components_Cron_Adapter
 {
 
 	/**

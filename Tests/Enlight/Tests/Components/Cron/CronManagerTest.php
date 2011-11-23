@@ -111,7 +111,7 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 		$this->jobData['end']  = new Zend_Date($this->jobData['end']);
 		$this->jobData['data'] = array('key'=>'value');
 		
-		$this->assertInstanceOf('Enlight_Components_Cron_Adapter_Adapter', $this->_adapter = new Enlight_Components_Cron_Adapter_DbAdapter($options));
+		$this->assertInstanceOf('Enlight_Components_Cron_Adapter', $this->_adapter = new Enlight_Components_Cron_Adapter_DbTable($options));
 		$this->assertInstanceOf('Enlight_Components_Cron_CronManager', $this->manager = new Enlight_Components_Cron_CronManager($this->_adapter));
 
 		$job = new Enlight_Components_Cron_Job($this->jobData);
@@ -142,7 +142,7 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
      */
     public function testGetAdapter()
     {
-       $this->assertInstanceOf('Enlight_Components_Cron_Adapter_Adapter', $this->manager->getAdapter());
+       $this->assertInstanceOf('Enlight_Components_Cron_Adapter', $this->manager->getAdapter());
     }
 
     public function testDeactivateJob()
