@@ -162,8 +162,9 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	public function getAllJobs($ignoreActive = false)
 	{
 		$where = null;
-		if($ignoreActive) {
-			$where = $this->getAdapter()->quote($this->_columns['active'].' = 1');
+		if(!$ignoreActive) {
+			#$where = $this->getAdapter()->quote($this->_columns['active'].' = 1');
+			$where = $this->getAdapter()->quoteInto($this->getAdapter()->quoteIdentifier($this->_columns['active']).' = ?',1);
 		}
 		$rows = $this->fetchAll($where);
 		if(count($rows) === 0) {

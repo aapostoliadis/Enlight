@@ -144,9 +144,20 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
 
     public function testGetAllCronJobs()
     {
-		$this->assertArrayCount(0, $this->object->getAllJobs());
+		$this->assertArrayCount(0, $f=$this->object->getAllJobs());
         $this->assertInstanceOf('Enlight_Components_Cron_Adapter', $this->object->addJob($this->job));
 		$this->assertArrayCount(1, $this->object->getAllJobs());
+    }
+
+	public function testGetAllCronJobsIgnoreActive()
+    {
+		$this->assertArrayCount(0, $this->object->getAllJobs());
+        $this->assertInstanceOf('Enlight_Components_Cron_Adapter', $this->object->addJob($this->job));
+		$this->job->setAction('foo');
+		$this->job->setActive(false);
+		$this->assertInstanceOf('Enlight_Components_Cron_Adapter', $this->object->addJob($this->job));
+		$this->assertArrayCount(1, $this->object->getAllJobs());
+		$this->assertArrayCount(2, $this->object->getAllJobs(true));
     }
 
     /**
@@ -169,6 +180,20 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
 		
 		$this->assertEquals($newOptions['name'],$testData->getName());
 		$this->assertEquals($newOptions['interval'], $testData->getInterval());
+    }
+
+	public function testUpdateJobFail()
+    {
+		$this->setExpectedException('Enlight_Exception');
+		$job = new Enlight_Components_Cron_Job($this->jobData);
+		$this->assertInstanceOf('Enlight_Components_Cron_Adapter', $this->object->addJob($job));
+
+		$newOptions = array('name'=>'updatedName',
+							'interval'=>'80');
+		$options = array_merge($this->jobData, $newOptions);
+
+		$updatedJob = new Enlight_Components_Cron_Job($options);
+		$this->assertInstanceOf('Enlight_Components_Cron_Adapter', $this->object->updateJob($updatedJob));
     }
 
     /**
@@ -200,9 +225,20 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
 
     public function testAddCronJob()
     {
+		unset($this->jobData['next']);
+		unset($this->jobData['start']);
+		unset($this->jobData['end']);
+		$this->jobData['action'] = 'foo';
+
+		$job = new Enlight_Components_Cron_Job($this->jobData);
+		$this->assertInstanceOf('Enlight_Components_Cron_Adapter',$this->object->addJob($job));
+    }
+	 public function testAddCronJobFail()
+    {
+		$this->setExpectedException('Exception');
+		$this->job->setId(1);
 		$this->assertInstanceOf('Enlight_Components_Cron_Adapter',$this->object->addJob($this->job));
     }
-
 
     public function testDeleteCronJob()
     {
