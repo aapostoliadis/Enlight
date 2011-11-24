@@ -120,7 +120,7 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 	}
 
     /**
-     * 
+     *
      */
     public function testSetAdapter()
     {
@@ -174,9 +174,9 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
     {
 		$this->assertArrayCount(1,$this->manager->getAllJobs());
 		$this->jobData['action'] = $this->jobData['action']."2";
-		
+
 		$job = new Enlight_Components_Cron_Job($this->jobData);
-		
+
 		$this->manager->addJob($job);
 		$this->assertArrayCount(2,$this->manager->getAllJobs());
     }
@@ -212,6 +212,38 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 	{
 		$job = $this->manager->getJobById(1);
 		$this->assertNull($this->manager->run($job));
+
+		$handler = new Enlight_Event_Handler_Default(
+							$job->getAction(), null, array($this, 'onJobAction')
+		);
+
+		$this->manager->getEventManager()->registerListener($handler);
+
+		$f = $this->manager->run($job);
+	}
+	public function testRunFailed()
+	{
+		$this->setExpectedException('Enlight_Exception');
+		$job = $this->manager->getJobById(1);
+		$this->assertNull($this->manager->run($job));
+
+		$handler = new Enlight_Event_Handler_Default(
+							$job->getAction(), null, array($this, 'onJobAction2')
+		);
+
+		$this->manager->getEventManager()->registerListener($handler);
+
+		$f = $this->manager->run($job);
+	}
+	///////////////
+	public function onJobAction(Enlight_Components_Cron_EventArgs $args)
+	{
+		$this->assertEquals('article_stock', $args->Job()->getAction());
+	}
+
+	public function onJobAction2(Enlight_Components_Cron_EventArgs $args)
+	{
+		throw new Enlight_Exception('Failed on purpose.');
 	}
 
 }

@@ -210,21 +210,22 @@ class Enlight_Components_Cron_Manager
 	 * Runs a job by handing it over to
 	 *
 	 * @param Enlight_Components_Cron_Job $job
-	 * @return null|Enlight_Event_EventArgs
+	 * @return Enlight_Event_EventArgs
+	 * @throw Enlight_Exception
 	 */
 	public function run(Enlight_Components_Cron_Job $job)
 	{
 		try {
 			if($this->startJob($job)) {
-				$jobArgs = $this->_eventManager->notifyUntil(new Enlight_Components_Cron_EventArgs($job));
+				$jobArgs = $this->_eventManager->notifyUntil($job->getAction(), new Enlight_Components_Cron_EventArgs($job));
 				$this->endJob($job);
 				return $jobArgs;
 			}
 		} catch(Exception $e) {
 			$job->setData((array('error'=>$e->getMessage())));
 			$this->disableJob($job);
+			throw $e;
 		}
-		return null;
 	}
 
 	/**
@@ -243,12 +244,16 @@ class Enlight_Components_Cron_Manager
 	 */
 	private function startJob(Enlight_Components_Cron_Job $job)
 	{
-		$nextRun = $job->getNext();
+		$nextRun = $job->getNext(); // get next Date
+
+		// Turn clock forward
 		do {
 			$nextRun->addSecond($job->getInterval());
 		} while($nextRun->compare(new Zend_Date()) >= 0 );
+
 		$job->setStart(new Zend_Date());
 		$job->setEnd(null);
+
 		try {
 			$this->_adapter->updateJob($job);
 			$job->setNext($nextRun);

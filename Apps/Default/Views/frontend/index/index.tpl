@@ -1,3 +1,1 @@
-{block name="frontend_index_text" append}
-{s name=index}#Index#{/s}
-{/block}
+{extends file="parent:frontend/index/index.tpl"}

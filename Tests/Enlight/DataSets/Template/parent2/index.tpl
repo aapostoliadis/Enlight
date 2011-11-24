@@ -1,0 +1,1 @@
+test {block name="test"}fail{/block}

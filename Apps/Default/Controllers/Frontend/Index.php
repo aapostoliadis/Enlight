@@ -22,9 +22,12 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
         $this->View()->Engine()->registerResource('snippet', $resource);
         $this->View()->Engine()->setDefaultResourceType('snippet');
 
+        $path = Enlight_Application::Instance()->AppPath('DefaultViews');
+        $this->View()->addTemplateDir($path);
+
         $this->View()->loadTemplate('frontend/index/index.tpl');
-        $this->View()->extendsTemplate('frontend/index/test.tpl');
-        $this->View()->extendsTemplate('frontend/index/test2.tpl');
+        //$this->View()->extendsTemplate('frontend/index/test.tpl');
+        //$this->View()->extendsTemplate('frontend/index/test2.tpl');
         Enlight_Application::Instance()->Log()->debug('test');
 		if($this->Request()->getPathInfo()!='/') {
 			 $this->Response()->setHttpResponseCode(404);

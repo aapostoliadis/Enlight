@@ -286,7 +286,7 @@ class Enlight_Components_Cron_Job
 	 * @param null|Zend_Date $end
 	 * @return Enlight_Components_Cron_Job
 	 */
-	public function setEnd(Zend_Date $end)
+	public function setEnd($end)
 	{
 		if(empty($end)) $end = null;
 		$this->end = $end;

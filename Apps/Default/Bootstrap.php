@@ -12,8 +12,6 @@ class Default_Bootstrap extends Enlight_Bootstrap
         $this->loadResource('ConfigAdapter');
         $this->loadResource('Extensions');
 
-		$this->Application()->AppPath('Forms');
-
         return parent::run();
     }
 
