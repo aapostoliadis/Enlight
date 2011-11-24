@@ -26,7 +26,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-interface Enlight_Components_Cron_Adapter_Adapter
+interface Enlight_Components_Cron_Adapter
 {
 
 	/**
@@ -38,14 +38,14 @@ interface Enlight_Components_Cron_Adapter_Adapter
 	 */
 	public function setOptions(array $options);
 
-	/**
-	 * Deactivate a given Cron Job in the crontab
-	 *
-	 * @abstract
-	 * @param Enlight_Components_Cron_Job $job
-	 * @return Enlight_Components_Cron_CronManager
-	 */
-	public function disableJob(Enlight_Components_Cron_Job $job);
+//	/**
+//	 * Deactivate a given Cron Job in the crontab
+//	 *
+//	 * @abstract
+//	 * @param Enlight_Components_Cron_Job $job
+//	 * @return Enlight_Components_Cron_CronManager
+//	 */
+//	public function disableJob(Enlight_Components_Cron_Job $job);
 
 	/**
 	 * Updates a cron job in the cron tab
