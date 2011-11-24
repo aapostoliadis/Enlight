@@ -43,7 +43,10 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 	 */
 	protected $authAdapter;
 
-	private $lockeduntilColumn;
+	/**
+	 * @var String
+	 */
+	protected $lockeduntilColumn;
 
     /**
      * Set up the test case

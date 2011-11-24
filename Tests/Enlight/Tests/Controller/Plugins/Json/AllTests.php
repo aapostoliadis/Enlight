@@ -29,7 +29,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Enlight_Tests_Controllers_Plugins_Json_AllTests
+class Enlight_Tests_Controller_Plugins_Json_AllTests
 {
 	/**
 	 * Returns the test suite
@@ -38,7 +38,7 @@ class Enlight_Tests_Controllers_Plugins_Json_AllTests
 	 */
 	public static function suite()
 	{
-		$suite = new Enlight_Components_Test_TestSuite('Enlight Application');
+		$suite = new Enlight_Components_Test_TestSuite('Enlight Controller - Plugins - Json Tests');
 
 		$testCollector = new PHPUnit_Runner_IncludePathTestCollector(
 			array(dirname(__FILE__))

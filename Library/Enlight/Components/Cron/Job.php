@@ -1,4 +1,31 @@
 <?php
+/**
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight_Cron
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     $Author$
+ */
+
+/**
+ * @category   Enlight
+ * @package    Enlight_Cron
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ */
 class Enlight_Components_Cron_Job
 {
 	/**
@@ -37,17 +64,10 @@ class Enlight_Components_Cron_Job
 	 * @var Integer
 	 */
 	protected $active;
-	/**
-	 * @var String
-	 */
-	protected $crontab;
-	/**
-	 * Used to format the Zend_Date output to a mysql conform datetime
-	 *
-	 * @var string
-	 */
-	protected $dateFormat = "YYYY-MM-dd HH:mm:ss";
-
+//	/**
+//	 * @var String
+//	 */
+//	protected $crontab;
 
 	/**
 	 * This is a Cronjob Model. Following option must be provided in the options array
@@ -87,7 +107,6 @@ class Enlight_Components_Cron_Job
 	 * name - Name or the description of the cron job: Expected data type: String
 	 * action - Name of the action which is called during the execution phase. Expected data type: String
 	 * data - Data storage. Can be used to store answers from cron job call. Expected data type: String
-	 * dateformat - Zend_Date formating string
 	 * 
 	 * @throws Enlight_Exception|Exception
 	 * @param array $options
@@ -116,9 +135,9 @@ class Enlight_Components_Cron_Job
 				case 'active':
 					$this->setActive($value);
 					break;
-				case 'crontab':
-					$this->setCrontab($value);
-					break;
+//				case 'crontab':
+//					$this->setCrontab($value);
+//					break;
 				case 'name':
 					$this->setName($value);
 					break;
@@ -128,9 +147,7 @@ class Enlight_Components_Cron_Job
 				case 'data':
 					$this->setData($value);
 					break;
-				case 'dateformat':
-					$this->setDateFormat($value);
-					break;
+
 				default:
 					//$this->$fieldName = (string) $value;
 			}
@@ -266,7 +283,7 @@ class Enlight_Components_Cron_Job
 	/**
 	 * Sets the date and time when the cronjob stopped its run.
 	 *
-	 * @param Zend_Date $end
+	 * @param null|Zend_Date $end
 	 * @return Enlight_Components_Cron_Job
 	 */
 	public function setEnd(Zend_Date $end)
@@ -309,6 +326,16 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
+	 * Alias for isActive
+	 *
+	 * @return int
+	 */
+	public function getActive()
+	{
+		return $this->isActive();
+	}
+
+	/**
 	 * Sets the cronjob either active or inactive
 	 *
 	 * @param bool $active
@@ -320,45 +347,36 @@ class Enlight_Components_Cron_Job
 		return $this;
 	}
 
-	/**
-	 * Returns the name of the crontab
-	 *
-	 * @return String
-	 */
-	public function getCrontab()
+//	/**
+//	 * Returns the name of the crontab
+//	 *
+//	 * @return String
+//	 */
+//	public function getCrontab()
+//	{
+//		return $this->crontab;
+//	}
+//
+//	/**
+//	 * Sets the name of the crontab
+//	 *
+//	 * @param String $crontab
+//	 * @return Enlight_Components_Cron_Job
+//	 */
+//	public function setCrontab($crontab)
+//	{
+//		$this->crontab = (string)$crontab;
+//		return $this;
+//	}
+
+	public function run()
 	{
-		return $this->crontab;
+		
 	}
 
-	/**
-	 * Sets the name of the crontab
-	 *
-	 * @param String $crontab
-	 * @return Enlight_Components_Cron_Job
-	 */
-	public function setCrontab($crontab)
+	public function __get($name)
 	{
-		$this->crontab = (string)$crontab;
-		return $this;
+		return $this->{$name};
 	}
 
-	/**
-	 * Returns the current used Zend_Date date format
-	 *
-	 * @return string
-	 */
-	public function getDateFormat()
-	{
-		return $this->dateFormat;
-	}
-
-	/**
-	 * Set the date format for the Zend_Date component.
-	 *
-	 * @param string $dateFormat
-	 */
-	public function setDateFormat($dateFormat)
-	{
-		$this->dateFormat = $dateFormat;
-	}
 }

@@ -29,7 +29,7 @@ class Enlight extends Enlight_Application {}
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license/new-bsd     New BSD License
  */
-class Enlight_Tests_Controllers_Plugins_Json_JsonTest extends Enlight_Components_Test_Plugin_TestCase
+class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_Test_Plugin_TestCase
 {
 	/**
 	 * @var Enlight_Controller_Plugins_Json_Bootstrap

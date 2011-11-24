@@ -38,8 +38,7 @@ class Enlight_Tests_Components_Cron_Cronjob extends Enlight_Components_Test_Test
 						  'start'=>'2010-10-16 12:34:31',
 						  'interval'=>'5',
 						  'active'=>'1',
-						  'end'=>'2010-10-16 12:34:32',
-						  'crontab'=>'s_crontab');
+						  'end'=>'2010-10-16 12:34:32');
 	/**
 	 * @var Enlight_Components_Cron_Job
 	 */
@@ -248,23 +247,6 @@ class Enlight_Tests_Components_Cron_Cronjob extends Enlight_Components_Test_Test
     {
         $this->assertInstanceOf('Enlight_Components_Cron_Job', $this->job->setActive(false));
 		$this->assertFalse($this->job->isActive());
-    }
-
-    /**
-     * @todo Implement testGetCrontab().
-     */
-    public function testGetCrontab()
-    {
-        $this->assertEquals($this->jobData['crontab'], $this->job->getCrontab());
-    }
-
-    /**
-     * @todo Implement testSetCrontab().
-     */
-    public function testSetCrontab()
-    {
-        $this->assertInstanceOf('Enlight_Components_Cron_Job', $this->job->setCrontab('test_crontab'));
-		$this->assertEquals('test_crontab', $this->job->getCrontab());
     }
 }
 

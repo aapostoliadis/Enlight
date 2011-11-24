@@ -38,14 +38,14 @@ interface Enlight_Components_Cron_Adapter
 	 */
 	public function setOptions(array $options);
 
-	/**
-	 * Deactivate a given Cron Job in the crontab
-	 *
-	 * @abstract
-	 * @param Enlight_Components_Cron_Job $job
-	 * @return Enlight_Components_Cron_CronManager
-	 */
-	public function disableJob(Enlight_Components_Cron_Job $job);
+//	/**
+//	 * Deactivate a given Cron Job in the crontab
+//	 *
+//	 * @abstract
+//	 * @param Enlight_Components_Cron_Job $job
+//	 * @return Enlight_Components_Cron_CronManager
+//	 */
+//	public function disableJob(Enlight_Components_Cron_Job $job);
 
 	/**
 	 * Updates a cron job in the cron tab

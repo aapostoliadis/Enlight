@@ -27,7 +27,8 @@
  * @license    http://enlight.de/license     New BSD License
  */
 
-class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract implements Enlight_Components_Cron_Adapter
+class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
+	implements Enlight_Components_Cron_Adapter
 {
 	/**
 	 * Table name
@@ -41,11 +42,13 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
 	 */
 	protected $_primary = 'id';
 
+	/**
+	 * @var array
+	 */
 	protected $_columns = array(
 		'id' => 'id',
 		'name' => 'name',
 		'action' => 'action',
-		'elementID' => 'elementID',
 		'data' => 'data',
 		'next' => 'next',
 		'start' => 'start',
@@ -54,6 +57,9 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
 		'end' => 'end'
 	);
 
+	/**
+	 * @param array|null $options
+	 */
 	public function __construct(Array $options = null)
 	{
 		if (null !== $options) {
@@ -61,6 +67,10 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
 		}
 	}
 
+	/**
+	 * @param array $options
+	 * @return Zend_Db_Table_Abstract
+	 */
 	public function setOptions(array $options)
     {
         foreach ($options as $key => $option) {
@@ -71,230 +81,47 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
         return parent::setOptions($options);
     }
 
-
-	/**
-	 * Deactivate a given Cron Job in the crontab
-	 *
-	 * @param Enlight_Components_Cron_Job $job
-	 * @return Enlight_Components_Cron_Adapter_Adapter
-	 */
-	public function disableJob(Enlight_Components_Cron_Job $job)
-	{
-		$job->setActive(false);
-		
-		return $this->updateJob($job);
-	}
-
 	/**
 	 * Updates a cron job in the cron tab
 	 *
 	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_Adapter_Adapter
 	 */
-	public function updateJob(Enlight_Components_Cron_Job $job)
+	public function write(Enlight_Components_Cron_Job $job)
 	{
-		$db = $this->_db;
+		$data = array();
+		$where = null;
+		foreach($this->_columns as $key => $value) {
+			switch($key){
+				case 'data':
+						$data[$key] = serialize($job->$key);
+					break;
+				default:
+					$data[$key] = $job->$key;
+			}
+		}
 
-		$sql = 'UPDATE '.$this->_crontab.'
-				SET
-					`'.$this->_name.'` = ?,
-					`'.$this->_action.'` = ?,
-					`'.$this->_data.'` = ?,
-					`'.$this->_next.'` = ?,
-					`'.$this->_start.'` = ?,
-					`'.$this->_interval.'` = ?,
-					`'.$this->_active.'` = ?,
-					`'.$this->_end.'` = ?
-				WHERE
-					`'.$this->_id.'` = '.$job->getId().'
-		';
-
-		$db->query($sql, array(
-			$job->getName(),
-			$job->getAction(),
-			serialize($job->getData()),
-			$job->getNext()->get(),
-			$job->getStart()->get(),
-			$job->getInterval(),
-			$job->isActive(),
-			$job->getEnd()->get()
-		));
-
+		if(is_null($job->getId())) {
+			$next = $job->getNext();
+			if ( empty($next) ){
+				$job->setNext(new Zend_Date());
+			}
+			$start = $job->getStart();
+			if (empty($start)) {
+				$zd = new Zend_Date();
+				$job->setStart($zd->subDay(1));
+			}
+			$end = $job->getEnd();
+			if (empty($end)) {
+				$zd = new Zend_Date();
+				$job->setEnd($zd->subDay(1));
+			}
+			$this->insert($data);
+		} else {
+			$where = $this->getAdapter()->quoteInto($this->getAdapter()->quoteIdentifier($this->_primary).' = ?',$job->getId());
+			$this->update($data, $where);
+		}
 		return $this;
-	}
-
-	/**
-	 * Returns an array of Enlight_Components_Cron_Job from the crontab
-	 * If no cron jobs found the method will return an empty array
-	 *
-	 * @param bool $ignoreActive if set true the active flag will be ignored
-	 * @return array
-	 */
-
-
-	public function getAllJobs($ignoreActive = false)
-	{
-		$db = $this->_db;
-		if($ignoreActive){
-			$where = '`'.$this->_active.'` = 1';
-		}
-		else
-		{
-			$where = ' 1 ';
-		}
-		$sql = '
-			SELECT
-				`'.$this->_id.'`,
-				`'.$this->_name.'`,
-				`'.$this->_action.'`,
-				`'.$this->_data.'`,
-				`'.$this->_next.'`,
-				`'.$this->_start.'`,
-				`'.$this->_interval.'`,
-				`'.$this->_active.'`,
-				`'.$this->_end.'`
-			FROM
-				'.$this->_crontab.'
-			WHERE '.$where.'
-		';
-		$jobs =  $db->fetchAll($sql);
-		$retVal = array();
-		foreach ($jobs as $jobData) {
-			$jobData['next'] = new Zend_Date($jobData['next']);
-			$jobData['start'] = new Zend_Date($jobData['start']);
-			$jobData['end'] = new Zend_Date($jobData['end']);
-			$job['data']  = unserialize($jobData['data']);
-		    $retVal[$jobData['id']] = new Enlight_Components_Cron_Job($jobData);
-		}
-		if(empty($retVal)){
-			return array();
-		}
-		else
-		{
-			return $retVal;
-		}
-	}
-
-	/**
-	 * Returns the next cron job
-	 *
-	 * @return null|Enlight_Components_Cron_Job
-	 */
-	public function getNextJob()
-	{
-		$db = $this->_db;
-		$sql = '
-			SELECT `'.$this->_id.'`,
-				`'.$this->_name.'`,
-				`'.$this->_action.'`,
-				`'.$this->_data.'`,
-				`'.$this->_next.'`,
-				`'.$this->_start.'`,
-				`'.$this->_interval.'`,
-				`'.$this->_active.'`,
-				`'.$this->_end.'`
-			FROM
-				'.$this->_crontab.'
-			WHERE
-				`'.$this->_active.'`= 1
-				AND `'.$this->_next.'` < ?
-				AND `'.$this->_end.'` IS NOT NULL
-			ORDER BY
-				`'.$this->_next.'`
-		';
-		
-		// collect cron jobs from the database
-		$job = $db->fetchRow($sql, array(date('Y-m-d H:i:s', time())));
-		// if we did not found any, return null
-		if(empty($job)){
-			return null;
-		}
-		$job['next']  = new Zend_Date($job['next']);
-		$job['start'] = new Zend_Date($job['start']);
-		$job['end']   = new Zend_Date($job['end']);
-		$job['data']  = unserialize($job['data']);
-		$job = new Enlight_Components_Cron_Job($job);
-
-		return $job;
-	}
-
-	/**
-	 * Receives a single Cron job defined by its id from the crontab
-	 *
-	 * @param Int $id
-	 * @return Enlight_Components_Cron_Job|null
-	 */
-	public function getJobById($id)
-	{
-		$db = $this->_db;
-		$sql = '
-			SELECT
-				`'.$this->_id.'`,
-				`'.$this->_name.'`,
-				`'.$this->_action.'`,
-				`'.$this->_data.'`,
-				`'.$this->_next.'`,
-				`'.$this->_start.'`,
-				`'.$this->_interval.'`,
-				`'.$this->_active.'`,
-				`'.$this->_end.'`
-			FROM
-				'.$this->_crontab.'
-			WHERE `'.$this->_id.'` = ?
-		';
-		// collect cron jobs from the database
-		$job = $db->fetchRow($sql, $id);
-		// if we did not found any, return null
-		if(empty($job)){
-			return null;
-		}
-		$job['next']  = new Zend_Date($job['next']);
-		$job['start'] = new Zend_Date($job['start']);
-		$job['end']   = new Zend_Date($job['end']);
-		$job['data']  = unserialize($job['data']);
-		$job = new Enlight_Components_Cron_Job($job);
-		return $job;
-	}
-
-	/**
-	 * Receives a single cron job by its name
-	 *
-	 * @param String $name
-	 * @return Enlight_Components_Cron_Job
-	 */
-	public function getJobByName($name)
-	{
-		$db = $this->_db;
-		$sql = '
-			SELECT
-				`'.$this->_id.'`,
-				`'.$this->_name.'`,
-				`'.$this->_action.'`,
-				`'.$this->_data.'`,
-				`'.$this->_next.'`,
-				`'.$this->_start.'`,
-				`'.$this->_interval.'`,
-				`'.$this->_active.'`,
-				`'.$this->_end.'`
-			FROM
-				'.$this->_crontab.'
-			WHERE
-				`'.$this->_name.'` = ?
-		';
-		// collect cron jobs from the database
-		$job = $db->fetchRow($sql, $name);
-
-		// if we did not found any, return null
-		if(empty($job)){
-			return null;
-		}
-		$job['next']  = new Zend_Date($job['next']);
-		$job['start'] = new Zend_Date($job['start']);
-		$job['end']   = new Zend_Date($job['end']);
-		$job['data']  = unserialize($job['data']);
-		$job = new Enlight_Components_Cron_Job($job);
-
-		return $job;
 	}
 
 	/**
@@ -305,67 +132,115 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
 	 */
 	public function addJob(Enlight_Components_Cron_Job $job)
 	{
-		$db = $this->_db;
-
-		$next = $job->getNext();
-		if ( empty($next) ){
-			$job->setNext(new Zend_Date());
+		if(!is_null($job->getId())){
+			throw new Enlight_Exception('Can not insert new job because an ID has been given.');
 		}
-		$start = $job->getStart();
-		if (empty($start)) {
-			$zd = new Zend_Date();
-			$job->setStart($zd->subDay(1));
-		}
-		$end = $job->getEnd();
-		if (empty($end)) {
-			$zd = new Zend_Date();
-			$job->setEnd($zd->subDay(1));
-		}
-
-		$sql = '
-				INSERT INTO '.$this->_crontab.'
-					(`'.$this->_id.'`,
-					`'.$this->_name.'`,
-					`'.$this->_action.'`,
-					`'.$this->_data.'`,
-					`'.$this->_next.'`,
-					`'.$this->_start.'`,
-					`'.$this->_interval.'`,
-					`'.$this->_active.'`,
-					`'.$this->_end.'`)
-				VALUES (?,?,?,?,?,?,?,?,?)
-		';
-		$db->query($sql, array(
-			$job->getId(),
-			$job->getName(),
-			$job->getAction(),
-			serialize($job->getData()),
-			$job->getNext()->get(),
-			$job->getStart()->get(), 
-			$job->getInterval(),
-			$job->isActive(),
-			$job->getEnd()->get()
-		));
-		return $this;
+		return $this->write($job);
 	}
 
 	/**
-	 * Removes an job from the crontab
+	 * Updates a cron job in the cron tab
 	 *
 	 * @param Enlight_Components_Cron_Job $job
-	 * @return \Enlight_Components_Cron_Adapter_Adapter
+	 * @return Enlight_Components_Cron_Adapter_Adapter
 	 */
-	public function removeJob(Enlight_Components_Cron_Job $job)
+	public function updateJob(Enlight_Components_Cron_Job $job)
 	{
-		$db = $this->_db;
-		$sql = '
-			DELETE FROM '.$this->_crontab.'
-			WHERE `'.$this->_id.'` = ?
-			AND `'.$this->_action.'` = ?
-		';
-		
-		$db->query($sql, array($job->getId(), $job->getAction()));
-		return $this;
+		if(is_null($job->getId())){
+			throw new Enlight_Exception('Can not update job because no ID has been given.');
+		}
+		return $this->write($job);
+	}
+
+	/**
+	 * Returns an array of Enlight_Components_Cron_Job from the crontab
+	 * If no cron jobs found the method will return an empty array
+	 *
+	 * @param bool $ignoreActive if set true the active flag will be ignored
+	 * @return array
+	 */
+	public function getAllJobs($ignoreActive = false)
+	{
+		$where = null;
+		if($ignoreActive) {
+			$where = $this->getAdapter()->quote($this->_columns['active'].' = 1');
+		}
+		$rows = $this->fetchAll($where);
+		if(count($rows) === 0) {
+			return array();
+		}
+		$retVal = array();
+		foreach($rows as $row)
+		{
+			$row['next'] = new Zend_Date($row['next']);
+			$row['start'] = new Zend_Date($row['start']);
+			$row['end'] = new Zend_Date($row['end']);
+			$row['data']  = unserialize($row['data']);
+			$retVal[$row['id']] = new Enlight_Components_Cron_Job($row->toArray());
+		}
+		return $retVal;
+	}
+
+	/**
+	 * Returns the next cron job
+	 *
+	 * @return null|Enlight_Components_Cron_Job
+	 */
+	public function getNextJob()
+	{
+		$sql = new Zend_Db_Table_Select($this);
+		$sql->where($this->getAdapter()->quoteIdentifier($this->_columns['active']),1)
+			->where($this->getAdapter()->quoteIdentifier($this->_columns['end']),' IS NOT NULL')
+			->where($this->getAdapter()->quoteIdentifier($this->_columns['next']), new Zend_Date());
+
+		$row = $this->fetchRow($sql);
+		if(count($row) === 0) {
+			return null;
+		}
+
+		$row['next'] = new Zend_Date($row['next']);
+		$row['start'] = new Zend_Date($row['start']);
+		$row['end'] = new Zend_Date($row['end']);
+		$row['data']  = unserialize($row['data']);
+		$retVal  = new Enlight_Components_Cron_Job($row->toArray());
+
+		return $retVal;
+	}
+
+	/**
+	 * @param $column
+	 * @param $value
+	 * @return Enlight_Components_Cron_Job|null
+	 */
+	protected function getJobByColumn($column, $value)
+	{
+		$column = (string)$column;
+		$value  = (string)$value;
+		$where  = $this->getAdapter()->quoteInto($this->getAdapter()->quoteIdentifier($column).' = ?', $value);
+
+		$row = $this->fetchRow($where);
+		if(count($row) === 0) {
+			return null;
+		}
+
+		$row['next'] = new Zend_Date($row['next']);
+		$row['start'] = new Zend_Date($row['start']);
+		$row['end'] = new Zend_Date($row['end']);
+		$row['data']  = unserialize($row['data']);
+		$retVal  = new Enlight_Components_Cron_Job($row->toArray());
+
+		return $retVal;
+	}
+
+	/**
+	 * Receives a single Cron job defined by its id from the crontab
+	 *
+	 * @param Int $id
+	 * @return Enlight_Components_Cron_Job|null
+	 */
+	public function getJobById($id)
+	{
+		return $this->getJobByColumn($this->_columns['id'], $id);
 	}
 
 	/**
@@ -376,32 +251,32 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
 	 */
 	public function getJobByAction($actionName)
 	{
-		$db = $this->_db;
-		$sql = '
-			SELECT
-				`'.$this->_id.'`,
-				`'.$this->_name.'`,
-				`'.$this->_action.'`,
-				`'.$this->_data.'`,
-				`'.$this->_next.'`,
-				`'.$this->_start.'`,
-				`'.$this->_interval.'`,
-				`'.$this->_active.'`,
-				`'.$this->_end.'`
-			FROM '.$this->_crontab.' WHERE `'.$this->_action.'` = ?
-		';
-		// collect cron jobs from the database
-		$job = $db->fetchRow($sql, $actionName);
-		// if we did not found any, return null
-		if(empty($job)){
-			return null;
-		}
-		$job['next']  = new Zend_Date($job['next']);
-		$job['start'] = new Zend_Date($job['start']);
-		$job['end']   = new Zend_Date($job['end']);
-		$job['data']  = unserialize($job['data']);
-		$job = new Enlight_Components_Cron_Job($job);
-
-		return $job;
+		return $this->getJobByColumn($this->_columns['action'],$actionName);
 	}
+
+	/**
+	 * Receives a single cron job by its name
+	 *
+	 * @param String $name
+	 * @return Enlight_Components_Cron_Job
+	 */
+	public function getJobByName($name)
+	{
+		return $this->getJobByColumn($this->_columns['name'],$name);
+	}
+
+	/**
+	 * Removes an job from the crontab
+	 *
+	 * @param Enlight_Components_Cron_Job $job
+	 * @return \Enlight_Components_Cron_Adapter_Adapter
+	 */
+	public function removeJob(Enlight_Components_Cron_Job $job)
+	{
+		$where  = $this->getAdapter()->quoteInto($this->getAdapter()->quoteIdentifier($this->_primary).' = ?', $job->getId());
+		$this->delete($where);
+
+		return $this;
+	}
+
 }

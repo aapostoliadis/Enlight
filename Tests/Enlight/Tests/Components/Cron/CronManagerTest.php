@@ -31,7 +31,7 @@
 class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_TestCase
 {
 	/**
-	 * @var Enlight_Components_Cron_Adapter_Adapter
+	 * @var Enlight_Components_Cron_Adapter
 	 */
 	private $_adapter = null;
 
@@ -46,7 +46,7 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 	private $options = array();
 
 	/**
-	 * @var Enlight_Components_Cron_CronManager
+	 * @var Enlight_Components_Cron_Manager
 	 */
 	private $manager;
 
@@ -58,15 +58,7 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
      */
     protected function setUp()
     {
-		$dir = Enlight_TestHelper::Instance()->TestPath('TempFiles');
-        $this->db = Enlight_Components_Db::factory('PDO_SQLITE', array(
-            'dbname'   => $dir . 'cron.db'
-        ));
-
-		$dbFile = Enlight_TestHelper::Instance()->TestPath('TempFiles') . 'cron.db';
-		if(file_exists($dbFile)) {
-			unlink($dbFile);
-		}
+        $this->db = Enlight_Components_Db::factory('PDO_SQLITE', array('dbname' => ':memory:'));
 
 		$sql = '
 				CREATE TABLE IF NOT EXISTS `s_crontab` (
@@ -85,18 +77,18 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 
 		$this->db->exec($sql);
 
-		$options = array('id' => 'id',
-						'name' => 'name',
-						'action' => 'action',
-						'data' => 'data',
-						'next' => 'next',
-						'start' => 'start',
-						'interval' => 'interval',
-						'active' => 'active',
-						'end' => 'end',
+		$options = array('idColumn' => 'id',
+						'nameColumn' => 'name',
+						'actionColumn' => 'action',
+						'dataColumn' => 'data',
+						'nextColumn' => 'next',
+						'startColumn' => 'start',
+						'intervalColumn' => 'interval',
+						'activeColumn' => 'active',
+						'endColumn' => 'end',
 						'db'=>$this->db);
 
-		$this->jobData =  array('id'=>'1',
+		$this->jobData =  array(
 						  'name'=>'Lagerbestand Warnung',
 						  'action'=>'article_stock',
 						  'data'=>'',
@@ -112,11 +104,10 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 		$this->jobData['data'] = array('key'=>'value');
 		
 		$this->assertInstanceOf('Enlight_Components_Cron_Adapter', $this->_adapter = new Enlight_Components_Cron_Adapter_DbTable($options));
-		$this->assertInstanceOf('Enlight_Components_Cron_CronManager', $this->manager = new Enlight_Components_Cron_CronManager($this->_adapter));
+		$this->assertInstanceOf('Enlight_Components_Cron_Manager', $this->manager = new Enlight_Components_Cron_Manager($this->_adapter));
 
 		$job = new Enlight_Components_Cron_Job($this->jobData);
-
-		$this->assertInstanceOf('Enlight_Components_Cron_CronManager',$this->manager->addJob($job));
+		$this->assertInstanceOf('Enlight_Components_Cron_Manager',$this->manager->addJob($job));
     }
 
     /**
@@ -125,21 +116,17 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
      */
     protected function tearDown()
     {
-		$dbFile = Enlight_TestHelper::Instance()->TestPath('TempFiles') . 'cron.db';
-		unlink($dbFile);
-    }
+		$this->db->exec('DROP TABLE IF EXISTS s_crontab ');
+	}
 
     /**
      * 
      */
     public function testSetAdapter()
     {
-		$this->assertInstanceOf('Enlight_Components_Cron_CronManager', $this->manager->setAdapter($this->_adapter));
+		$this->assertInstanceOf('Enlight_Components_Cron_Manager', $this->manager->setAdapter($this->_adapter));
     }
 
-    /**
-     * @todo Implement testGetAdapter().
-     */
     public function testGetAdapter()
     {
        $this->assertInstanceOf('Enlight_Components_Cron_Adapter', $this->manager->getAdapter());
@@ -147,68 +134,85 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 
     public function testDeactivateJob()
     {
-        $jobArgs = $this->manager->getJobById(1);
-		$this->assertInstanceOf('Enlight_Components_Cron_CronArgs', $jobArgs);
-		$this->assertTrue($jobArgs->Job()->isActive());
+        $job = $this->manager->getJobById(1);
+		$this->assertInstanceOf('Enlight_Components_Cron_Job', $job);
+		$this->assertTrue($job->isActive());
 
-		$this->manager->removeJob($jobArgs);
+		$this->manager->removeJob($job);
 		$jobAfter = $this->manager->getJobById(1);
 		$this->assertNull($jobAfter);
     }
 
-    /**
-     * @todo Implement testUpdateJob().
-     */
     public function testUpdateJob()
     {
-        $cronArgs = $this->manager->getJobById(1);
-		$this->assertInstanceOf('Enlight_Components_Cron_CronArgs', $cronArgs);
-
-		$cronArgs->Job()->setName('test me');
-
-		$this->manager->updateJob($cronArgs);
-
-		$jobAfter = $this->manager->getJobById($cronArgs->Job()->getId());
-		$this->assertEquals('test me', $jobAfter->Job()->getName());
+        $job = $this->manager->getJobById(1);
+		$this->assertInstanceOf('Enlight_Components_Cron_Job', $job);
+		$job->setName('test me');
+		$this->manager->updateJob($job);
+		$jobAfter = $this->manager->getJobById($job->getId());
+		$this->assertEquals('test me', $jobAfter->getName());
 
     }
 
-    /**
-     * @todo Implement testGetAllJobs().
-     */
     public function testGetAllJobs()
     {
         $this->assertArrayCount(1,$this->manager->getAllJobs());
     }
 
-    /**
-     * @todo Implement testGetJobById().
-     */
     public function testGetJobById()
     {
-        $this->assertInstanceOf('Enlight_Components_Cron_CronArgs', $this->manager->getJobById(1));
+        $this->assertInstanceOf('Enlight_Components_Cron_Job', $this->manager->getJobById(1));
     }
 
-    /**
-     * @todo Implement testGetJobByName().
-     */
     public function testGetJobByName()
     {
         // Remove the following lines when you implement this test.
-        $this->assertInstanceOf('Enlight_Components_Cron_CronArgs', $this->manager->getJobByName('Lagerbestand Warnung'));
+        $this->assertInstanceOf('Enlight_Components_Cron_Job', $this->manager->getJobByName('Lagerbestand Warnung'));
     }
 
-    /**
-     * @todo Implement testAddJob().
-     */
     public function testAddJob()
     {
 		$this->assertArrayCount(1,$this->manager->getAllJobs());
 		$this->jobData['action'] = $this->jobData['action']."2";
-		$this->jobData['id'] = 2;
+		
 		$job = new Enlight_Components_Cron_Job($this->jobData);
+		
 		$this->manager->addJob($job);
 		$this->assertArrayCount(2,$this->manager->getAllJobs());
     }
+
+	public function testGetEventManager()
+	{
+		$this->assertInstanceOf('Enlight_Event_EventManager', $this->manager->getEventManager());
+	}
+	public function testDisableJob()
+	{
+		$job = $this->manager->getJobById(1);
+		$this->assertTrue($job->isActive());
+		$this->manager->disableJob($job);
+		$this->assertFalse($job->isActive());
+	}
+
+	public function testGetNextJob()
+	{
+		$zendDate = new Zend_Date();
+		$zendDate->subSecond(10);
+		$this->jobData['next'] = $zendDate;
+
+		unset($this->jobData['id']);
+		$this->jobData['action'] = 'action_test';
+		$job = new Enlight_Components_Cron_Job($this->jobData);
+
+		$this->manager->addJob($job);
+		$nextJob = $this->manager->getNextJob();
+		$this->assertInstanceOf('Enlight_Components_Cron_Job', $nextJob);
+	}
+
+	public function testRun()
+	{
+		$job = $this->manager->getJobById(1);
+		$this->assertNull($this->manager->run($job));
+	}
+
 }
 
