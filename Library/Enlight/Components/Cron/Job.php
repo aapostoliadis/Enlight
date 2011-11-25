@@ -167,7 +167,7 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
-	 * Reads the data field
+	 * Reads the data field and returns it
 	 *
 	 * @return String
 	 */
@@ -177,6 +177,8 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
+	 * Returns the ID of the job
+	 *
 	 * @return int
 	 */
 	public function getId()
@@ -185,6 +187,8 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
+	 * Set the value of the ID field
+	 *
 	 * @param int $id
 	 * @return Enlight_Components_Cron_Job
 	 */
@@ -195,6 +199,8 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
+	 * Returns the Name / Descriptions of the Job
+	 *
 	 * @return \String
 	 */
 	public function getName()
@@ -203,6 +209,8 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
+	 * Sets the name/description of the job.
+	 *
 	 * @param String $name
 	 * @return Enlight_Components_Cron_Job
 	 */
@@ -213,6 +221,8 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
+	 * Returns the Action of the job
+	 *
 	 * @return String
 	 */
 	public function getAction()
@@ -221,6 +231,8 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
+	 * Sets the Action of the job
+	 *
 	 * @param String $action
 	 * @return Enlight_Components_Cron_Job
 	 */
@@ -231,6 +243,8 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
+	 * Returns a Zend_Date object which contains the next run time
+	 *
 	 * @return Zend_Date
 	 */
 	public function getNext()
@@ -251,6 +265,7 @@ class Enlight_Components_Cron_Job
 	}
 
 	/**
+	 * Returns a Zend_Date object which contains the date on which the job last run
 	 * @return Zend_Date
 	 */
 	public function getStart()
@@ -347,33 +362,12 @@ class Enlight_Components_Cron_Job
 		return $this;
 	}
 
-//	/**
-//	 * Returns the name of the crontab
-//	 *
-//	 * @return String
-//	 */
-//	public function getCrontab()
-//	{
-//		return $this->crontab;
-//	}
-//
-//	/**
-//	 * Sets the name of the crontab
-//	 *
-//	 * @param String $crontab
-//	 * @return Enlight_Components_Cron_Job
-//	 */
-//	public function setCrontab($crontab)
-//	{
-//		$this->crontab = (string)$crontab;
-//		return $this;
-//	}
-
-	public function run()
-	{
-		
-	}
-
+	/**
+	 * Magic method to get parameters
+	 *
+	 * @param $name
+	 * @return mixed
+	 */
 	public function __get($name)
 	{
 		return $this->{$name};

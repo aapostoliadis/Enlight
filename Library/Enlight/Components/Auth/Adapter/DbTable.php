@@ -26,9 +26,6 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license	http://enlight.de/license	 New BSD License
  */
-/**
- * @todo remove hardcoded session dependency  (e.g. updateSession)
- */
 class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 {
 	/**

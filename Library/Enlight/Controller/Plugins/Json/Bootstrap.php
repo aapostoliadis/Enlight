@@ -18,11 +18,15 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	}
 
 	/**
+	 * Source encoding needed to convert to UTF-8
 	 * @var string
 	 */
 	protected $encoding = 'UTF-8';
 
 	/**
+	 * Flag which indicates if the whole HTML Output should be converted to JSON or
+	 * just the Data provided by smarties data container
+	 *
 	 * @var bool
 	 */
 	protected $renderDataOnly = true;

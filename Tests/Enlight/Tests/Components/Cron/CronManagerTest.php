@@ -219,7 +219,7 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 
 		$this->manager->getEventManager()->registerListener($handler);
 
-		$f = $this->manager->run($job);
+		$this->manager->run($job);
 	}
 	public function testRunFailed()
 	{
@@ -233,9 +233,9 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
 
 		$this->manager->getEventManager()->registerListener($handler);
 
-		$f = $this->manager->run($job);
+		$this->manager->run($job);
 	}
-	///////////////
+	/////////////// those methods below  will be called from the event   ////////////////////////
 	public function onJobAction(Enlight_Components_Cron_EventArgs $args)
 	{
 		$this->assertEquals('article_stock', $args->Job()->getAction());

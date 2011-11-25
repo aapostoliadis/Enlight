@@ -31,18 +31,31 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	implements Enlight_Components_Cron_Adapter
 {
 	/**
-	 * Table name
+	 * Database table name. Here are the Jobs are stored
 	 *
 	 * @var string
 	 */
 	protected $_name = 's_crontab';
 
     /**
+	 * Primary Key used for delete and update actions
+	 *
 	 * @var string
 	 */
 	protected $_primary = 'id';
 
 	/**
+	 * Name mapping between what the app and the real database.
+	 * Knows following Columns
+	 * -id - An integer field; unique; Primary Kex
+	 * -name - String(255); Name or descriptions of the Job eg. Check Stock
+	 * -action - Unique string(255) field. action becomes the event name during the execution of the job
+	 * -next - datetime; stores the date when the next run is due
+	 * -start - datetime; stores the last date when the job has been called
+	 * -end - datetime; stores the date/time an which the job stopped
+	 * -interval - Integer field; Stores the delta time between two runs in seconds.
+	 * -active - boolean field; 1 = active 0 = inactive.
+	 *
 	 * @var array
 	 */
 	protected $_columns = array(
@@ -58,7 +71,20 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	);
 
 	/**
+	 * Constructor - This class is derived from Zend_Db_Table.
+	 * An array of options can be provided to setup the object. The array should include a mapping
+	 * of database columns.
+	 * -idColumn - An integer field; unique; Primary Kex
+	 * -nameColumn - String(255); Name or descriptions of the Job eg. Check Stock
+	 * -actionColumn - Unique string(255) field. action becomes the event name during the execution of the job
+	 * -nextColumn - datetime; stores the date when the next run is due
+	 * -startColumn - datetime; stores the last date when the job has been called
+	 * -endColumn - datetime; stores the date/time an which the job stopped
+	 * -intervalColumn - Integer field; Stores the delta time between two runs in seconds.
+	 * -activeColumn - boolean field; 1 = active 0 = inactive.
+	 *
 	 * @param array|null $options
+	 * @see http://framework.zend.com/manual/en/zend.db.table.html
 	 */
 	public function __construct(Array $options = null)
 	{
@@ -68,6 +94,10 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	}
 
 	/**
+	 * The options for this class will be set through this method
+	 * Every key of the array which ends with Column will be used as mapping indicator
+	 * every other option will be given over to the parent class.
+	 *
 	 * @param array $options
 	 * @return Zend_Db_Table_Abstract
 	 */
@@ -82,7 +112,8 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
     }
 
 	/**
-	 * Updates a cron job in the cron tab
+	 * Writes the Job object to the database. If an ID is provided this method will try to update a data set. If there
+	 * is no ID given, the system will create a new data set.
 	 *
 	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_Adapter_Adapter
@@ -125,7 +156,7 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	}
 
 	/**
-	 * Adds a job to the crontab
+	 * Adds a job to the crontab.
 	 *
 	 * @param Enlight_Components_Cron_Job $job
 	 * @return Enlight_Components_Cron_Adapter_Adapter
@@ -183,7 +214,7 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	}
 
 	/**
-	 * Returns the next cron job
+	 * Returns the next cron job based on the next date field
 	 *
 	 * @return null|Enlight_Components_Cron_Job
 	 */
@@ -209,6 +240,8 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	}
 
 	/**
+	 * Internal helper method to grep data based on a given column name.
+	 *
 	 * @param $column
 	 * @param $value
 	 * @return Enlight_Components_Cron_Job|null
@@ -245,7 +278,7 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	}
 
 	/**
-	 * Receives a single job by its defined action
+	 * Returns a single job by its defined action
 	 *
 	 * @param $actionName
 	 * @return Enlight_Components_Cron_Adapter_Adapter|null
@@ -256,7 +289,7 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	}
 
 	/**
-	 * Receives a single cron job by its name
+	 * Returns a single cron job by its name
 	 *
 	 * @param String $name
 	 * @return Enlight_Components_Cron_Job
