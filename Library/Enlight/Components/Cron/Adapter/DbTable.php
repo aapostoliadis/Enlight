@@ -35,7 +35,7 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract
 	 *
 	 * @var string
 	 */
-	protected $_name = 's_crontab';
+	protected $_name = 'crontab';
 
     /**
 	 * Primary Key used for delete and update actions
