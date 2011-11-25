@@ -57,8 +57,10 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 
         $dir = Enlight_TestHelper::Instance()->TestPath('TempFiles');
         $this->db = Enlight_Components_Db::factory('PDO_SQLITE', array(
-            'dbname'   => $dir . 'auth.db'
+            'dbname'   => ':memory'
         ));
+		$clearDb = "DROP TABLE IF EXISTS test_auth";
+		$this->db->exec($clearDb);
 		$this->lockeduntilColumn = 'lockeduntil';
 		$this->createDb($this->lockeduntilColumn);
 		$this->createDefaultUser($this->lockeduntilColumn);
@@ -69,8 +71,16 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 		Zend_Session::start();
 
 		$this->auth = Enlight_Components_Auth::getInstance();
-		$this->authAdapter = new Enlight_Components_Auth_Adapter_DbTable($this->db,'s_core_auth','username','password');
-
+		$this->authAdapter = new Enlight_Components_Auth_Adapter_DbTable($this->db,'test_auth','username','password');
+		$this->authAdapter
+			->setIdentityColumn('username')
+			->setCredentialColumn('password')
+			->setExpiryColumn('lastlogin')
+			->setSessionIdColumn('sessionID')
+			->setSessionId('s4inr04o6apmclk7u88qau4r57');
+		$storage = new Zend_Auth_Storage_Session('Enlight', 'Auth');
+		$this->auth->setAdapter($this->authAdapter);
+		$this->auth->setStorage($storage);
     }
 
 	/**
@@ -80,7 +90,7 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 	 */
 	public function tearDown()
 	{
-		$clearDb = "DROP TABLE IF EXISTS s_core_auth";
+		$clearDb = "DROP TABLE IF EXISTS test_auth";
 		$this->db->exec($clearDb);
 	}
 
@@ -119,16 +129,18 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 						->setCredential(md5('emod'));
 		$this->authAdapter->setLockedUntilColumn($this->lockeduntilColumn);
 		$this->authAdapter->setLockSeconds(30);
+		$this->assertNull($this->authAdapter->getLockedUntil());
+		$this->assertEquals('30', $this->authAdapter->getLockSeconds());
 		$this->assertEquals($this->getAccountLockDate($this->lockeduntilColumn), '0000-00-00 00:00:00');
-		
+
 		$authResponse = $this->auth->authenticate($this->authAdapter);
 
 		$this->assertNotEquals($this->getAccountLockDate($this->lockeduntilColumn), '0000-00-00 00:00:00');
-		
+
 		$this->assertFalse($authResponse->isValid());
 		$this->auth = Enlight_Components_Auth::getInstance();
 
-		$this->authAdapter = new Enlight_Components_Auth_Adapter_DbTable($this->db,'s_core_auth','username','password');
+		$this->authAdapter = new Enlight_Components_Auth_Adapter_DbTable($this->db,'test_auth','username','password');
 		$this->authAdapter->setIdentity('demo')
 							->setCredential(md5('demo'));
 		$this->authAdapter->setLockedUntilColumn($this->lockeduntilColumn);
@@ -139,7 +151,7 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 
 	public function testSetLockedUntilColumn()
 	{
-		$clearDb = "DROP TABLE IF EXISTS s_core_auth";
+		$clearDb = "DROP TABLE IF EXISTS test_auth";
 		$this->db->exec($clearDb);
 
 		$this->createDb('qwetz');
@@ -151,16 +163,33 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 		$this->assertEquals($this->getAccountLockDate('qwetz'), '0000-00-00 00:00:00');
 	}
 
+	public function testSetExpiryColumn()
+    {
+		$this->assertInstanceOf('Enlight_Components_Auth_Adapter_DbTable',$this->authAdapter->setExpiryColumn('expiry2'));
+    }
+
+	public function testRefresh()
+    {
+		$this->authAdapter->setIdentity('demo')
+							->setCredential(md5('demo'));
+
+		$authResponse = $this->auth->authenticate();
+		$this->assertTrue($authResponse->isValid());
+		$this->assertTrue($this->auth->hasIdentity());
+
+		$this->auth->refresh(); // ->DbTable -> Zend_auth
+    }
+
 	private function getAccountLockDate($lockeduntilColumn)
 	{
-		$sql = "SELECT ".$lockeduntilColumn." FROM s_core_auth";
+		$sql = "SELECT ".$lockeduntilColumn." FROM test_auth";
 		return $this->db->fetchOne($sql);
 	}
 
 	private function createDb($lockeduntilColumn='lockeduntil')
 	{
 		 $this->db->exec('
-          CREATE TABLE IF NOT EXISTS `s_core_auth` (
+          CREATE TABLE IF NOT EXISTS `test_auth` (
 			  `id` int(11) NOT NULL,
 			  `username` varchar(255) NOT NULL,
 			  `password` varchar(60) NOT NULL,
@@ -181,7 +210,7 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 	private function createDefaultUser($lockeduntilColumn)
 	{
 		$userAdd = "
-				INSERT INTO `s_core_auth`
+				INSERT INTO `test_auth`
 					(	`id`,
 						`username`,
 						`password`,
@@ -198,7 +227,7 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 						'demo',
 						'fe01ce2a7fbac8fafaed7c982a04e229',
 						's4inr04o6apmclk7u88qau4r57',
-						'2011-09-28 17:28:24',
+						'2011-25-11 14:41:24',
 						'Administrator',
 						'info@shopware.ag',
 						 1,

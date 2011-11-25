@@ -91,6 +91,7 @@ class Enlight_Components_Auth extends Zend_Auth
     	if($adapter == null) {
     		$adapter = $this->_adapter;
     	}
+		
     	$result = $adapter->refresh();
 
     	if (!$result->isValid()) {

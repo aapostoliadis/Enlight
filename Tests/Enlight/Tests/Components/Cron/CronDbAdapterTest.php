@@ -58,7 +58,7 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
     {
 		$this->db = Enlight_Components_Db::factory('PDO_SQLITE', array('dbname' => ':memory:'));
 		$sql = '
-				CREATE TABLE IF NOT EXISTS `s_crontab` (
+				CREATE TABLE IF NOT EXISTS `test_crontab` (
 				  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 				  `name` varchar(255) NOT NULL,
 				  `action` varchar(255) NOT NULL,
@@ -83,6 +83,7 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
 						'intervalColumn' => 'interval',
 						'activeColumn' => 'active',
 						'endColumn' => 'end',
+						'name' => 'test_crontab',
 						'db'=>$this->db);
 		
         $this->object = new Enlight_Components_Cron_Adapter_DbTable($options);
