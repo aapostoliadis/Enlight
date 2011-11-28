@@ -174,10 +174,12 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 							->setCredential(md5('demo'));
 
 		$authResponse = $this->auth->authenticate();
-		$this->assertTrue($authResponse->isValid());
+		$this->assertTrue($authResponse->isValid(),$authResponse->getMessages());
 		$this->assertTrue($this->auth->hasIdentity());
-
-		$this->auth->refresh(); // ->DbTable -> Zend_auth
+		//$f = $this->db->fetchAll("SELECT * FROM test_auth");
+		//die('Die in ' . basename(__FILE__) . '@' . __LINE__ . ' (' . __FUNCTION__ . ') ' . print_r($f, true));
+		$this->assertInstanceOf('Zend_Auth_Result',$this->auth->refresh()); // ->DbTable -> Zend_auth
+		
     }
 
 	private function getAccountLockDate($lockeduntilColumn)

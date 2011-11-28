@@ -209,7 +209,7 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 		$this->setCredentialColumn($this->expiryColumn);
 		$expiryColumn = $this->_zendDb->quoteIdentifier($this->expiryColumn, true);
 
-		$this->setCredentialTreatment('(CASE WHEN(' . $expiryColumn . '>=? ) THEN 1 ELSE 0 END)');
+		$this->setCredentialTreatment('(CASE WHEN(' . $expiryColumn . '>=? ) THEN '.$this->expiryColumn.' ELSE 0 END)');
 
 		$this->setIdentity($this->sessionId);
 		$this->setIdentityColumn($this->sessionIdColumn);
