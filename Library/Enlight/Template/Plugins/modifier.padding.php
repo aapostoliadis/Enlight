@@ -12,6 +12,9 @@ function smarty_modifier_padding ($str, $width=10, $break='...', $fill=' ')
 	} else { 
 		$width = (int) $width;
 	}
+    
+    //printf('% ' . $width . ' s' . $str);
+
 	if(!is_scalar($str)) {
 		return str_repeat($fill, $width);
 	}

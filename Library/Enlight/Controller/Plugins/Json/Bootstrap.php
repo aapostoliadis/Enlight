@@ -1,4 +1,32 @@
 <?php
+/**
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight_Controller
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     Heiner Lohaus
+ * @author     $Author$
+ */
+
+/**
+ * @category   Enlight
+ * @package    Enlight_Controller
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ */
 class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap_Default
 {
 	/**
@@ -6,7 +34,6 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 *
 	 * @return void
 	 */
-
 	public function init()
 	{		
 	 	$event = new Enlight_Event_Handler_Default(
@@ -21,7 +48,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 * Source encoding needed to convert to UTF-8
 	 * @var string
 	 */
-	protected $encoding = 'UTF-8';
+	protected $encoding;
 
 	/**
 	 * Flag which indicates if the whole HTML Output should be converted to JSON or
@@ -29,7 +56,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 *
 	 * @var bool
 	 */
-	protected $renderDataOnly = true;
+	protected $renderer;
 
 	/**
 	 * Should the JSON object be encapsulated into a javascript function
@@ -46,53 +73,35 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 */
 	public function onPostDispatch(Enlight_Event_EventArgs $args)
 	{
-		// We do not need to render the whole page
-		$this->Collection()->ViewRenderer()->setNoRender(true);
+        /** @var $subject Enlight_Controller_Action */
+		$subject = $args->get('subject');
+		$response = $subject->Response();
+		$request = $subject->Request();
 
 		// If the attribute padding is a boolean true
-		if($this->padding===true) {
-			$callback = $args->getRequest()->getParam('callback');
-			$callback = preg_replace('#[^0-9a-z]+#i', '', (string) $callback);
-		} else{
-			$callback = $this->padding;
+		if($this->padding === true) {
+			$this->padding = $request->getParam('callback');
+			$this->padding = preg_replace('#[^0-9a-z]+#i', '', (string) $this->padding);
 		}
-
-		/** @var $subject Enlight_Controller_Front */
-		$subject = $args->get('subject');
-		/** @var Enlight_Controller_Response_Response $response	 */
-		$response = $subject->Response();
+        
 		// decide if we should render the data or the whole page
-		if($this->renderDataOnly){
+		if($this->renderer) {
 			$content = $subject->View()->getAssign();
-			$content = $this->convertToUtf8($content, $this->encoding);
-		} else {
-			$content =  array('data'=>$response->getBody());
-			$content = $this->convertToUtf8($content, $this->encoding);
-			$content = $content['data'];
+		} elseif($this->padding) {
+			$content = $response->getBody();
 		}
 
-		if(!$this->renderDataOnly) {
-			$jsonData = $content;
-		} else {
-			$jsonData = Zend_Json::encode($content);
-		}
-		
 		if($this->padding){
-			$jsonData = $this->addPadding($jsonData, $callback);
-		}
+            $response->setHeader('Content-type', 'text/javascript', true);
+			$response->setBody($this->addPadding($content, $this->padding));
+		} elseif($this->renderer) {
+            $response->setHeader('Content-type', 'application/json', true);
+            $response->setBody(Zend_Json::encode($content));
+        }
 
-		if($this->padding && !empty($callback)){
-				$response->setHeader('Content-type', 'text/javascript', true);
-		} else {
-			$response->setHeader('Content-type', 'application/json', true);
-		}
-		
-		$response->setBody($jsonData);
-		$this->padding = null;
-		$this->encoding = 'UTF-8';
-		$this->renderDataOnly = true;
-
-		return true;
+        $this->padding = null;
+        $this->encoding = null;
+        $this->renderer = null;
 	}
 
 	/**
@@ -100,8 +109,6 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 * this method can be called with a true value as parameter to enable the padding mode.
 	 * If this mode is active the system takes the name found in the GET parameter 'callback' as the javascript function
 	 * name.
-	 * Eg.: A call to /jsonTest/?callback=foo result in
-	 *		 foo({"anArray":[["element1","element2"],"element3","element"],"controllerGreetings":"Hello Enlight","SCRIPT_NAME":"\/index.php"});
 	 *
 	 * @param bool $padding
 	 * @return Enlight_Controller_Plugins_Json_Bootstrap
@@ -115,7 +122,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	/**
 	 * Returns the Value set with setPadding()
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function getPadding()
 	{
@@ -126,12 +133,18 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 * The method can be used to determine if the raw output will be transformed to JSON
 	 * or just the data assigned to the current view.
 	 *
-	 * @param bool $renderData
-	 * @return \Enlight_Controller_Plugins_Json_Bootstrap
+	 * @param   bool $renderer
+	 * @return  Enlight_Controller_Plugins_Json_Bootstrap
 	 */
-	public function setRenderer($renderData = true)
+	public function setRenderer($renderer = true)
 	{
-		$this->renderDataOnly = (bool)$renderData;
+		$this->renderer = (bool) $renderer;
+
+        if($this->renderer === true) {
+            // We do not need to render the whole page
+		    $this->Collection()->ViewRenderer()->setNoRender(true);
+        }
+
 		return $this;
 	}
 
@@ -142,7 +155,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 */
 	public function getRenderer()
 	{
-		return $this->renderDataOnly;
+		return $this->renderer;
 	}
 
 	/**
@@ -170,25 +183,23 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	/**
 	 * Converts an non UTF-8 string in to an UTF-8 string
 	 *
-	 * @param array $data
-	 * @param string $encoding
-	 * @return array
+	 * @param   string|array $data
+	 * @param   string $encoding
+	 * @return  string|array
 	 */
-	private function convertToUtf8($data, $encoding='')
+	protected function convertToUtf8($data, $encoding)
 	{
 		if(is_string($data))		{
-			return mb_convert_encoding($data, 'UTF-8', $encoding);
-		}
-		foreach($data as $key => $value)
-		{
-			if(is_array($value)) {
-				$data[mb_convert_encoding($key, 'UTF-8', $encoding)] = $this->convertToUtf8($value, $encoding);
-			} else {
-				if($encoding != 'UTF-8') {
-					$data[mb_convert_encoding($key, 'UTF-8', $encoding)] =  mb_convert_encoding($value, 'UTF-8', $encoding);
-				}
-			}
-		}
+            if(function_exists('mb_convert_encoding')) {
+                $data = mb_convert_encoding($data, 'UTF-8', $encoding);
+            } else {
+                $data = utf8_encode($data);
+            }
+		} elseif (is_array($data)) {
+            foreach($data as $key => $value) {
+                $data[$this->convertToUtf8($key, $encoding)] = $this->convertToUtf8($value, $encoding);
+            }
+        }
 		return $data;
 	}
 
@@ -199,12 +210,11 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 * @param $callback
 	 * @return String
 	 */
-	private function addPadding($data, $callback)
+	protected function addPadding($data, $callback)
 	{
 		if(empty($callback)){
 			return $data;
 		}
-		$retVal = $callback."(".Zend_Json::encode($data).");";
-		return $retVal;
+		return $callback . '(' . Zend_Json::encode($data) . ');';
 	}
 }

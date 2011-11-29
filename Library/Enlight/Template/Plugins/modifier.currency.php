@@ -10,16 +10,16 @@ function smarty_modifier_currency($value, $config=null, $position=null)
 	if(is_string($config)) {
 		switch (strtolower($config)) {
 			case 'no_symbol':
-				$config = array('display'=>Zend_Currency::NO_SYMBOL);
+				$config = array('display' => Zend_Currency::NO_SYMBOL);
 				break;
 			case 'use_symbol':
-				$config = array('display'=>Zend_Currency::USE_SYMBOL);
+				$config = array('display' => Zend_Currency::USE_SYMBOL);
 				break;
 			case 'use_shortname':
-				$config = array('display'=>Zend_Currency::USE_SHORTNAME);
+				$config = array('display' => Zend_Currency::USE_SHORTNAME);
 				break;
 			case 'use_name':
-				$config = array('display'=>Zend_Currency::USE_NAME);
+				$config = array('display' => Zend_Currency::USE_NAME);
 				break;
 		}
 	}

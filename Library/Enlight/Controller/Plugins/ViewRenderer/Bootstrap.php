@@ -50,9 +50,9 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     protected $action;
 
     /**
-     * @var Enlight_View_ViewDefault
+     * @var Enlight_Template_Manager
      */
-    protected $view;
+    protected $engine;
 
     /**
      * @return void
@@ -95,6 +95,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
             return;
         }
         $this->front = $args->getSubject();
+        $this->engine = $this->Application()->Bootstrap()->getResource('Template');
     }
 
     /**
@@ -102,10 +103,10 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     public function onPostDispatch(Enlight_Event_EventArgs $args)
     {
-        if ($this->shouldRender() && $this->View()->hasTemplate()) {
+        if ($this->shouldRender() && $this->Action()->View()->hasTemplate()) {
             $this->render();
         }
-        $this->View()->setTemplate();
+        $this->Action()->View()->setTemplate();
     }
 
     /**
@@ -113,8 +114,8 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     public function onPreDispatch(Enlight_Event_EventArgs $args)
     {
-        if($this->shouldRender() && !$this->View()->hasTemplate()) {
-            $this->View()->loadTemplate($this->getTemplateName());
+        if($this->shouldRender() && !$this->Action()->View()->hasTemplate()) {
+            $this->Action()->View()->loadTemplate($this->getTemplateName());
         }
     }
 
@@ -124,7 +125,18 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     public function onActionInit(Enlight_Event_EventArgs $args)
     {
         $this->action = $args->getSubject();
+        $this->initEngine();
         $this->initView();
+    }
+
+    /**
+     * @return  void
+     */
+    protected function initEngine()
+    {
+        if($this->engine === null) {
+            $this->engine = $this->Application()->Bootstrap()->getResource('Template');
+        }
     }
 
     /**
@@ -132,11 +144,8 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     protected function initView()
     {
-        $view = Enlight_Application::Instance()->Bootstrap()->getResource('View');
-        $this->setView($view);
-
-        $this->View()->setTemplate();
-        $this->Action()->setView($this->view);
+        $view = new Enlight_View_Default($this->engine);
+        $this->Action()->setView($view);
     }
 
     /**
@@ -146,16 +155,18 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     public function renderTemplate($template, $name = null)
     {
+        $action = $this->Action();
+
         $this->Application()->Events()->notify('Enlight_Plugins_ViewRenderer_PreRender', array('subject'=>$this, 'template'=>$template));
 
-        $render = $this->View()->render($template);
+        $render = $action->View()->render($template);
         $render = $this->Application()->Events()->filter('Enlight_Plugins_ViewRenderer_FilterRender', $render, array('subject'=>$this, 'template'=>$template));
 
-        $this->Front()->Response()->appendBody(
+        $action->Response()->appendBody(
             $render,
             $name
         );
-        $this->setNoRender();
+        //$this->setNoRender();
 
         $this->Application()->Events()->notify('Enlight_Plugins_ViewRenderer_PostRender', array('subject'=>$this));
 
@@ -167,7 +178,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     public function render()
     {
-        $template = $this->View()->Template();
+        $template = $this->Action()->View()->Template();
         return $this->renderTemplate($template);
     }
 
@@ -202,24 +213,6 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     }
 
     /**
-     * @return   Enlight_View_ViewDefault
-     */
-    public function View()
-    {
-        return $this->view;
-    }
-
-    /**
-     * @param   $view
-     * @return  Enlight_Controller_Plugins_ViewRenderer_Bootstrap
-     */
-    public function setView($view)
-    {
-        $this->view = $view;
-        return $this;
-    }
-
-    /**
      * @param   bool $flag
      * @return  Enlight_Controller_Plugins_ViewRenderer_Bootstrap
      */
@@ -238,6 +231,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
         $this->neverRender = $flag ? true : false;
         return $this;
     }
+
     /**
      * @return  string
      */

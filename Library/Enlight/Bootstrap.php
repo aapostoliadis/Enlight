@@ -146,16 +146,6 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
         return $front;
     }
 
-	/**
-	 * Init view method
-	 *
-	 * @return Enlight_View_ViewDefault
-	 */
-    public function initView()
-    {
-    	return Enlight_Class::Instance('Enlight_View_ViewDefault');
-    }
-       
     /**
      * Init template method
      *

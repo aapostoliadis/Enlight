@@ -38,7 +38,7 @@ class Enlight_Tests_Application_BootstrapTest extends Enlight_Components_Test_Te
     {
     	$app = Enlight_Application::Instance();
 
-    	$this->assertInstanceOf('Enlight_View_ViewDefault', $app->View());
+    	$this->assertInstanceOf('Enlight_Controller_Front', $app->Front());
     }
 
 	/**
@@ -47,7 +47,7 @@ class Enlight_Tests_Application_BootstrapTest extends Enlight_Components_Test_Te
 	public function testStaticCall()
     {
         if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
-		    $this->assertInstanceOf('Enlight_View_ViewDefault', Enlight_Application::View());
+		    $this->assertInstanceOf('Enlight_Controller_Front', Enlight_Application::Front());
         }
     }
 

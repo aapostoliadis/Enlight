@@ -55,8 +55,11 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
         if(!isset($source->smarty->registered_plugins[Smarty::PLUGIN_BLOCK]['snippet'])) {
             $source->smarty->registerPlugin(Smarty::PLUGIN_BLOCK, 'snippet', array($this, 'compileSnippetBlock'));
         }
-        $source->smarty->default_resource_type = 'file';
+        if(!isset($source->smarty->registered_plugins[Smarty::PLUGIN_MODIFIER]['snippet'])) {
+            $source->smarty->registerPlugin(Smarty::PLUGIN_MODIFIER, 'snippet', array($this, 'compileSnippetModifier'));
+        }
         $default_resource = $source->smarty->default_resource_type;
+        $source->smarty->default_resource_type = 'file';
         parent::populate($source, $_template);
         $source->smarty->default_resource_type = $default_resource;
     }
@@ -118,6 +121,31 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     }
 
     /**
+     * @param   string $content
+     * @param   string $name
+     * @param   string|Enlight_Components_Snippet_Namespace $namespace
+     * @param   bool $force
+     * @return  string
+     */
+    public function compileSnippetModifier($content, $name=null, $namespace=null, $force=false)
+    {
+        if(is_string($namespace)) {
+            $namespace = $this->snippets->getNamespace($namespace);
+        }
+        $name = $name !== null ? $name : $content;
+
+        $result = $namespace->get($name);
+        
+        if($result===null || $force) {
+            $namespace->set($name, $content);
+        } else {
+            $content = $result;
+        }
+
+        return $content;
+    }
+
+    /**
     * Load template's source from files into current template object
     *
     * @param    Smarty_Template_Source $source source object
@@ -135,9 +163,9 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     }
 
     /**
-     * @throws SmartyException
-     * @param Smarty_Template_Source $source
-     * @return string
+     * @throws  SmartyException
+     * @param   Smarty_Template_Source $source
+     * @return  string
      */
     public function getSnippetContent(Smarty_Template_Source $source)
     {
@@ -190,11 +218,11 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     }
 
     /**
-     * @param $name
-     * @param $namespace
-     * @param $default
-     * @param bool $force
-     * @return mixed
+     * @param   $name
+     * @param   $namespace
+     * @param   $default
+     * @param   bool $force
+     * @return  mixed
      */
     protected function getSnippet($namespace, $name, $default, $force=false)
     {

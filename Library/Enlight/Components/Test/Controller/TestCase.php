@@ -21,7 +21,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     protected $_template;
     
     /**
-     * @var Enlight_View_ViewDefault
+     * @var Enlight_View_Default
      */
     protected $_view;
 
@@ -103,7 +103,6 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
         	'Plugins' => 'Enlight_Plugin_PluginManager',
         	'Template' => 'Enlight_Template_TemplateManager',
         	'Front' => 'Enlight_Controller_Front',
-        	'View' => 'Enlight_View_ViewDefault',
         	'Enlight_Controller_Plugins_ErrorHandler_Bootstrap',
         	'Enlight_Controller_Plugins_ViewRenderer_Bootstrap'
         );
@@ -167,7 +166,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     /**
      * Retrieve template instance
      *
-     * @return Enlight_Template_TemplateManager
+     * @return Enlight_Template_Manager
      */
     public function Template()
     {
@@ -180,12 +179,12 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     /**
      * Retrieve view instance
      *
-     * @return Enlight_View_ViewDefault
+     * @return Enlight_View_Default
      */
     public function View()
     {
         if (null === $this->_view) {
-            $this->_view = Enlight_Application::Instance()->Bootstrap()->getResource('View');
+            $this->_view = new Enlight_View_Default($this->Template());
         }
         return $this->_view;
     }

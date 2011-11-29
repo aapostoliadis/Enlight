@@ -80,7 +80,7 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 
 		$eventArgs = $this->createEventArgs()->setSubject($action);
 
-		$this->assertTrue($this->json->onPostDispatch($eventArgs));
+		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
 	}
 	
@@ -97,7 +97,7 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 
 		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
 		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->assertTrue($this->json->onPostDispatch($eventArgs));
+		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
 
 		$headers = $this->Response()->getHeaders();
@@ -117,7 +117,7 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 
 		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
 		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->assertTrue($this->json->onPostDispatch($eventArgs));
+		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
 		$headers = $this->Response()->getHeaders();
 		$this->assertArrayHasKey('value', $headers[0]);
@@ -129,17 +129,19 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 	{
 		$this->json->setPadding(false);
 
-		$this->View()->assign('foo','bar');
-		$this->View()->assign('a', array(1,2,3));
-
 		$request = $this->Request()
                         ->setModuleName('frontend')
                         ->setDispatched(true);
         $response = $this->Response();
 
 		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+
+        $action->View()->loadTemplate('string:');
+        $action->View()->assign('foo','bar');
+		$action->View()->assign('a', array(1,2,3));
+
 		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->assertTrue($this->json->onPostDispatch($eventArgs));
+		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
 		$headers = $this->Response()->getHeaders();
 		$this->assertArrayHasKey('value', $headers[0]);
@@ -151,16 +153,18 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 		$this->json->setRenderer(true);
 		$this->json->setPadding(false);
 
-		$this->View()->assign('foo','bar');
-
 		$request = $this->Request()
                         ->setModuleName('frontend')
                         ->setDispatched(true);
         $response = $this->Response();
 
 		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+
+        $action->View()->loadTemplate('string:');
+        $action->View()->assign('foo','bar');
+
 		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->assertTrue($this->json->onPostDispatch($eventArgs));
+		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
 		$headers = $this->Response()->getHeaders();
 		$this->assertArrayHasKey('value', $headers[0]);
@@ -172,8 +176,6 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 		$this->json->setRenderer(true);
 		$this->json->setPadding(true);
 
-		$this->View()->assign('foo','bar');
-
 		$request = $this->Request()
                         ->setModuleName('frontend')
 						->setParam('callback', 'foo')
@@ -181,21 +183,23 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
         $response = $this->Response();
 
 		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+
+        $action->View()->loadTemplate('string:');
+        $action->View()->assign('foo','bar');
+
 		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->assertTrue($this->json->onPostDispatch($eventArgs));
+		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
 		$headers = $this->Response()->getHeaders();
 		$this->assertArrayHasKey('value', $headers[0]);
 		$this->assertEquals('text/javascript',$headers[0]['value']);
-		$this->assertContains('foo("{\"foo\":\"bar\",', $this->Response()->getBody());
+		$this->assertContains('foo("{\"foo\":\"bar\"', $this->Response()->getBody());
 	}
 	
 	public function testRendererOffPaddingOff()
 	{
 		$this->json->setRenderer(false);
 		$this->json->setPadding(false);
-
-		$this->View()->assign('foo','bar');
 
 		$this->Response()->setBody('test Data');
 
@@ -206,6 +210,10 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
         $response = $this->Response();
 
 		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+
+        $action->View()->loadTemplate('string:');
+        $action->View()->assign('foo','bar');
+
 		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
 		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals('test Data', $this->Response()->getBody());
@@ -216,8 +224,6 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 		$this->json->setRenderer(false);
 		$this->json->setPadding(true);
 
-		$this->View()->assign('foo','bar');
-
 		$this->Response()->setBody('test Data');
 
 		$request = $this->Request()
@@ -227,6 +233,10 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
         $response = $this->Response();
 
 		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+
+        $action->View()->loadTemplate('string:');
+        $action->View()->assign('foo','bar');
+
 		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
 		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals('foo("test Data");', $this->Response()->getBody());

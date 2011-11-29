@@ -36,7 +36,7 @@ class Enlight_Template_Manager extends Smarty
      *
      * @var string
      */
-    public $template_class = 'Enlight_Template_Handler';
+    public $template_class = 'Enlight_Template_Default';
 
 	//public $allow_phptemplates = true;
 	//public $allow_php_tag = true;

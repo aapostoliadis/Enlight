@@ -1,5 +1,5 @@
 <?php
-function smarty_function_partition($params, &$smarty)
+function smarty_function_partition($params, $smarty)
 {
 	$list = $params['array'];
 	$p = $params['parts'];

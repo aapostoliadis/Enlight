@@ -13,7 +13,7 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
 	 */
 	protected $front;
 	/**
-	 * @var Enlight_View_ViewDefault
+	 * @var Enlight_View_Default
 	 */
 	protected $view;
 	/**
@@ -169,13 +169,10 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
 	/**
 	 * Returns view instance
 	 *
-	 * @return Enlight_View_ViewDefault
+	 * @return Enlight_View_Default
 	 */
 	public function View()
 	{
-		if($this->view===null) {
-			$this->view = Enlight::Instance()->Bootstrap()->getResource('View');
-		}
 		return $this->view;
 	}
 	

@@ -9,10 +9,12 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
 
     public function preDispatch()
 	{
+        $this->View()->setCaching(false);
     }
 	
 	public function indexAction()
 	{
+        /*
         $adapter =  new Enlight_Config_Adapter_File(array(
             'configType' => 'ini',
             'configDir' => Enlight_Application::Instance()->AppPath('Snippets')
@@ -25,12 +27,30 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
         $path = Enlight_Application::Instance()->AppPath('DefaultViews');
         $this->View()->addTemplateDir($path);
 
-        $this->View()->loadTemplate('frontend/index/index.tpl');
+        //$this->View()->loadTemplate('frontend/index/index.tpl');
         //$this->View()->extendsTemplate('frontend/index/test.tpl');
         //$this->View()->extendsTemplate('frontend/index/test2.tpl');
         Enlight_Application::Instance()->Log()->debug('test');
 		if($this->Request()->getPathInfo()!='/') {
 			 $this->Response()->setHttpResponseCode(404);
 		}
+        */
 	}
+
+    public function loginAction()
+	{
+        $this->View()->addCacheId('test');
+
+        if(!$this->View()->isCached()) {
+            //$count++;
+            $this->View()->count += 1;
+        }
+
+        //$this->View()->setCaching(true);
+    }
+
+    public function testAction()
+	{
+        
+    }
 }

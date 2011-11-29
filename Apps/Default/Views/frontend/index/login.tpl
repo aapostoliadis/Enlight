@@ -1,3 +1,1 @@
-{$loginForm}
-
-{$status}
+World {$count}
