@@ -85,9 +85,9 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 		}
         
 		// decide if we should render the data or the whole page
-		if($this->renderer) {
+		if($this->renderer === true) {
 			$content = $subject->View()->getAssign();
-		} elseif($this->padding) {
+		} elseif(!empty($this->padding)) {
 			$content = $response->getBody();
 		} else {
             return;
@@ -97,10 +97,10 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
             $this->convertToUtf8($content, $this->encoding);
         }
 
-		if($this->padding){
+		if(!empty($this->padding)){
             $response->setHeader('Content-type', 'text/javascript', true);
 			$response->setBody($this->addPadding($content, $this->padding));
-		} elseif($this->renderer) {
+		} elseif($this->renderer === true) {
             $response->setHeader('Content-type', 'application/json', true);
             $response->setBody(Zend_Json::encode($content));
         }
@@ -218,9 +218,6 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 */
 	protected function addPadding($data, $callback)
 	{
-		if(empty($callback)){
-			return $data;
-		}
 		return $callback . '(' . Zend_Json::encode($data) . ');';
 	}
 }
