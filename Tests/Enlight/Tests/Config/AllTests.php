@@ -38,7 +38,7 @@ class Enlight_Tests_Config_AllTests
 	 */
 	public static function suite()
 	{
-		$suite = new Enlight_Components_Test_TestSuite('Enlight Application');
+		$suite = new Enlight_Components_Test_TestSuite('Enlight Config Tests');
 
 		$testCollector = new PHPUnit_Runner_IncludePathTestCollector(
 			array(dirname(__FILE__))

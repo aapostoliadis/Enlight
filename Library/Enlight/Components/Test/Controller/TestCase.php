@@ -66,12 +66,20 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
             $request->setRequestUri($url);
         }
         $request->setPathInfo(null);
+
+        $response = $this->Response();
         
         $this->Front()
              ->setRequest($request)
-             ->setResponse($this->Response());
+             ->setResponse($response);
 
-        return Enlight_Application::Instance()->run();
+        //return Enlight_Application::Instance()->run();
+
+        $dispatcher = $this->Front()->Dispatcher();
+
+        $dispatcher->dispatch($request, $response);
+
+        return $response;
     }
     
     /**

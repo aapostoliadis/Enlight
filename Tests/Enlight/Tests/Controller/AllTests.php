@@ -40,8 +40,8 @@ class Enlight_Tests_Controller_AllTests
 	{
 		$suite = new Enlight_Components_Test_TestSuite('Enlight Controllers Tests');
 
-		$suite->addTest(Enlight_Tests_Controller_Plugins_AllTests::suite());
-
+		$suite->addTest(Enlight_Tests_Controller_View_AllTests::suite());
+        $suite->addTest(Enlight_Tests_Controller_Plugins_AllTests::suite());
         
 		return $suite;
 	}

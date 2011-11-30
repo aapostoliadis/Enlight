@@ -106,8 +106,8 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
     }
 
     /**
-     *
-     *
+     * Sets the current template instance.
+     * 
      * @param   Enlight_Template_Default $template
      * @return  Enlight_View_Default
      */
@@ -140,6 +140,8 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
     }
 
     /**
+     * Creates a new template by name.
+     *
      * @param   $template_name
      * @return  Enlight_Template_Default
      */
@@ -208,11 +210,15 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
      * Resets a specified value or all values.
      *
      * @param   string $spec
+     * @param null $scope
      * @return  Enlight_View_Default
      */
-    public function clearAssign($spec = null)
+    public function clearAssign($spec = null, $scope = null)
     {
-        return $this->template->clearAssign($spec);
+        if($this->scope !== null && $scope === null) {
+            $scope = $this->scope;
+        }
+        return $this->template->clearAssign($spec, $scope);
     }
 
     /**
