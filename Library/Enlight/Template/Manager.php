@@ -38,9 +38,6 @@ class Enlight_Template_Manager extends Smarty
      */
     public $template_class = 'Enlight_Template_Default';
 
-	//public $allow_phptemplates = true;
-	//public $allow_php_tag = true;
-
     /**
      * Class constructor, initializes basic smarty properties
      */
@@ -58,5 +55,20 @@ class Enlight_Template_Manager extends Smarty
             ->setConfigDir('.' . DS . 'configs' . DS);
 
         $this->debug_tpl = 'file:' . dirname(__FILE__) . '/debug.tpl';
+    }
+
+    /**
+    * Creates a template object
+    *
+    * @param string $template the resource handle of the template file
+    * @param mixed $cache_id cache id to be used with this template
+    * @param mixed $compile_id compile id to be used with this template
+    * @param object $parent next higher level of Smarty variables
+    * @param boolean $do_clone flag is Smarty object shall be cloned
+    * @return object template object
+    */
+    public function createTemplate($template, $cache_id = null, $compile_id = null, $parent = null, $do_clone = false)
+    {
+        return parent::createTemplate($template, $cache_id, $compile_id, $parent, $do_clone);
     }
 }
