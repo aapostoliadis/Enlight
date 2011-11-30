@@ -72,6 +72,8 @@ class Enlight_Controller_Router_RouterDefault extends Enlight_Controller_Router_
 
         $params = Enlight_Application::Instance()->Events()->filter('Enlight_Controller_Router_FilterRouteParams', $params);
 
+        $request->setParams($params);
+
         return $request;
     }
 

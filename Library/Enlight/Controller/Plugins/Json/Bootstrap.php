@@ -48,7 +48,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 * Source encoding needed to convert to UTF-8
 	 * @var string
 	 */
-	protected $encoding;
+	protected $encoding = 'UTF-8';
 
 	/**
 	 * Flag which indicates if the whole HTML Output should be converted to JSON or
@@ -85,22 +85,28 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 		}
         
 		// decide if we should render the data or the whole page
-		if($this->renderer) {
+		if($this->renderer === true) {
 			$content = $subject->View()->getAssign();
-		} elseif($this->padding) {
+		} elseif(!empty($this->padding)) {
 			$content = $response->getBody();
-		}
+		} else {
+            return;
+        }
 
-		if($this->padding){
+        if($this->encoding !== 'UTF-8') {
+            $this->convertToUtf8($content, $this->encoding);
+        }
+
+		if(!empty($this->padding)){
             $response->setHeader('Content-type', 'text/javascript', true);
 			$response->setBody($this->addPadding($content, $this->padding));
-		} elseif($this->renderer) {
+		} elseif($this->renderer === true) {
             $response->setHeader('Content-type', 'application/json', true);
             $response->setBody(Zend_Json::encode($content));
         }
 
         $this->padding = null;
-        $this->encoding = null;
+        $this->encoding = 'UTF-8';
         $this->renderer = null;
 	}
 
@@ -192,7 +198,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 		if(is_string($data))		{
             if(function_exists('mb_convert_encoding')) {
                 $data = mb_convert_encoding($data, 'UTF-8', $encoding);
-            } else {
+            } elseif($encoding == 'ISO-8859-1') {
                 $data = utf8_encode($data);
             }
 		} elseif (is_array($data)) {
@@ -212,9 +218,6 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	 */
 	protected function addPadding($data, $callback)
 	{
-		if(empty($callback)){
-			return $data;
-		}
 		return $callback . '(' . Zend_Json::encode($data) . ');';
 	}
 }
