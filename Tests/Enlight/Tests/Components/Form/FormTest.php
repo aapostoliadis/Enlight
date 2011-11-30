@@ -46,13 +46,13 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 	 */
 	public function tearDown()
 	{
-		// löschen der ConfigFiles
+		// lÃ¶schen der ConfigFiles
 		$target = Enlight_TestHelper::Instance()->TestPath('TempFiles').'testForm.ini';
 		$target2 = Enlight_TestHelper::Instance()->TestPath('TempFiles').'testForm_test.ini';
 		$this->removeOldForm($target);
 		if(file_exists($target2) && is_writable($target2))
 		{
-			unlink($target2);
+			//unlink($target2);
 		}
 	}
 
@@ -73,8 +73,6 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 												));
 		$formCfg->read();
 
-		$ar = $formCfg->toArray();
-
 		$form = new Enlight_Components_Form($formCfg->toArray());
 		$this->assertInstanceOf('Enlight_Components_Form',$form);
 
@@ -94,10 +92,11 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 		$form = $this->getForm();
 			
 		$formArray = $form->toArray();
-		$this->assertArrayCount(3,$formArray['default']['elements']);
+
+		$this->assertArrayCount(3,$formArray['elements']);
 
 		$cfgAdapter = new Enlight_Config_Adapter_File( array('configType'=>'ini', 'configDir' => Enlight_TestHelper::Instance()->TestPath('TempFiles')) );
-		$formCfg = new Enlight_Config($this->testFile.'_test', array('adapter'=>$cfgAdapter,'allowModifications' => true
+				$formCfg = new Enlight_Config($this->testFile.'_test', array('adapter'=>$cfgAdapter,'allowModifications' => true
 												));
 		$formCfg->setData($formArray);
 		$formCfg->write();
@@ -125,7 +124,6 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 		$testElement = $form->getElement('submit');
 		$this->assertInstanceOf('Zend_Form_Element_Submit', $testElement);
 		$testElement = null;
-
 
 		// Remove submit button
 		$this->assertTrue($form->removeElement('submit'));

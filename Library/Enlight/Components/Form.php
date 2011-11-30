@@ -28,9 +28,65 @@
  */
 class Enlight_Components_Form extends Zend_Form
 {
+
+	/**
+	 * @var Integer
+	 */
+	protected $_id = null;
+
+	/**
+	 * @var Enlight_Config_Adapter
+	 */
+	protected $_saverHandler = null;
+
+	/**
+	 * Saves the Form using an Enlight_Config_Adapter to do so.
+	 * This is a rudimentary implementation and should be considered as beta
+	 *
+	 * @return void
+	 */
+	public function save()
+	{
+		$this->_saverHandler->write( new Enlight_Config($this->toArray()));
+	}
+
+	/**
+	 * This Method extends the common Zend_Form setOption Method to add the additional parameter
+	 * adapter - Contains a Enlight_Config_Adapter which is used to write the Form to the config
+	 *
+	 * @param array $options
+	 */
+	public function setOptions(array $options)
+	{
+		foreach($options as $optionName=>$option){
+			switch($optionName){
+				case 'adpater': $this->setAdapter($option);
+					break 2; // leave switch and the foreach loop
+			}
+		}
+		reset($options);
+		parent::setOptions($options);
+	}
+
+	public function setAdapter(Enlight_Config_Adapter $adapter)
+	{
+		$this->_saverHandler = $adapter;
+	}
+
 	public function isValid($data)
 	{
 		return parent::isValid($data);
+	}
+
+	protected function getElementDecorators()
+	{
+		return $this->_elementDecorators;
+	}
+
+	public function setElement($element, $name, $options = null)
+	{
+		$this->removeElement($name);
+		return $this->addElement($element, $name, $options);
 	}
 
 	/**
@@ -44,20 +100,20 @@ class Enlight_Components_Form extends Zend_Form
 		$data = array();
 		// Get Form Header Files
 		$attributes = $this->getAttribs();
-		foreach($attributes as $key => $attribute)
-		{
+		foreach($attributes as $key => $attribute) {
 			$data[$key] = $attribute;
 		}
-
+		if(!empty($this->_disableLoadDefaultDecorators)) {
+			$data['disableLoadDefaultDecorators'] = $this->_disableLoadDefaultDecorators;
+		}
 		// Get Form Elements
 		$elements = $this->getElements();
-		$element = "";
-		foreach( $elements as $key=>$element){
+		
+		foreach($elements as $key=>$element){
 			$data['elements'][$key] = $this->toArrayElement($element);
 		}
+		$data['elementDecorators'] = $this->convertElementDecorators($this->getElementDecorators());
 		$data['decorators'] = $this->convertFormDecorators();
-		$data['elementDecorators'] = $this->convertDecorators($element);
-
 
 		return $data;
 	}
@@ -104,24 +160,26 @@ class Enlight_Components_Form extends Zend_Form
 	 */
 	private function toArrayElement($element)
 	{
-		$options = array(
-			'description',
-			'allowEmpty',
-			'ignore',
-			'order',
-			'label',
-			'value',
-			'id',
-			'name',
-			'belongsTo',
-			'attributes'
-		);
+//		$options = array(
+//			'description',
+//			'allowEmpty',
+//			'ignore',
+//			'order',
+//			'label',
+//			'value',
+//			'id',
+//			'name',
+//			'belongsTo',
+//			'attributes'
+//		);
 
 		$arrayElement = array(
-			'type' => $this->getShortName($element)
+			'type' => lcfirst($this->getShortName($element))
 		);
-
-		$arrayElement['label'] = $element->getLabel();
+		$label = $element->getLabel();
+		if(!empty($label)) {
+			$arrayElement['label'] = $label;
+		}
 
 		// Handle Validators
 		$arrayElement['options']['validators'] = $this->convertValidators($element);
@@ -132,9 +190,6 @@ class Enlight_Components_Form extends Zend_Form
 		}
 		// Handle Filters
 		$arrayElement['options']['filters'] = $this->convertFilters($element);
-		
-		// Handle decorators
-		//$arrayElement['decorators'] = $this->convertElementDecorators($element);
 
 		return $arrayElement;
 	}
@@ -150,14 +205,12 @@ class Enlight_Components_Form extends Zend_Form
 		$decorators = $element->getDecorators();
 		$retVal = array();
 
-		foreach($decorators as $decorator)		{
+		foreach($decorators as $decorator) {
 			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
 			$decorOptions = $decorator->getOptions();
 			if( empty($decorOptions)){
 				$retVal[] = array($decorName);
-			}
-			else{
-
+			} else {
 				$tmp = array($decorName,$decorOptions);
 				$retVal[]=$tmp;
 				unset($tmp);
@@ -166,27 +219,46 @@ class Enlight_Components_Form extends Zend_Form
 		return $retVal;
 	}
 
+//	private function convertDecorators2($element)
+//	{
+//		$decorators = $element->getDecorators();
+//		$retVal = array();
+//		foreach($decorators as $dkey=>$decorator)		{
+//			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
+//			$decorKey = lcfirst(str_replace('Zend_Form_Decorator_','', $dkey));
+//			switch($dkey) {
+//				default:
+//					$options = $decorator->getOptions();
+//					if(empty($options)) {
+//						$retVal[$decorKey] = $decorName;
+//					} else {
+//						$retVal[$decorKey] = array($decorName => $options);
+//					}
+//			}
+//		}
+//		return $retVal;
+//	}
+
 	/**
 	 * Converts elements decorators to an array
 	 *
-	 * @param $element
+	 * @param $elementDecorators
 	 * @return array
 	 */
-	private function convertElementDecorators($element)
+	private function convertElementDecorators($elementDecorators)
 	{
-		$decorators = $element->getDecorators();
 		$retVal = array();
-		foreach($decorators as $decorator)		{
-			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
-			$decorOptions = $decorator->getOptions();
-			if (empty($decorOptions)) {
-				$retVal[] = array($decorName);
+		foreach($elementDecorators as $decorKey => $decorator) {
+			if(!is_array($decorator))
+			{
+				$retVal[$decorKey] = $decorator;
 			} else {
-				$retVal[]= array($decorName,$decorOptions);
+				foreach($decorator as $key=>$value) {
+					$retVal[$decorKey][$key] = $value;
+				}
 			}
 		}
 		return $retVal;
-
 	}
 
 	/**
@@ -198,15 +270,11 @@ class Enlight_Components_Form extends Zend_Form
 	{
 		$decorators = $this->getDecorators();//$element->getDecorators();
 		$retVal = array();
-		foreach($decorators as $decorator){
+		foreach($decorators as $key =>$decorator){
 			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
-			$decorOptions = $decorator->getOptions();
-			if(empty($decorOptions)) {
-				$retVal[] = array($decorName);
-			} else {
-				$tmp = array($decorName,$decorOptions);
-				$retVal[]=array($decorName,$decorOptions);
-			}
+			//$decorOptions = $decorator->getOptions();
+			$keyName = lcfirst(str_replace('Zend_Form_Decorator_','', $key));
+			$retVal[$keyName] = array('decorator'=>$decorName);
 		}
 		return $retVal;
 
@@ -226,6 +294,30 @@ class Enlight_Components_Form extends Zend_Form
 			$arrayElement['options']['filters'] = array();
 			foreach ($filters as $filterKey => $filter) {
 				$retVal[$this->getShortName($filter)]  = array('filter' => $this->getShortName($filter));
+			}
+		}
+		return $retVal;
+	}
+
+	/**
+	 * Reads the Display groups and returns an array containing them.
+	 *
+	 * @return array
+	 */
+	private function convertDisplayGroups()
+	{
+		$displayGroups = $this->getDisplayGroups();
+		$retVal = array();
+		if(!empty($displayGroups)) {
+			/** @var $displayGroup Zend_Form_DisplayGroup */
+			foreach($displayGroups as $key=>$displayGroup)
+			{
+				$elements = $displayGroup->getElements();
+				/** @var $value Zend_Form_Element*/
+				foreach($elements as $ekey => $value)
+				{
+					$retVal[$key]['elements'][$ekey] = $ekey;
+				}
 			}
 		}
 		return $retVal;
