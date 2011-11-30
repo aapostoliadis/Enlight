@@ -101,6 +101,7 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
 
 		$headers = $this->Response()->getHeaders();
+		
 		$this->assertArrayHasKey('value', $headers[0]);
 		$this->assertEquals('text/javascript',$headers[0]['value']);
 	}
@@ -119,15 +120,16 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
 		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
+		
 		$headers = $this->Response()->getHeaders();
-		$this->assertArrayHasKey('value', $headers[0]);
-		$this->assertEquals('application/json',$headers[0]['value']);
+		$this->assertArrayCount(0, $headers);
 	}
 
 
 	public function testWithoutPadding()
 	{
 		$this->json->setPadding(false);
+		$this->json->setRenderer(true);
 
 		$request = $this->Request()
                         ->setModuleName('frontend')
@@ -193,7 +195,7 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 		$headers = $this->Response()->getHeaders();
 		$this->assertArrayHasKey('value', $headers[0]);
 		$this->assertEquals('text/javascript',$headers[0]['value']);
-		$this->assertContains('foo("{\"foo\":\"bar\"', $this->Response()->getBody());
+		$this->assertContains('foo({"foo":"bar"', $this->Response()->getBody());
 	}
 	
 	public function testRendererOffPaddingOff()
