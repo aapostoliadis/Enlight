@@ -27,7 +27,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_View_Default implements Enlight_View_ViewCache
+class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
 {
     /**
      * The template manager instance.
@@ -106,9 +106,31 @@ class Enlight_View_Default implements Enlight_View_ViewCache
     }
 
     /**
+     *
+     *
+     * @param   Enlight_Template_Default $template
+     * @return  Enlight_View_Default
+     */
+    public function setTemplate(Enlight_Template_Default $template = null)
+    {
+        $this->template = $template;
+        return $this;
+    }
+
+    /**
+     * Checks if a template is stored.
+     *
+     * @return  bool
+     */
+    public function hasTemplate()
+    {
+        return isset($this->template);
+    }
+
+    /**
      * Loads a template by name.
      *
-     * @param   $template_name
+     * @param   string $template_name
      * @return  Enlight_View_Default
      */
     public function loadTemplate($template_name)
@@ -148,28 +170,8 @@ class Enlight_View_Default implements Enlight_View_ViewCache
      */
     public function extendsBlock($spec, $content, $mode)
     {
-        if($this->template) {
-            $this->template->extendsBlock($spec, $content, $mode);
-        }
+        $this->template->extendsBlock($spec, $content, $mode);
         return $this;
-    }
-
-    /**
-     * @param   Enlight_Template_Default $template
-     * @return  Enlight_View_Default
-     */
-    public function setTemplate($template = null)
-    {
-        $this->template = $template;
-        return $this;
-    }
-
-    /**
-     * @return  bool
-     */
-    public function hasTemplate()
-    {
-        return isset($this->template);
     }
 
     /**
@@ -182,6 +184,8 @@ class Enlight_View_Default implements Enlight_View_ViewCache
     }
 
     /**
+     * Assigns a specified value to the template.
+     *
      * @param   string $spec
      * @param   mixed $value
      * @param   bool $nocache
@@ -201,6 +205,8 @@ class Enlight_View_Default implements Enlight_View_ViewCache
     }
 
     /**
+     * Resets a specified value or all values.
+     *
      * @param   string $spec
      * @return  Enlight_View_Default
      */
@@ -254,6 +260,16 @@ class Enlight_View_Default implements Enlight_View_ViewCache
     }
 
     /**
+     * @param   int|null $scope
+     * @return  Enlight_View_Default
+     */
+    public function setScope($scope = null)
+    {
+        $this->scope = $scope;
+        return $this;
+    }
+
+    /**
      * @param   bool $value
      * @return  Enlight_View_Default
      */
@@ -272,7 +288,7 @@ class Enlight_View_Default implements Enlight_View_ViewCache
     }
 
     /**
-     * @param   null $cache_id
+     * @param   string|array $cache_id
      * @return  Enlight_View_Default
      */
     public function setCacheId($cache_id = null)
@@ -282,57 +298,12 @@ class Enlight_View_Default implements Enlight_View_ViewCache
     }
 
     /**
-     * @param   $cache_id
+     * @param   string|array $cache_id
      * @return  Enlight_View_Default
      */
     public function addCacheId($cache_id)
     {
         $this->template->addCacheId($cache_id);
         return $this;
-    }
-
-    /**
-     * Magic setter
-     *
-     * @param   $name
-     * @param   mixed $value
-     * @return  void
-     */
-    public function __set($name, $value = null)
-    {
-        $this->assign($name, $value);
-    }
-
-    /**
-     * Magic getter
-     *
-     * @param $name
-     * @return array|mixed
-     */
-    public function __get($name)
-    {
-        return $this->getAssign($name);
-    }
-
-    /**
-     * Magic isset
-     *
-     * @param   string $name
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        return ($this->getAssign($name) !== null);
-    }
-
-    /**
-     * Magic unset
-     *
-     * @param $name
-     * @return void
-     */
-    public function __unset($name)
-    {
-        $this->clearAssign($name);
     }
 }

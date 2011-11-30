@@ -29,10 +29,13 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
 	 * @var string
 	 */
 	protected $controller_name;
-	
-	/**
-	 * Constructor method
-	 */
+
+    /**
+     * Constructor method
+     * 
+     * @param   Enlight_Controller_Request_Request $request
+     * @param   Enlight_Controller_Response_Response $response
+     */
 	public function __construct(Enlight_Controller_Request_Request $request, Enlight_Controller_Response_Response $response)
 	{
 		$this->setRequest($request)->setResponse($response);
@@ -133,10 +136,10 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
 	/**
 	 * Set view instance
 	 *
-	 * @param Enlight_View_View $view
+	 * @param Enlight_View $view
 	 * @return Enlight_Controller_Action
 	 */
-	public function setView (Enlight_View_View $view)
+	public function setView (Enlight_View $view)
 	{
 		$this->view = $view;
 		return $this;

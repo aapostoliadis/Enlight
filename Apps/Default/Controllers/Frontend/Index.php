@@ -4,16 +4,19 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
 	public function init()
 	{
         //$this->View()->Engine()->registerFilter('pre', array($this, 'preFilter'));
-		//Enlight_Application::Instance()->Plugins()->Controller()->ViewRenderer()->setNoRender();
-	}
+		//
+    }
 
     public function preDispatch()
 	{
+        Enlight_Application::Instance()->Plugins()->Controller()->Json()->setPadding();
+        Enlight_Application::Instance()->Plugins()->Controller()->Json()->setRenderer();
         $this->View()->setCaching(false);
     }
 	
 	public function indexAction()
 	{
+
         /*
         $adapter =  new Enlight_Config_Adapter_File(array(
             'configType' => 'ini',
@@ -39,6 +42,7 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
 
     public function loginAction()
 	{
+        $this->View()->loadTemplate('string:test');
         $this->View()->addCacheId('test');
 
         if(!$this->View()->isCached()) {
