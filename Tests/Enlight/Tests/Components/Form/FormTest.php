@@ -75,8 +75,22 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 
 		$form = new Enlight_Components_Form($formCfg->toArray());
 		$this->assertInstanceOf('Enlight_Components_Form',$form);
-
     }
+
+	public function testLoadForm2()
+	{
+		$this->writeConfig();
+		$cfgAdapter = new Enlight_Config_Adapter_File( array('configType'=>'ini',
+															 'configDir' => Enlight_TestHelper::Instance()->TestPath('TempFiles')) );
+		$formCfg = new Enlight_Config($this->testFile,
+										array(	'adapter'=>$cfgAdapter,
+												'allowModifications' => true
+										));
+		$formCfg->read();
+
+		$form = new Enlight_Components_Form($formCfg->toArray());
+		$this->assertInstanceOf('Enlight_Components_Form',$form);
+	}
 
 	/**
 	 * Method to test if a form can be saved
@@ -89,20 +103,15 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 	 */
 	public function testSaveForm()
 	{
-		$form = $this->getForm();
-			
-		$formArray = $form->toArray();
-
-		$this->assertArrayCount(3,$formArray['elements']);
-
 		$cfgAdapter = new Enlight_Config_Adapter_File( array('configType'=>'ini', 'configDir' => Enlight_TestHelper::Instance()->TestPath('TempFiles')) );
-				$formCfg = new Enlight_Config($this->testFile.'_test', array('adapter'=>$cfgAdapter,'allowModifications' => true
-												));
-		$formCfg->setData($formArray);
-		$formCfg->write();
+		$formCfg = new Enlight_Config($this->testFile.'_test', array('adapter'=>$cfgAdapter,'allowModifications' => true));
+		$form = $this->getForm();
+		$form->setAdapter($formCfg);
+		$form->setOptions(array('adapter'=>$formCfg));
+		$form->save();
 
 		$this->assertFileExists( Enlight_TestHelper::Instance()->TestPath('TempFiles').$this->testFile.'_test.ini');
-		$this->assertEquals(md5_file(Enlight_TestHelper::Instance()->TestPath('TempFiles').$this->testFile.'_test.ini'),'caeb8439765503e154aadffe17377648');
+		$this->assertContains('firstName.options.validators.NotEmpty.validator', file_get_contents(Enlight_TestHelper::Instance()->TestPath('TempFiles').$this->testFile.'_test.ini'));
 
 	}
 
@@ -141,19 +150,23 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 		$this->assertInstanceOf('Zend_Form_Element_Text', $testElement);
 		$this->assertEquals($testElement->getLabel(),'EMail');
 		$this->assertEquals($testElement->getName(), 'email');
-	}
 
+		$this->assertInstanceOf('Enlight_Components_Form',$form->setElement('Text','email'));
+	}
 
 	/**
 	 * Small helper method to build a form
 	 *
+	 * @param null $cfg
 	 * @return Enlight_Components_Form
 	 */
-	private function getForm()
+	private function getForm($cfg = null)
 	{
 		$form = new Enlight_Components_Form(array());
-		$this->assertInstanceOf('Enlight_Components_Form', $form);
 
+		$this->assertInstanceOf('Enlight_Components_Form',$form);
+
+		$form->setDisableLoadDefaultDecorators(true);
 		$form->setAction('login');
 		$form->setName('contact us');
 
@@ -163,7 +176,9 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 
 		$lastName = new Zend_Form_Element_Text('lastName');
 		$this->assertInstanceOf('Zend_Form_Element_Text', $lastName);
-		$lastName->setLabel('Last Name')->setRequired(true)->addValidator('NotEmpty');
+		$lastName->setLabel('Last Name')->setRequired(true)->addValidator('NotEmpty')->addValidator('StringLength',false, array('min'=>6, 'max'=>10));
+		$lastName->setFilters(array(New Zend_Filter_Alnum()));
+		$lastName->setDecorators(array(new Zend_Form_Decorator_Label()));
 
 		$submit = new Zend_Form_Element_Submit('submit');
 		$this->assertInstanceOf('Zend_Form_Element_Submit', $submit);
@@ -205,6 +220,11 @@ user.login.elements.password.options.required = true
 
 ; submit element
 user.login.elements.submit.type = "submit"
+
+user.login.disableLoadDefaultDecorators = true
+user.login.decorators.formElements.decorator = "FormElements"
+user.login.decorators.description.decorator = "Description"
+user.login.decorators.form.decorator = "Form"
 		';
 		$target = Enlight_TestHelper::Instance()->TestPath('TempFiles').'testForm.ini';
 		if(file_exists($target)){
@@ -216,7 +236,7 @@ user.login.elements.submit.type = "submit"
 	private function removeOldForm($target)
 	{
 		if(is_writable($target)){
-			unlink($target);
+			//unlink($target);
 		}
 	}
 
