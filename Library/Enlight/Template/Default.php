@@ -36,24 +36,28 @@ class Enlight_Template_Default extends Enlight_Template_Manager
     const BLOCK_PREPEND = 'prepend';
 
     /**
-     * assigns a Smarty variable
+     * Assigns a smarty variable
      *
      * @param array|string $tpl_var the template variable name(s)
      * @param mixed        $value   the value to assign
-     * @param boolean      $nocache if true any output of this variable will be not cached
-     * @param boolean $scope the scope the variable will have  (local,parent or root)
-     * @return Smarty_Internal_Data current Smarty_Internal_Data (or Smarty or Smarty_Internal_Template) instance for chaining
+     * @param bool         $nocache if true any output of this variable will be not cached
+     * @param bool         $scope the scope the variable will have  (local,parent or root)
+     * @return Enlight_Template_Default
      */
     public function assign($tpl_var, $value = null, $nocache = false, $scope = null)
     {
         if($scope === null || $scope === Smarty::SCOPE_LOCAL) {
             parent::assign($tpl_var, $value, $nocache);
         } elseif($scope === Smarty::SCOPE_ROOT) {
-            $this->smarty->assign($tpl_var, $value);
+            parent::assign($tpl_var, $value, $nocache);
+            $this->smarty->assign($tpl_var, $value, $nocache);
         } elseif($scope === Smarty::SCOPE_GLOBAL) {
-            $this->smarty->assignGlobal($tpl_var, $value);
+            $this->smarty->assignGlobal($tpl_var, $value, $nocache);
         } elseif($scope == Smarty::SCOPE_PARENT) {
-            $this->parent->assign($tpl_var, $value, $nocache);
+            parent::assign($tpl_var, $value, $nocache);
+            if($this->parent !== null) {
+                $this->parent->assign($tpl_var, $value, $nocache);
+            }
         }
         return $this;
     }
@@ -76,8 +80,10 @@ class Enlight_Template_Default extends Enlight_Template_Manager
         if($scope === null || $scope === Smarty::SCOPE_LOCAL) {
             parent::$function($tpl_var);
         } elseif($scope === Smarty::SCOPE_ROOT) {
+            parent::$function($tpl_var);
             $this->smarty->$function($tpl_var);
         } elseif($scope == Smarty::SCOPE_PARENT) {
+            parent::$function($tpl_var);
             $this->parent->$function($tpl_var);
         } elseif($scope === Smarty::SCOPE_GLOBAL) {
             if($tpl_var === null) {
