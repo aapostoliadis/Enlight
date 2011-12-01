@@ -29,7 +29,7 @@ require_once('Smarty/Smarty.class.php');
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_Template_Default extends Enlight_Template_Manager
+class Enlight_Template_Default extends Smarty_Internal_Template
 {
     const BLOCK_REPLACE = 'replace';
     const BLOCK_APPEND = 'append';
@@ -49,14 +49,14 @@ class Enlight_Template_Default extends Enlight_Template_Manager
         if($scope === null || $scope === Smarty::SCOPE_LOCAL) {
             parent::assign($tpl_var, $value, $nocache);
         } elseif($scope === Smarty::SCOPE_ROOT) {
-            parent::assign($tpl_var, $value, $nocache);
             $this->smarty->assign($tpl_var, $value, $nocache);
         } elseif($scope === Smarty::SCOPE_GLOBAL) {
             $this->smarty->assignGlobal($tpl_var, $value, $nocache);
         } elseif($scope == Smarty::SCOPE_PARENT) {
-            parent::assign($tpl_var, $value, $nocache);
             if($this->parent !== null) {
                 $this->parent->assign($tpl_var, $value, $nocache);
+            } else {
+                parent::assign($tpl_var, $value, $nocache);
             }
         }
         return $this;

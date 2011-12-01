@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license/new-bsd     New BSD License
  * @version    $Id$
- * @author     h.lohaus
+ * @author     Heiner Lohaus
  * @author     $Author$
  */
 
@@ -45,8 +45,8 @@ class Enlight_Tests_Controller_View_ViewTest extends Enlight_Components_Test_Con
 
         $this->engine = new Enlight_Template_Manager();
         $this->engine->setCompileDir($tempDir);
-        $this->engine->setCompileId('snippet');
-        $this->engine->clearCompiledTemplate(null, 'snippet');
+        $this->engine->setCompileId('view');
+        $this->engine->clearCompiledTemplate(null, 'view');
 
         Smarty::$global_tpl_vars = array();
 	}
@@ -112,27 +112,40 @@ class Enlight_Tests_Controller_View_ViewTest extends Enlight_Components_Test_Con
     public function testViewAssignRoot()
     {
         $view = new Enlight_View_Default($this->engine);
+
         $view->loadTemplate('string:{$test}');
         $view->assign('test', 'success', null, Smarty::SCOPE_ROOT);
-        $this->assertEquals('success', $view->getAssign('test'));
 
-        $view = new Enlight_View_Default($this->engine);
+        $this->assertEquals('success', $view->render());
+
         $view->loadTemplate('string:{$test}');
-        $this->assertEquals('success', $view->getAssign('test'));
+
+        $this->assertEquals('success', $view->render());
     }
 
     /**
      * Test case
      */
-    public function testViewAssignRoot2()
+    public function testViewAssignParent()
     {
         $view = new Enlight_View_Default($this->engine);
         $view->loadTemplate('string:{$test}');
-        $view->assign('test', 'success', null, Smarty::SCOPE_ROOT);
-        $this->assertEquals('success', $view->getAssign('test'));
 
+        $template = $view->createTemplate('string:{$test}');
+        $template->assign('test', 'success', null, Smarty::SCOPE_PARENT);
+
+        $this->assertEquals('success', $view->render());
+    }
+
+    /**
+     * Test case
+     */
+    public function testViewFetch()
+    {
         $view = new Enlight_View_Default($this->engine);
-        $view->loadTemplate('string:{$test}');
-        $this->assertEquals('success', $view->getAssign('test'));
+        $view->loadTemplate('string: ');
+        $view->assign('test', 'success');
+
+        $this->assertEquals('success', $view->fetch('string:{$test}'));
     }
 }

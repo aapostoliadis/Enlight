@@ -135,7 +135,7 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
      */
     public function loadTemplate($template_name)
     {
-        $this->template = $this->engine->createTemplate($template_name);
+        $this->template = $this->engine->createTemplate($template_name, $this->engine);
         return $this;
     }
 
@@ -250,9 +250,7 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
      */
     public function fetch($template_name)
     {
-        /** @var Enlight_Template_Default $template  */
-        $template = $this->engine->createTemplate($template_name, $this->template);
-        return $template->fetch();
+        return $this->engine->fetch($template_name, $this->template);
     }
 
     /**
@@ -311,5 +309,13 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
     {
         $this->template->addCacheId($cache_id);
         return $this;
+    }
+
+    /**
+     * @return  string
+     */
+    public function getCacheId()
+    {
+        return $this->template->cache_id;
     }
 }
