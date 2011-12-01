@@ -35,9 +35,23 @@ class Enlight_Components_Form extends Zend_Form
 	protected $_id = null;
 
 	/**
-	 * @var Enlight_Config_Adapter
+	 * @var Enlight_Config
 	 */
 	protected $_saverHandler = null;
+
+	/**
+	 * @param array|\Enlight_Config $options
+	 */
+	public function __construct($options)
+	{
+		parent::__construct($options);
+		if($options instanceof Enlight_Config) {
+			$this->setOptions($options->toArray());
+		}elseif(is_array($options)){
+			$this->setOptions($options);
+		}
+
+	}
 
 	/**
 	 * Saves the Form using an Enlight_Config_Adapter to do so.
@@ -47,7 +61,16 @@ class Enlight_Components_Form extends Zend_Form
 	 */
 	public function save()
 	{
+		$this->_saverHandler->setData($this->toArray());
 		$this->_saverHandler->write( new Enlight_Config($this->toArray()));
+	}
+
+	/**
+	 * Alias for the save method to keep a uniform interface through out enlight.
+	 */
+	public function write()
+	{
+		$this->save();
 	}
 
 	/**
@@ -58,9 +81,10 @@ class Enlight_Components_Form extends Zend_Form
 	 */
 	public function setOptions(array $options)
 	{
-		foreach($options as $optionName=>$option){
+		foreach($options as $optionName => $option){
 			switch($optionName){
-				case 'adpater': $this->setAdapter($option);
+				case 'adapter':
+					$this->setAdapter($option);
 					break 2; // leave switch and the foreach loop
 			}
 		}
@@ -68,25 +92,55 @@ class Enlight_Components_Form extends Zend_Form
 		parent::setOptions($options);
 	}
 
-	public function setAdapter(Enlight_Config_Adapter $adapter)
+	/**
+	 * Sets the write and read adapter
+	 *
+	 * @param Enlight_Config $adapter
+	 */
+	public function setAdapter(Enlight_Config $adapter)
 	{
 		$this->_saverHandler = $adapter;
 	}
 
+	/**
+	 * Checks if a submitted form is valid
+	 *
+	 * @param $data
+	 * @return bool
+	 */
 	public function isValid($data)
 	{
 		return parent::isValid($data);
 	}
 
+	/**
+	 * Retrieves all decorators assigned to the given element
+	 *
+	 * @return array|null
+	 */
 	protected function getElementDecorators()
 	{
 		return $this->_elementDecorators;
 	}
 
+	/**
+	 * Sets an new form element. This method will try to delete the form element first to avoid
+	 * conflicts
+	 *
+	 * @param $element
+	 * @param $name
+	 * @param null $options
+	 * @return Zend_Form
+	 */
 	public function setElement($element, $name, $options = null)
 	{
 		$this->removeElement($name);
 		return $this->addElement($element, $name, $options);
+	}
+	public function setId($id)
+	{
+		$this->_attribs['id'] = $id;
+		return $this;
 	}
 
 	/**
@@ -125,6 +179,7 @@ class Enlight_Components_Form extends Zend_Form
      * @param  Zend_View_Interface $view
      * @return string
      */
+	/*
     public function render(Zend_View_Interface $view = null)
 	{
 		if (null === $view) {
@@ -133,7 +188,7 @@ class Enlight_Components_Form extends Zend_Form
 		$this->setAttrib('class','enlight_form');
 		return parent::render();
 	}
-
+*/
 	/**
 	 * Small helper method to clean up some reflection action on the form
 	 *
@@ -160,19 +215,6 @@ class Enlight_Components_Form extends Zend_Form
 	 */
 	private function toArrayElement($element)
 	{
-//		$options = array(
-//			'description',
-//			'allowEmpty',
-//			'ignore',
-//			'order',
-//			'label',
-//			'value',
-//			'id',
-//			'name',
-//			'belongsTo',
-//			'attributes'
-//		);
-
 		$arrayElement = array(
 			'type' => lcfirst($this->getShortName($element))
 		);
@@ -219,26 +261,6 @@ class Enlight_Components_Form extends Zend_Form
 		return $retVal;
 	}
 
-//	private function convertDecorators2($element)
-//	{
-//		$decorators = $element->getDecorators();
-//		$retVal = array();
-//		foreach($decorators as $dkey=>$decorator)		{
-//			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
-//			$decorKey = lcfirst(str_replace('Zend_Form_Decorator_','', $dkey));
-//			switch($dkey) {
-//				default:
-//					$options = $decorator->getOptions();
-//					if(empty($options)) {
-//						$retVal[$decorKey] = $decorName;
-//					} else {
-//						$retVal[$decorKey] = array($decorName => $options);
-//					}
-//			}
-//		}
-//		return $retVal;
-//	}
-
 	/**
 	 * Converts elements decorators to an array
 	 *
@@ -248,13 +270,15 @@ class Enlight_Components_Form extends Zend_Form
 	private function convertElementDecorators($elementDecorators)
 	{
 		$retVal = array();
-		foreach($elementDecorators as $decorKey => $decorator) {
-			if(!is_array($decorator))
-			{
-				$retVal[$decorKey] = $decorator;
-			} else {
-				foreach($decorator as $key=>$value) {
-					$retVal[$decorKey][$key] = $value;
+			if(!empty($elementDecorators)){
+			foreach($elementDecorators as $decorKey => $decorator) {
+				if(!is_array($decorator))
+				{
+					$retVal[$decorKey] = $decorator;
+				} else {
+					foreach($decorator as $key=>$value) {
+						$retVal[$decorKey][$key] = $value;
+					}
 				}
 			}
 		}
@@ -304,16 +328,17 @@ class Enlight_Components_Form extends Zend_Form
 	 *
 	 * @return array
 	 */
+	/*
 	private function convertDisplayGroups()
 	{
 		$displayGroups = $this->getDisplayGroups();
 		$retVal = array();
 		if(!empty($displayGroups)) {
-			/** @var $displayGroup Zend_Form_DisplayGroup */
+
 			foreach($displayGroups as $key=>$displayGroup)
 			{
 				$elements = $displayGroup->getElements();
-				/** @var $value Zend_Form_Element*/
+
 				foreach($elements as $ekey => $value)
 				{
 					$retVal[$key]['elements'][$ekey] = $ekey;
@@ -322,7 +347,7 @@ class Enlight_Components_Form extends Zend_Form
 		}
 		return $retVal;
 	}
-
+	*/
 	/**
 	 * Converts form validators to an array
 	 *
@@ -356,10 +381,5 @@ class Enlight_Components_Form extends Zend_Form
 			}
 		}
 		return $retVal;
-	}
-
-	public function __construct($options)
-	{
-		parent::__construct($options);
 	}
 }

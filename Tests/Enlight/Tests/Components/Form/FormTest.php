@@ -166,7 +166,6 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 
 		$this->assertInstanceOf('Enlight_Components_Form',$form);
 
-		$form->setDisableLoadDefaultDecorators(true);
 		$form->setAction('login');
 		$form->setName('contact us');
 
