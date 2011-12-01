@@ -58,9 +58,9 @@ class Enlight_Tests_Components_Cron_CronManager extends Enlight_Components_Test_
      */
     protected function setUp()
     {
-        $this->db = Enlight_Components_Db::factory('PDO_SQLITE', array('dbname' => ':memory:'));
+        $this->db = Enlight_Components_Db::factory('PDO_SQLITE', array('dbname' => Enlight_TestHelper::Instance()->TestPath('TempFiles').'cron.db'));
 
-		$sql = '
+		$sql = ' DROP TABLE IF EXISTS `test_crontab`;
 				CREATE TABLE IF NOT EXISTS `test_crontab` (
 				  `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 				  `name` varchar(255) NOT NULL,

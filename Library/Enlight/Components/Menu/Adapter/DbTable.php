@@ -31,16 +31,31 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
   implements Enlight_Components_Menu_Adapter
 {
     /**
+	 * Name of the database table
+	 *
      * @var     string
      */
 	protected $_name = 'menu';
 
     /**
+	 * Name of the primary table key
+	 *
      * @var     string
      */
 	protected $_primary = 'id';
 
     /**
+	 * Column names
+	 * id - Name of the field which holds the primary key. Data type: Integer
+	 * parent - Name of the field which holds the ID of the parent menu element. Data type: Integer
+	 * uri - Name of the field which holds an URI. Data type: String
+	 * label - Name of the field which holds the name of the menu entry. Data type: String
+	 * onClick - Name of the field which holds the onClick Action. Data type: String
+	 * style - Name of the field which holds the name of the style. Data type: String
+	 * class - Name of the field which holds the css class name. Data type: String
+	 * position - Name of the field which holds the position of the menu entry Data type: Integer
+	 * active - Name of the field which holds the active flag.Data type: Integer
+	 *
      * @var     array
      */
 	protected $_columns = array(
@@ -56,6 +71,8 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
 	);
 
     /**
+	 * Defines the order in which the menu entries are retrieved from the db
+	 *
      * @var     array
      */
 	protected $_order = array(
