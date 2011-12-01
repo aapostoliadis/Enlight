@@ -62,7 +62,7 @@ class Enlight_Components_Form extends Zend_Form
 	public function save()
 	{
 		$this->_saverHandler->setData($this->toArray());
-		$this->_saverHandler->write( new Enlight_Config($this->toArray()));
+		$this->_saverHandler->write();
 	}
 
 	/**
