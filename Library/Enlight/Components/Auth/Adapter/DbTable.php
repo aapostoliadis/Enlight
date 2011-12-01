@@ -150,8 +150,11 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 			return;
 		}
 
-		$this->_zendDb->update($this->_tableName, array($this->expiryColumn => Zend_Date::now()),
-							   $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity));
+		$this->_zendDb->update(
+            $this->_tableName,
+            array($this->expiryColumn => Zend_Date::now()),
+			$this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity)
+        );
 	}
 
 	/**
@@ -164,10 +167,20 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 		if($this->sessionId === null) {
 			return $this;
 		}
-		$this->_zendDb->update($this->_tableName, array($this->sessionIdColumn => $this->sessionId),
-							   $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity));
-		$this->_zendDb->update($this->_tableName, array($this->sessionIdColumn => null),
-							   $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' != ?', $this->_identity) . ' AND ' . $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->sessionIdColumn, true) . ' = ?', $this->sessionId));
+		$this->_zendDb->update(
+            $this->_tableName,
+            array($this->sessionIdColumn => $this->sessionId),
+			$this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity)
+        );
+		$this->_zendDb->update(
+            $this->_tableName,
+            array($this->sessionIdColumn => null),
+			$this->_zendDb->quoteInto(
+                $this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' != ?', $this->_identity)
+                . ' AND '
+                . $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->sessionIdColumn, true) . ' = ?', $this->sessionId
+            )
+        );
 		return $this;
 	}
 
@@ -209,7 +222,7 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 		$this->setCredentialColumn($this->expiryColumn);
 		$expiryColumn = $this->_zendDb->quoteIdentifier($this->expiryColumn, true);
 
-		$this->setCredentialTreatment('(CASE WHEN(' . $expiryColumn . '>=? ) THEN '.$this->expiryColumn.' ELSE 0 END)');
+		$this->setCredentialTreatment('(CASE WHEN(' . $expiryColumn . '>=? ) THEN ' . $expiryColumn .' ELSE 0 END)');
 
 		$this->setIdentity($this->sessionId);
 		$this->setIdentityColumn($this->sessionIdColumn);
@@ -264,7 +277,9 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 	{
 		$this->lockedUntil = $date;
 		$this->updateLockUntilDate($date);
-		$this->addCondition($this->lockedUntilColumn . ' <= NOW()');
+		$this->addCondition($this->_zendDb->quoteInto(
+            $this->_zendDb->quoteIdentifier($this->lockedUntilColumn, true) . ' <= ?', Zend_Date::now()
+        ));
 		return $this;
 	}
 

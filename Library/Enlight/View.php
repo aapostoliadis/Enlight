@@ -35,7 +35,7 @@ abstract class Enlight_View
      * @param   string|array $path
      * @return  Enlight_View
      */
-	abstract public function setTemplateDir($path);
+    abstract public function setTemplateDir($path);
 
     /**
      * Adds a path to the template list.
@@ -43,14 +43,14 @@ abstract class Enlight_View
      * @param   string|array $path
      * @return  Enlight_View
      */
-	abstract public function addTemplateDir($path);
+    abstract public function addTemplateDir($path);
 
     /**
      * Checks if a template is stored.
      *
      * @return  bool
      */
-	abstract public function hasTemplate();
+    abstract public function hasTemplate();
 
     /**
      * Assigns a specified value to the template.
@@ -61,7 +61,7 @@ abstract class Enlight_View
      * @param   int $scope
      * @return  Enlight_View
      */
-	abstract public function assign($spec, $value = null, $nocache = false, $scope = null);
+    abstract public function assign($spec, $value = null, $nocache = false, $scope = null);
 
     /**
      * Resets a specified value or all values.
@@ -69,7 +69,7 @@ abstract class Enlight_View
      * @param   string $spec
      * @return  Enlight_View
      */
-	abstract public function clearAssign($spec = null);
+    abstract public function clearAssign($spec = null);
 
     /**
      * Returns a specified value or all values.
@@ -77,14 +77,14 @@ abstract class Enlight_View
      * @param   string|null $spec
      * @return  mixed|array
      */
-	abstract public function getAssign($spec = null);
+    abstract public function getAssign($spec = null);
 
     /**
      * Renders the current template.
      *
      * @return  string
      */
-	abstract public function render();
+    abstract public function render();
 
     /**
      * Magic setter
