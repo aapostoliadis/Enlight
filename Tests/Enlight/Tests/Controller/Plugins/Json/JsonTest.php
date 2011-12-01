@@ -76,7 +76,7 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
                         ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+		$action = $this->getMock('Enlight_Controller_Action',null, array($request, $response) );
 
 		$eventArgs = $this->createEventArgs()->setSubject($action);
 
@@ -194,7 +194,7 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
 		$headers = $this->Response()->getHeaders();
 		$this->assertArrayHasKey('value', $headers[0]);
-		$this->assertEquals('text/javascript',$headers[0]['value']);
+		$this->assertEquals('text/javascript', $headers[0]['value']);
 		$this->assertContains('foo({"foo":"bar"', $this->Response()->getBody());
 	}
 	

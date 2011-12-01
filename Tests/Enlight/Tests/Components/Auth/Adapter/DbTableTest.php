@@ -28,7 +28,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license/new-bsd     New BSD License
  */
-class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
+class Enlight_Tests_Components_Auth_Adapter extends Enlight_Components_Test_TestCase
 {
     /**
      * @var Zend_Db_Adapter_Pdo_Sqlite
@@ -57,10 +57,9 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 
         $dir = Enlight_TestHelper::Instance()->TestPath('TempFiles');
         $this->db = Enlight_Components_Db::factory('PDO_SQLITE', array(
-            'dbname'   => ':memory'
+            'dbname'   => Enlight_TestHelper::Instance()->TestPath('TempFiles').'auth.db'
         ));
-		$clearDb = "DROP TABLE IF EXISTS test_auth";
-		$this->db->exec($clearDb);
+
 		$this->lockeduntilColumn = 'lockeduntil';
 		$this->createDb($this->lockeduntilColumn);
 		$this->createDefaultUser($this->lockeduntilColumn);
@@ -203,6 +202,7 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 	private function createDb($lockeduntilColumn='lockeduntil')
 	{
 		 $this->db->exec('
+		  DROP TABLE IF EXISTS `test_auth`;
           CREATE TABLE IF NOT EXISTS `test_auth` (
 			  `id` int(11) NOT NULL,
 			  `username` varchar(255) NOT NULL,
