@@ -80,6 +80,7 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 			->setSessionId('s4inr04o6apmclk7u88qau4r57');
 		$storage = new Zend_Auth_Storage_Session('Enlight', 'Auth');
 		$this->auth->setAdapter($this->authAdapter);
+		$this->assertInstanceOf('Enlight_Components_Auth_Adapter_DbTable', $this->auth->getAdapter());
 		$this->auth->setStorage($storage);
     }
 
@@ -176,10 +177,21 @@ class Enlight_Tests_Config_DbTableTest extends Enlight_Components_Test_TestCase
 		$authResponse = $this->auth->authenticate();
 		$this->assertTrue($authResponse->isValid(),$authResponse->getMessages());
 		$this->assertTrue($this->auth->hasIdentity());
-		//$f = $this->db->fetchAll("SELECT * FROM test_auth");
-		//die('Die in ' . basename(__FILE__) . '@' . __LINE__ . ' (' . __FUNCTION__ . ') ' . print_r($f, true));
-		$this->assertInstanceOf('Zend_Auth_Result',$this->auth->refresh()); // ->DbTable -> Zend_auth
-		
+		$this->assertInstanceOf('Zend_Auth_Result',$this->auth->refresh());
+		$this->assertTrue($authResponse->isValid(),$authResponse->getMessages());
+    }
+
+	public function testRefreshFail()
+    {
+		$this->authAdapter->setIdentity('demo')
+							->setCredential(md5('demo'));
+
+		$authResponse = $this->auth->authenticate();
+		$this->assertTrue($authResponse->isValid(),$authResponse->getMessages());
+		$this->assertTrue($this->auth->hasIdentity());
+		$this->authAdapter->setSessionId('inValid');
+		$this->assertInstanceOf('Zend_Auth_Result',$authResponse =$this->auth->refresh());
+		$this->assertFalse($authResponse->isValid(),$authResponse->getMessages());
     }
 
 	private function getAccountLockDate($lockeduntilColumn)

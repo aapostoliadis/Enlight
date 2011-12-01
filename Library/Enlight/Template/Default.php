@@ -29,7 +29,7 @@ require_once('Smarty/Smarty.class.php');
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_Template_Default extends Smarty_Internal_Template
+class Enlight_Template_Default extends Enlight_Template_Manager
 {
     const BLOCK_REPLACE = 'replace';
     const BLOCK_APPEND = 'append';
