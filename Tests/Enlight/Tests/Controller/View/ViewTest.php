@@ -45,8 +45,8 @@ class Enlight_Tests_Controller_View_ViewTest extends Enlight_Components_Test_Con
 
         $this->engine = new Enlight_Template_Manager();
         $this->engine->setCompileDir($tempDir);
-        //$this->engine->setCompileId('snippet');
-        //$this->engine->clearCompiledTemplate(null, 'snippet');
+        $this->engine->setCompileId('snippet');
+        $this->engine->clearCompiledTemplate(null, 'snippet');
 
         Smarty::$global_tpl_vars = array();
 	}
@@ -65,8 +65,6 @@ class Enlight_Tests_Controller_View_ViewTest extends Enlight_Components_Test_Con
      */
     public function testViewRenderTemplate()
     {
-
-        die($this->engine->fetch('string:test'));
         $view = new Enlight_View_Default($this->engine);
         $view->loadTemplate('string:test');
         $this->assertEquals('test', $view->render());
