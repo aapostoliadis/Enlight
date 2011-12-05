@@ -213,27 +213,75 @@ class Enlight_Components_Form extends Zend_Form
 	 * @param $element Zend_Form_Element
 	 * @return array
 	 */
-	private function toArrayElement($element)
-	{
-		$arrayElement = array(
-			'type' => lcfirst($this->getShortName($element))
-		);
-		$label = $element->getLabel();
-		if(!empty($label)) {
-			$arrayElement['label'] = $label;
-		}
+//	private function toArrayElement($element)
+//	{
+//		$arrayElement = array(
+//			'type' => lcfirst($this->getShortName($element))
+//		);
+//		$label = $element->getLabel();
+//		if(!empty($label)) {
+//			$arrayElement['label'] = $label;
+//		}
+//
+//		// Handle Validators
+//		$arrayElement['options']['validators'] = $this->convertValidators($element);
+//
+//		// Handle requirement
+//		if($element->isRequired()){
+//			$arrayElement['options']['required'] = $element->isRequired();
+//		}
+//		// Handle Filters
+//		$arrayElement['options']['filters'] = $this->convertFilters($element);
+//
+//		return $arrayElement;
+//	}
 
+	/**
+	 * Transforms a Zend_Form_Element to an array
+	 *
+	 * @param $element Zend_Form_Element
+	 * @return array
+	 */
+	public function toArrayElement($element)
+	{
+		$options = array(
+			'description',
+			'allowEmpty',
+			'ignore',
+			'order',
+			'label',
+			'value',
+			'id',
+			'name',
+			'belongsTo',
+			'attributes'
+		);
+
+		$array_element = array(
+			'type' => $this->getShortName($element),
+			'options'=> $this->getAttribs()
+		);
+		unset($array_element['options']['helper']);
+		
+		foreach($options as $option) {
+			$func = 'get'.ucwords($option);
+			if('getAttributes' != $func) {
+				$value = $element->$func();
+			}
+			if(null !== $value) {
+				$array_element['options'][$option] = $value;
+			}
+		}
+		// Handle Filters
+		$array_element['options']['filters'] = $this->convertFilters($element);
 		// Handle Validators
-		$arrayElement['options']['validators'] = $this->convertValidators($element);
+		$array_element['options']['validators'] = $this->convertValidators($element);
 
 		// Handle requirement
 		if($element->isRequired()){
-			$arrayElement['options']['required'] = $element->isRequired();
+				$array_element['options']['required'] = $element->isRequired();
 		}
-		// Handle Filters
-		$arrayElement['options']['filters'] = $this->convertFilters($element);
-
-		return $arrayElement;
+		return $array_element;
 	}
 	
 	/**
