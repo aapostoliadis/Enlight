@@ -39,4 +39,19 @@ class Enlight_Components_Form_Decorator_Wrapper extends Zend_Form_Decorator_Html
      * @var array
      */
     protected $_options = array('tag' => 'div', 'class' => 'clearfix');
+
+    /**
+     * Render errors
+     *
+     * @param  string $content
+     * @return string
+     */
+    public function render($content)
+    {
+        $element = $this->getElement();
+        if($element->getMessages()) {
+            $this->_options['class'] .= ' error';
+        }
+        return parent::render($content);
+    }
 }

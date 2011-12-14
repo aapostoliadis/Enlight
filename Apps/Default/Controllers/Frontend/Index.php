@@ -16,27 +16,6 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
 	
 	public function indexAction()
 	{
-        /*
-        $adapter =  new Enlight_Config_Adapter_File(array(
-            'configType' => 'ini',
-            'configDir' => Enlight_Application::Instance()->AppPath('Snippets')
-        ));
-        $snippets = new Enlight_Components_Snippet_Manager($adapter);
-        $resource = new Enlight_Components_Snippet_Resource($snippets);
-        $this->View()->Engine()->registerResource('snippet', $resource);
-        $this->View()->Engine()->setDefaultResourceType('snippet');
-
-        $path = Enlight_Application::Instance()->AppPath('DefaultViews');
-        $this->View()->addTemplateDir($path);
-
-        //$this->View()->loadTemplate('frontend/index/index.tpl');
-        //$this->View()->extendsTemplate('frontend/index/test.tpl');
-        //$this->View()->extendsTemplate('frontend/index/test2.tpl');
-        Enlight_Application::Instance()->Log()->debug('test');
-		if($this->Request()->getPathInfo()!='/') {
-			 $this->Response()->setHttpResponseCode(404);
-		}
-        */
 	}
 
     public function menuAction()
@@ -46,28 +25,7 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
 
     public function loginAction()
 	{
-        //Enlight_Application::Instance()->Plugins()->Controller()->ViewRenderer()->setNoRender();
-
-        //var_dump($this->Request()->getParams());
-
-        /*
-        $this->View()->loadTemplate('string:test');
-        $this->View()->addCacheId('test');
-
-        if(!$this->View()->isCached()) {
-            //$count++;
-            $this->View()->count += 1;
-        }
-        */
-        //$this->View()->setCaching(true);
-
         $form = new Enlight_Components_Form();
-
-        //$form->addPrefixPath('Enlight_Components', 'Enlight/Components/');
-
-        $form->clearDecorators();
-        $form->addDecorator('FormElements')
-            ->addDecorator('Form');
 
         $form->addElement('text', 'username', array(
             'validators' => array(
@@ -103,6 +61,13 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
                 'label'    => 'Save and continue'
             )
         );
+
+        if($this->Request()->isPost()) {
+            $formData = $this->Request()->getPost();
+            if(!$form->isValid($formData)) {
+                $form->populate($formData);
+            }
+        }
 
         //$form->addDisplayGroup(array('delete', 'save'), 'buttons');
 

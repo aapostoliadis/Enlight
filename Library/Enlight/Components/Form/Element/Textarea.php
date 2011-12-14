@@ -29,6 +29,24 @@
 class Enlight_Components_Form_Element_Textarea extends Zend_Form_Element_Textarea
 {
     /**
+     * The default number of rows for a textarea.
+     *
+     * @access public
+     *
+     * @var int
+     */
+    public $rows = 3;
+
+    /**
+     * The default number of columns for a textarea.
+     *
+     * @access public
+     *
+     * @var int
+     */
+    public $cols = 80;
+
+    /**
      * Load default decorators
      *
      * @return Zend_Form_Element

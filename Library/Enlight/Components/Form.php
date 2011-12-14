@@ -142,13 +142,13 @@ class Enlight_Components_Form extends Zend_Form
 			$data['elements'][$key] = $this->toArrayElement($element);
 		}
 
-        if(($decorators = $this->getElementDecorators()) !== null) {
-            $data['elementDecorators'] = $this->convertElementDecorators($decorators);
-        }
+        //if(($decorators = $this->getElementDecorators()) !== null) {
+        //    $data['elementDecorators'] = $this->convertElementDecorators($decorators);
+        //}
 
-        if(($decorators = $this->getDecorators()) !== null) {
-            $data['decorators'] = $this->convertFormDecorators($decorators);
-        }
+        //if(($decorators = $this->getDecorators()) !== null) {
+        //    $data['decorators'] = $this->convertFormDecorators($decorators);
+        //}
 
 		return $data;
 	}
@@ -168,7 +168,14 @@ class Enlight_Components_Form extends Zend_Form
 		if(is_object($name)) {
 			$name = get_class($name);
 		}
-        $name = strtr($name, array('Zend_Form_Element_'=>'', 'Zend_Filter_'=>'', 'Zend_Validate_'=>'', 'Zend_Form_Decorator_' => ''));
+
+        $namespaces = array(
+            'Zend_Filter_', 'Zend_Validate_',
+            'Zend_Form_Element_', 'Zend_Form_Decorator_',
+            'Enlight_Components_Form_Element_', 'Enlight_Components_Form_Decorator_'
+        );
+
+        $name = str_replace($namespaces, '', $name);
         $name = lcfirst($name);
         return $name;
 	}
@@ -278,7 +285,7 @@ class Enlight_Components_Form extends Zend_Form
 	{
 		$arrayValidators = array();
         /** @var Zend_Validate_Interface $validator */
-        foreach ($validators as $validatorKey => $validator) {
+        foreach ($validators as $validator) {
             $arrayValidator = array('validator' => $this->getShortName($validator));
             $validator_options = $validator->getMessageVariables();
             if($validator_options) {
@@ -295,7 +302,7 @@ class Enlight_Components_Form extends Zend_Form
                     }
                 }
             }
-            $arrayValidators[$validatorKey] = $arrayValidator;
+            $arrayValidators[] = $arrayValidator;
         }
 		return $arrayValidators;
 	}
