@@ -126,14 +126,8 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
 			$front->setParams($config);
 		}
 
-        $namespace = new Enlight_Plugin_Namespace_Loader('Controller');
-        $namespace->addPrefixPath(
-            'Enlight_Controller_Plugins',
-            $this->Application()->CorePath('Controller_Plugins')
-        );
-        $this->Application()->Plugins()->registerNamespace($namespace);
+        $this->Application()->Plugins()->registerNamespace($front->Plugins());
 
-		$front->setParam('controllerPlugins', $namespace);
 		$front->setParam('bootstrap', $this);
     	    	
     	if(!empty($config['throwExceptions'])) {
@@ -153,6 +147,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
      */ 
     protected function initTemplate()
     {
+
         /** @var $template Enlight_Template_Manager */
     	$template = Enlight_Class::Instance('Enlight_Template_Manager');
 

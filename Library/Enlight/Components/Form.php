@@ -28,89 +28,54 @@
  */
 class Enlight_Components_Form extends Zend_Form
 {
-
-	/**
-	 * @var Integer
-	 */
-	protected $_id = null;
-
 	/**
 	 * @var Enlight_Config
 	 */
-	protected $_saverHandler = null;
+	protected $_adapter;
 
-	/**
-	 * @param array|\Enlight_Config $options
-	 */
-	public function __construct($options)
-	{
-		parent::__construct($options);
-		if($options instanceof Enlight_Config) {
-			$this->setOptions($options->toArray());
-		}elseif(is_array($options)){
-			$this->setOptions($options);
-		}
-
-	}
+    /**
+     * Default display group class
+     * @var string
+     */
+    protected $_defaultDisplayGroupClass = 'Enlight_Components_Form_DisplayGroup';
 
 	/**
 	 * Saves the Form using an Enlight_Config_Adapter to do so.
 	 * This is a rudimentary implementation and should be considered as beta
 	 *
-	 * @return void
-	 */
-	public function save()
-	{
-		$this->_saverHandler->setData($this->toArray());
-		$this->_saverHandler->write();
-	}
-
-	/**
-	 * Alias for the save method to keep a uniform interface through out enlight.
+	 * @return Enlight_Components_Form
 	 */
 	public function write()
 	{
-		$this->save();
+		$this->_adapter->setData($this->toArray());
+		$this->_adapter->write();
+        return $this;
 	}
 
-	/**
-	 * This Method extends the common Zend_Form setOption Method to add the additional parameter
-	 * adapter - Contains a Enlight_Config_Adapter which is used to write the Form to the config
-	 *
-	 * @param array $options
-	 */
-	public function setOptions(array $options)
-	{
-		foreach($options as $optionName => $option){
-			switch($optionName){
-				case 'adapter':
-					$this->setAdapter($option);
-					break 2; // leave switch and the foreach loop
-			}
-		}
-		reset($options);
-		parent::setOptions($options);
-	}
+    /**
+     * Render form
+     *
+     * @param  Zend_View_Interface $view
+     * @return string
+     */
+    public function render(Zend_View_Interface $view = null)
+    {
+        if (null === $view && $this->_view === null) {
+            $view = new Zend_View();
+        }
+        return parent::render($view);
+    }
 
 	/**
 	 * Sets the write and read adapter
 	 *
 	 * @param Enlight_Config $adapter
-	 */
+     * @return Enlight_Components_Form
+     */
 	public function setAdapter(Enlight_Config $adapter)
 	{
-		$this->_saverHandler = $adapter;
-	}
-
-	/**
-	 * Checks if a submitted form is valid
-	 *
-	 * @param $data
-	 * @return bool
-	 */
-	public function isValid($data)
-	{
-		return parent::isValid($data);
+		$this->_adapter = $adapter;
+        return $this;
 	}
 
 	/**
@@ -118,7 +83,7 @@ class Enlight_Components_Form extends Zend_Form
 	 *
 	 * @return array|null
 	 */
-	protected function getElementDecorators()
+    public function getElementDecorators()
 	{
 		return $this->_elementDecorators;
 	}
@@ -137,6 +102,11 @@ class Enlight_Components_Form extends Zend_Form
 		$this->removeElement($name);
 		return $this->addElement($element, $name, $options);
 	}
+
+    /**
+     * @param   int $id
+     * @return  Enlight_Components_Form
+     */
 	public function setId($id)
 	{
 		$this->_attribs['id'] = $id;
@@ -152,43 +122,37 @@ class Enlight_Components_Form extends Zend_Form
 	public function toArray()
 	{
 		$data = array();
+
 		// Get Form Header Files
-		$attributes = $this->getAttribs();
-		foreach($attributes as $key => $attribute) {
-			$data[$key] = $attribute;
-		}
+        $data = array_merge($data, $this->getAttribs());
+
+        if($this->_legend !== null) {
+            $data['legend'] = $this->_legend;
+        }
+        if($this->_description !== null) {
+            $data['description'] = $this->_description;
+        }
 		if(!empty($this->_disableLoadDefaultDecorators)) {
 			$data['disableLoadDefaultDecorators'] = $this->_disableLoadDefaultDecorators;
 		}
+
 		// Get Form Elements
 		$elements = $this->getElements();
-		
 		foreach($elements as $key=>$element){
 			$data['elements'][$key] = $this->toArrayElement($element);
 		}
-		$data['elementDecorators'] = $this->convertElementDecorators($this->getElementDecorators());
-		$data['decorators'] = $this->convertFormDecorators();
+
+        if(($decorators = $this->getElementDecorators()) !== null) {
+            $data['elementDecorators'] = $this->convertElementDecorators($decorators);
+        }
+
+        if(($decorators = $this->getDecorators()) !== null) {
+            $data['decorators'] = $this->convertFormDecorators($decorators);
+        }
 
 		return $data;
 	}
 
-
-	/**
-     * Returns a form rendered as a html form. Keeps user from hassling with zend_view
-     *
-     * @param  Zend_View_Interface $view
-     * @return string
-     */
-	/*
-    public function render(Zend_View_Interface $view = null)
-	{
-		if (null === $view) {
-			$this->setView(new Zend_View());
-		}
-		$this->setAttrib('class','enlight_form');
-		return parent::render();
-	}
-*/
 	/**
 	 * Small helper method to clean up some reflection action on the form
 	 *
@@ -204,7 +168,9 @@ class Enlight_Components_Form extends Zend_Form
 		if(is_object($name)) {
 			$name = get_class($name);
 		}
-		return strtr($name, array('Zend_Form_Element_'=>'', 'Zend_Filter_'=>'', 'Zend_Validate_'=>''));
+        $name = strtr($name, array('Zend_Form_Element_'=>'', 'Zend_Filter_'=>'', 'Zend_Validate_'=>'', 'Zend_Form_Decorator_' => ''));
+        $name = lcfirst($name);
+        return $name;
 	}
 
 	/**
@@ -213,52 +179,41 @@ class Enlight_Components_Form extends Zend_Form
 	 * @param $element Zend_Form_Element
 	 * @return array
 	 */
-	private function toArrayElement($element)
+    protected function toArrayElement($element)
 	{
 		$arrayElement = array(
-			'type' => lcfirst($this->getShortName($element))
+			'type' => $this->getShortName($element),
+            'options' => $element->getAttribs()
 		);
-		$label = $element->getLabel();
-		if(!empty($label)) {
-			$arrayElement['label'] = $label;
-		}
 
-		// Handle Validators
-		$arrayElement['options']['validators'] = $this->convertValidators($element);
+        $options = array(
+            'id', 'label', 'value', 'name', 'description',
+            'allowEmpty', 'ignore', 'order', 'belongsTo',
+        );
 
-		// Handle requirement
+        foreach($options as $option) {
+            $method = 'get' . ucwords($option);
+            if(($value = $element->$method()) !== null) {
+                $array_element['options'][$option] = $value;
+            }
+        }
+
+        // Handle requirement
 		if($element->isRequired()){
-			$arrayElement['options']['required'] = $element->isRequired();
+			$arrayElement['options']['required'] = true;
 		}
-		// Handle Filters
-		$arrayElement['options']['filters'] = $this->convertFilters($element);
+
+		// Handle validators
+        if(($validators = $element->getValidators()) !== null) {
+            $arrayElement['options']['validators'] = $this->convertValidators($validators);
+        }
+
+        // Handle filters
+        if(($filters = $element->getFilters()) !== null) {
+            $arrayElement['options']['filters'] = $this->convertFilters($filters);
+        }
 
 		return $arrayElement;
-	}
-	
-	/**
-	 * Converts form decorators to an array
-	 *
-	 * @param Zend_Form_Element $element
-	 * @return array
-	 */
-	private function convertDecorators($element)
-	{
-		$decorators = $element->getDecorators();
-		$retVal = array();
-
-		foreach($decorators as $decorator) {
-			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
-			$decorOptions = $decorator->getOptions();
-			if( empty($decorOptions)){
-				$retVal[] = array($decorName);
-			} else {
-				$tmp = array($decorName,$decorOptions);
-				$retVal[]=$tmp;
-				unset($tmp);
-			}
-		}
-		return $retVal;
 	}
 
 	/**
@@ -267,119 +222,137 @@ class Enlight_Components_Form extends Zend_Form
 	 * @param $elementDecorators
 	 * @return array
 	 */
-	private function convertElementDecorators($elementDecorators)
+    protected function convertElementDecorators(array $elementDecorators)
 	{
-		$retVal = array();
-			if(!empty($elementDecorators)){
-			foreach($elementDecorators as $decorKey => $decorator) {
-				if(!is_array($decorator))
-				{
-					$retVal[$decorKey] = $decorator;
-				} else {
-					foreach($decorator as $key=>$value) {
-						$retVal[$decorKey][$key] = $value;
-					}
-				}
-			}
-		}
-		return $retVal;
+		$arrayDecorators = array();
+        foreach($elementDecorators as $decorKey => $decorator) {
+            if(!is_array($decorator)) {
+                $arrayDecorators[$decorKey] = $decorator;
+            } else {
+                foreach($decorator as $key=>$value) {
+                    $arrayDecorators[$decorKey][$key] = $value;
+                }
+            }
+        }
+		return $arrayDecorators;
 	}
 
-	/**
-	 * Converts form decorators to an array
-	 *
-	 * @return array
-	 */
-	private function convertFormDecorators()
+    /**
+     * Converts form decorators to an array
+     *
+     * @param $decorators
+     * @return array
+     */
+    protected function convertFormDecorators(array $decorators)
 	{
-		$decorators = $this->getDecorators();//$element->getDecorators();
-		$retVal = array();
-		foreach($decorators as $key =>$decorator){
-			$decorName = str_replace('Zend_Form_Decorator_','', get_class($decorator));
-			//$decorOptions = $decorator->getOptions();
-			$keyName = lcfirst(str_replace('Zend_Form_Decorator_','', $key));
-			$retVal[$keyName] = array('decorator'=>$decorName);
+        $arrayDecorator = array();
+		foreach($decorators as $decorator){
+            $arrayDecorator[] = array('decorator' => $this->getShortName($decorator));
 		}
-		return $retVal;
-
+		return $arrayDecorator;
 	}
 
 	/**
 	 * Converts form filters to an array
 	 *
-	 * @param $element Zend_Form_Element
+	 * @param $filters array
 	 * @return array
 	 */
-	private function convertFilters($element)
+    protected function convertFilters(array $filters)
 	{
-		$retVal = array();
-		$filters = $element->getFilters();
-		if($filters) {
-			$arrayElement['options']['filters'] = array();
-			foreach ($filters as $filterKey => $filter) {
-				$retVal[$this->getShortName($filter)]  = array('filter' => $this->getShortName($filter));
-			}
-		}
-		return $retVal;
+        $arrayFilters = array();
+        foreach ($filters as $filter) {
+            $arrayFilters[]  = array('filter' => $this->getShortName($filter));
+        }
+		return $arrayFilters;
 	}
 
-	/**
-	 * Reads the Display groups and returns an array containing them.
-	 *
-	 * @return array
-	 */
-	/*
-	private function convertDisplayGroups()
+    /**
+     * Converts form validators to an array
+     *
+     * @param $validators
+     * @return array
+     */
+	protected function convertValidators(array $validators)
 	{
-		$displayGroups = $this->getDisplayGroups();
-		$retVal = array();
-		if(!empty($displayGroups)) {
-
-			foreach($displayGroups as $key=>$displayGroup)
-			{
-				$elements = $displayGroup->getElements();
-
-				foreach($elements as $ekey => $value)
-				{
-					$retVal[$key]['elements'][$ekey] = $ekey;
-				}
-			}
-		}
-		return $retVal;
+		$arrayValidators = array();
+        /** @var Zend_Validate_Interface $validator */
+        foreach ($validators as $validatorKey => $validator) {
+            $arrayValidator = array('validator' => $this->getShortName($validator));
+            $validator_options = $validator->getMessageVariables();
+            if($validator_options) {
+                $arrayValidator['options'] = array();
+                if(($messages = $validator->getMessageTemplates()) !== null) {
+                   $arrayValidator['options']['messages'] = $messages;
+                }
+                if(!empty($validator->zfBreakChainOnFailure)){
+                   $arrayValidator['options']['breakChainOnFailure'] = true;
+                }
+                foreach ($validator_options as $validator_option) {
+                    if(($value = $validator->$validator_option) !== null) {
+                        $arrayValidator['options'][$validator_option] = $validator->$validator_option;
+                    }
+                }
+            }
+            $arrayValidators[$validatorKey] = $arrayValidator;
+        }
+		return $arrayValidators;
 	}
-	*/
-	/**
-	 * Converts form validators to an array
-	 *
-	 * @param $element Zend_Form_Element
-	 * @return array
-	 */
-	private function convertValidators($element)
-	{
-		$validators = $element->getValidators();
-		$retVal = array();
-		if($validators) {
-			$arrayElement['options']['validators'] = array();
-			foreach ($validators as $validatorKey => $validator) {
-				$array_validator = array('validator' => $this->getShortName($validator));
-				$validator_options = $validator->getMessageVariables();
-				if($validator_options) {
-					$array_validator['options'] = array();
-					foreach ($validator_options as $validator_option) {
-						$value = $validator->$validator_option;
-						if($value !== null) {
-							$array_validator['options'][$validator_option] = $validator->$validator_option;
-							$msgs = $validator->getMessageTemplates();
-							$array_validator['options']['messages'] = $msgs;
-							if($validator->zfBreakChainOnFailure){
-								$array_validator['options']['breakChainOnFailure'] = true;
-							}
-						}
-					}
-				}
-				$retVal[$array_validator['validator']] = $array_validator;
-			}
-		}
-		return $retVal;
-	}
+
+    /**
+     * Load the default decorators
+     *
+     * @return Zend_Form
+     */
+    public function loadDefaultDecorators()
+    {
+        if ($this->loadDefaultDecoratorsIsDisabled()) {
+            return $this;
+        }
+
+        $decorators = $this->getDecorators();
+        if (empty($decorators)) {
+            $this->addDecorator('FormElements')
+            //     ->addDecorator('HtmlTag', array('tag' => 'dl', 'class' => 'zend_form'))
+                 ->addDecorator('Form');
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve plugin loader for given type
+     *
+     * $type may be one of:
+     * - decorator
+     * - element
+     *
+     * If a plugin loader does not exist for the given type, defaults are
+     * created.
+     *
+     * @param  string $type
+     * @return Zend_Loader_PluginLoader_Interface
+     */
+    public function getPluginLoader($type = null)
+    {
+        $type = strtoupper($type);
+        if (!isset($this->_loaders[$type])) {
+            switch ($type) {
+                case self::DECORATOR:
+                    $prefixSegment = 'Form_Decorator';
+                    $pathSegment   = 'Form/Decorator';
+                    break;
+                case self::ELEMENT:
+                    $prefixSegment = 'Form_Element';
+                    $pathSegment   = 'Form/Element';
+                    break;
+                default:
+                    throw new Zend_Form_Exception(sprintf('Invalid type "%s" provided to getPluginLoader()', $type));
+            }
+            $this->_loaders[$type] = new Zend_Loader_PluginLoader(array(
+                'Zend_' . $prefixSegment . '_' => 'Zend/' . $pathSegment . '/',
+                'Enlight_Components_' . $prefixSegment . '_' => 'Enlight/Components/' . $pathSegment . '/',
+            ));
+        }
+        return $this->_loaders[$type];
+    }
 }

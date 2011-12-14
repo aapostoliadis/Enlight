@@ -29,7 +29,18 @@ function smarty_function_action($params, Enlight_Template_Default $template)
              ->clearRawHeaders()
              ->clearBody();
 
-    $params = array_merge($params, $request->getParams());
+    if(isset($params['name'])) {
+        $params['action'] = $params['name'];
+        unset($params['name']);
+    }
+    if(isset($params['params'])) {
+        $userParams = (array) $params['params'];
+        unset($params['params']);
+    } else {
+        $userParams = array();
+    }
+
+    $params = array_merge($request->getParams(), $userParams, $params);
 
     $request->setModuleName(null)
             ->setControllerName(null)

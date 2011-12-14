@@ -13,37 +13,30 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Test
+ * @package    Enlight_Form
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
- * @author     Heiner Lohaus
  * @author     $Author$
  */
 
 /**
  * @category   Enlight
- * @package    Enlight_Test
+ * @package    Enlight_Form
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-abstract class Enlight_Components_Test_Plugin_TestCase extends Enlight_Components_Test_Controller_TestCase
+class Enlight_Components_Form_Decorator_Wrapper extends Zend_Form_Decorator_HtmlTag
 {
-	/**
-	 * Create event args method
-	 *
-	 * @param string|array $name|$args
-	 * @param array $args
-	 * @return Enlight_Event_EventArgs
-	 */
-	public function createEventArgs($name=null, $args=array())
-	{
-		if($name===null) {
-			$name = get_class($this);
-		} elseif (is_array($name)) {
-			$args = $name;
-			$name = get_class($this);
-		}
-		return new Enlight_Event_EventArgs($name, $args);
-	}
+    /**
+     * Default placement: surround content
+     * @var string
+     */
+    protected $_placement = null;
+
+    /**
+     * Decorator options
+     * @var array
+     */
+    protected $_options = array('tag' => 'div', 'class' => 'clearfix');
 }

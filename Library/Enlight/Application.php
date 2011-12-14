@@ -450,7 +450,7 @@ class Enlight_Application
     public function __call($name, $value = null)
 	{
 		if(!$this->Bootstrap()->hasResource($name)) {
-			throw new Enlight_Exception('Method "'.get_class($this).'::'.$name.'" not found failure', Enlight_Exception::Method_Not_Found);
+			throw new Enlight_Exception('Method "'.get_class($this).'::'.$name.'" not found failure', Enlight_Exception::METHOD_NOT_FOUND);
 		}
         return $this->Bootstrap()->getResource($name);
 	}
@@ -466,7 +466,7 @@ class Enlight_Application
 	{
 		$enlight = self::Instance();
 		if(!$enlight->Bootstrap()->hasResource($name)) {
-			throw new Enlight_Exception('Method "'.get_called_class().'::'.$name.'" not found failure', Enlight_Exception::Method_Not_Found);
+			throw new Enlight_Exception('Method "' . get_called_class() . '::' . $name . '" not found failure', Enlight_Exception::METHOD_NOT_FOUND);
 		}
 		return $enlight->Bootstrap()->getResource($name);
 	}

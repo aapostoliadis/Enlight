@@ -1,12 +1,31 @@
 <?php
 /**
- * Selenium test case
+ * Enlight
  *
- * @link http://www.shopware.de
- * @copyright Copyright (c) 2011, shopware AG
- * @author Heiner Lohaus
- * @package Enlight
- * @subpackage Tests
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight_Test
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     Heiner Lohaus
+ * @author     $Author$
+ */
+
+/**
+ * @category   Enlight
+ * @package    Enlight_Test
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
  */
 abstract class Enlight_Components_Test_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -30,31 +49,29 @@ abstract class Enlight_Components_Test_Selenium_TestCase extends PHPUnit_Extensi
      *
      * @param string $selector
      * @param string $content
-     * @return void
      */
     public function verifyText($selector, $content)
     {
-    	return $this->assertElementContainsText($selector, $content);
+    	$this->assertElementContainsText($selector, $content);
     }
     
     /**
      * Verify text present method
      *
      * @param string $content
-     * @return void
      */
     public function verifyTextPresent($content)
     {
-    	return $this->assertContains($content, $this->getBodyText());
+    	$this->assertContains($content, $this->getBodyText());
     }
     
     /**
-     * Returns screenshot url
+     * Returns the screen shot url
      *
      * @return string
      */
     public function getFullScreenshotUrl()
     {
-    	return $this->screenshotUrl.'/'.$this->testId.'.png';
+    	return $this->screenshotUrl . '/'. $this->testId . '.png';
     }
 }

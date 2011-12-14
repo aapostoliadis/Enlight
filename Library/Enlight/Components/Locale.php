@@ -13,7 +13,7 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Test
+ * @package    Enlight_Locale
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
@@ -23,27 +23,40 @@
 
 /**
  * @category   Enlight
- * @package    Enlight_Test
+ * @package    Enlight_Locale
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-abstract class Enlight_Components_Test_Plugin_TestCase extends Enlight_Components_Test_Controller_TestCase
+class Enlight_Components_Locale extends Zend_Locale
 {
-	/**
-	 * Create event args method
-	 *
-	 * @param string|array $name|$args
-	 * @param array $args
-	 * @return Enlight_Event_EventArgs
-	 */
-	public function createEventArgs($name=null, $args=array())
-	{
-		if($name===null) {
-			$name = get_class($this);
-		} elseif (is_array($name)) {
-			$args = $name;
-			$name = get_class($this);
-		}
-		return new Enlight_Event_EventArgs($name, $args);
-	}
+    /**
+     * @var int
+     */
+	protected $id;
+
+    /**
+     * Returns currency id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+    	return $this->id;
+    }
+
+    /**
+     * Sets a new locale
+     *
+     * @param  string|array|Zend_Locale $locale (Optional) New locale to set
+     * @return Enlight_Components_Locale
+     */
+    public function setLocale($locale = null)
+    {
+        if(is_array($locale)) {
+            $this->id = isset($locale['id']) ? (int) $locale['id'] : null;
+            $locale = isset($locale['locale']) ? $locale['locale'] : null;
+        }
+        parent::setLocale($locale);
+        return $this;
+    }
 }

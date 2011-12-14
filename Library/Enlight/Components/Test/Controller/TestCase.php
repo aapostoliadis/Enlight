@@ -1,22 +1,41 @@
 <?php
 /**
- * Controller test case
- * 
- * @link http://www.shopware.de
- * @copyright Copyright (c) 2011, shopware AG
- * @author Heiner Lohaus
- * @package Enlight
- * @subpackage Tests
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight_Test
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     Heiner Lohaus
+ * @author     $Author$
+ */
+
+/**
+ * @category   Enlight
+ * @package    Enlight_Test
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
  */
 abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Components_Test_TestCase
 {
 	/**
-     * @var Zend_Controller_Front
+     * @var Enlight_Controller_Front
      */
     protected $_front;
     
     /**
-     * @var Enlight_Template_TemplateManager
+     * @var Enlight_Template_Manager
      */
     protected $_template;
     
@@ -93,14 +112,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
         $this->_view = null;
         $this->_template = null;
         $this->_front = null;
-        
-        foreach(Enlight_Application::Instance()->Plugins() as $namespace) {
-            /** @var Enlight_Plugin_Namespace $namespace */
-        	foreach($namespace as $plugin) {
-	        	Enlight_Class::resetInstance($plugin);
-	        }
-        }
-        
+
         Enlight_Application::Instance()->Plugins()->resetPlugins();
         Enlight_Application::Instance()->Hooks()->resetHooks();
         Enlight_Application::Instance()->Events()->resetEvents();

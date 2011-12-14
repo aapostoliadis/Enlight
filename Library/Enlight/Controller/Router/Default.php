@@ -27,17 +27,12 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_Controller_Router_RouterDefault extends Enlight_Controller_Router_Router
+class Enlight_Controller_Router_Default extends Enlight_Controller_Router
 {
     /**
      * @var Enlight_Controller_Front
      */
     protected $front;
-
-    /**
-     * @var array
-     */
-    protected $globalParams = array();
 
     /**
      * @var string
@@ -92,7 +87,7 @@ class Enlight_Controller_Router_RouterDefault extends Enlight_Controller_Router_
 
         $query = array();
         $params = array();
-        foreach(explode($this->separator, $path) as $routePart) {
+        foreach(explode($this->separator, trim($path, $this->separator)) as $routePart) {
             $routePart = urldecode($routePart);
             if(empty($query[$request->getModuleKey()]) && $dispatcher->isValidModule($routePart)) {
                 $query[$request->getModuleKey()] = $routePart;
@@ -191,16 +186,5 @@ class Enlight_Controller_Router_RouterDefault extends Enlight_Controller_Router_
         
         $route = array_map('urlencode', $route);
         return implode($this->separator, $route);
-    }
-
-    /**
-     * @param $name
-     * @param $value
-     * @return Enlight_Controller_Router_RouterDefault
-     */
-    public function setGlobalParam($name, $value)
-    {
-        $this->globalParams[$name] = $value;
-        return $this;
     }
 }

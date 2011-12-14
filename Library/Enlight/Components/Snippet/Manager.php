@@ -64,7 +64,7 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
         }
 
         if(isset($options['ignore_namespace'])) {
-            $this->ignoreNamespace = (bool) $options['ignoreNamespace'];
+            $this->ignoreNamespace = (bool) $options['ignore_namespace'];
         }
     }
 

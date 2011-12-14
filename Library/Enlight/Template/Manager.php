@@ -40,8 +40,10 @@ class Enlight_Template_Manager extends Smarty
 
     /**
      * Class constructor, initializes basic smarty properties
+     *
+     * @param   null|array|Enlight_Config $options
      */
-    public function __construct()
+    public function __construct($options = null)
     {
     	// self pointer needed by some other class methods
         $this->smarty = $this;
@@ -54,7 +56,17 @@ class Enlight_Template_Manager extends Smarty
             ->setCacheDir('.' . DS . 'cache' . DS)
             ->setConfigDir('.' . DS . 'configs' . DS);
 
-        $this->debug_tpl = 'file:' . dirname(__FILE__) . '/debug.tpl';
+        $this->debug_tpl = 'file:' . SMARTY_DIR . '/debug.tpl';
+
+        if($options instanceof Enlight_Config) {
+            $options = $options->toArray();
+        }
+        if($options !== null) {
+            foreach ($options as $key => $option) {
+                $key = str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
+                $this->{'set' . $key}($option);
+            }
+        }
     }
 
     /**

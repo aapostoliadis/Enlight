@@ -130,7 +130,7 @@ abstract class Enlight_Class
 	 */
 	public function __call($name, $args=null)
 	{
-		throw new Enlight_Exception('Method "'.get_class($this).'::'.$name.'" not found failure', Enlight_Exception::Method_Not_Found);
+		throw new Enlight_Exception('Method "'.get_class($this).'::'.$name.'" not found failure', Enlight_Exception::METHOD_NOT_FOUND);
 	}
 	
 	/**
@@ -141,7 +141,7 @@ abstract class Enlight_Class
 	 */
 	static public function __callStatic($name, $args=null)
 	{
-		throw new Enlight_Exception('Method "'.get_called_class().'::'.$name.'" not found failure', Enlight_Exception::Method_Not_Found);
+		throw new Enlight_Exception('Method "'.get_called_class().'::'.$name.'" not found failure', Enlight_Exception::METHOD_NOT_FOUND);
 	}
 	
 	/**
@@ -151,7 +151,7 @@ abstract class Enlight_Class
 	 */
 	public function __get($name)
 	{
-		throw new Enlight_Exception('Property "'.$name.'" not found failure', Enlight_Exception::Property_Not_Found);
+		throw new Enlight_Exception('Property "'.$name.'" not found failure', Enlight_Exception::PROPERTY_NOT_FOUND);
 	}
 	
 	/**
@@ -162,6 +162,6 @@ abstract class Enlight_Class
 	 */
 	public function __set($name, $value=null)
 	{
-		throw new Enlight_Exception('Property "'.$name.'" not found failure', Enlight_Exception::Property_Not_Found);
+		throw new Enlight_Exception('Property "'.$name.'" not found failure', Enlight_Exception::PROPERTY_NOT_FOUND);
 	}
 }

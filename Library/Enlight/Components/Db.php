@@ -64,7 +64,6 @@ class Enlight_Components_Db extends Zend_Db
         if ($config instanceof Zend_Config) {
             $config = $config->toArray();
         }
-
         /*
          * Convert Zend_Config argument to plain string
          * adapter name and separate config object.

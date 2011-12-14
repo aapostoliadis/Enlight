@@ -13,7 +13,7 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Plugin
+ * @package    Enlight_Loader
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
@@ -23,12 +23,19 @@
 
 /**
  * @category   Enlight
- * @package    Enlight_Plugin
+ * @package    Enlight_Loader
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Loader extends Enlight_Class
 {
+    const DEFAULT_SEPARATOR = '_\\';
+	const DEFAULT_EXTENSION = '.php';
+
+	const POSITION_APPEND = 'append';
+	const POSITION_PREPEND = 'prepend';
+	const POSITION_REMOVE = 'remove';
+
     /**
      * @var array
      */
@@ -39,13 +46,6 @@ class Enlight_Loader extends Enlight_Class
      */
 	protected $loadedClasses = array();
 
-    const DEFAULT_SEPARATOR = '_\\';
-	const DEFAULT_EXTENSION = '.php';
-	
-	const POSITION_APPEND = 'append';
-	const POSITION_PREPEND = 'prepend';
-	const POSITION_REMOVE = 'remove';
-	
 	/**
 	 * Init loader method
 	 */
