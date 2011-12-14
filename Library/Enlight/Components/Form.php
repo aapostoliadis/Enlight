@@ -191,17 +191,18 @@ class Enlight_Components_Form extends Zend_Form
             'allowEmpty', 'ignore', 'order', 'belongsTo',
         );
 
+        // Handle options
         foreach($options as $option) {
             $method = 'get' . ucwords($option);
             if(($value = $element->$method()) !== null) {
-                $array_element['options'][$option] = $value;
+                $arrayElement['options'][$option] = $value;
             }
         }
 
         // Handle requirement
-		if($element->isRequired()){
-			$arrayElement['options']['required'] = true;
-		}
+        if($element->isRequired()){
+            $arrayElement['options']['required'] = true;
+        }
 
 		// Handle validators
         if(($validators = $element->getValidators()) !== null) {
