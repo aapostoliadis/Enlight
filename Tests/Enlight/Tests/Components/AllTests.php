@@ -44,7 +44,8 @@ class Enlight_Tests_Components_AllTests
         $suite->addTest(Enlight_Tests_Components_Menu_AllTests::suite());
 		$suite->addTest(Enlight_Tests_Components_Snippet_AllTests::suite());
 		$suite->addTest(Enlight_Tests_Components_Cron_AllTests::suite());
-        
+        $suite->addTest(Enlight_Tests_Components_Form_AllTests::suite());
+
 		return $suite;
 	}
 }

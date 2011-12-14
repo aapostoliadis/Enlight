@@ -93,29 +93,6 @@ class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
 	}
 
 	/**
-	 * Method to test if a form can be saved
-	 * After we got the form from the helper method, we're converting the Form to an array.
-	 * We expect that this array has a 'default/elements' part and that part is an array with 3 parts.
-	 * The next step is to create an Enlight_Config_Adapter and a corresponding Enlight_Config container.
-	 * This container is used to save the form to disk.
-	 *
-	 * @return void
-	 */
-	public function testSaveForm()
-	{
-		$cfgAdapter = new Enlight_Config_Adapter_File( array('configType'=>'ini', 'configDir' => Enlight_TestHelper::Instance()->TestPath('TempFiles')) );
-		$formCfg = new Enlight_Config($this->testFile.'_test', array('adapter'=>$cfgAdapter,'allowModifications' => true));
-		$form = $this->getForm();
-		$form->setAdapter($formCfg);
-		$form->setOptions(array('adapter'=>$formCfg));
-		$form->save();
-
-		$this->assertFileExists( Enlight_TestHelper::Instance()->TestPath('TempFiles').$this->testFile.'_test.ini');
-		$this->assertContains('firstName.options.validators.NotEmpty.validator', file_get_contents(Enlight_TestHelper::Instance()->TestPath('TempFiles').$this->testFile.'_test.ini'));
-
-	}
-
-	/**
 	 * Method to test if we are able to modify a form
 	 * First, we are getting a standardized form from our helper method
 	 * After we received the form, we check if the form contains the submit button. We could check for every element,
