@@ -11,7 +11,8 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
 	{
         //Enlight_Application::Instance()->Plugins()->Controller()->Json()->setPadding();
         //Enlight_Application::Instance()->Plugins()->Controller()->Json()->setRenderer();
-        $this->View()->setCaching(false);
+        $this->View()->setCaching(true);
+        $this->View()->Template()->cache_lifetime = 1000;
     }
 	
 	public function indexAction()
@@ -20,7 +21,9 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
 
     public function menuAction()
     {
-        $this->View()->Site = Enlight_Application::Instance()->Site();
+        if(!$this->View()->isCached()) {
+            $this->View()->Site = Enlight_Application::Instance()->Site();
+        }
     }
 
     public function loginAction()

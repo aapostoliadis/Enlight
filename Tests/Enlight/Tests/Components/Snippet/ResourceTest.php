@@ -50,10 +50,10 @@ class Enlight_Tests_Components_Snippet_ResourceTest extends Enlight_Components_T
 
         $tempDir = Enlight_TestHelper::Instance()->TestPath('TempFiles');
         $adapter = new Enlight_Config_Adapter_File(array(
-            'configType' => 'ini',
-            'configDir' => $tempDir,
-            'namePrefix' => 'snippet_'
-        ));
+                    'configType' => 'ini',
+                    'configDir' => $tempDir,
+                    'namePrefix' => 'snippet_'
+                ));
         $this->manager = new Enlight_Components_Snippet_Manager($adapter);
 
         $this->engine = new Enlight_Template_Manager();

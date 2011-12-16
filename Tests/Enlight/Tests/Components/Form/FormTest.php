@@ -28,7 +28,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license/new-bsd     New BSD License
  */
-class Enlight_Tests_Form_FormTest extends Enlight_Components_Test_TestCase
+class Enlight_Tests_Components_Form_FormTest extends Enlight_Components_Test_TestCase
 {
 	private $testFile = 'testForm';
     /**

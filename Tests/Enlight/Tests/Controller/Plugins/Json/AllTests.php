@@ -40,11 +40,7 @@ class Enlight_Tests_Controller_Plugins_Json_AllTests
 	{
 		$suite = new Enlight_Components_Test_TestSuite('Enlight Controller - Plugins - Json Tests');
 
-		$testCollector = new PHPUnit_Runner_IncludePathTestCollector(
-			array(dirname(__FILE__))
-		);
-
-		$suite->addTestFiles($testCollector->collectTests());
+        $suite->addTestFiles(glob(dirname(__FILE__) . '/*Test.php'));
 
 		return $suite;
 	}

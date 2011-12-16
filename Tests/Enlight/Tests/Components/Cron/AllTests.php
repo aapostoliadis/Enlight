@@ -39,11 +39,7 @@ class Enlight_Tests_Components_Cron_AllTests
 	{
 		$suite = new Enlight_Components_Test_TestSuite('Enlight Cron Tests');
 
-		$testCollector = new PHPUnit_Runner_IncludePathTestCollector(
-			array(dirname(__FILE__))
-		);
-
-		$suite->addTestFiles($testCollector->collectTests());
+        $suite->addTestFiles(glob(dirname(__FILE__) . '/*Test.php'));
 
 		return $suite;
 	}

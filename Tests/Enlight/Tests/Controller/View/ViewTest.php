@@ -77,7 +77,7 @@ class Enlight_Tests_Controller_View_ViewTest extends Enlight_Components_Test_Con
     {
         $view = new Enlight_View_Default($this->engine);
         $view->loadTemplate('string:');
-        $this->assertEquals('test', $view->hasTemplate());
+        $this->assertEquals(true, $view->hasTemplate());
     }
 
     /**

@@ -40,11 +40,7 @@ class Enlight_Tests_Components_Menu_AllTests
 	{
 		$suite = new Enlight_Components_Test_TestSuite('Enlight Menu Tests');
 
-		$testCollector = new PHPUnit_Runner_IncludePathTestCollector(
-			array(dirname(__FILE__))
-		);
-
-		$suite->addTestFiles($testCollector->collectTests());
+        $suite->addTestFiles(glob(dirname(__FILE__) . '/*Test.php'));
 
 		return $suite;
 	}

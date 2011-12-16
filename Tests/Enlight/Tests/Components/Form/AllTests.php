@@ -40,11 +40,7 @@ class Enlight_Tests_Components_Form_AllTests
 	{
 		$suite = new Enlight_Components_Test_TestSuite('Enlight Form Tests');
 
-		$testCollector = new PHPUnit_Runner_IncludePathTestCollector(
-			array(dirname(__FILE__))
-		);
-
-		$suite->addTestFiles($testCollector->collectTests());
+        $suite->addTestFiles(glob(dirname(__FILE__) . '/*Test.php'));
 
 		return $suite;
 	}
