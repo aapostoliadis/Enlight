@@ -4,7 +4,7 @@
     <property name="test.dir.enlight" location="${basedir}/Tests/Enlight" />
     <property name="test.dir.smarty" location="${basedir}/Tests/Smarty" />
 
-     <property name="log.dir" location="${test.dir.enlight}/Logs" />
+    <property name="log.dir" location="${test.dir.enlight}/Logs" />
 
     <property name="library.dir" location="${basedir}/Library" />
     <property name="library.dir.enlight" location="${library.dir}/Enlight" />
@@ -36,6 +36,7 @@
         <parallel>
             <antcall target="static-checkstyle" />
             <antcall target="static-phpmd" />
+            <antcall target="static-phpcpd" />
         </parallel>
     </target>
 
@@ -58,7 +59,16 @@
         </exec>
     </target>
 
-    <target name="build" />
+    <target name="static-phpcpd">
+        <exec executable="phpcpd" failonerror="false">
+            <arg value="--log-pmd" />
+            <arg value="cpd.xml" />
+            <arg value="${application.dir}" />
+            <arg value="${library.dir.enlight}" />
+        </exec>
+    </target>
+
+    <target name="build" depends="test" />
 
 
 
