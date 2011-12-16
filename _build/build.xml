@@ -4,16 +4,58 @@
     <property name="test.dir.enlight" location="${basedir}/Tests/Enlight" />
     <property name="test.dir.smarty" location="${basedir}/Tests/Smarty" />
 
+     <property name="log.dir" location="${test.dir.enlight}/Logs" />
+
     <property name="library.dir" location="${basedir}/Library" />
+    <property name="library.dir.enlight" location="${library.dir}/Enlight" />
+
+    <property name="application.dir" location="${basedir}/Apps" />
 
     <target name="test">
+        <parallel>
+            <antcall target="test-static" />
+            <antcall target="test-unit" />
+        </parallel>
+    </target>
+
+    <target name="test-unit" depends="unit-library,unit-enlight" />
+
+    <target name="unit-library">
         <exec executable="phpunit" failonerror="false" dir="${test.dir.smarty}">
             <arg value="--include-path" />
             <arg value="${library.dir}" />
             <arg value="smartytests.php" />
         </exec>
+    </target>
 
+    <target name="unit-enlight">
         <exec executable="phpunit" failonerror="true" dir="${test.dir.enlight}" />
+    </target>
+
+    <target name="test-static">
+        <parallel>
+            <antcall target="static-checkstyle" />
+            <antcall target="static-phpmd" />
+        </parallel>
+    </target>
+
+    <target name="static-checkstyle">
+        <exec executable="phpcs" failonerror="false">
+            <arg value="--standard=Zend" />
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${log.dir}/checkstyle.xml" />
+            <arg value="${application.dir}" />
+            <arg value="${library.dir.enlight}" />
+        </exec>
+    </target>
+
+    <target name="static-phpmd">
+        <exec executable="phpmd" failonerror="false">
+            <arg value="${application.dir},${library.dir.enlight}" />
+            <arg value="xml" />
+            <arg value="codesize,design,unusedcode" />
+            <arg value="--reportfile=${log.dir}/pmd.xml" />
+        </exec>
     </target>
 
     <target name="build" />
