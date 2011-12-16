@@ -55,7 +55,8 @@
             <arg value="${application.dir},${library.dir.enlight}" />
             <arg value="xml" />
             <arg value="codesize,design,unusedcode" />
-            <arg value="--reportfile=${log.dir}/pmd.xml" />
+            <arg value="--reportfile" />
+            <arg value="${log.dir}/pmd.xml" />
         </exec>
     </target>
 
