@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Enlight" basedir="../" default="build">
+
+    <property name="test.dir.enlight" location="${basedir}/Tests/Enlight" />
+    <property name="test.dir.smarty" location="${basedir}/Tests/Smarty" />
+
+    <property name="library.dir" location="${basedir}/Library" />
+
+    <target name="test">
+        <exec executable="phpunit" failonerror="false" dir="${test.dir.smarty}">
+            <arg value="--include-path" />
+            <arg value="${library.dir}" />
+            <arg value="smartytests.php" />
+        </exec>
+
+        <exec executable="phpunit" failonerror="true" dir="${test.dir.enlight}" />
+    </target>
+
+    <target name="build" />
+
+
+
+</project>
