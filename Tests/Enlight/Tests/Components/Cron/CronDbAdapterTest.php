@@ -236,7 +236,7 @@ class Enlight_Tests_Components_Cron_CronDbAdapterTest extends Enlight_Components
     }
 	 public function testAddCronJobFail()
     {
-		$this->setExpectedException('Exception');
+		$this->setExpectedException('Enlight_Exception');
 		$this->job->setId(1);
 		$this->assertInstanceOf('Enlight_Components_Cron_Adapter',$this->object->addJob($this->job));
     }
