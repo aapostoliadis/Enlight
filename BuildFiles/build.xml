@@ -5,7 +5,7 @@
     <property name="test.dir.smarty" location="${basedir}/Tests/Smarty" />
 
     <property name="log.dir" location="${test.dir.enlight}/Logs" />
-    <property name="build.dir" location="${test.dir.enlight}/BuildFiles" />
+    <property name="build.dir" location="${basedir}/BuildFiles" />
 
     <property name="library.dir" location="${basedir}/Library" />
     <property name="library.dir.enlight" location="${library.dir}/Enlight" />
