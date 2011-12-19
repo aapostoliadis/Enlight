@@ -5,6 +5,7 @@
     <property name="test.dir.smarty" location="${basedir}/Tests/Smarty" />
 
     <property name="log.dir" location="${test.dir.enlight}/Logs" />
+    <property name="build.dir" location="${test.dir.enlight}/BuildFiles" />
 
     <property name="library.dir" location="${basedir}/Library" />
     <property name="library.dir.enlight" location="${library.dir}/Enlight" />
@@ -34,18 +35,19 @@
 
     <target name="test-static">
         <parallel>
-            <antcall target="static-checkstyle" />
+            <antcall target="static-phpcs" />
             <antcall target="static-phpmd" />
             <antcall target="static-phpcpd" />
+            <antcall target="static-phploc" />
         </parallel>
     </target>
 
-    <target name="static-checkstyle">
+    <target name="static-phpcs">
         <exec executable="phpcs" failonerror="false">
-            <arg value="--standard=Zend" />
+            <arg value="--standard=${build.dir}" />
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${log.dir}/checkstyle.xml" />
-            <arg value="${application.dir}" />
+            <!--arg value="${application.dir}" /-->
             <arg value="${library.dir.enlight}" />
         </exec>
     </target>
@@ -61,16 +63,24 @@
     </target>
 
     <target name="static-phpcpd">
-        <exec executable="phpcpd" failonerror="false">
+        <exec executable="phpcpd" failonerror="false" output="/dev/null">
             <arg value="--log-pmd" />
-            <arg value="cpd.xml" />
+            <arg value="${log.dir}/cpd.xml" />
             <arg value="${application.dir}" />
             <arg value="${library.dir.enlight}" />
         </exec>
     </target>
 
+    <target name="static-phploc">
+        <exec executable="phploc">
+            <arg value="--log-xml" />
+            <arg value="${log.dir}/loc.xml" />
+            <arg value="--log-csv" />
+            <arg value="${log.dir}/loc.csv" />
+            <arg value="--count-tests" />
+            <arg value="${library.dir.enlight}" />
+        </exec>
+    </target>
+
     <target name="build" depends="test" />
-
-
-
 </project>
