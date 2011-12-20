@@ -82,5 +82,26 @@
         </exec>
     </target>
 
-    <target name="build" depends="test" />
+    <target name="build" depends="test,build-phpdoc,build-phpcb" />
+
+    <target name="build-phpdoc">
+        <exec executable="phpdoc">
+            <arg value="--quiet" />
+            <arg value="--directory" />
+            <arg value="${library.dir.enlight}" />
+            <arg value="--target" />
+            <arg value="${log.dir}/api" />
+        </exec>
+    </target>
+
+    <target name="build-phpcb">
+        <exec executable="phpcb">
+            <arg value="--log" />
+            <arg value="${log.dir}/code-logs" />
+            <arg value="--output" />
+            <arg value="${log.dir}/code-browser" />
+            <arg value="--source" />
+            <arg value="${library.dir.enlight}" />
+        </exec>
+    </target>
 </project>
