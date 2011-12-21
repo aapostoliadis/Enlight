@@ -21,6 +21,8 @@
  * @author     $Author$
  */
 
+require_once('Smarty/Smarty.class.php');
+
 /**
  * @category   Enlight
  * @package    Enlight_Components_Snippet

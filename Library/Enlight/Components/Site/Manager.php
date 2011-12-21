@@ -50,12 +50,15 @@ class Enlight_Components_Site_Manager
     }
 
     /**
+     * Returns a child page matching $property == $value, or null if not found
+     *
      * @param   $property
      * @param   $value
      * @return  Enlight_Components_Site|null
      */
     public function findOneBy($property, $value)
     {
+        if(isset($this->adapter->sites))
         foreach($this->adapter->sites as $site) {
             if($site->$property === $value) {
                 return new Enlight_Components_Site($site);
@@ -65,10 +68,15 @@ class Enlight_Components_Site_Manager
     }
 
     /**
+     * Returns a default site instance.
+     *
      * @return  Enlight_Components_Site|null
      */
     public function getDefault()
     {
+        if(!isset($this->adapter->sites)) {
+            return null;
+        }
         reset($this->adapter->sites);
         $default = current($this->adapter->sites);
         foreach($this->adapter->sites as $site) {

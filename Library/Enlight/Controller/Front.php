@@ -70,25 +70,16 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
 	protected $invokeParams = array();
 
     /**
-     *
-     */
-    public function init()
-    {
-        $this->plugins = new Enlight_Plugin_Namespace_Loader('Controller');
-        $this->plugins->addPrefixPath('Enlight_Controller_Plugins', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Plugins');
-    }
-
-    /**
      * @throws  Exception
      * @return  Enlight_Controller_Response_ResponseHttp
      */
 	public function dispatch()
 	{
 		if (!$this->getParam('noErrorHandler')) {
-            $this->plugins->load('ErrorHandler');
+            $this->Plugins()->load('ErrorHandler');
         }
         if (!$this->getParam('noViewRenderer')) {
-            $this->plugins->load('ViewRenderer');
+            $this->Plugins()->load('ViewRenderer');
         }
 		
 		Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_StartDispatch', array('subject'=>$this));
@@ -213,6 +204,21 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
 
     /**
      * @throws  Enlight_Exception
+     * @param   string|Enlight_Plugin_Namespace $plugins
+     * @return  Enlight_Controller_Front
+     */
+    public function setPlugins (Enlight_Plugin_Namespace $plugins = null)
+    {
+        if ($plugins === null) {
+            $plugins = new Enlight_Plugin_Namespace_Loader('Controller');
+            $plugins->addPrefixPath('Enlight_Controller_Plugins', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Plugins');
+        }
+        $this->plugins = $plugins;
+        return $this;
+    }
+
+    /**
+     * @throws  Enlight_Exception
      * @param   string|Enlight_Controller_Router $router
      * @return  Enlight_Controller_Front
      */
@@ -309,6 +315,9 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
      */
     public function Plugins()
     {
+        if($this->plugins === null) {
+            $this->setPlugins();
+        }
         return $this->plugins;
     }
 	

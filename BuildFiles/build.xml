@@ -97,7 +97,7 @@
     <target name="build-phpcb">
         <exec executable="phpcb">
             <arg value="--log" />
-            <arg value="${log.dir}/code-logs" />
+            <arg value="${log.dir}" />
             <arg value="--output" />
             <arg value="${log.dir}/code-browser" />
             <arg value="--source" />
