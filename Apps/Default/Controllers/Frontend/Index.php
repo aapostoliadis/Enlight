@@ -11,8 +11,9 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
 	{
         //Enlight_Application::Instance()->Plugins()->Controller()->Json()->setPadding();
         //Enlight_Application::Instance()->Plugins()->Controller()->Json()->setRenderer();
-        $this->View()->setCaching(true);
+        $this->View()->setCaching(false);
         $this->View()->Template()->cache_lifetime = 1000;
+        $this->View()->setScope(Smarty::SCOPE_GLOBAL);
     }
 	
 	public function indexAction()

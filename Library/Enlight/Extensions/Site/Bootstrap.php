@@ -30,7 +30,7 @@
 class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
 	/**
-	 * Install log plugin
+	 * Install site plugin
 	 */
 	public function install()
 	{
@@ -54,8 +54,9 @@ class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	}
 
     /**
-     * Resource handler for log plugin
-
+     * Handles the init resource site manager event.
+     * Returns the site manager.
+     *
      * @param Enlight_Event_EventArgs $args
      * @return Enlight_Components_Site_Manager
      */
@@ -65,8 +66,11 @@ class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
 	/**
-	 * Resource handler for log plugin
-
+	 * Handles the init resource site event.
+     * Returns the current site resource from session or
+     * reads a matching site resources from the manager,
+     * if no is stored in the session.
+     *
 	 * @param Enlight_Event_EventArgs $args
 	 * @return Zend_Log
 	 */
@@ -78,7 +82,9 @@ class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
         if(!isset($session->Site)) {
             /** @var $siteManager Enlight_Components_Site_Manager */
             $siteManager = $this->Application()->Sites();
-            $session->Site = $siteManager->findOneBy('host', 'test');
+            if(isset($_SERVER['HTTP_HOST'])) {
+                $session->Site = $siteManager->findOneBy('host', $_SERVER['HTTP_HOST']);
+            }
             if(!isset($session->Site)) {
                 $session->Site = $siteManager->getDefault();
             }

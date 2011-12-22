@@ -7,7 +7,7 @@
         <li><a href="{url action=login}">Form</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-        <form action="" class="pull-left">
+        <form action="{url controller=search}" class="pull-left">
           <input type="text" placeholder="Search">
         </form>
         <form action="" class="pull-right">

@@ -5,7 +5,7 @@
 
   <body>
 
-    {action name="menu" controller="index" p}
+    {action name="menu" controller="index"}
 
     <div class="container">
 
