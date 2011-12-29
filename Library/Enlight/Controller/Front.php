@@ -207,7 +207,7 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
      * @param   string|Enlight_Plugin_Namespace $plugins
      * @return  Enlight_Controller_Front
      */
-    public function setPlugins (Enlight_Plugin_Namespace $plugins = null)
+    public function setPlugins(Enlight_Plugin_Namespace $plugins = null)
     {
         if ($plugins === null) {
             $plugins = new Enlight_Plugin_Namespace_Loader('Controller');
@@ -222,7 +222,7 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
      * @param   string|Enlight_Controller_Router $router
      * @return  Enlight_Controller_Front
      */
-	public function setRouter ($router)
+	public function setRouter($router)
 	{
 		if (is_string($router)) {
             $router = new $router();
@@ -240,7 +240,7 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
      * @param   string|Enlight_Controller_Dispatcher $dispatcher
      * @return  Enlight_Controller_Front
      */
-	public function setDispatcher ($dispatcher)
+	public function setDispatcher($dispatcher)
 	{
 		if (is_string($dispatcher)) {
             $dispatcher = new $dispatcher();
@@ -260,7 +260,7 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
      * @param   $request
      * @return  Enlight_Controller_Front
      */
-	public function setRequest ($request)
+	public function setRequest($request)
 	{
 		if (is_string($request)) {
             $request = new $request();
@@ -279,7 +279,7 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
      * @param   $response
      * @return  Enlight_Controller_Front
      */
-	public function setResponse ($response)
+	public function setResponse($response)
 	{		
 		if (is_string($response)) {
             $response = new $response();

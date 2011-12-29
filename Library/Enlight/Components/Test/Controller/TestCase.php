@@ -45,12 +45,12 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     protected $_view;
 
     /**
-     * @var Zend_Controller_Request_Abstract
+     * @var Zend_Controller_Request_Http
      */
     protected $_request;
 
     /**
-     * @var Zend_Controller_Response_Abstract
+     * @var Zend_Controller_Response_Http
      */
     protected $_response;
     
@@ -150,7 +150,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
      */
     public function resetRequest()
     {
-        if ($this->_request instanceof Enlight_Controller_Request_RequestTestCase) {
+        if ($this->_request instanceof Zend_Controller_Request_Http) {
             $this->_request->clearQuery()
                            ->clearPost()
                            ->clearCookies();

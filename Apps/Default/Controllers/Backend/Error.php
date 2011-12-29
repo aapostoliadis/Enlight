@@ -3,7 +3,7 @@ class Default_Controllers_Backend_Error extends Enlight_Controller_Action
 {	
 	public function preDispatch()
 	{
-		$this->Front()->getParam('controllerPlugins')->ViewRenderer()->setNoRender();
+		$this->Front()->Plugins()->ViewRenderer()->setNoRender();
 	}
 	
 	public function errorAction()

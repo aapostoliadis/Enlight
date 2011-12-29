@@ -106,6 +106,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
         if ($this->shouldRender() && $this->Action()->View()->hasTemplate()) {
             $this->render();
         }
+        $this->setNoRender(false);
     }
 
     /**
@@ -165,7 +166,6 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
             $render,
             $name
         );
-        //$this->setNoRender();
 
         $this->Application()->Events()->notify('Enlight_Plugins_ViewRenderer_PostRender', array('subject'=>$this));
 
@@ -184,7 +184,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     /**
      * @return  bool
      */
-    protected function shouldRender()
+    public function shouldRender()
     {
         return (!$this->Front()->getParam('noViewRenderer')
             && !$this->neverRender

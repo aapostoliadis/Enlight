@@ -52,16 +52,10 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
         ))
         ) {
             $params = $event->getReturn();
-            $routeMatched = true;
         } elseif($request instanceof Enlight_Controller_Request_RequestHttp) {
             /** @var $request Enlight_Controller_Request_RequestHttp */
             $params = $this->routeDefault($request);
-            $routeMatched = true;
         } else {
-            $routeMatched = false;
-        }
-
-        if(!$routeMatched) {
             throw new Enlight_Controller_Exception('No route matched the request', Enlight_Controller_Exception::NO_ROUTE);
         }
 
@@ -74,13 +68,14 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
 
     /**
      * @param Enlight_Controller_Request_RequestHttp $request
-     * @return array|string
+     * @return array
      */
     public function routeDefault(Enlight_Controller_Request_RequestHttp $request)
     {
         $path = $request->getPathInfo();
+
         if(empty($path)) {
-            return '';
+            return array();
         }
 
         $dispatcher = $this->front->Dispatcher();
@@ -99,12 +94,18 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
                 $params[] = $routePart;
             }
         }
+
         if($params) {
             $chunks = array_chunk($params, 2, false);
             foreach($chunks as $chunk) {
-                $query[$chunk[0]] = $chunk[1];
+                if(isset($chunk[1])) {
+                    $query[$chunk[0]] = $chunk[1];
+                } else {
+                    $query[$chunk[0]] = '';
+                }
             }
         }
+
         return $query;
     }
 
