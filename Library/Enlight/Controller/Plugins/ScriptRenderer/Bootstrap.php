@@ -78,7 +78,7 @@ class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin
 	}
 
     /**
-     * Loads the script template.
+     * Loads the script template, if no set.
      *
      * @param   Enlight_Event_EventArgs $args
      */
