@@ -106,6 +106,7 @@ class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin
 
     /**
      * Sets the render flag.
+     * Loads the view renderer.
      *
      * @param   bool $flag
      * @return  Enlight_Controller_Plugins_ScriptRenderer_Bootstrap
