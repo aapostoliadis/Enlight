@@ -105,6 +105,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     {
         if ($this->shouldRender() && $this->Action()->View()->hasTemplate()) {
             $this->render();
+            $this->Action()->View()->setTemplate();
         }
         $this->setNoRender(false);
     }

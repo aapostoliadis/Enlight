@@ -60,7 +60,7 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
 
         if(isset($options['adapter'])
           && $options['adapter'] instanceof Enlight_Config_Adapter) {
-            $this->adapter = $options['adapter'];
+            $this->setAdapter($options['adapter']);
         }
 
         if(isset($options['ignore_namespace'])) {
@@ -92,6 +92,16 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
     public function Adapter()
     {
         return $this->adapter;
+    }
+
+    /**
+     * @param Enlight_Config_Adapter $adapter
+     * @return Enlight_Components_Snippet
+     */
+    public function setAdapter($adapter)
+    {
+        $this->adapter = $adapter;
+        return $this;
     }
 
     /**
