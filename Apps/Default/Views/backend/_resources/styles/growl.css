@@ -1,0 +1,97 @@
+.growl-message { position: absolute; top: 15px; right: 15px; z-index: 20020 }
+.outer-growl {
+	background: -moz-linear-gradient(top, rgba(0,0,0,.98) 0%, rgba(0,0,0,0.9) 100%);
+	background: -webkit-gradient(linear, left top, right top, from(rgba(0,0,0,.98)), to(rgba(0,0,0,0.9)));
+	border: 1px solid rgba(0,0,0,0.7);
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.wrapper {
+	background: -moz-linear-gradient(top, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.0) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.25)), to(rgba(255,255,255,0.0)));
+	border-left: 1px solid rgba(255,255,255,0.10);
+	border-top: 1px solid rgba(255,255,255,0.6);
+	overflow: hidden;
+	padding: 6px 10px 0px 34px;
+	position: relative;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border-radius: 4px;
+	z-index: 1;
+	min-height: 34px;
+}
+.title, .text, .textwrapper, .icon {
+	position: relative;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: ease;
+}
+.title, .text {
+	text-align: left;
+	text-shadow: 0px -1px 1px rgba(0,0,0,0.7);
+	width: 223px;
+	z-index: 3;
+}
+.title {
+	color: rgba(255,255,255,0.99);
+	font: bold 7.5pt "Verdana";
+	letter-spacing: 0.0pt;
+	line-height: 13px;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-name: 'titleIn';
+}
+.text {
+	color: rgba(255,255,255,.9);
+	font: 100 6.5pt "Verdana";
+	margin: 1px 0 0 0;
+	text-align: left;
+	line-height: 12px;
+	-webkit-animation-duration: 0.8s;
+	-webkit-animation-name: 'textIn';
+}
+.border {
+	background: -moz-linear-gradient(top, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.0) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.0)), to(rgba(255,255,255,0.0)), color-stop(0.5, rgba(255,255,255,0.2)));
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 1px;
+}
+.textwrapper {
+	padding: 0 0 0 11px;
+	min-height: 24px;
+	-webkit-animation-duration: 0.4s;
+	-webkit-animation-name: 'wrapperIn';
+}
+.icon {
+	height: 18px;
+	width: 18px;
+	left: 8px;
+	opacity: 1;
+	position: absolute;
+	top: 10px;
+	z-index: 2;
+	-webkit-animation-duration: 0.4s;
+	-webkit-animation-name: 'iconIn';
+	background: url(icn_paypal.png) no-repeat;
+}
+
+/* Animations */
+@-webkit-keyframes 'titleIn' {
+	0% { left: 10px; opacity: 0; }
+	100% { left: 0px; opacity: 1; }
+}
+@-webkit-keyframes 'textIn' {
+	0% { left: 30px; opacity: 0; }
+	100% { left: 0px; opacity: 1; }
+}
+@-webkit-keyframes 'iconIn' {
+	0% { left: 30px; opacity: 0; }
+	100% { left: 10px; opacity: 1; }
+}
+@-webkit-keyframes 'wrapperIn' {
+	0% { margin-left: 20px; opacity: 0; }
+	100% { margin-left: 0px; opacity: 1; }
+}

@@ -37,7 +37,7 @@ class Enlight_Components_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 	protected function _quote($value)
     {
     	if($value instanceof Zend_Date) {
-    		$value = $value->toString('YYYY-MM-dd HH:mm:ss');
+    		$value = $value->toString('yyyy-MM-dd HH:mm:ss');
     	}
     	return parent::_quote($value);
     }
@@ -57,10 +57,10 @@ class Enlight_Components_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             $bind = $sql->getBind();
         }
 
-        if (is_array($bind)) {
+        if (!empty($bind)) {
             foreach ($bind as $name => $value) {
                 if($value instanceof Zend_Date) {
-		    		$bind[$name] = $value->toString('YYYY-MM-dd HH:mm:ss');
+		    		$bind[$name] = $value->toString('yyyy-MM-dd HH:mm:ss');
 		    	}
             }
         }
