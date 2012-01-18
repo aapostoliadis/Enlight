@@ -13,19 +13,18 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Template
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
+ * Returns the current encoding (see: mb_internal_encoding())
+ * 
+ * @link http://php.net/manual/en/function.mb-internal-encoding.php
+ * 
  * @param $params
  * @param $smarty
  * @param $template

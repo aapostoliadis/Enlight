@@ -13,23 +13,21 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Template
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
- * @param null $value
- * @param null $path
- * @param null $locale
- * @return null
+ * Returns known translations.
+ * 
+ * @link http://framework.zend.com/manual/de/zend.locale.functions.html
+ * @param string $value
+ * @param string $path
+ * @param string $locale
+ * @return string|null
  */
 function smarty_modifier_translate ($value = null, $path = null, $locale = null)
 {

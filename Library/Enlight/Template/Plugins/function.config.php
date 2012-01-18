@@ -13,23 +13,25 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Template
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
- * @param $params
- * @param $smarty
- * @param $template
- * @return null
+ * Function to get access to the Enlight2 Config system.
+ * 
+ * The params array knows the key
+ * - name    : Name of the config parameter which should be requested
+ * - default : Default value if the queried config key does not exists
+ * 
+ * @param array $params
+ * @param mixed $smarty
+ * @param string $template
+ * 
+ * @return mixed
  */
 function smarty_function_config($params, $smarty, $template)
 {

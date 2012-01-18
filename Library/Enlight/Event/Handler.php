@@ -35,24 +35,20 @@ abstract class Enlight_Event_Handler
     protected $name;
 
     /**
-     * @var int
+     * @var integer
      */
     protected $position;
 
     /**
      * @throws  Enlight_Event_Exception
      * @param   $event
-     * @param   null|int $position
      */
-	public function __construct ($event, $position=null)
+	public function __construct ($event)
 	{
 		if($event === null) {
 			throw new Enlight_Event_Exception('Parameter event cannot be empty.');
 		}
 		$this->name = $event;
-        if($position !== null) {
-            $this->setPosition($position);
-        }
 	}
     /**
      * @return  string
@@ -62,7 +58,7 @@ abstract class Enlight_Event_Handler
 		return $this->name;
 	}
     /**
-     * @return  int
+     * @return  integer
      */
 	public function getPosition()
 	{
@@ -70,8 +66,7 @@ abstract class Enlight_Event_Handler
 	}
 
     /**
-     * @throws  Enlight_Exception
-     * @param   int $position
+     * @param   integer $position
      * @return  Enlight_Event_Handler
      */
 	public function setPosition($position)

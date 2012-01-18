@@ -13,25 +13,26 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Template
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
- * @param $params
- * @param $content
- * @param $smarty
- * @param $repeat
- * @param $template
- * @return mixed
+ * Replaces a smarty block with an other one.
+ * If the PHP multibyte (mb) extension is installed this 
+ * function is multibyte char aware
+ * 
+ * The first parameter has one 'search' and one 'replace' key
+ * 
+ * @param array $params
+ * @param string $content
+ * @param mixed $smarty
+ * @param int $repeat
+ * @param string $template
+ * @return string
  */
 function smarty_block_replace($params, $content, $smarty, &$repeat, $template)
 { 

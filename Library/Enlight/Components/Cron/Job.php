@@ -348,14 +348,14 @@ class Enlight_Components_Cron_Job
 	 *
 	 * @param bool $active
 	 * @return Enlight_Components_Cron_Job
-	 */
-	public function setActive($active)
-	{
-		$this->active = (boolean)$active;
-		return $this;
-	}
+     */
+    public function setActive($active)
+    {
+        $this->active = (boolean)$active;
+        return $this;
+    }
 
-	/**
+    /**
 	 * Magic method to get parameters
 	 *
 	 * @param $name

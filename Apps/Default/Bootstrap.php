@@ -65,7 +65,7 @@ class Default_Bootstrap extends Enlight_Bootstrap
        	if($configSession['save_handler'] == 'db') {
        		$config_save_handler = array(
    	    		'db'			 => $this->getResource('Db'),
-   		    	'name'           => 's_core_sessions',
+   		    	'name'           => 'session',
    		    	'primary'        => 'id',
    		    	'modifiedColumn' => 'modified',
    		    	'dataColumn'     => 'data',

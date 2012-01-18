@@ -13,22 +13,20 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Template
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
- * @param $value
+ * Returns a number in local specific format.  
+ * 
+ * @link http://framework.zend.com/manual/de/zend.locale.parsing.html
+ * @param int|float $value
  * @param array $format
- * @return string
+ * @return mixed
  */
 function smarty_modifier_number($value, $format=array())
 {

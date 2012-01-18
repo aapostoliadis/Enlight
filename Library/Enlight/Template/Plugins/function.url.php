@@ -13,19 +13,21 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Template
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
+ * Build an link based on given controller and action name
+ * 
+ * Parameters known by $params
+ * - module     : name of the module
+ * - controller : name of the controller
+ * - action     : name of the action  
+ * 
  * @param $params
  * @param $smarty
  * @param $template

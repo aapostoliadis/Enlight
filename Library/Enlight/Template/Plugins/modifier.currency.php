@@ -13,22 +13,21 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Controller
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Controller
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
- * @param $value
- * @param null $config
- * @param null $position
+ * Formats a given decimal value to a local aware currency value
+ * 
+ * 
+ * @link http://framework.zend.com/manual/de/zend.currency.options.html
+ * @param float $value Value can have a coma as a decimal separator 
+ * @param array $config
+ * @param string $position where the currency symbol should be displayed
  * @return float|string
  */
 function smarty_modifier_currency($value, $config=null, $position=null)

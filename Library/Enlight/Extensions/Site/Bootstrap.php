@@ -76,7 +76,7 @@ class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	 */
 	public function onInitResourceSite(Enlight_Event_EventArgs $args)
 	{
-        /** @var $log Enlight_Components_Session_Namespace */
+        /** @var $session Enlight_Components_Session_Namespace */
 	    $session = $this->Application()->Session();
 
         if(!isset($session->Site)) {
