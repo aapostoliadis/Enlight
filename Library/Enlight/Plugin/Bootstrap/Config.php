@@ -68,7 +68,7 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
      * @param   $listener
      * @return  Enlight_Plugin_Bootstrap_Config
      */
-    public function subscribeEvent($event, $position = null, $listener)
+    public function subscribeEvent($event, $listener, $position = null)
     {
         $namespace = $this->Collection();
         $handler = new Enlight_Event_Handler_Plugin(
