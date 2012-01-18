@@ -27,4 +27,6 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_Config_Exception extends Enlight_Exception {}
+class Enlight_Config_Exception extends Enlight_Exception
+{
+}

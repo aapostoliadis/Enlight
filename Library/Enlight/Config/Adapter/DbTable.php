@@ -27,7 +27,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
- class Enlight_Config_Adapter_DbTable extends Enlight_Config_Adapter
+class Enlight_Config_Adapter_DbTable extends Enlight_Config_Adapter
 {
     /**
      * The name column in the database table.
@@ -84,20 +84,20 @@
      */
     public function setOptions(array $options)
     {
-        foreach ($options as $key=>$option) {
+        foreach ($options as $key => $option) {
             switch ($key) {
                 case 'nameColumn':
                 case 'valueColumn':
                 case 'sectionColumn':
                 case 'createdColumn':
                 case 'updatedColumn':
-                    $this->{'_'.$key} = (string) $option;
+                    $this->{'_' . $key} = (string)$option;
                     break;
                 case 'automaticSerialization':
-                    $this->{'_'.$key} = (bool) $option;
+                    $this->{'_' . $key} = (bool)$option;
                     break;
                 case 'db':
-                    $this->{'_'.$key} = $option;
+                    $this->{'_' . $key} = $option;
                     break;
                 default:
                     break;
@@ -106,12 +106,12 @@
         return parent::setOptions($options);
     }
 
-     /**
-      * Reads a section from the data store.
-      *
-      * @param      Enlight_Config $config
-      * @return     Enlight_Config_Adapter_DbTable
-      */
+    /**
+     * Reads a section from the data store.
+     *
+     * @param      Enlight_Config $config
+     * @return     Enlight_Config_Adapter_DbTable
+     */
     public function read(Enlight_Config $config)
     {
         $name = $this->_namePrefix . $config->getName() . $this->_nameSuffix;
@@ -119,30 +119,30 @@
 
         $dbTable = new Enlight_Components_Table(array(
             'name' => $name,
-            'db' => $this->_db
-        ));
+            'db' => $this->_db)
+        );
         $select = $dbTable->select()->from($dbTable->info('name'), array($this->_nameColumn, $this->_valueColumn));
 
-        if($section !== null && $this->_sectionColumn !== null) {
-            if(is_array($this->_sectionColumn)) {
-                foreach ($this->_sectionColumn as $key=>$sectionColumn) {
-                    if(isset($section[$key])) {
-                        $select->where($sectionColumn.'=?', $section[$key]);
+        if ($section !== null && $this->_sectionColumn !== null) {
+            if (is_array($this->_sectionColumn)) {
+                foreach ($this->_sectionColumn as $key => $sectionColumn) {
+                    if (isset($section[$key])) {
+                        $select->where($sectionColumn . '=?', $section[$key]);
                     }
                 }
-            } elseif($this->_sectionColumn !== null) {
-                $select->where($this->_sectionColumn.'=?', $section);
+            } elseif ($this->_sectionColumn !== null) {
+                $select->where($this->_sectionColumn . '=?', $section);
             }
         }
 
-        if($this->_valueColumn !== '*') {
+        if ($this->_valueColumn !== '*') {
             $data = $dbTable->getAdapter()->fetchPairs($select);
-        } else  {
+        } else {
             $data = $dbTable->getAdapter()->fetchAssoc($select);
         }
 
-        if($this->_automaticSerialization) {
-            foreach ($data as $key=>$value) {
+        if ($this->_automaticSerialization) {
+            foreach ($data as $key => $value) {
                 $data[$key] = unserialize($value);
             }
         }
@@ -151,49 +151,49 @@
         return $this;
     }
 
-     /**
-      * Saves the data changes in the data store.
-      *
-      * @param      Enlight_Config $config
-      * @param      array $fields
-      * @param      bool $update
-      * @return     Enlight_Config_Adapter_DbTable
-      */
-    public function write(Enlight_Config $config, $fields=null, $update=true)
+    /**
+     * Saves the data changes in the data store.
+     *
+     * @param      Enlight_Config $config
+     * @param      array          $fields
+     * @param      bool           $update
+     * @return     Enlight_Config_Adapter_DbTable
+     */
+    public function write(Enlight_Config $config, $fields = null, $update = true)
     {
         $name = $this->_namePrefix . $config->getName() . $this->_nameSuffix;
         $section = $config->getSection();
 
         $dbTable = new Enlight_Components_Table(array(
             'name' => $name,
-            'db' => $this->_db
-        ));
+            'db' => $this->_db)
+        );
         $db = $dbTable->getAdapter();
 
-        if($fields===null) {
+        if ($fields === null) {
             $fields = $config->getDirtyFields();
         }
-        if(empty($fields)) {
+        if (empty($fields)) {
             return $this;
         }
 
         $updateData = array();
         $insertData = array();
 
-        if($this->_updatedColumn!==null) {
+        if ($this->_updatedColumn !== null) {
             $updateData[$this->_updatedColumn] = new Zend_Date();
             $insertData[$this->_updatedColumn] = new Zend_Date();
         }
-        if($this->_createdColumn!==null) {
+        if ($this->_createdColumn !== null) {
             $insertData[$this->_createdColumn] = new Zend_Date();
         }
 
         $where = array();
 
-        if($section !== null) {
-            if(is_array($this->_sectionColumn)) {
-                foreach ($this->_sectionColumn as $key=>$sectionColumn) {
-                    if(isset($section[$key])) {
+        if ($section !== null) {
+            if (is_array($this->_sectionColumn)) {
+                foreach ($this->_sectionColumn as $key => $sectionColumn) {
+                    if (isset($section[$key])) {
                         $where[] = $db->quoteInto($sectionColumn . '=?', $section[$key]);
                         $insertData[$sectionColumn] = $section[$key];
                     }
@@ -204,16 +204,16 @@
             }
         }
 
-        foreach ((array) $fields as $field) {
+        foreach ((array)$fields as $field) {
             $fieldWhere = $where;
-            $fieldWhere[] = $db->quoteInto($this->_nameColumn.'=?', $field);
+            $fieldWhere[] = $db->quoteInto($this->_nameColumn . '=?', $field);
 
             $row = $dbTable->fetchRow($fieldWhere);
 
-            if($row!==null) {
-                if($update) {
+            if ($row !== null) {
+                if ($update) {
                     $data = $updateData;
-                    if ($this->_automaticSerialization){
+                    if ($this->_automaticSerialization) {
                         $data[$this->_valueColumn] = serialize($config->get($field));
                     } else {
                         $data[$this->_valueColumn] = $config->get($field);
@@ -223,7 +223,7 @@
             } else {
                 $data = $insertData;
                 $data[$this->_nameColumn] = $field;
-                if ($this->_automaticSerialization){
+                if ($this->_automaticSerialization) {
                     $data[$this->_valueColumn] = serialize($config->get($field));
                 } else {
                     $data[$this->_valueColumn] = $config->get($field);

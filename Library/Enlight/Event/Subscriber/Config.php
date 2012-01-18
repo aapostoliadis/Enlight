@@ -44,16 +44,16 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
      */
     public function __construct($options = null)
     {
-        if(!is_array($options)) {
+        if (!is_array($options)) {
             $options = array('storage' => $options);
         }
-        if(isset($options['storage']) && is_string($options['storage'])) {
+        if (isset($options['storage']) && is_string($options['storage'])) {
             $this->storage = new Enlight_Config($options['storage'], array(
                 'allowModifications' => true,
                 'adapter' => isset($options['storageAdapter']) ? $options['storageAdapter'] : null,
-                'section' => isset($options['section']) ? $options['section'] : 'production'
-            ));
-        } elseif(isset($options['storage']) && $options['storage'] instanceof Enlight_Config) {
+                'section' => isset($options['section']) ? $options['section'] : 'production')
+            );
+        } elseif (isset($options['storage']) && $options['storage'] instanceof Enlight_Config) {
             $this->storage = $options['storage'];
         } else {
             throw new Enlight_Event_Exception('');
@@ -67,7 +67,7 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
      */
     public function getListeners()
     {
-        if($this->listeners === null) {
+        if ($this->listeners === null) {
             $this->read();
         }
         return $this->listeners;
@@ -103,8 +103,8 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     public function write()
     {
         $listeners = array();
-        foreach($this->listeners as $handler) {
-           $listeners[] =  $handler->toArray();
+        foreach ($this->listeners as $handler) {
+            $listeners[] = $handler->toArray();
         }
         $this->storage->listeners = $listeners;
         $this->storage->write();
@@ -120,16 +120,17 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     {
         $this->listeners = array();
 
-        if($this->storage->listeners !== null)
-        foreach($this->storage->listeners as $entry) {
-            if(!$entry instanceof Enlight_Config) {
-                continue;
+        if ($this->storage->listeners !== null) {
+            foreach ($this->storage->listeners as $entry) {
+                if (!$entry instanceof Enlight_Config) {
+                    continue;
+                }
+                $this->listeners[] = new Enlight_Event_Handler_Default(
+                    $entry->name,
+                    $entry->position,
+                    $entry->listener
+                );
             }
-            $this->listeners[] = new Enlight_Event_Handler_Default(
-                $entry->name,
-                $entry->position,
-                $entry->listener
-            );
         }
         return $this;
     }

@@ -29,82 +29,81 @@
 interface Enlight_Components_Cron_Adapter
 {
 
-	/**
-	 * Used to set adapter specific options
-	 *
-	 * @abstract
-	 * @param array $options
-	 * @return Enlight_Components_Cron_CronManager
-	 */
-	public function setOptions(array $options);
+    /**
+     * Used to set adapter specific options
+     *
+     * @abstract
+     * @param array $options
+     * @return Enlight_Components_Cron_CronManager
+     */
+    public function setOptions(array $options);
 
-	/**
-	 * Updates a cron job in the cron tab
-	 *
-	 * @abstract
-	 * @param Enlight_Components_Cron_Job $job
-	 * @return Enlight_Components_Cron_CronManager
-	 */
-	public function updateJob(Enlight_Components_Cron_Job $job);
+    /**
+     * Updates a cron job in the cron tab
+     *
+     * @abstract
+     * @param Enlight_Components_Cron_Job $job
+     * @return Enlight_Components_Cron_CronManager
+     */
+    public function updateJob(Enlight_Components_Cron_Job $job);
 
-	/**
-	 * Returns an array of Enlight_Components_Cron_Job from the crontab
-	 *
-	 * @abstract
-	 * @return array
-	 */
-	public function getAllJobs();
+    /**
+     * Returns an array of Enlight_Components_Cron_Job from the crontab
+     *
+     * @abstract
+     * @return array
+     */
+    public function getAllJobs();
 
-	/**
-	 * Returns the next cron job
-	 *
-	 * @return null|Enlight_Components_Cron_Job
-	 */
-	public function getNextJob();
+    /**
+     * Returns the next cron job
+     *
+     * @return null|Enlight_Components_Cron_Job
+     */
+    public function getNextJob();
 
-	/**
-	 * Receives a single Cron job defined by its id from the crontab
-	 *
-	 * @abstract
-	 * @param Int $id
-	 * @return Enlight_Components_Cron_Job
-	 */
-	public function getJobById($id);
+    /**
+     * Receives a single Cron job defined by its id from the crontab
+     *
+     * @abstract
+     * @param Int $id
+     * @return Enlight_Components_Cron_Job
+     */
+    public function getJobById($id);
 
-	/**
-	 * Receives a single cron job by its name
-	 *
-	 * @abstract
-	 * @param String $name
-	 * @return Enlight_Components_Cron_Job
-	 */
-	public function getJobByName($name); 
+    /**
+     * Receives a single cron job by its name
+     *
+     * @abstract
+     * @param String $name
+     * @return Enlight_Components_Cron_Job
+     */
+    public function getJobByName($name);
 
-	/**
-	 * Adds a job to the crontab
-	 *
-	 * @abstract
-	 * @param Enlight_Components_Cron_Job $job
-	 * @return void
-	 */
-	public function addJob(Enlight_Components_Cron_Job $job);
+    /**
+     * Adds a job to the crontab
+     *
+     * @abstract
+     * @param Enlight_Components_Cron_Job $job
+     * @return void
+     */
+    public function addJob(Enlight_Components_Cron_Job $job);
 
-	/**
-	 * Removes an job from the crontab
-	 *
-	 * @abstract
-	 * @param Enlight_Components_Cron_Job $job
-	 * @return void
-	 */
-	public function removeJob(Enlight_Components_Cron_Job $job);
+    /**
+     * Removes an job from the crontab
+     *
+     * @abstract
+     * @param Enlight_Components_Cron_Job $job
+     * @return void
+     */
+    public function removeJob(Enlight_Components_Cron_Job $job);
 
-	/**
-	 * Receives a single job by its defined action
-	 *
-	 * @abstract
-	 * @param $actionName
-	 * @return void
-	 */
-	public function getJobByAction($actionName);
-
+    /**
+     * Receives a single job by its defined action
+     *
+     * @abstract
+     * @param $actionName
+     * @return void
+     */
+    public function getJobByAction($actionName);
 }

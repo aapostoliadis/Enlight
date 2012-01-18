@@ -32,42 +32,42 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
     /**
      * @return void
      */
-	public function init()
-	{
-		$event = new Enlight_Event_Handler_Default(
-	 		'Enlight_Controller_Front_RouteShutdown',
-	 		array($this, 'onRouteShutdown'),
-            500
-	 	);
-		$this->Application()->Events()->registerListener($event);
-        
-		$event = new Enlight_Event_Handler_Default(
-	 		'Enlight_Controller_Front_PostDispatch',
-            array($this, 'onPostDispatch'),
-            500
-	 	);
-		$this->Application()->Events()->registerListener($event);
-	}
+    public function init()
+    {
+        $event = new Enlight_Event_Handler_Default(
+            'Enlight_Controller_Front_RouteShutdown',
+            500,
+            array($this, 'onRouteShutdown')
+        );
+        $this->Application()->Events()->registerListener($event);
+
+        $event = new Enlight_Event_Handler_Default(
+            'Enlight_Controller_Front_PostDispatch',
+            500,
+            array($this, 'onPostDispatch')
+        );
+        $this->Application()->Events()->registerListener($event);
+    }
 
     /**
      * @param   Enlight_Event_EventArgs $args
      * @return  void
      */
-	public function onRouteShutdown(Enlight_Event_EventArgs $args)
-	{
-		$this->handleError($args->getSubject(), $args->getRequest());
-	}
+    public function onRouteShutdown(Enlight_Event_EventArgs $args)
+    {
+        $this->handleError($args->getSubject(), $args->getRequest());
+    }
 
     /**
      * @param   Enlight_Event_EventArgs $args
      * @return  void
      */
-	public function onPostDispatch(Enlight_Event_EventArgs $args)
-	{
-		$this->handleError($args->getSubject(), $args->getRequest());
-	}
-	
-	const EXCEPTION_NO_CONTROLLER = 'EXCEPTION_NO_CONTROLLER';
+    public function onPostDispatch(Enlight_Event_EventArgs $args)
+    {
+        $this->handleError($args->getSubject(), $args->getRequest());
+    }
+
+    const EXCEPTION_NO_CONTROLLER = 'EXCEPTION_NO_CONTROLLER';
 
     /**
      * Const - No action exception; controller exists, but action does not
@@ -83,7 +83,7 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
      * Const - Other Exception; exceptions thrown by application controllers
      */
     const EXCEPTION_OTHER = 'EXCEPTION_OTHER';
-    
+
     /**
      * Flag; are we already inside the error handler loop?
      *
@@ -102,7 +102,7 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
      * @var     Enlight_Controller_Front $front
      * @var     Enlight_Controller_Request_Request $request
      */
-	protected function handleError($front, Enlight_Controller_Request_Request $request)
+    protected function handleError($front, Enlight_Controller_Request_Request $request)
     {
         if ($front->getParam('noErrorHandler')) {
             return;
@@ -118,7 +118,7 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
                 throw array_pop($exceptions);
             }
         }
-        
+
         // check for an exception AND allow the error handler controller the option to forward
         if (($response->isException()) && (!$this->_isInsideErrorHandlerLoop)) {
             $this->_isInsideErrorHandlerLoop = true;
@@ -156,7 +156,7 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
 
             // get a count of the number of exceptions encountered
             $this->_exceptionCountAtFirstEncounter = count($exceptions);
-            
+
             // Forward to the error handler
             $request->setParam('error_handler', $error)
                     ->setControllerName('error')

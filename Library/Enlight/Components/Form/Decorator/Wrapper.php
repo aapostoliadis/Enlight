@@ -49,7 +49,7 @@ class Enlight_Components_Form_Decorator_Wrapper extends Zend_Form_Decorator_Html
     public function render($content)
     {
         $element = $this->getElement();
-        if($element->getMessages()) {
+        if ($element->getMessages()) {
             $this->_options['class'] .= ' error';
         }
         return parent::render($content);

@@ -29,7 +29,7 @@
  */
 class Enlight_Components_Test_Database_DefaultTester extends PHPUnit_Extensions_Database_AbstractTester
 {
-	/**
+    /**
      * @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
      */
     protected $connection;
@@ -39,10 +39,10 @@ class Enlight_Components_Test_Database_DefaultTester extends PHPUnit_Extensions_
      *
      * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
      */
-    public function __construct(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection=null)
+    public function __construct(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection = null)
     {
         $this->connection = $connection;
-        
+
         parent::__construct();
     }
 
@@ -53,18 +53,18 @@ class Enlight_Components_Test_Database_DefaultTester extends PHPUnit_Extensions_
      */
     public function getConnection()
     {
-    	if($this->connection === null) {
-    		$pdo = Enlight_Application::Instance()->Db()->getConnection();
-			$this->connection = $this->createDefaultDBConnection($pdo);
-    	}
+        if ($this->connection === null) {
+            $pdo = Enlight_Application::Instance()->Db()->getConnection();
+            $this->connection = $this->createDefaultDBConnection($pdo);
+        }
         return $this->connection;
-    }    
-    
+    }
+
     /**
      * Creates a new DefaultDatabaseConnection using the given PDO connection
      * and database schema name.
      *
-     * @param PDO $connection
+     * @param PDO    $connection
      * @param string $schema
      * @return PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
      */

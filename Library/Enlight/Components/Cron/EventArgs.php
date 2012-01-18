@@ -28,29 +28,32 @@
  */
 class Enlight_Components_Cron_EventArgs extends Enlight_Event_EventArgs
 {
-	/** @var Enlight_Components_Cron_Job */
-	protected  $job;
+    /** @var Enlight_Components_Cron_Job */
+    protected $job;
 
-	public function __construct(Enlight_Components_Cron_Job $job)
-	{
-		$data = $job->getData();
-		if(is_string($data)) {
-			$data = unserialize($data);
-		}
-		$this->job = $job;
-		parent::__construct($job->getAction(), $data);
-	}
+    /**
+     * Standard constructor method, the cron job are required. If the job data property is a string, it will be unserialized.
+     * @param Enlight_Components_Cron_Job $job
+     */
+    public function __construct(Enlight_Components_Cron_Job $job)
+    {
+        $data = $job->getData();
+        if (is_string($data)) {
+            $data = unserialize($data);
+        }
+        $this->job = $job;
+        parent::__construct($job->getAction(), $data);
+    }
 
-	/**
-	 * Returns the Enlight_Components_Cron_Job
-	 *
-	 * @return Enlight_Components_Cron_Job
-	 */
-	public function Job()
-	{
-		return $this->job;
-	}
-
+    /**
+     * Returns the Enlight_Components_Cron_Job
+     *
+     * @return Enlight_Components_Cron_Job
+     */
+    public function Job()
+    {
+        return $this->job;
+    }
 //	public function notifyUntil(Enlight_Components_Cron_EventArgs $args)
 //	{
 //		return parent::notifyUntil($args);

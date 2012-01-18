@@ -13,19 +13,19 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category    Enlight
- * @package	    Enlight_Menu
+ * @package     Enlight_Menu
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	    http://enlight.de/license	 New BSD License
- * @version	    $Id$
- * @author	    Heiner Lohaus
- * @author	    $Author$
+ * @license     http://enlight.de/license     New BSD License
+ * @version     $Id$
+ * @author      Heiner Lohaus
+ * @author      $Author$
  */
 
 /**
  * @category    Enlight
- * @package	    Enlight_Menu
+ * @package     Enlight_Menu
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	    http://enlight.de/license	 New BSD License
+ * @license     http://enlight.de/license     New BSD License
  */
 class Enlight_Components_Menu_Item extends Zend_Navigation_Page_Uri
 {
@@ -57,9 +57,9 @@ class Enlight_Components_Menu_Item extends Zend_Navigation_Page_Uri
      * @param  Enlight_Config|array $options options used for creating page
      * @return Enlight_Components_Menu_Item a page instance
      */
-	public static function factory($options)
+    public static function factory($options)
     {
-    	if ($options instanceof Zend_Config) {
+        if ($options instanceof Zend_Config) {
             /** @var $options Zend_Config */
             $options = $options->toArray();
         }
@@ -77,18 +77,18 @@ class Enlight_Components_Menu_Item extends Zend_Navigation_Page_Uri
      * @return  Enlight_Components_Menu_Item
      */
     public function addItem($page)
-	{
-		return $this->addPage($page);
-	}
- 
+    {
+        return $this->addPage($page);
+    }
+
     /**
      * Adds several pages at once
      *
      * @param   $pages
      * @return  Enlight_Components_Menu_Item
      */
-	public function addItems($pages)
-	{
-		return $this->addPages($pages);
-	}
+    public function addItems($pages)
+    {
+        return $this->addPages($pages);
+    }
 }

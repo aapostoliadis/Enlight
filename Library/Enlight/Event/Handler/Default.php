@@ -36,16 +36,16 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
 
     /**
      * @throws  Enlight_Exception
-     * @param   string $event
+     * @param   string   $event
      * @param   callback $listener
-     * @param   integer $position
+     * @param   integer  $position
      */
-	public function __construct($event, $listener, $position=null)
-	{
+    public function __construct($event, $listener, $position = null)
+    {
         parent::__construct($event);
         $this->setListener($listener);
         $this->setPosition($position);
-	}
+    }
 
     /**
      * @param   callback $listener
@@ -54,40 +54,41 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
      */
     public function setListener($listener)
     {
-        if(!is_callable($listener, true, $listener_event)) {
-            throw new Enlight_Event_Exception('Listener "'.$listener_event.'" is not callable');
+        if (!is_callable($listener, true, $listener_event)) {
+            throw new Enlight_Event_Exception('Listener "' . $listener_event . '" is not callable');
         }
-        $this->listener = $listener;;
+        $this->listener = $listener;
+        ;
         return $this;
     }
 
     /**
      * @return  callback
      */
-	public function getListener()
-	{
-		return $this->listener;
-	}
+    public function getListener()
+    {
+        return $this->listener;
+    }
 
     /**
      * @param   Enlight_Event_EventArgs $args
      * @return  mixed
      */
-	public function execute(Enlight_Event_EventArgs $args)
-	{
-		return call_user_func($this->listener, $args);
-	}
+    public function execute(Enlight_Event_EventArgs $args)
+    {
+        return call_user_func($this->listener, $args);
+    }
 
     /**
      * @return array
      */
-	public function toArray()
-	{
-		return array(
+    public function toArray()
+    {
+        return array(
             'name' => $this->name,
             'position' => $this->position,
             'plugin' => $this->getName(),
             'listener' => $this->listener
         );
-	}
+    }
 }

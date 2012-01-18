@@ -39,9 +39,9 @@ class Enlight_Event_Subscriber_Array extends Enlight_Event_Subscriber
      */
     public function __construct($options = null)
     {
-        if(is_array($options) && isset($options[0])) {
-            foreach($options as $listener) {
-                if(!$listener instanceof Enlight_Event_Handler) {
+        if (is_array($options) && isset($options[0])) {
+            foreach ($options as $listener) {
+                if (!$listener instanceof Enlight_Event_Handler) {
                     $listener = new Enlight_Event_Handler_Default(
                         $listener['event'],
                         $listener['position'],

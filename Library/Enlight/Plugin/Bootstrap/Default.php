@@ -29,5 +29,5 @@
  */
 class Enlight_Plugin_Bootstrap_Default extends Enlight_Plugin_Bootstrap
 {
-    
+
 }

@@ -36,10 +36,6 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function init()
     {
-        if($this->Collection() === null) {
-            return;
-        }
-
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_PostDispatch',
             array($this, 'onPostDispatch'),
@@ -152,7 +148,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 
         if ($this->renderer === true) {
             // We do not need to render the whole page
-            $this->Collection()->get('ViewRenderer')->setNoRender(true);
+            $this->Collection()->ViewRenderer()->setNoRender(true);
         }
 
         return $this;
@@ -176,7 +172,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function setEncoding($encoding)
     {
-        $this->encoding = (string) $encoding;
+        $this->encoding = (string)$encoding;
         return $this;
     }
 
@@ -194,7 +190,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
      * Converts an non UTF-8 string in to an UTF-8 string
      *
      * @param   string|array $data
-     * @param   string $encoding
+     * @param   string       $encoding
      * @return  string|array
      */
     protected function convertToUtf8($data, $encoding)

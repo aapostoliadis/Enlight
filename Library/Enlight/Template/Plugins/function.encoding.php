@@ -20,11 +20,12 @@
  * @author     Heiner Lohaus
  * @author     $Author$
  */
+
 /**
  * Returns the current encoding (see: mb_internal_encoding())
- * 
+ *
  * @link http://php.net/manual/en/function.mb-internal-encoding.php
- * 
+ *
  * @param $params
  * @param $smarty
  * @param $template
@@ -32,5 +33,5 @@
  */
 function smarty_function_encoding($params, $smarty, $template)
 {
-	return mb_internal_encoding();
+    return mb_internal_encoding();
 }

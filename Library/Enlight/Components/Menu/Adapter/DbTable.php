@@ -13,71 +13,68 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category    Enlight
- * @package	    Enlight_Menu
+ * @package     Enlight_Menu
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	    http://enlight.de/license	 New BSD License
- * @version	    $Id$
- * @author	    Heiner Lohaus
- * @author	    $Author$
+ * @license     http://enlight.de/license     New BSD License
+ * @version     $Id$
+ * @author      Heiner Lohaus
+ * @author      $Author$
  */
 
 /**
  * @category    Enlight
- * @package	    Enlight_Menu
+ * @package     Enlight_Menu
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	    http://enlight.de/license	 New BSD License
+ * @license     http://enlight.de/license     New BSD License
  */
-class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
-  implements Enlight_Components_Menu_Adapter
+class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract implements Enlight_Components_Menu_Adapter
 {
     /**
-	 * Name of the database table
-	 *
+     * Name of the database table
+     *
      * @var     string
      */
-	protected $_name = 'menu';
+    protected $_name = 'menu';
 
     /**
-	 * Name of the primary table key
-	 *
+     * Name of the primary table key
+     *
      * @var     string
      */
-	protected $_primary = 'id';
+    protected $_primary = 'id';
 
     /**
-	 * Column names
-	 * id - Name of the field which holds the primary key. Data type: Integer
-	 * parent - Name of the field which holds the ID of the parent menu element. Data type: Integer
-	 * uri - Name of the field which holds an URI. Data type: String
-	 * label - Name of the field which holds the name of the menu entry. Data type: String
-	 * onClick - Name of the field which holds the onClick Action. Data type: String
-	 * style - Name of the field which holds the name of the style. Data type: String
-	 * class - Name of the field which holds the css class name. Data type: String
-	 * position - Name of the field which holds the position of the menu entry Data type: Integer
-	 * active - Name of the field which holds the active flag.Data type: Integer
-	 *
+     * Column names
+     * id - Name of the field which holds the primary key. Data type: Integer
+     * parent - Name of the field which holds the ID of the parent menu element. Data type: Integer
+     * uri - Name of the field which holds an URI. Data type: String
+     * label - Name of the field which holds the name of the menu entry. Data type: String
+     * onClick - Name of the field which holds the onClick Action. Data type: String
+     * style - Name of the field which holds the name of the style. Data type: String
+     * class - Name of the field which holds the css class name. Data type: String
+     * position - Name of the field which holds the position of the menu entry Data type: Integer
+     * active - Name of the field which holds the active flag.Data type: Integer
+     *
      * @var     array
      */
-	protected $_columns = array(
-		'id' => 'id',
-		'parent' => 'parent',
-		'uri' => 'uri',
-		'label' => 'label',
-		'onClick' => 'onClick',
-		'style' => 'style',
-		'class' => 'class',
-		'position' => 'position',
-		'active' => 'active'
-	);
+    protected $_columns = array(
+        'id' => 'id',
+        'parent' => 'parent',
+        'uri' => 'uri',
+        'label' => 'label',
+        'onClick' => 'onClick',
+        'style' => 'style',
+        'class' => 'class',
+        'position' => 'position',
+        'active' => 'active'
+    );
 
     /**
-	 * Defines the order in which the menu entries are retrieved from the db
-	 *
+     * Defines the order in which the menu entries are retrieved from the db
+     *
      * @var     array
      */
-	protected $_order = array(
-		'parent', 'position', 'id'
-	);
+    protected $_order = array('parent', 'position', 'id');
 
     /**
      * setOptions()
@@ -88,11 +85,11 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
     public function setOptions(array $options)
     {
         foreach ($options as $key => $option) {
-        	if($key == 'order') {
-        		$this->_order = $option;
-        	} elseif(substr($key, -6) == 'Column') {
-        		$this->_columns[substr($key, 0, -6)] = (string) $option;
-        	}
+            if ($key == 'order') {
+                $this->_order = $option;
+            } elseif (substr($key, -6) == 'Column') {
+                $this->_columns[substr($key, 0, -6)] = (string)$option;
+            }
         }
         return parent::setOptions($options);
     }
@@ -105,18 +102,18 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
      */
     public function read(Enlight_Components_Menu $menu)
     {
-    	$rows = $this->fetchAll(null, $this->_order);
-		$pages = array();
-		foreach ($rows as $rowKey => $row) {
-			$page = array('order' => $rowKey);
-			foreach ($this->_columns as $key => $column) {
-				if (isset($row->{$column})) {
-					$page[$key] = $row->{$column};
-				}
-			}
-			$pages[] = $page;
-		}
-		$menu->addItems($pages);
+        $rows = $this->fetchAll(null, $this->_order);
+        $pages = array();
+        foreach ($rows as $rowKey => $row) {
+            $page = array('order' => $rowKey);
+            foreach ($this->_columns as $key => $column) {
+                if (isset($row->{$column})) {
+                    $page[$key] = $row->{$column};
+                }
+            }
+            $pages[] = $page;
+        }
+        $menu->addItems($pages);
         return $this;
     }
 
@@ -128,35 +125,35 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract
      */
     public function write(Enlight_Components_Menu $menu)
     {
-    	$iterator = new RecursiveIteratorIterator($menu, RecursiveIteratorIterator::CHILD_FIRST);
+        $iterator = new RecursiveIteratorIterator($menu, RecursiveIteratorIterator::CHILD_FIRST);
         /** @var Zend_Navigation_Page $page */
         foreach ($iterator as $page) {
-        	$data = array();
-        	$dataId = null;
+            $data = array();
+            $dataId = null;
 
-			foreach ($this->_columns as $key => $column) {
-				$value = $page->get($key);
-				if($key == 'parent') {
-					if($value instanceof Zend_Navigation_Page) {
+            foreach ($this->_columns as $key => $column) {
+                $value = $page->get($key);
+                if ($key == 'parent') {
+                    if ($value instanceof Zend_Navigation_Page) {
                         /** @var Zend_Navigation_Page $value */
-						$value = $value->getId();
-					} elseif($value !== null) {
-						$value = 0;
-					}
-				} elseif($key == 'id') {
-					$dataId = $value;
-					$value = null;
-				}
-				if($value !== null) {
-					$data[$column] = $value;
-				}
-			}
+                        $value = $value->getId();
+                    } elseif ($value !== null) {
+                        $value = 0;
+                    }
+                } elseif ($key == 'id') {
+                    $dataId = $value;
+                    $value = null;
+                }
+                if ($value !== null) {
+                    $data[$column] = $value;
+                }
+            }
 
-			if($dataId !== null) {
-				$this->update($data, array($this->_columns['id'].' = ?' => $dataId));
-			} else {
-				$page->setId($this->insert($data));
-			}
+            if ($dataId !== null) {
+                $this->update($data, array($this->_columns['id'] . ' = ?' => $dataId));
+            } else {
+                $page->setId($this->insert($data));
+            }
         }
         return $this;
     }

@@ -29,22 +29,22 @@
  */
 class Enlight_Controller_Request_RequestHttp extends Zend_Controller_Request_Http implements Enlight_Controller_Request_Request
 {
-	/**
+    /**
      * Set GET values method
      *
      * @param  string|array $spec
-     * @param  null|mixed $value
+     * @param  null|mixed   $value
      * @return Zend_Controller_Request_Http
      */
-	public function setQuery($spec, $value = null)
+    public function setQuery($spec, $value = null)
     {
-    	if(!is_array($spec) && $value===null) {
-    		unset($_GET[$spec]);
-    		return $this;
-    	}
-    	return parent::setQuery($spec, $value);
+        if (!is_array($spec) && $value === null) {
+            unset($_GET[$spec]);
+            return $this;
+        }
+        return parent::setQuery($spec, $value);
     }
-    
+
     /**
      * Set HTTP host method
      *
@@ -53,10 +53,10 @@ class Enlight_Controller_Request_RequestHttp extends Zend_Controller_Request_Htt
      */
     public function setHttpHost($host)
     {
-    	$_SERVER['HTTP_HOST'] = $host;
-    	return $this;
+        $_SERVER['HTTP_HOST'] = $host;
+        return $this;
     }
-    
+
     /**
      * Set the REQUEST_URI on which the instance operates
      *
@@ -68,12 +68,12 @@ class Enlight_Controller_Request_RequestHttp extends Zend_Controller_Request_Htt
      */
     public function setRequestUri($requestUri = null)
     {
-    	parent::setRequestUri($requestUri);
-    	if($this->_requestUri === null
-    	  && !empty($_SERVER['argc'])
-    	  && $_SERVER['argc'] > 1) {
-    	  	$this->setRequestUri($_SERVER['argv'][1]);
-    	}
-    	return $this;
+        parent::setRequestUri($requestUri);
+        if ($this->_requestUri === null
+                && !empty($_SERVER['argc'])
+                && $_SERVER['argc'] > 1) {
+            $this->setRequestUri($_SERVER['argv'][1]);
+        }
+        return $this;
     }
 }

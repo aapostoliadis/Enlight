@@ -29,10 +29,10 @@
  */
 class Enlight_Components_Log extends Zend_Log
 {
-    const TABLE     = 8;
-	const EXCEPTION = 9;
-	const DUMP      = 10;
-	const TRACE     = 11;
+    const TABLE = 8;
+    const EXCEPTION = 9;
+    const DUMP = 10;
+    const TRACE = 11;
 
     /**
      * Factory to construct the logger and one or more writers
@@ -64,7 +64,7 @@ class Enlight_Components_Log extends Zend_Log
         if (!is_array(current($config))) {
             $log->addWriter(current($config));
         } else {
-            foreach($config as $writer) {
+            foreach ($config as $writer) {
                 $log->addWriter($writer);
             }
         }
@@ -72,7 +72,7 @@ class Enlight_Components_Log extends Zend_Log
         return $log;
     }
 
-     /**
+    /**
      * Add a writer.  A writer is responsible for taking a log
      * message and writing it out to storage.
      *
@@ -85,14 +85,14 @@ class Enlight_Components_Log extends Zend_Log
             $writer = $this->_constructWriterFromConfig($writer);
         }
 
-        if($writer instanceof Zend_Log_Writer_Firebug) {
+        if ($writer instanceof Zend_Log_Writer_Firebug) {
             /** @var $writer Zend_Log_Writer_Firebug */
             $writer->setPriorityStyle(self::TABLE, 'TABLE');
             $writer->setPriorityStyle(self::EXCEPTION, 'EXCEPTION');
             $writer->setPriorityStyle(self::DUMP, 'DUMP');
             $writer->setPriorityStyle(self::TRACE, 'TRACE');
         }
-        
+
         return parent::addWriter($writer);
     }
 }

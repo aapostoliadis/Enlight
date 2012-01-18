@@ -27,6 +27,6 @@
  * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Components_Session extends Zend_Session
-{        
+{
 
 }

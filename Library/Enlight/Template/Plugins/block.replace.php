@@ -20,33 +20,34 @@
  * @author     Heiner Lohaus
  * @author     $Author$
  */
+
 /**
  * Replaces a smarty block with an other one.
- * If the PHP multibyte (mb) extension is installed this 
+ * If the PHP multibyte (mb) extension is installed this
  * function is multibyte char aware
- * 
+ *
  * The first parameter has one 'search' and one 'replace' key
- * 
- * @param array $params
+ *
+ * @param array  $params
  * @param string $content
- * @param mixed $smarty
- * @param int $repeat
+ * @param mixed  $smarty
+ * @param int    $repeat
  * @param string $template
  * @return string
  */
 function smarty_block_replace($params, $content, $smarty, &$repeat, $template)
-{ 
+{
     if (is_null($content)) {
         return;
     }
-    
-    if(empty($params['search'])) {
-    	return $content;
+
+    if (empty($params['search'])) {
+        return $content;
     }
-    if(empty($params['replace'])) {
-    	$params['replace'] = '';
+    if (empty($params['replace'])) {
+        $params['replace'] = '';
     }
-    
+
     if (function_exists('mb_substr')) {
         require_once(SMARTY_PLUGINS_DIR . 'shared.mb_str_replace.php');
         return mb_str_replace($params['search'], $params['replace'], $content);
