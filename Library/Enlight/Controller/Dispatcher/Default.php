@@ -345,7 +345,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         $moduleName = $this->formatModuleName($this->curModule);
         if ($event = Enlight_Application::Instance()->Events()->notifyUntil(
                 'Enlight_Controller_Dispatcher_ControllerPath_' . $moduleName . '_' . $controllerName,
-                array('subject' => $this, 'request' => $request))
+                array('subject' => $this, 'request' => $request)
+                )
         ) {
             $path = $event->getReturn();
         } else {
@@ -398,8 +399,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
      */
     public function getFullActionName(Enlight_Controller_Request_Request $request)
     {
-        $parts = array($this->formatModuleName(
-            $request->getModuleName()),
+        $parts = array(
+            $this->formatModuleName($request->getModuleName()),
             $this->formatControllerName($request->getControllerName()),
             $this->formatActionName($request->getActionName())
         );

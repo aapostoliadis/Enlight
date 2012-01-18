@@ -51,8 +51,8 @@ class Enlight_Components_Form_Element_Radio extends Zend_Form_Element_Radio
                  ->addDecorator('Description', array('tag' => 'p', 'class' => 'description'))
                  ->addDecorator('HtmlTag', array(
                      'tag' => 'div', 'class' => 'input inputs-list',
-                     'id'  => array('callback' => array(get_class($this), 'resolveElementId'))
-                 ))
+                     'id'  => array('callback' => array(get_class($this), 'resolveElementId')))
+                 )
                  ->addDecorator('Wrapper')
                  ->addDecorator('Label', array('disableFor' => true));
         }

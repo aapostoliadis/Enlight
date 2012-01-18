@@ -179,9 +179,11 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
             $this->_tableName,
             array($this->sessionIdColumn => null),
             $this->_zendDb->quoteInto(
-                $this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' != ?', $this->_identity)
-                . ' AND ' .
-                $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->sessionIdColumn, true) . ' = ?', $this->sessionId
+                $this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' != ?', $this->_identity
+            )
+            . ' AND ' .
+            $this->_zendDb->quoteInto(
+                $this->_zendDb->quoteIdentifier($this->sessionIdColumn, true) . ' = ?', $this->sessionId
             )
         );
         return $this;
@@ -284,7 +286,8 @@ class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
         $this->lockedUntil = $date;
         $this->updateLockUntilDate($date);
         $this->addCondition($this->_zendDb->quoteInto(
-            $this->_zendDb->quoteIdentifier($this->lockedUntilColumn, true) . ' <= ?', Zend_Date::now())
+                $this->_zendDb->quoteIdentifier($this->lockedUntilColumn, true) . ' <= ?', Zend_Date::now()
+        )
         );
         return $this;
     }

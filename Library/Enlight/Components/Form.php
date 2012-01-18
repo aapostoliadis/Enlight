@@ -360,8 +360,8 @@ class Enlight_Components_Form extends Zend_Form
             }
             $this->_loaders[$type] = new Zend_Loader_PluginLoader(array(
                 'Zend_' . $prefixSegment . '_' => 'Zend/' . $pathSegment . '/',
-                'Enlight_Components_' . $prefixSegment . '_' => 'Enlight/Components/' . $pathSegment . '/',
-            ));
+                'Enlight_Components_' . $prefixSegment . '_' => 'Enlight/Components/' . $pathSegment . '/')
+            );
         }
         return $this->_loaders[$type];
     }

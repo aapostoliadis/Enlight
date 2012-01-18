@@ -46,8 +46,8 @@ class Enlight_Components_Form_Element_Text extends Zend_Form_Element_Text
                  ->addDecorator('Description', array('tag' => 'p', 'class' => 'description'))
                  ->addDecorator('HtmlTag', array(
                      'tag' => 'div', 'class' => 'input',
-                     'id'  => array('callback' => array(get_class($this), 'resolveElementId'))
-                 ))
+                     'id'  => array('callback' => array(get_class($this), 'resolveElementId')))
+                 )
                  ->addDecorator('Label')
                  ->addDecorator('Wrapper');
         }
