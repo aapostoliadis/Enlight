@@ -323,8 +323,9 @@ class Enlight_Components_Form extends Zend_Form
 
         $decorators = $this->getDecorators();
         if (empty($decorators)) {
-            $this->addDecorator('FormElements')//     ->addDecorator('HtmlTag', array('tag' => 'dl', 'class' => 'zend_form'))
-                    ->addDecorator('Form');
+            $this->addDecorator('FormElements')
+            //     ->addDecorator('HtmlTag', array('tag' => 'dl', 'class' => 'zend_form'))
+                 ->addDecorator('Form');
         }
         return $this;
     }

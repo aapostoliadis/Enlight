@@ -50,7 +50,8 @@ class Enlight_Hook_HookHandler
     protected $type;
 
     /**
-     * @var position of the hook. If more than one hook exists on the same class method the hooks are called sequentially by the position.
+     * @var position position of the hook. If more than one hook exists on the same
+     * class method the hooks are called sequentially by the position.
      */
     protected $position;
 

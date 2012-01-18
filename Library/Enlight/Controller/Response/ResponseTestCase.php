@@ -27,7 +27,9 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_Controller_Response_ResponseTestCase extends Zend_Controller_Response_HttpTestCase implements Enlight_Controller_Response_Response
+class Enlight_Controller_Response_ResponseTestCase
+    extends Zend_Controller_Response_HttpTestCase
+    implements Enlight_Controller_Response_Response
 {
     protected $_cookies = array();
 
@@ -43,7 +45,14 @@ class Enlight_Controller_Response_ResponseTestCase extends Zend_Controller_Respo
      * @param bool   $httpOnly
      * @return unknown
      */
-    public function setCookie($name, $value = null, $expire = 0, $path = null, $domain = null, $secure = false, $httpOnly = false)
+    public function setCookie($name,
+                               $value = null,
+                               $expire = 0,
+                               $path = null,
+                               $domain = null,
+                               $secure = false,
+                               $httpOnly = false
+    )
     {
         $this->_cookies[$name] = array(
             'value' => $value,

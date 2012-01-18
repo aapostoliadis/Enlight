@@ -108,16 +108,18 @@ class Enlight_Template_Default extends Smarty_Internal_Template
         if ($mode === null) {
             $mode = self::BLOCK_REPLACE;
         }
-        if (strpos($content, $this->smarty->left_delimiter . '$smarty.block.child' . $this->smarty->right_delimiter) !== false) {
+        $complete = $this->smarty->left_delimiter . '$smarty.block.child' . $this->smarty->right_delimiter;
+
+        if (strpos($content, $complete) !== false) {
             if (isset($this->block_data[$spec])) {
                 $content = str_replace(
-                    $this->smarty->left_delimiter . '$smarty.block.child' . $this->smarty->right_delimiter,
+                    $complete,
                     $this->block_data[$spec]['source'],
                     $content
                 );
                 unset($this->block_data[$spec]);
             } else {
-                $content = str_replace($this->smarty->left_delimiter . '$smarty.block.child' . $this->smarty->right_delimiter, '', $content);
+                $content = str_replace($complete, '', $content);
             }
         }
         if (isset($this->block_data[$spec])) {

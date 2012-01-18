@@ -80,5 +80,7 @@ abstract class Enlight_Controller_Dispatcher extends Enlight_Class
      * @param Enlight_Controller_Request_Request   $request
      * @param Enlight_Controller_Response_Response $response
      */
-    abstract public function dispatch(Enlight_Controller_Request_Request $request, Enlight_Controller_Response_Response $response);
+    abstract public function dispatch(Enlight_Controller_Request_Request $request,
+                                      Enlight_Controller_Response_Response $response
+    );
 }

@@ -27,7 +27,9 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_Controller_Request_RequestHttp extends Zend_Controller_Request_Http implements Enlight_Controller_Request_Request
+class Enlight_Controller_Request_RequestHttp
+    extends Zend_Controller_Request_Http
+    implements Enlight_Controller_Request_Request
 {
     /**
      * Set GET values method
