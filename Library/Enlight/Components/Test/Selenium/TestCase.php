@@ -39,16 +39,16 @@ abstract class Enlight_Components_Test_Selenium_TestCase extends PHPUnit_Extensi
      */
     protected $captureScreenshotOnFailure = true;
 
-	/**
-	 * Setup Shop - Set base url
-	 * @return void
-	 */
+    /**
+     * Setup Shop - Set base url
+     * @return void
+     */
     protected function setUp()
     {
-    	if($this->browserUrl !== null) {
-    		$this->setBrowserUrl($this->browserUrl);
-    	}
-    	parent::setUp();
+        if($this->browserUrl !== null) {
+            $this->setBrowserUrl($this->browserUrl);
+        }
+        parent::setUp();
     }
     
     /**
@@ -59,7 +59,7 @@ abstract class Enlight_Components_Test_Selenium_TestCase extends PHPUnit_Extensi
      */
     public function verifyText($selector, $content)
     {
-    	$this->assertElementContainsText($selector, $content);
+        $this->assertElementContainsText($selector, $content);
     }
     
     /**
@@ -69,7 +69,7 @@ abstract class Enlight_Components_Test_Selenium_TestCase extends PHPUnit_Extensi
      */
     public function verifyTextPresent($content)
     {
-    	$this->assertContains($content, $this->getBodyText());
+        $this->assertContains($content, $this->getBodyText());
     }
     
     /**
@@ -79,6 +79,6 @@ abstract class Enlight_Components_Test_Selenium_TestCase extends PHPUnit_Extensi
      */
     public function getFullScreenshotUrl()
     {
-    	return $this->screenshotUrl . '/'. $this->testId . '.png';
+        return $this->screenshotUrl . '/'. $this->testId . '.png';
     }
 }

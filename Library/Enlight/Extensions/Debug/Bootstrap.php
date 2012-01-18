@@ -56,11 +56,11 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
         /*
         $request = $args->getSubject()->Request();
 
-		if ($request->getClientIp(false)
-		  && !empty($config->allowIp)
-		  && strpos($config->allowIp, $request->getClientIp(false))===false){
-			return;
-		}
+        if ($request->getClientIp(false)
+          && !empty($config->allowIp)
+          && strpos($config->allowIp, $request->getClientIp(false))===false){
+            return;
+        }
         */
 
         /** @var $errorHandler  */

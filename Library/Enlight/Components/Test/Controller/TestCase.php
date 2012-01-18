@@ -29,7 +29,7 @@
  */
 abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Components_Test_TestCase
 {
-	/**
+    /**
      * @var Enlight_Controller_Front
      */
     protected $_front;
