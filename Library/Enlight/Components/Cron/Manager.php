@@ -229,6 +229,8 @@ class Enlight_Components_Cron_Manager
 	}
 
 	/**
+     * Ends a job by handing it over to
+     *
 	 * @param Enlight_Components_Cron_Job $job
 	 * @return void
 	 */
@@ -239,6 +241,8 @@ class Enlight_Components_Cron_Manager
 	}
 
 	/**
+     * Starts a job by handing it over to
+     *
 	 * @param Enlight_Components_Cron_Job $job
 	 * @return void|bool
 	 */

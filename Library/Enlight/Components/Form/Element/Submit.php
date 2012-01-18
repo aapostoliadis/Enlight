@@ -28,6 +28,9 @@
  */
 class Enlight_Components_Form_Element_Submit extends Zend_Form_Element_Submit
 {
+    /**
+     * @var string class name for the element (default: 'btn primary')
+     */
     public $class = 'btn primary';
 
     /**

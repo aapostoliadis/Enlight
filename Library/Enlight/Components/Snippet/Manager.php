@@ -13,7 +13,7 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Components_Snippet
+ * @package    Enlight_Snippet
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
@@ -23,19 +23,19 @@
 
 /**
  * @category   Enlight
- * @package    Enlight_Components_Snippet
+ * @package    Enlight_Snippet
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Components_Snippet_Manager extends Enlight_Class
 {
     /**
-     * @var     Enlight_Config_Adapter
+     * @var     Enlight_Config_Adapter Can be overwrite in the constructor
      */
 	protected $adapter;
 
     /**
-     * @var     array
+     * @var     array Array with all registered namespaces
      */
 	protected $namespaces;
 
@@ -45,7 +45,7 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
 	protected $defaultNamespaceClass = 'Enlight_Components_Snippet_Namespace';
 
     /**
-     * @var     string
+     * @var     string Array of all ignored namespaces. Can be set in the constructor.
      */
     protected $ignoreNamespace;
 
@@ -69,7 +69,7 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
     }
 
 	/**
-	 * Returns snippet model instance
+	 * Returns a snippet model instance
 	 *
 	 * @param   string $namespace
 	 * @return  Enlight_Components_Snippet_Namespace
@@ -87,6 +87,7 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
 	}
 
     /**
+     * Adapter class of the snippet manager
      * @return Enlight_Config_Adapter
      */
     public function Adapter()
@@ -95,6 +96,7 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
     }
 
     /**
+     * Writes each registered namespace to the database
      * @return Enlight_Components_Snippet_Manager
      */
     public function write()
