@@ -68,17 +68,20 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_PostDispatch',
             array($this, 'onPostDispatch'),
-            400);
+            400
+        );
         $this->Application()->Events()->registerListener($event);
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_PreDispatch',
             array($this, 'onPreDispatch'),
-            400);
+            400
+        );
         $this->Application()->Events()->registerListener($event);
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_Init',
             array($this, 'onActionInit'),
-            400);
+            400
+        );
         $this->Application()->Events()->registerListener($event);
     }
 

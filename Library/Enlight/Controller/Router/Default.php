@@ -48,8 +48,8 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
     {
         if ($event = Enlight_Application::Instance()->Events()->notifyUntil('Enlight_Controller_Router_Route', array(
            'subject' => $this,
-           'request' => $request
-        ))
+           'request' => $request)
+        )
         ) {
             $params = $event->getReturn();
         } elseif ($request instanceof Enlight_Controller_Request_RequestHttp) {
@@ -136,9 +136,10 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
         );
 
         if ($event = Enlight_Application::Instance()->Events()->notifyUntil(
-                        'Enlight_Controller_Router_Assemble',
-                        array('subject' => $this, 'params' => $params, 'userParams' => $userParams))
-                    ) {
+                            'Enlight_Controller_Router_Assemble',
+                            array('subject' => $this, 'params' => $params, 'userParams' => $userParams)
+                     )
+        ) {
             $url = $event->getReturn();
         } else {
             $url = $this->assembleDefault($params);
