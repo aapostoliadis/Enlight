@@ -40,11 +40,13 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
 	protected $collection;
 
     /**
-     * @param   $name
+     * @param   string $name
+     * @param   Enlight_Plugin_PluginCollection $collection
      */
-    public function __construct($name)
+    public function __construct($name, $collection = null)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
+        $this->setCollection($collection);
         parent::__construct();
     }
 
