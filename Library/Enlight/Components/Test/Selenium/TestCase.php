@@ -45,7 +45,7 @@ abstract class Enlight_Components_Test_Selenium_TestCase extends PHPUnit_Extensi
      */
     protected function setUp()
     {
-        if($this->browserUrl !== null) {
+        if ($this->browserUrl !== null) {
             $this->setBrowserUrl($this->browserUrl);
         }
         parent::setUp();

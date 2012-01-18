@@ -46,7 +46,7 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
      */
     public function route(Zend_Controller_Request_Abstract $request)
     {
-        if($event = Enlight_Application::Instance()->Events()->notifyUntil('Enlight_Controller_Router_Route', array(
+        if ($event = Enlight_Application::Instance()->Events()->notifyUntil('Enlight_Controller_Router_Route', array(
            'subject' => $this,
            'request' => $request
         ))
