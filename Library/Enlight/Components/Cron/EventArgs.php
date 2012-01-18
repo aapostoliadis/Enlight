@@ -54,8 +54,8 @@ class Enlight_Components_Cron_EventArgs extends Enlight_Event_EventArgs
     {
         return $this->job;
     }
-//	public function notifyUntil(Enlight_Components_Cron_EventArgs $args)
-//	{
-//		return parent::notifyUntil($args);
-//	}
+//    public function notifyUntil(Enlight_Components_Cron_EventArgs $args)
+//    {
+//        return parent::notifyUntil($args);
+//    }
 }
