@@ -13,22 +13,24 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Template
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
+ * Method to fast deploy a query to enlight
+ * 
+ * The params array knows the following keys
+ * - name : The name of the action to call
+ * - params : optional params array for the specific action call
+ * 
  * @param $params
- * @param \Enlight_Template_Default $template
- * @return array|null|string
+ * @param Enlight_Template_Default $template
+ * @return string
+ * @throws Exception
  */
 function smarty_function_action($params, Enlight_Template_Default $template)
 {

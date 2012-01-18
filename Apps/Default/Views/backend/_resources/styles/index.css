@@ -1,0 +1,6 @@
+body {
+    background: url("../images/bg-grid.png") repeat scroll 0 0 #E9E9E9;
+    color: #555555;
+    font: 14px/1.8em Arial,Helvetica,sans-serif;
+}
+.container { background: url("../images/bg-top.png") repeat-x 0 1px }

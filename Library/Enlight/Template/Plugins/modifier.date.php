@@ -13,22 +13,20 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Template
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
- * @param $value
- * @param null $format
- * @param null $type
+ * Format an given Date to local specific rules.
+ * 
+ * @link http://framework.zend.com/manual/de/zend.date.constants.html
+ * @param string $value
+ * @param string $format
+ * @param string $type
  * @return int|mixed|null|string
  */
 function smarty_modifier_date($value, $format = null, $type = null)

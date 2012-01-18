@@ -61,26 +61,26 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     {
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Front_DispatchLoopStartup',
-            400,
-            array($this, 'onDispatchLoopStartup')
+            array($this, 'onDispatchLoopStartup'),
+            400
         );
         $this->Application()->Events()->registerListener($event);
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_PostDispatch',
-            400,
-            array($this, 'onPostDispatch')
+            array($this, 'onPostDispatch'),
+            400
         );
         $this->Application()->Events()->registerListener($event);
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_PreDispatch',
-            400,
-            array($this, 'onPreDispatch')
+            array($this, 'onPreDispatch'),
+            400
         );
         $this->Application()->Events()->registerListener($event);
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_Init',
-            400,
-            array($this, 'onActionInit')
+            array($this, 'onActionInit'),
+            400
         );
         $this->Application()->Events()->registerListener($event);
     }
@@ -105,6 +105,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     {
         if ($this->shouldRender() && $this->Action()->View()->hasTemplate()) {
             $this->render();
+            $this->Action()->View()->setTemplate();
         }
         $this->setNoRender(false);
     }

@@ -13,19 +13,22 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
  * @author     Heiner Lohaus
  * @author     $Author$
  */
-
 /**
- * @category   Enlight
- * @package    Enlight_Template
- * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license    http://enlight.de/license     New BSD License
+ * Slices an array into chunks
+ * 
+ * params knows the following keys
+ * - array  : Array to slice 
+ * - offset : Where to start to slice
+ * - length : How long a single slice should be
+ * - assign : Smarty variable to assign the sliced array
+ * 
  * @param $params
  * @param $smarty
  */

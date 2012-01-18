@@ -117,7 +117,7 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 		$request = $args->getSubject()->Request();
         /** @var $request Enlight_Controller_Request_ResponseHttp */
 		$response = $args->getSubject()->Response();
-  
+
         /** @var $log Zend_Log */
 		$log = $this->Application()->Log();
 

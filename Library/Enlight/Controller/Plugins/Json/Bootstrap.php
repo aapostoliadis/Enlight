@@ -38,8 +38,8 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
 	{		
 	 	$event = new Enlight_Event_Handler_Default(
 	 		'Enlight_Controller_Action_PostDispatch',
-             500,
-	 		array($this, 'onPostDispatch')
+	 		array($this, 'onPostDispatch'),
+             500
 	 	);
 		$this->Application()->Events()->registerListener($event);
 	}
