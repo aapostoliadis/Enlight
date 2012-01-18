@@ -34,12 +34,12 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
      */
     protected $channel;
 
-	/**
-	 * Install log plugin
-	 */
-	public function install()
-	{
-		$this->subscribeEvent(
+    /**
+     * Install log plugin
+     */
+    public function install()
+    {
+        $this->subscribeEvent(
             'Enlight_Bootstrap_InitResource_Log',
             'onInitResourceLog'
         );
@@ -51,7 +51,7 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
 
         $this->subscribeEvent(
             'Enlight_Controller_Front_DispatchLoopShutdown',
-			'onDispatchLoopShutdown',
+            'onDispatchLoopShutdown',
             500
         );
 
@@ -59,16 +59,16 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
         //forceSecure
         //appendSession
         //scheme
-	}
+    }
 
-	/**
-	 * Resource handler for log plugin
+    /**
+     * Resource handler for log plugin
 
-	 * @param Enlight_Event_EventArgs $args
-	 * @return Zend_Log
-	 */
-	public function onInitResourceLog(Enlight_Event_EventArgs $args)
-	{
+     * @param Enlight_Event_EventArgs $args
+     * @return Zend_Log
+     */
+    public function onInitResourceLog(Enlight_Event_EventArgs $args)
+    {
 
-	}
+    }
 }
