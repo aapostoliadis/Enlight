@@ -142,11 +142,11 @@ class Enlight_Components_Form extends Zend_Form
             $data['elements'][$key] = $this->toArrayElement($element);
         }
 
-        //if(($decorators = $this->getElementDecorators()) !== null) {
+        //if (($decorators = $this->getElementDecorators()) !== null) {
         //    $data['elementDecorators'] = $this->convertElementDecorators($decorators);
         //}
 
-        //if(($decorators = $this->getDecorators()) !== null) {
+        //if (($decorators = $this->getDecorators()) !== null) {
         //    $data['decorators'] = $this->convertFormDecorators($decorators);
         //}
 
@@ -323,8 +323,9 @@ class Enlight_Components_Form extends Zend_Form
 
         $decorators = $this->getDecorators();
         if (empty($decorators)) {
-            $this->addDecorator('FormElements')//     ->addDecorator('HtmlTag', array('tag' => 'dl', 'class' => 'zend_form'))
-                    ->addDecorator('Form');
+            $this->addDecorator('FormElements')
+            //     ->addDecorator('HtmlTag', array('tag' => 'dl', 'class' => 'zend_form'))
+                 ->addDecorator('Form');
         }
         return $this;
     }
@@ -360,8 +361,8 @@ class Enlight_Components_Form extends Zend_Form
             }
             $this->_loaders[$type] = new Zend_Loader_PluginLoader(array(
                 'Zend_' . $prefixSegment . '_' => 'Zend/' . $pathSegment . '/',
-                'Enlight_Components_' . $prefixSegment . '_' => 'Enlight/Components/' . $pathSegment . '/',
-            ));
+                'Enlight_Components_' . $prefixSegment . '_' => 'Enlight/Components/' . $pathSegment . '/')
+            );
         }
         return $this->_loaders[$type];
     }

@@ -89,7 +89,8 @@ class Enlight_Components_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             $message = str_replace(array(
                     $this->_config['username'],
                     $this->_config['password']
-                ), '******', $message);
+                ), '******', $message
+            );
             throw new Zend_Db_Adapter_Exception($message, $e->getCode(), $e->getPrevious());
         }
 

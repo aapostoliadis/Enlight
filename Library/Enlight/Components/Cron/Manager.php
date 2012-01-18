@@ -46,7 +46,9 @@ class Enlight_Components_Cron_Manager
      * @param Enlight_Event_EventManager|null $eventManager
      * @return Enlight_Components_Cron_Manager
      */
-    public function __construct(Enlight_Components_Cron_Adapter $adapter, Enlight_Event_EventManager $eventManager = null)
+    public function __construct(Enlight_Components_Cron_Adapter $adapter,
+                                 Enlight_Event_EventManager $eventManager = null
+    )
     {
         $this->setAdapter($adapter);
         if (is_null($eventManager)) {

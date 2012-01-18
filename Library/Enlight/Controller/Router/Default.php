@@ -46,20 +46,25 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
      */
     public function route(Zend_Controller_Request_Abstract $request)
     {
-        if($event = Enlight_Application::Instance()->Events()->notifyUntil('Enlight_Controller_Router_Route', array(
+        if ($event = Enlight_Application::Instance()->Events()->notifyUntil('Enlight_Controller_Router_Route', array(
            'subject' => $this,
-           'request' => $request
-        ))
+           'request' => $request)
+        )
         ) {
             $params = $event->getReturn();
         } elseif ($request instanceof Enlight_Controller_Request_RequestHttp) {
             /** @var $request Enlight_Controller_Request_RequestHttp */
             $params = $this->routeDefault($request);
         } else {
-            throw new Enlight_Controller_Exception('No route matched the request', Enlight_Controller_Exception::NO_ROUTE);
+            throw new Enlight_Controller_Exception(
+                'No route matched the request', Enlight_Controller_Exception::NO_ROUTE
+            );
         }
 
-        $params = Enlight_Application::Instance()->Events()->filter('Enlight_Controller_Router_FilterRouteParams', $params);
+        $params = Enlight_Application::Instance()->Events()->filter(
+                    'Enlight_Controller_Router_FilterRouteParams',
+                    $params
+                  );
 
         $request->setParams($params);
 
@@ -136,9 +141,10 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
         );
 
         if ($event = Enlight_Application::Instance()->Events()->notifyUntil(
-                        'Enlight_Controller_Router_Assemble',
-                        array('subject' => $this, 'params' => $params, 'userParams' => $userParams))
-                    ) {
+                            'Enlight_Controller_Router_Assemble',
+                            array('subject' => $this, 'params' => $params, 'userParams' => $userParams)
+                     )
+        ) {
             $url = $event->getReturn();
         } else {
             $url = $this->assembleDefault($params);
@@ -171,11 +177,21 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
 
         $route = array();
 
-        $module = isset($params[$request->getModuleKey()]) ? $params[$request->getModuleKey()] : $dispatcher->getDefaultModule();
-        $controller = isset($params[$request->getControllerKey()]) ? $params[$request->getControllerKey()] : $dispatcher->getDefaultControllerName();
-        $action = isset($params[$request->getActionKey()]) ? $params[$request->getActionKey()] : $dispatcher->getDefaultAction();
+        $module = isset($params[$request->getModuleKey()])
+                    ? $params[$request->getModuleKey()]
+                    : $dispatcher->getDefaultModule();
 
-        unset($params[$request->getModuleKey()], $params[$request->getControllerKey()], $params[$request->getActionKey()]);
+        $controller = isset($params[$request->getControllerKey()])
+                        ? $params[$request->getControllerKey()]
+                        : $dispatcher->getDefaultControllerName();
+
+        $action = isset($params[$request->getActionKey()])
+                    ? $params[$request->getActionKey()]
+                    : $dispatcher->getDefaultAction();
+
+        unset($params[$request->getModuleKey()],
+                $params[$request->getControllerKey()],
+                $params[$request->getActionKey()]);
 
         if ($module != $dispatcher->getDefaultModule()) {
             $route[] = $module;

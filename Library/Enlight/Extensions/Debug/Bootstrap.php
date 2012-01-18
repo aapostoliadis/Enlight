@@ -34,39 +34,39 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     protected $log;
 
-	/**
-	 * Plugin install method
-	 */
-	public function install()
-	{
-		$this->subscribeEvent(
+    /**
+     * Plugin install method
+     */
+    public function install()
+    {
+        $this->subscribeEvent(
             'Enlight_Controller_Front_StartDispatch',
-			'onStartDispatch'
+            'onStartDispatch'
          );
 
         $this->subscribeEvent(
             'Enlight_Controller_Front_DispatchLoopShutdown',
-			'onDispatchLoopShutdown'
+            'onDispatchLoopShutdown'
         );
-	}
+    }
 
-	/**
-	 * Plugin event method
-	 *
-	 * @param   Enlight_Event_EventArgs $args
-	 */
-	public function onStartDispatch(Enlight_Event_EventArgs $args)
-	{
+    /**
+     * Plugin event method
+     *
+     * @param   Enlight_Event_EventArgs $args
+     */
+    public function onStartDispatch(Enlight_Event_EventArgs $args)
+    {
         $this->log = $this->Application()->Log();
 
         /*
         $request = $args->getSubject()->Request();
 
-		if ($request->getClientIp(false)
-		  && !empty($config->allowIp)
-		  && strpos($config->allowIp, $request->getClientIp(false))===false){
-			return;
-		}
+        if ($request->getClientIp(false)
+          && !empty($config->allowIp)
+          && strpos($config->allowIp, $request->getClientIp(false))===false){
+            return;
+        }
         */
 
         /** @var $errorHandler Enlight_Extensions_ErrorHandler_Bootstrap  */

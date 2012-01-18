@@ -225,7 +225,10 @@ class Enlight_Collection_ArrayCollection implements Enlight_Collection_Collectio
 
                 return $this->set($key, isset($args[0]) ? $args[0] : null);
             default:
-                throw new Enlight_Exception('Method "' . get_class($this) . '::' . $name . '" not found failure', Enlight_Exception::Method_Not_Found);
+                throw new Enlight_Exception(
+                    'Method "' . get_class($this) . '::' . $name . '" not found failure',
+                    Enlight_Exception::Method_Not_Found
+                );
         }
     }
 }
