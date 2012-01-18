@@ -46,67 +46,67 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
 
     /**
      * @throws  Enlight_Event_Exception
-     * @param   string $event
+     * @param   string                   $event
      * @param   Enlight_Plugin_Namespace $namespace
      * @param   Enlight_Plugin_Bootstrap $plugin
-     * @param   string $listener
-     * @param   integer $position
+     * @param   string                   $listener
+     * @param   integer                  $position
      */
-	public function __construct($event, $namespace=null, $plugin=null, $listener=null, $position=null)
-	{
-        if($namespace !== null) {
+    public function __construct($event, $namespace = null, $plugin = null, $listener = null, $position = null)
+    {
+        if ($namespace !== null) {
             $this->setNamespace($namespace);
         }
-        if($plugin !== null) {
+        if ($plugin !== null) {
             $this->setPlugin($plugin);
         }
-        if($listener !== null) {
+        if ($listener !== null) {
             $this->setListener($listener);
         }
-		parent::__construct($event);
+        parent::__construct($event);
         $this->setPosition($position);
-	}
+    }
 
     /**
      * @param   $plugin Enlight_Plugin_Bootstrap|string
      * @return  Enlight_Event_Handler_Plugin
      */
-	public function setPlugin($plugin)
-	{
+    public function setPlugin($plugin)
+    {
         $this->plugin = $plugin;
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * @return  Enlight_Plugin_Bootstrap
      */
-	public function Plugin()
-	{
-        if(!$this->plugin instanceof Enlight_Plugin_Bootstrap) {
+    public function Plugin()
+    {
+        if (!$this->plugin instanceof Enlight_Plugin_Bootstrap) {
             $this->plugin = $this->namespace->get($this->plugin);
         }
-		return $this->plugin;
-	}
+        return $this->plugin;
+    }
 
     /**
      * @param   string $listener
      * @return  Enlight_Event_Handler_Plugin
      */
-	public function setListener($listener)
-	{
+    public function setListener($listener)
+    {
         $this->listener = $listener;
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * @param   Enlight_Plugin_Namespace $namespace
      * @return  Enlight_Event_Handler_Plugin
      */
-	public function setNamespace(Enlight_Plugin_Namespace $namespace)
-	{
+    public function setNamespace(Enlight_Plugin_Namespace $namespace)
+    {
         $this->namespace = $namespace;
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * @param   Enlight_Event_EventArgs $args

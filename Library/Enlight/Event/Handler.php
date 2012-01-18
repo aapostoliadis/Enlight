@@ -43,41 +43,43 @@ abstract class Enlight_Event_Handler
      * @throws  Enlight_Event_Exception
      * @param   $event
      */
-	public function __construct ($event)
-	{
-		if($event === null) {
-			throw new Enlight_Event_Exception('Parameter event cannot be empty.');
-		}
-		$this->name = $event;
-	}
+    public function __construct($event)
+    {
+        if ($event === null) {
+            throw new Enlight_Event_Exception('Parameter event cannot be empty.');
+        }
+        $this->name = $event;
+    }
+
     /**
      * @return  string
      */
-	public function getName()
-	{
-		return $this->name;
-	}
+    public function getName()
+    {
+        return $this->name;
+    }
+
     /**
      * @return  integer
      */
-	public function getPosition()
-	{
-		return $this->position;
-	}
+    public function getPosition()
+    {
+        return $this->position;
+    }
 
     /**
      * @param   integer $position
      * @return  Enlight_Event_Handler
      */
-	public function setPosition($position)
-	{
-		$this->position = (int) $position;
-		return $this;
-	}
+    public function setPosition($position)
+    {
+        $this->position = (int)$position;
+        return $this;
+    }
 
     /**
      * @param   Enlight_Event_EventArgs $args
      * @return  mixed
      */
-	abstract public function execute(Enlight_Event_EventArgs $args);
+    abstract public function execute(Enlight_Event_EventArgs $args);
 }

@@ -32,18 +32,18 @@ abstract class Enlight_Controller_Dispatcher extends Enlight_Class
     /**
      * @var Enlight_Controller_Front
      */
-	protected $front;
+    protected $front;
 
     /**
      * @var Enlight_Controller_Response_Response
      */
-	protected $response;
+    protected $response;
 
     /**
      * @param   Enlight_Controller_Front $controller
      * @return  Enlight_Controller_Dispatcher
      */
-	public function setFront(Enlight_Controller_Front $controller)
+    public function setFront(Enlight_Controller_Front $controller)
     {
         $this->front = $controller;
         return $this;
@@ -77,7 +77,7 @@ abstract class Enlight_Controller_Dispatcher extends Enlight_Class
 
     /**
      * @abstract
-     * @param Enlight_Controller_Request_Request $request
+     * @param Enlight_Controller_Request_Request   $request
      * @param Enlight_Controller_Response_Response $response
      */
     abstract public function dispatch(Enlight_Controller_Request_Request $request, Enlight_Controller_Response_Response $response);

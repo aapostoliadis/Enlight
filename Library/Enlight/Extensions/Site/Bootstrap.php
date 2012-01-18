@@ -29,12 +29,12 @@
  */
 class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
-	/**
-	 * Install site plugin
-	 */
-	public function install()
-	{
-		$this->subscribeEvent(
+    /**
+     * Install site plugin
+     */
+    public function install()
+    {
+        $this->subscribeEvent(
             'Enlight_Bootstrap_InitResource_Site',
             null,
             'onInitResourceSite'
@@ -51,7 +51,7 @@ class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
             null,
             'onStartDispatch'
         );
-	}
+    }
 
     /**
      * Handles the init resource site manager event.
@@ -65,45 +65,45 @@ class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
         return new Enlight_Components_Site_Manager($this->Config());
     }
 
-	/**
-	 * Handles the init resource site event.
+    /**
+     * Handles the init resource site event.
      * Returns the current site resource from session or
      * reads a matching site resources from the manager,
      * if no is stored in the session.
      *
-	 * @param Enlight_Event_EventArgs $args
-	 * @return Zend_Log
-	 */
-	public function onInitResourceSite(Enlight_Event_EventArgs $args)
-	{
+     * @param Enlight_Event_EventArgs $args
+     * @return Zend_Log
+     */
+    public function onInitResourceSite(Enlight_Event_EventArgs $args)
+    {
         /** @var $session Enlight_Components_Session_Namespace */
-	    $session = $this->Application()->Session();
+        $session = $this->Application()->Session();
 
-        if(!isset($session->Site)) {
+        if (!isset($session->Site)) {
             /** @var $siteManager Enlight_Components_Site_Manager */
             $siteManager = $this->Application()->Sites();
-            if(isset($_SERVER['HTTP_HOST'])) {
+            if (isset($_SERVER['HTTP_HOST'])) {
                 $session->Site = $siteManager->findOneBy('host', $_SERVER['HTTP_HOST']);
             }
-            if(!isset($session->Site)) {
+            if (!isset($session->Site)) {
                 $session->Site = $siteManager->getDefault();
             }
         }
 
         return $session->Site;
-	}
+    }
 
-	/**
-	 * On Route add user-agent and remote-address to log component
+    /**
+     * On Route add user-agent and remote-address to log component
      *
-	 * @param Enlight_Event_EventArgs $args
-	 */
-	public function onStartDispatch(Enlight_Event_EventArgs $args)
-	{
+     * @param Enlight_Event_EventArgs $args
+     */
+    public function onStartDispatch(Enlight_Event_EventArgs $args)
+    {
         /** @var $request Enlight_Controller_Request_RequestHttp */
-		$request = $args->getRequest();
+        $request = $args->getRequest();
 
-        if(($site = $request->getParam('__site')) !== null) {
+        if (($site = $request->getParam('__site')) !== null) {
             /** @var $siteManager Enlight_Components_Site_Manager */
             $siteManager = $this->Application()->Sites();
             $site = $siteManager->findOneBy('id', $site);
@@ -116,12 +116,12 @@ class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
             $site = $this->Application()->Site();
         }
 
-        if(($locale = $request->getParam('__locale')) !== null) {
+        if (($locale = $request->getParam('__locale')) !== null) {
             $site->setLocale($locale);
         }
 
-        if(($currency = $request->getParam('__currency')) !== null) {
+        if (($currency = $request->getParam('__currency')) !== null) {
             $site->setCurrency($currency);
         }
-	}
+    }
 }

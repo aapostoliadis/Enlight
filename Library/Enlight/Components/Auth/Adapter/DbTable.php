@@ -13,11 +13,11 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package	Enlight_Auth
+ * @package    Enlight_Auth
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	http://enlight.de/license	 New BSD License
- * @version	$Id$
- * @author	 $Author$
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     $Author$
  */
 
 /**
@@ -25,296 +25,299 @@
  * It handles all database actions.
  *
  * @category   Enlight
- * @package	Enlight_Auth
+ * @package    Enlight_Auth
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	http://enlight.de/license	 New BSD License
+ * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Components_Auth_Adapter_DbTable extends Zend_Auth_Adapter_DbTable
 {
-	/**
-	 * Name of column which holds the date on how long a account is blocked
-	 *
-	 * @var String
-	 */
-	protected $lockedUntilColumn = null;
+    /**
+     * Name of column which holds the date on how long a account is blocked
+     *
+     * @var String
+     */
+    protected $lockedUntilColumn = null;
 
-	/**
-	 * Date until a account has been disabled caused by a brute force attack
-	 *
-	 * @var Zend_Date
-	 */
-	protected $lockedUntil;
+    /**
+     * Date until a account has been disabled caused by a brute force attack
+     *
+     * @var Zend_Date
+     */
+    protected $lockedUntil;
 
-	/**
-	 * How long should an account be blocked after a failed login attempt in seconds
-	 *
-	 * @var int
-	 */
-	protected $lockSeconds = 30;
+    /**
+     * How long should an account be blocked after a failed login attempt in seconds
+     *
+     * @var int
+     */
+    protected $lockSeconds = 30;
 
-	/**
-	 * The expiry Column value
-	 *
-	 * @var string
-	 */
-	protected $expiryColumn;
+    /**
+     * The expiry Column value
+     *
+     * @var string
+     */
+    protected $expiryColumn;
 
-	/**
-	 * The expiry value
-	 *
-	 * @var int
-	 */
-	protected $expiry;
+    /**
+     * The expiry value
+     *
+     * @var int
+     */
+    protected $expiry;
 
-	/**
-	 * The session id value
-	 *
-	 * @var string
-	 */
-	protected $sessionId;
+    /**
+     * The session id value
+     *
+     * @var string
+     */
+    protected $sessionId;
 
-	/**
-	 * The session id column value
-	 *
-	 * @var string
-	 */
-	protected $sessionIdColumn;
+    /**
+     * The session id column value
+     *
+     * @var string
+     */
+    protected $sessionIdColumn;
 
-	/**
-	 * Adds a where-condition to the db-select.
-	 *
-	 * @param string $condition
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
-	public function addCondition($condition)
-	{
-		$this->getDbSelect()->where($condition);
-		return $this;
-	}
+    /**
+     * Adds a where-condition to the db-select.
+     *
+     * @param string $condition
+     * @return Enlight_Components_Auth_Adapter_DbTable
+     */
+    public function addCondition($condition)
+    {
+        $this->getDbSelect()->where($condition);
+        return $this;
+    }
 
-	/**
-	 * Sets the database field which holds the date until an account has been disabled.
-	 *
-	 * @throws Exception
-	 * @param $lockedUntilColumn
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
-	public function setLockedUntilColumn($lockedUntilColumn)
-	{
-		$this->lockedUntilColumn = (string)$lockedUntilColumn;
-		return $this;
-	}
+    /**
+     * Sets the database field which holds the date until an account has been disabled.
+     *
+     * @throws Exception
+     * @param $lockedUntilColumn
+     * @return Enlight_Components_Auth_Adapter_DbTable
+     */
+    public function setLockedUntilColumn($lockedUntilColumn)
+    {
+        $this->lockedUntilColumn = (string)$lockedUntilColumn;
+        return $this;
+    }
 
-	/**
-	 * Sets the expiry column method and the expiry time.
-	 *
-	 * @param string $expiryColumn
-	 * @param int $expiry
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
-	public function setExpiryColumn($expiryColumn, $expiry = 3600)
-	{
-		$this->expiryColumn = (string)$expiryColumn;
-		$this->expiry = $expiry;
-		return $this;
-	}
+    /**
+     * Sets the expiry column method and the expiry time.
+     *
+     * @param string $expiryColumn
+     * @param int $expiry
+     * @return Enlight_Components_Auth_Adapter_DbTable
+     */
+    public function setExpiryColumn($expiryColumn, $expiry = 3600)
+    {
+        $this->expiryColumn = (string)$expiryColumn;
+        $this->expiry = $expiry;
+        return $this;
+    }
 
-	/**
-	 * authenticate() - defined by Zend_Auth_Adapter_Interface.  This method is called to
-	 * attempt an authentication.  Previous to this call, this adapter would have already
-	 * been configured with all necessary information to successfully connect to a database
-	 * table and attempt to find a record matching the provided identity.
-	 *
-	 * @throws Zend_Auth_Adapter_Exception if answering the authentication query is impossible
-	 * @return Zend_Auth_Result
-	 */
-	public function authenticate()
-	{
-		$result = parent::authenticate();
-		if($result->isValid()) {
-			$this->updateExpiry();
-			$this->updateSessionId();
-		} else {
-			$datetime = new Zend_Date();
-			$datetime->addSecond($this->lockSeconds);
-			$this->setLockedUntil($datetime);
-		}
-		return $result;
-	}
+    /**
+     * authenticate() - defined by Zend_Auth_Adapter_Interface.  This method is called to
+     * attempt an authentication.  Previous to this call, this adapter would have already
+     * been configured with all necessary information to successfully connect to a database
+     * table and attempt to find a record matching the provided identity.
+     *
+     * @throws Zend_Auth_Adapter_Exception if answering the authentication query is impossible
+     * @return Zend_Auth_Result
+     */
+    public function authenticate()
+    {
+        $result = parent::authenticate();
+        if ($result->isValid()) {
+            $this->updateExpiry();
+            $this->updateSessionId();
+        } else {
+            $datetime = new Zend_Date();
+            $datetime->addSecond($this->lockSeconds);
+            $this->setLockedUntil($datetime);
+        }
+        return $result;
+    }
 
-	/**
-	 * Updates the expiration date to now.
-	 *
-	 * @return void
-	 */
-	protected function updateExpiry()
-	{
-		if($this->expiryColumn === null) {
-			return;
-		}
+    /**
+     * Updates the expiration date to now.
+     *
+     * @return void
+     */
+    protected function updateExpiry()
+    {
+        if ($this->expiryColumn === null) {
+            return;
+        }
 
-		$this->_zendDb->update(
+        $this->_zendDb->update(
             $this->_tableName,
             array($this->expiryColumn => Zend_Date::now()),
-			$this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity)
+            $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity)
         );
-	}
+    }
 
-	/**
-	 * Update the session id field in the session db.
-	 *
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
-	protected function updateSessionId()
-	{
-		if($this->sessionId === null) {
-			return $this;
-		}
-		$this->_zendDb->update(
+    /**
+     * Update the session id field in the session db.
+     *
+     * @return Enlight_Components_Auth_Adapter_DbTable
+     */
+    protected function updateSessionId()
+    {
+        if ($this->sessionId === null) {
+            return $this;
+        }
+        $this->_zendDb->update(
             $this->_tableName,
             array($this->sessionIdColumn => $this->sessionId),
-			$this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity)
+            $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity)
         );
-		$this->_zendDb->update(
+        $this->_zendDb->update(
             $this->_tableName,
             array($this->sessionIdColumn => null),
-			$this->_zendDb->quoteInto(
+            $this->_zendDb->quoteInto(
                 $this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' != ?', $this->_identity)
-                . ' AND '
-                . $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->sessionIdColumn, true) . ' = ?', $this->sessionId
+                . ' AND ' .
+                $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->sessionIdColumn, true) . ' = ?', $this->sessionId
             )
         );
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Updates the date until an account has been disabled.
-	 * $date has to be an MySQL Datetime format yyyy-mm-dd hh:mm:ss
-	 *
-	 * @throws Exception
-	 * @param Zend_Date $date
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
-	protected function updateLockUntilDate(Zend_Date $date)
-	{
-		if($this->lockedUntilColumn === null) {
-			return $this;
-		}
-		$this->_zendDb->update($this->_tableName, array($this->lockedUntilColumn => $date),
-							   $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity));
-		return $this;
-	}
+    /**
+     * Updates the date until an account has been disabled.
+     * $date has to be an MySQL Datetime format yyyy-mm-dd hh:mm:ss
+     *
+     * @throws Exception
+     * @param Zend_Date $date
+     * @return Enlight_Components_Auth_Adapter_DbTable
+     */
+    protected function updateLockUntilDate(Zend_Date $date)
+    {
+        if ($this->lockedUntilColumn === null) {
+            return $this;
+        }
+        $this->_zendDb->update(
+            $this->_tableName,
+            array($this->lockedUntilColumn => $date),
+            $this->_zendDb->quoteInto($this->_zendDb->quoteIdentifier($this->_identityColumn, true) . ' = ?', $this->_identity)
+        );
+        return $this;
+    }
 
-	/**
-	 * Refresh the authentication.
-	 *
-	 * Checks the expiry date and the identity.
-	 *
-	 * @return Zend_Auth_Result
-	 */
-	public function refresh()
-	{
-		$credential = $this->_credential;
-		$credentialColumn = $this->_credentialColumn;
-		$identity = $this->_identity;
-		$identityColumn = $this->_identityColumn;
-		$credentialTreatment = $this->_credentialTreatment;
+    /**
+     * Refresh the authentication.
+     *
+     * Checks the expiry date and the identity.
+     *
+     * @return Zend_Auth_Result
+     */
+    public function refresh()
+    {
+        $credential = $this->_credential;
+        $credentialColumn = $this->_credentialColumn;
+        $identity = $this->_identity;
+        $identityColumn = $this->_identityColumn;
+        $credentialTreatment = $this->_credentialTreatment;
 
-		$expiry = Zend_Date::now()->subSecond($this->expiry);
-		$this->setCredential($expiry);
-		$this->setCredentialColumn($this->expiryColumn);
-		$expiryColumn = $this->_zendDb->quoteIdentifier($this->expiryColumn, true);
+        $expiry = Zend_Date::now()->subSecond($this->expiry);
+        $this->setCredential($expiry);
+        $this->setCredentialColumn($this->expiryColumn);
+        $expiryColumn = $this->_zendDb->quoteIdentifier($this->expiryColumn, true);
 
-		$this->setCredentialTreatment('(CASE WHEN(' . $expiryColumn . '>=? ) THEN ' . $expiryColumn .' ELSE 0 END)');
+        $this->setCredentialTreatment('(CASE WHEN(' . $expiryColumn . '>=? ) THEN ' . $expiryColumn . ' ELSE 0 END)');
 
-		$this->setIdentity($this->sessionId);
-		$this->setIdentityColumn($this->sessionIdColumn);
+        $this->setIdentity($this->sessionId);
+        $this->setIdentityColumn($this->sessionIdColumn);
 
-		$result = parent::authenticate();
+        $result = parent::authenticate();
 
-		$this->_credential = $credential;
-		$this->_credentialColumn = $credentialColumn;
-		$this->_identity = $identity;
-		$this->_identityColumn = $identityColumn;
-		$this->_credentialTreatment = $credentialTreatment;
+        $this->_credential = $credential;
+        $this->_credentialColumn = $credentialColumn;
+        $this->_identity = $identity;
+        $this->_identityColumn = $identityColumn;
+        $this->_credentialTreatment = $credentialTreatment;
 
-		if($result->isValid()) {
-			$this->updateExpiry();
-		} 
+        if ($result->isValid()) {
+            $this->updateExpiry();
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Sets the session id column value.
-	 *
-	 * @param string $sessionIdColumn
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
-	public function setSessionIdColumn($sessionIdColumn)
-	{
-		$this->sessionIdColumn = $sessionIdColumn;
-		return $this;
-	}
+    /**
+     * Sets the session id column value.
+     *
+     * @param string $sessionIdColumn
+     * @return Enlight_Components_Auth_Adapter_DbTable
+     */
+    public function setSessionIdColumn($sessionIdColumn)
+    {
+        $this->sessionIdColumn = $sessionIdColumn;
+        return $this;
+    }
 
-	/**
-	 * Sets the session id value in the instance.
-	 *
-	 * @param string $value
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
-	public function setSessionId($value)
-	{
-		$this->sessionId = $value;
-		return $this;
-	}
+    /**
+     * Sets the session id value in the instance.
+     *
+     * @param string $value
+     * @return Enlight_Components_Auth_Adapter_DbTable
+     */
+    public function setSessionId($value)
+    {
+        $this->sessionId = $value;
+        return $this;
+    }
 
-	/**
-	 * Disables an account until a given date.
-	 * $date has to be an Zend_Date object
-	 *
-	 * @param Zend_Date $date
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
-	public function setLockedUntil(Zend_Date $date)
-	{
-		$this->lockedUntil = $date;
-		$this->updateLockUntilDate($date);
-		$this->addCondition($this->_zendDb->quoteInto(
-            $this->_zendDb->quoteIdentifier($this->lockedUntilColumn, true) . ' <= ?', Zend_Date::now()
-        ));
-		return $this;
-	}
+    /**
+     * Disables an account until a given date.
+     * $date has to be an Zend_Date object
+     *
+     * @param Zend_Date $date
+     * @return Enlight_Components_Auth_Adapter_DbTable
+     */
+    public function setLockedUntil(Zend_Date $date)
+    {
+        $this->lockedUntil = $date;
+        $this->updateLockUntilDate($date);
+        $this->addCondition($this->_zendDb->quoteInto(
+            $this->_zendDb->quoteIdentifier($this->lockedUntilColumn, true) . ' <= ?', Zend_Date::now())
+        );
+        return $this;
+    }
 
-	/**
-	 * Gets the date until an account has been disabled. Returns a Zend_Date
-	 *
-	 * @return Zend_Date
-	 */
-	public function getLockedUntil()
-	{
-		return $this->lockedUntil;
-	}
+    /**
+     * Gets the date until an account has been disabled. Returns a Zend_Date
+     *
+     * @return Zend_Date
+     */
+    public function getLockedUntil()
+    {
+        return $this->lockedUntil;
+    }
 
-	/**
-	 * Defines how long (in seconds) a user has to wait until he is allowed to enter a new password again.
-	 *
-	 * @param int $lockSeconds
-	 * @return Enlight_Components_Auth_Adapter_DbTable
-	 */
-	public function setLockSeconds($lockSeconds)
-	{
-		$this->lockSeconds = $lockSeconds;
-		return $this;
-	}
+    /**
+     * Defines how long (in seconds) a user has to wait until he is allowed to enter a new password again.
+     *
+     * @param int $lockSeconds
+     * @return Enlight_Components_Auth_Adapter_DbTable
+     */
+    public function setLockSeconds($lockSeconds)
+    {
+        $this->lockSeconds = $lockSeconds;
+        return $this;
+    }
 
-	/**
-	 * Returns the amount of seconds a user has to wait until he is allowed retry a login attempt.
-	 *
-	 * @return int
-	 */
-	public function getLockSeconds()
-	{
-		return $this->lockSeconds;
-	}
+    /**
+     * Returns the amount of seconds a user has to wait until he is allowed retry a login attempt.
+     *
+     * @return int
+     */
+    public function getLockSeconds()
+    {
+        return $this->lockSeconds;
+    }
 }

@@ -32,17 +32,17 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
     /**
      * @var     Enlight_Config_Adapter Can be overwrite in the constructor
      */
-	protected $adapter;
+    protected $adapter;
 
     /**
      * @var     array Array with all registered namespaces
      */
-	protected $namespaces;
+    protected $namespaces;
 
     /**
-	 * @var     string Default config class
-	 */
-	protected $defaultNamespaceClass = 'Enlight_Components_Snippet_Namespace';
+     * @var     string Default config class
+     */
+    protected $defaultNamespaceClass = 'Enlight_Components_Snippet_Namespace';
 
     /**
      * @var     string Array of all ignored namespaces. Can be set in the constructor.
@@ -54,37 +54,36 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
      */
     public function __construct($options = null)
     {
-        if(!is_array($options)) {
+        if (!is_array($options)) {
             $options = array('adapter' => $options);
         }
 
-        if(isset($options['adapter'])
-          && $options['adapter'] instanceof Enlight_Config_Adapter) {
+        if (isset($options['adapter']) && $options['adapter'] instanceof Enlight_Config_Adapter) {
             $this->setAdapter($options['adapter']);
         }
 
-        if(isset($options['ignore_namespace'])) {
-            $this->ignoreNamespace = (bool) $options['ignore_namespace'];
+        if (isset($options['ignore_namespace'])) {
+            $this->ignoreNamespace = (bool)$options['ignore_namespace'];
         }
     }
 
-	/**
-	 * Returns a snippet model instance
-	 *
-	 * @param   string $namespace
-	 * @return  Enlight_Components_Snippet_Namespace
-	 */
-	public function getNamespace($namespace=null)
-	{
-        $key = $namespace===null ? '__ignore' : (string) $namespace;
-        if(!isset($this->namespaces[$key])) {
+    /**
+     * Returns a snippet model instance
+     *
+     * @param   string $namespace
+     * @return  Enlight_Components_Snippet_Namespace
+     */
+    public function getNamespace($namespace = null)
+    {
+        $key = $namespace === null ? '__ignore' : (string)$namespace;
+        if (!isset($this->namespaces[$key])) {
             $this->namespaces[$key] = new $this->defaultNamespaceClass(array(
                 'adapter' => $this->adapter,
-                'name' => $namespace
-            ));
+                'name' => $namespace)
+            );
         }
         return $this->namespaces[$key];
-	}
+    }
 
     /**
      * Adapter class of the snippet manager
@@ -112,7 +111,7 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
     public function write()
     {
         /** @var $namespace Enlight_Components_Snippet_Namespace */
-        foreach($this->namespaces as $namespace) {
+        foreach ($this->namespaces as $namespace) {
             $namespace->write();
         }
         return $this;

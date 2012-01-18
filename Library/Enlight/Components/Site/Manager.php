@@ -39,12 +39,11 @@ class Enlight_Components_Site_Manager
      */
     public function __construct($options = null)
     {
-        if(!is_array($options)) {
+        if (!is_array($options)) {
             $options = array('adapter' => $options);
         }
 
-        if(isset($options['adapter'])
-          && $options['adapter'] instanceof Enlight_Config) {
+        if (isset($options['adapter']) && $options['adapter'] instanceof Enlight_Config) {
             $this->adapter = $options['adapter'];
         }
     }
@@ -58,10 +57,11 @@ class Enlight_Components_Site_Manager
      */
     public function findOneBy($property, $value)
     {
-        if(isset($this->adapter->sites))
-        foreach($this->adapter->sites as $site) {
-            if($site->$property === $value) {
-                return new Enlight_Components_Site($site);
+        if (isset($this->adapter->sites)) {
+            foreach ($this->adapter->sites as $site) {
+                if ($site->$property === $value) {
+                    return new Enlight_Components_Site($site);
+                }
             }
         }
         return null;
@@ -74,13 +74,13 @@ class Enlight_Components_Site_Manager
      */
     public function getDefault()
     {
-        if(!isset($this->adapter->sites)) {
+        if (!isset($this->adapter->sites)) {
             return null;
         }
         reset($this->adapter->sites);
         $default = current($this->adapter->sites);
-        foreach($this->adapter->sites as $site) {
-            if(!empty($site->default)) {
+        foreach ($this->adapter->sites as $site) {
+            if (!empty($site->default)) {
                 $default = $site;
                 break;
             }

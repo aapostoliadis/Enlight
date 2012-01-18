@@ -20,23 +20,24 @@
  * @author     Heiner Lohaus
  * @author     $Author$
  */
+
 /**
  * Takes an array and splits that array in to n parts.
- * 
+ *
  * Known Params
- * - array  : Contains an array 
+ * - array  : Contains an array
  * - parts  : Number of parts to split
- * - assign : Assign the split array to given smarty variable 
- * 
+ * - assign : Assign the split array to given smarty variable
+ *
  * @param $params
  * @param $smarty
  */
 function smarty_function_partition($params, $smarty)
 {
-	// read the param key array which contains an array :)
+    // read the param key array which contains an array :)
     $list = $params['array'];
     // read the param key parts
-	$p = $params['parts'];
+    $p = $params['parts'];
     // get the length of array
     $listlen = count($list);
     // calculate partsize
@@ -47,8 +48,8 @@ function smarty_function_partition($params, $smarty)
     // Split array in to chunks
     for ($px = 0; $px < $p; $px++) {
         $incr = ($px < $partrem) ? $partlen + 1 : $partlen;
-        $partition[$px] = array_slice( $list, $mark, $incr );
+        $partition[$px] = array_slice($list, $mark, $incr);
         $mark += $incr;
     }
-    $smarty->assign($params['assign'],$partition);
+    $smarty->assign($params['assign'], $partition);
 }

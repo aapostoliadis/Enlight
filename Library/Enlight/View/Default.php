@@ -27,7 +27,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
+class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
 {
     /**
      * The template manager instance.
@@ -83,7 +83,7 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
 
     /**
      * Sets the template path list.
-     * 
+     *
      * @param   string|array $path
      * @return  Enlight_View_Default
      */
@@ -107,7 +107,7 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
 
     /**
      * Sets the current template instance.
-     * 
+     *
      * @param   Enlight_Template_Default $template
      * @return  Enlight_View_Default
      */
@@ -156,7 +156,7 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
      */
     public function extendsTemplate($template_name)
     {
-        if($this->template) {
+        if ($this->template) {
             $this->template->extendsTemplate($template_name);
         }
         return $this;
@@ -165,8 +165,8 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
     /**
      * Extends a template block by name.
      *
-     * @param   $spec
-     * @param   $content
+     * @param          $spec
+     * @param          $content
      * @param   string $mode
      * @return  Enlight_View_Default
      */
@@ -189,17 +189,17 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
      * Assigns a specified value to the template.
      *
      * @param   string $spec
-     * @param   mixed $value
-     * @param   bool $nocache
-     * @param   int $scope
+     * @param   mixed  $value
+     * @param   bool   $nocache
+     * @param   int    $scope
      * @return  Enlight_View_Default
      */
     public function assign($spec, $value = null, $nocache = null, $scope = null)
     {
-        if($this->nocache !== null && $nocache === null) {
+        if ($this->nocache !== null && $nocache === null) {
             $nocache = $this->nocache;
         }
-        if($this->scope !== null && $scope === null) {
+        if ($this->scope !== null && $scope === null) {
             $scope = $this->scope;
         }
         $this->template->assign($spec, $value, $nocache, $scope);
@@ -210,12 +210,12 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
      * Resets a specified value or all values.
      *
      * @param   string $spec
-     * @param null $scope
+     * @param null     $scope
      * @return  Enlight_View_Default
      */
     public function clearAssign($spec = null, $scope = null)
     {
-        if($this->scope !== null && $scope === null) {
+        if ($this->scope !== null && $scope === null) {
             $scope = $this->scope;
         }
         return $this->template->clearAssign($spec, $scope);
@@ -259,7 +259,7 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
      */
     public function setNocache($value = true)
     {
-        $this->nocache = (bool) $value;
+        $this->nocache = (bool)$value;
         return $this;
     }
 
@@ -279,7 +279,7 @@ class Enlight_View_Default extends Enlight_View implements  Enlight_View_Cache
      */
     public function setCaching($value = true)
     {
-        $this->template->caching = (bool) $value;
+        $this->template->caching = (bool)$value;
         return $this;
     }
 

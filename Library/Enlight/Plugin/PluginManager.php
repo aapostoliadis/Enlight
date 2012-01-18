@@ -10,7 +10,8 @@
  * http://enlight.de/license
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to license@shopware.de so we can send you a copy immediately.
+ * to license
+ * @shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
  * @package    Enlight_Plugin
@@ -29,7 +30,7 @@
  */
 class Enlight_Plugin_PluginManager extends Enlight_Plugin_PluginCollection
 {
-	/**
+    /**
      * Application instance.
      *
      * @var Enlight_Application
@@ -52,11 +53,11 @@ class Enlight_Plugin_PluginManager extends Enlight_Plugin_PluginCollection
     public function registerNamespace(Enlight_Plugin_Namespace $namespace)
     {
         $namespace->setManager($this);
-    	$this->plugins[$namespace->getName()] = $namespace;
+        $this->plugins[$namespace->getName()] = $namespace;
         return $this;
     }
 
-	/**
+    /**
      * Sets the application instance.
      *
      * @param  Enlight_Application $application
@@ -64,11 +65,11 @@ class Enlight_Plugin_PluginManager extends Enlight_Plugin_PluginCollection
      */
     public function setApplication(Enlight_Application $application)
     {
-		$this->application = $application;
+        $this->application = $application;
         return $this;
     }
 
-	/**
+    /**
      * Returns the application instance.
      *
      * @return Enlight_Application

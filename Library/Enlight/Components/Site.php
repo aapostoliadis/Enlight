@@ -66,10 +66,10 @@ class Enlight_Components_Site
             $key = strtolower($key);
             switch ($key) {
                 case 'id':
-                    $this->properties[$key] = (int) $option;
+                    $this->properties[$key] = (int)$option;
                     break;
                 case 'name':
-                    $this->properties[$key] = (string) $option;
+                    $this->properties[$key] = (string)$option;
                     break;
                 case 'locale':
                     $this->setLocale($option);
@@ -129,7 +129,7 @@ class Enlight_Components_Site
     public function get($property)
     {
         $property = strtolower($property);
-        if(isset($this->properties[$property])) {
+        if (isset($this->properties[$property])) {
             return $this->properties[$property];
         }
         return null;
@@ -163,7 +163,7 @@ class Enlight_Components_Site
     {
         if ($locale === null && isset($this->properties['locale'])) {
             $locale = $this->properties['locale'];
-        } elseif ($locale !== null ) {
+        } elseif ($locale !== null) {
             $this->properties['locale'] = $locale;
         }
         $this->resources['locale'] = new Enlight_Components_Locale($locale);
@@ -181,7 +181,7 @@ class Enlight_Components_Site
     {
         if ($currency === null && isset($this->properties['currency'])) {
             $currency = $this->properties['currency'];
-        } elseif ($currency !== null ) {
+        } elseif ($currency !== null) {
             $this->properties['currency'] = $currency;
         }
         $this->resources['currency'] = new Enlight_Components_Currency($currency, $this->Locale());
@@ -195,16 +195,16 @@ class Enlight_Components_Site
     {
         if ($template === null && isset($this->properties['template'])) {
             $template = $this->properties['template'];
-        } elseif ($template !== null ) {
+        } elseif ($template !== null) {
             $this->properties['template'] = $template;
         }
 
         if (is_string($template)) {
             $template = array('template_dir' => $template);
         }
-        $template = (array) $template;
+        $template = (array)$template;
         if (!isset($template['compile_id'])) {
-            $template['compile_id'] = $this->getName() . '|' .  $this->Locale()->toString();
+            $template['compile_id'] = $this->getName() . '|' . $this->Locale()->toString();
         }
 
         $this->resources['template'] = new Enlight_Template_Manager($template);

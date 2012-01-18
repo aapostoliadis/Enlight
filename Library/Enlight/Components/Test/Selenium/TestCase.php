@@ -29,7 +29,14 @@
  */
 abstract class Enlight_Components_Test_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
+    /**
+     * @var string browser url for selenium test
+     */
     protected $browserUrl = 'http://192.168.178.50/';
+
+    /**
+     * @var bool flag if the browser capture a screen shot on failure (default true)
+     */
     protected $captureScreenshotOnFailure = true;
 
 	/**

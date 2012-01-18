@@ -20,6 +20,7 @@
  * @author     Heiner Lohaus
  * @author     $Author$
  */
+
 /**
  * Format an given Date to local specific rules.
  * 

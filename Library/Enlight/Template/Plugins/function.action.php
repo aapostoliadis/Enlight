@@ -20,14 +20,15 @@
  * @author     Heiner Lohaus
  * @author     $Author$
  */
+
 /**
  * Method to fast deploy a query to enlight
- * 
+ *
  * The params array knows the following keys
  * - name : The name of the action to call
  * - params : optional params array for the specific action call
- * 
- * @param $params
+ *
+ * @param                          $params
  * @param Enlight_Template_Default $template
  * @return string
  * @throws Exception
@@ -45,7 +46,7 @@ function smarty_function_action($params, Enlight_Template_Default $template)
         throw $e;
     }
 
-    $request  = $front->Request();
+    $request = $front->Request();
     $response = $front->Response();
 
     if (empty($request) || empty($response)) {
@@ -54,7 +55,7 @@ function smarty_function_action($params, Enlight_Template_Default $template)
         throw $e;
     }
 
-    $request  = clone $request;
+    $request = clone $request;
     $response = clone $response;
 
     //$request->clearParams();
@@ -62,12 +63,12 @@ function smarty_function_action($params, Enlight_Template_Default $template)
              ->clearRawHeaders()
              ->clearBody();
 
-    if(isset($params['name'])) {
+    if (isset($params['name'])) {
         $params['action'] = $params['name'];
         unset($params['name']);
     }
-    if(isset($params['params'])) {
-        $userParams = (array) $params['params'];
+    if (isset($params['params'])) {
+        $userParams = (array)$params['params'];
         unset($params['params']);
     } else {
         $userParams = array();

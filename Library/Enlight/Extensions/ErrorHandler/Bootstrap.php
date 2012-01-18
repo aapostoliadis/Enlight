@@ -86,33 +86,33 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function init()
     {
-        if(defined('E_DEPRECATED')) {
+        if (defined('E_DEPRECATED')) {
             $this->errorLevelList[E_DEPRECATED] = 'E_DEPRECATED';
         }
-        if(defined('E_USER_DEPRECATED')) {
+        if (defined('E_USER_DEPRECATED')) {
             $this->errorLevelList[E_USER_DEPRECATED] = 'E_USER_DEPRECATED';
         }
     }
 
     /**
-	 * Plugin install method
-	 */
-	public function install()
-	{
-		 $this->subscribeEvent(
-			'Enlight_Controller_Front_StartDispatch',
-             null,
-			'onStartDispatch'
-		);
-	}
+     * Plugin install method
+     */
+    public function install()
+    {
+        $this->subscribeEvent(
+            'Enlight_Controller_Front_StartDispatch',
+            null,
+            'onStartDispatch'
+        );
+    }
 
-	/**
-	 * Plugin event method
-	 */
-	public function onStartDispatch()
-	{
-		$this->registerErrorHandler(E_ALL | E_STRICT);
-	}
+    /**
+     * Plugin event method
+     */
+    public function onStartDispatch()
+    {
+        $this->registerErrorHandler(E_ALL | E_STRICT);
+    }
 
     /**
      * Register error handler callback
@@ -123,13 +123,13 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function registerErrorHandler($errorLevel = null)
     {
-        if($errorLevel === NULL) {
+        if ($errorLevel === NULL) {
             $errorLevel = E_ALL | E_STRICT;
         }
 
         // Only register once.  Avoids loop issues if it gets registered twice.
         if ($this->registeredErrorHandler) {
-        	return $this;
+            return $this;
         }
 
         $this->origErrorHandler = set_error_handler(array($this, 'errorHandler'), $errorLevel);
@@ -142,31 +142,24 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
      * Error Handler will convert error into log message, and then call the original error handler
      *
      * @link http://www.php.net/manual/en/function.set-error-handler.php Custom error handler
-     * @param   int $errorLevel
+     * @param   int    $errorLevel
      * @param   string $errorMessage
      * @param   string $errorFile
-     * @param   int $errorLine
-     * @param   array $errorContext
+     * @param   int    $errorLine
+     * @param   array  $errorContext
      * @return  bool
      */
     public function errorHandler($errorLevel, $errorMessage, $errorFile, $errorLine, $errorContext)
     {
-    	if($this->errorLog) {
-	    	$hashId = md5($errorLevel . $errorMessage . $errorFile . $errorLine);
-	    	if(!isset($this->errorList[$hashId])) {
-	    		$errorName = isset($this->errorLevelList[$errorLevel]) ? $this->errorLevelList[$errorLevel] : '';
-	    		$this->errorList[$hashId] = array(
-	    			'count' => 1,
-	    			'code' => $errorLevel,
-	    			'name' => $errorName,
-	    			'message' => $errorMessage,
-	    			'line' => $errorLine,
-	    			'file' => $errorFile
-	    		);
-	    	} else {
-	    		++$this->errorList[$hashId]['count'];
-	    	}
-    	}
+        if ($this->errorLog) {
+            $hashId = md5($errorLevel . $errorMessage . $errorFile . $errorLine);
+            if (!isset($this->errorList[$hashId])) {
+                $errorName = isset($this->errorLevelList[$errorLevel]) ? $this->errorLevelList[$errorLevel] : '';
+                $this->errorList[$hashId] = array('count' => 1, 'code' => $errorLevel, 'name' => $errorName, 'message' => $errorMessage, 'line' => $errorLine, 'file' => $errorFile);
+            } else {
+                ++$this->errorList[$hashId]['count'];
+            }
+        }
 
         //throw new ErrorException($errorMessage, 0, $errorLevel, $errorFile, $errorLine);
 
@@ -183,7 +176,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function getErrorLog()
     {
-    	return $this->errorList;
+        return $this->errorList;
     }
 
     /**
@@ -194,7 +187,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function setEnabledLog($value = true)
     {
-    	$this->errorLog = $value ? true : false;
-    	return $this;
+        $this->errorLog = $value ? true : false;
+        return $this;
     }
 }
