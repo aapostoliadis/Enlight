@@ -28,8 +28,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-interface Enlight_Collection_Collection 
-    extends Countable, IteratorAggregate, ArrayAccess
+interface Enlight_Collection_Collection extends Countable, IteratorAggregate, ArrayAccess
 {
-    
+
 }

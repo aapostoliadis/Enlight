@@ -20,15 +20,16 @@
  * @author     Heiner Lohaus
  * @author     $Author$
  */
+
 /**
  * Checks if an given template exists.
  * The first parameter of the $param array has to be the name of the template
- * 
+ *
  * @param array $params
- * @param $compiler
+ * @param       $compiler
  * @return string
  */
 function smarty_modifiercompiler_template_exists($params, $compiler)
 {
-    return '$_smarty_tpl->smarty->templateExists('. $params[0] .')';
+    return '$_smarty_tpl->smarty->templateExists(' . $params[0] . ')';
 }

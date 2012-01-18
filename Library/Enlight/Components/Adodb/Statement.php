@@ -32,26 +32,26 @@ class Enlight_Components_Adodb_Statement extends Enlight_Class
      * Internal sql statement object
      * @var
      */
-	protected $_statement;
+    protected $_statement;
 
     /**
      * Field array with all fields of the sql statement
      * @var array
      */
-	public $fields = array();
+    public $fields = array();
 
     /**
      * Flag whether the statement is reached at the end.
      * @var bool
      */
-	public $EOF = true;
+    public $EOF = true;
 
     /**
      * If the class created the cursor will set to the first row over the MoveNext() function.
      *
      * @param $statement sql statement object. Must support the rowCount(), fetch(), closeCursor(), columnCount(),
      */
-	public function __construct($statement)
+    public function __construct($statement)
     {
         $this->_statement = $statement;
         $this->MoveNext();
@@ -62,44 +62,44 @@ class Enlight_Components_Adodb_Statement extends Enlight_Class
      *
      * @return mixed
      */
-	public function RecordCount()
-	{
-		return $this->_statement->rowCount();
-	}
+    public function RecordCount()
+    {
+        return $this->_statement->rowCount();
+    }
 
     /**
      * This function moves the cursor to the next row
      */
-	public function MoveNext()
-	{
-		if($this->_statement->columnCount()) {
-			$this->fields = $this->_statement->fetch();
-			$this->EOF = $this->fields===false;
-		}
-	}
+    public function MoveNext()
+    {
+        if ($this->_statement->columnCount()) {
+            $this->fields = $this->_statement->fetch();
+            $this->EOF = $this->fields === false;
+        }
+    }
 
     /**
      * Fetch the first row of the sql statement with Zend_Db::FETCH_ASSOC.
      *
      * @return array
      */
-	public function FetchRow()
-	{
-		if($this->fields) {
-			$result = $this->fields;
-			$this->fields = array();
-			return $result;
-		}
-		return $this->_statement->fetch(Zend_Db::FETCH_ASSOC);
-	}
+    public function FetchRow()
+    {
+        if ($this->fields) {
+            $result = $this->fields;
+            $this->fields = array();
+            return $result;
+        }
+        return $this->_statement->fetch(Zend_Db::FETCH_ASSOC);
+    }
 
     /**
      * Closes the sql statement cursor.
      *
      * @return boolean success
      */
-	public function Close()
-	{
-		return $this->_statement->closeCursor();
-	}
+    public function Close()
+    {
+        return $this->_statement->closeCursor();
+    }
 }

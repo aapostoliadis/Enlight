@@ -77,7 +77,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     {
         $this->log = $this->Application()->Log();
 
-        if($this->log === null){
+        if ($this->log === null) {
             return;
         }
 
@@ -85,9 +85,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
         $this->Application()->Template()->setDebugging(true);
         $this->Application()->Template()->debug_tpl = 'string:';
 
-        $this->Application()->Events()->registerSubscriber(
-            $this->getListeners()
-        );
+        $this->Application()->Events()->registerSubscriber($this->getListeners());
     }
 
     /**
@@ -97,7 +95,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
      */
     public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
     {
-        if($this->log === null){
+        if ($this->log === null) {
             return;
         }
 
@@ -113,7 +111,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
      */
     public function logDb()
     {
-         /** @var $profiler Zend_Db_Profiler */
+        /** @var $profiler Zend_Db_Profiler */
         $profiler = $this->Application()->Db()->getProfiler();
 
         $rows = array(array('time', 'count', 'sql', 'params'));
@@ -121,7 +119,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
         $total_time = 0;
         $queryProfiles = $profiler->getQueryProfiles();
 
-        if(!$queryProfiles) {
+        if (!$queryProfiles) {
             return;
         }
 
@@ -129,7 +127,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
         foreach ($queryProfiles as $query) {
             $id = md5($query->getQuery());
             $total_time += $query->getElapsedSecs();
-            if(!isset($rows[$id])){
+            if (!isset($rows[$id])) {
                 $rows[$id] = array(
                     number_format($query->getElapsedSecs(), 5, '.', ''),
                     1,
@@ -150,9 +148,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
         $total_count = $profiler->getTotalNumQueries();
 
         $label = "Database Querys ($total_count @ $total_time sec)";
-        $table = array($label,
-            $rows
-        );
+        $table = array($label, $rows);
         $this->Application()->Log()->table($table);
     }
 
@@ -164,7 +160,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
      */
     public function onBenchmarkEvent(Enlight_Event_EventArgs $args)
     {
-        if(empty($this->results)) {
+        if (empty($this->results)) {
             $this->results[] = array('name', 'memory', 'time');
             $this->startTime = microtime(true);
             $this->startMemory = memory_get_peak_usage(true);
@@ -172,8 +168,8 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
 
         $this->results[] = array(
             0 => str_replace('Enlight_Controller_', '', $args->getName()),
-            1 => $this->formatMemory(memory_get_peak_usage(true)-$this->startMemory),
-            2 => $this->formatTime(microtime(true)-$this->startTime)
+            1 => $this->formatMemory(memory_get_peak_usage(true) - $this->startMemory),
+            2 => $this->formatTime(microtime(true) - $this->startTime)
         );
     }
 
@@ -198,11 +194,9 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             $rows[] = array_values($template_file);
         }
         $total_time = round($total_time, 5);
-        $total_count = count($rows)-1;
+        $total_count = count($rows) - 1;
         $label = "Benchmark Template ($total_count @ $total_time sec)";
-        $table = array($label,
-            $rows
-        );
+        $table = array($label, $rows);
         $this->log->table($table);
     }
 
@@ -215,9 +209,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     {
         $total_time = $this->formatTime(microtime(true) - $this->startTime);
         $label = "Benchmark Controller ($total_time sec)";
-        $table = array($label,
-            $this->results
-        );
+        $table = array($label, $this->results);
         $this->Application()->Log()->table($table);
     }
 
@@ -243,11 +235,10 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             'Enlight_Plugins_ViewRenderer_PreRender',
             'Enlight_Plugins_ViewRenderer_PostRender'
         );
+
         $listeners = new Enlight_Event_Subscriber_Array();
         foreach ($events as $event) {
-            $listeners->registerListener(new Enlight_Event_Handler_Default(
-                $event, array($this, 'onBenchmarkEvent'), -99
-            ));
+            $listeners->registerListener(new Enlight_Event_Handler_Default($event, array($this, 'onBenchmarkEvent'), -99));
         }
         return $listeners;
     }
@@ -263,7 +254,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
         if (empty($size)) {
             return '0.00 b';
         }
-        $unit = array('b','kb','mb','gb','tb','pb');
+        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
         return @number_format($size / pow(1024, ($i = floor(log($size, 1024)))), 2, '.', '') . ' ' . $unit[$i];
     }
 

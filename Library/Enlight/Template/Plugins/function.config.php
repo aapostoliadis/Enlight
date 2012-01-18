@@ -20,27 +20,29 @@
  * @author     Heiner Lohaus
  * @author     $Author$
  */
+
 /**
  * Function to get access to the Enlight2 Config system.
- * 
+ *
  * The params array knows the key
  * - name    : Name of the config parameter which should be requested
  * - default : Default value if the queried config key does not exists
- * 
- * @param array $params
- * @param mixed $smarty
+ *
+ * @param array  $params
+ * @param mixed  $smarty
  * @param string $template
- * 
+ *
  * @return mixed
  */
 function smarty_function_config($params, $smarty, $template)
 {
-	if(empty($params['name'])
-	  || !Enlight_Application::Instance()->Bootstrap()->hasResource('Config')) {
-		return null;
-	}
-	return Enlight_Application::Instance()->Config()->get(
-		$params['name'],
-		isset($params['default']) ? $params['default'] : null
-	);
+    $config = Enlight_Application::Instance()->Bootstrap()->hasResource('Config');
+
+    if (empty($params['name']) || $config) {
+        return null;
+    }
+    return Enlight_Application::Instance()->Config()->get(
+        $params['name'],
+        isset($params['default']) ? $params['default'] : null
+    );
 }

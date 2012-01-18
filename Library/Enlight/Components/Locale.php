@@ -32,7 +32,7 @@ class Enlight_Components_Locale extends Zend_Locale
     /**
      * @var int
      */
-	protected $id;
+    protected $id;
 
     /**
      * Returns currency id
@@ -41,7 +41,7 @@ class Enlight_Components_Locale extends Zend_Locale
      */
     public function getId()
     {
-    	return $this->id;
+        return $this->id;
     }
 
     /**
@@ -52,8 +52,8 @@ class Enlight_Components_Locale extends Zend_Locale
      */
     public function setLocale($locale = null)
     {
-        if(is_array($locale)) {
-            $this->id = isset($locale['id']) ? (int) $locale['id'] : null;
+        if (is_array($locale)) {
+            $this->id = isset($locale['id']) ? (int)$locale['id'] : null;
             $locale = isset($locale['locale']) ? $locale['locale'] : null;
         }
         parent::setLocale($locale);

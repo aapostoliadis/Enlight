@@ -57,15 +57,15 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     /**
      * Tests set up method
      */
-	public function setUp()
+    public function setUp()
     {
-    	parent::setUp();
-    	
+        parent::setUp();
+
         $this->reset();
         
         Enlight_Application::Instance()->Bootstrap()
-        	->resetResource('Session')
-        	->resetResource('Auth');
+            ->resetResource('Session')
+            ->resetResource('Auth');
         
         //$this->Front()
         //     ->setRequest($this->Request())
@@ -80,7 +80,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
      */
     public function dispatch($url = null)
     {
-        $request    = $this->Request();
+        $request = $this->Request();
         if (null !== $url) {
             $request->setRequestUri($url);
         }
@@ -105,8 +105,8 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
      * Reset all instances, resources and init the internal view, template and front properties
      */
     public function reset()
-    {		
-    	$this->resetRequest();
+    {
+        $this->resetRequest();
         $this->resetResponse();
         
         $this->_view = null;
@@ -120,27 +120,27 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
         Enlight_Application::Instance()->Db()->getProfiler()->clear();
         
         $resources = array(
-        	'Plugins' => 'Enlight_Plugin_PluginManager',
-        	'Template' => 'Enlight_Template_TemplateManager',
-        	'Front' => 'Enlight_Controller_Front',
-        	'Enlight_Controller_Plugins_ErrorHandler_Bootstrap',
-        	'Enlight_Controller_Plugins_ViewRenderer_Bootstrap'
+            'Plugins' => 'Enlight_Plugin_PluginManager',
+            'Template' => 'Enlight_Template_TemplateManager',
+            'Front' => 'Enlight_Controller_Front',
+            'Enlight_Controller_Plugins_ErrorHandler_Bootstrap',
+            'Enlight_Controller_Plugins_ViewRenderer_Bootstrap'
         );
         
         foreach ($resources as $resource => $class) {
-        	Enlight_Class::resetInstance($class);
-        	if(!is_int($resource)) {
-        		Enlight_Application::Instance()->Bootstrap()
-        			->resetResource($resource)
-        			->loadResource($resource);
-        	}
+            Enlight_Class::resetInstance($class);
+            if (!is_int($resource)) {
+                Enlight_Application::Instance()->Bootstrap()
+                    ->resetResource($resource)
+                    ->loadResource($resource);
+            }
         }
         
         Enlight_Application::Instance()->Bootstrap()
-        	->resetResource('System')
-        	->resetResource('Modules')
-        	->resetResource('Config')
-        	->resetResource('Shop');
+            ->resetResource('System')
+            ->resetResource('Modules')
+            ->resetResource('Config')
+            ->resetResource('Shop');
     }
             
     /**

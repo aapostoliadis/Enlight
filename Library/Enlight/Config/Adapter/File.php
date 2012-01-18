@@ -57,7 +57,7 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
      */
     protected $_configType = 'ini';
 
-     /**
+    /**
      * The filename suffix.
      *
      * @var string
@@ -72,15 +72,15 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
      */
     public function setOptions(array $options)
     {
-        foreach ($options as $key=>$option) {
+        foreach ($options as $key => $option) {
             switch ($key) {
                 case 'exclusiveLock':
                 case 'skipExtends':
-                    $this->{'_'.$key} = (bool) $option;
+                    $this->{'_' . $key} = (bool)$option;
                     break;
                 case 'configDir':
                 case 'configType':
-                    $this->{'_'.$key} = (string) $option;
+                    $this->{'_' . $key} = (string)$option;
                     break;
                 default:
                     break;
@@ -98,7 +98,7 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
     protected function getFilename($name)
     {
         $suffix = $this->_nameSuffix !== null ? $this->_nameSuffix : '.' . $this->_configType;
-        $name = $this->_configDir .$this->_namePrefix . $name . $suffix;
+        $name = $this->_configDir . $this->_namePrefix . $name . $suffix;
         return $name;
     }
 
@@ -111,16 +111,17 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
     protected function readBase($filename)
     {
         try {
-            if(file_exists($filename)) {
+            if (file_exists($filename)) {
                 $reader = 'Zend_Config_' . ucfirst($this->_configType);
                 $base = new $reader($filename, null, array(
                     'skipExtends' => true,
-                    'allowModifications' => true
-                ));
+                    'allowModifications' => true)
+                );
             } else {
                 $base = new Enlight_Config(array(), true);
             }
-        } catch (Zend_Exception $e) {
+        }
+        catch (Zend_Exception $e) {
             throw new Enlight_Config_Exception($e->getMessage(), $e->getCode(), $e);
         }
         return $base;
@@ -136,12 +137,12 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
     {
         $section = $config->getSection();
         $name = $this->getFilename($config->getName());
-        if(file_exists($name)) {
+        if (file_exists($name)) {
             $reader = 'Zend_Config_' . ucfirst($this->_configType);
             /** @var $reader Zend_Config */
             $reader = new $reader($name, $section, array(
-                'skipExtends' => $this->_skipExtends
-            ));
+                'skipExtends' => $this->_skipExtends)
+            );
             $config->setData($reader->toArray());
         } else {
             $config->setData(array());
@@ -150,17 +151,17 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
     }
 
     /**
-      * Saves the data changes to the data store.
-      *
-      * @param Enlight_Config $config
-      * @return Enlight_Config_Adapter_File
-      */
+     * Saves the data changes to the data store.
+     *
+     * @param Enlight_Config $config
+     * @return Enlight_Config_Adapter_File
+     */
     public function write(Enlight_Config $config)
     {
         $section = $config->getSection();
         $filename = $this->getFilename($config->getName());
 
-        if(!empty($section)) {
+        if (!empty($section)) {
             $base = $this->readBase($filename);
             $base->$section = $config;
         } else {
@@ -172,10 +173,11 @@ class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
             /** @var $writer Zend_Config_Writer */
             $writer = new $writer(array(
                 'config' => $base,
-                'filename' => $filename
-            ));
+                'filename' => $filename)
+            );
             $writer->write();
-        } catch (Zend_Exception $e) {
+        }
+        catch (Zend_Exception $e) {
             throw new Enlight_Config_Exception($e->getMessage(), $e->getCode(), $e);
         }
         return $this;

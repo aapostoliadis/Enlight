@@ -32,49 +32,49 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
     /**
      * @var string
      */
-	protected $name;
+    protected $name;
 
     /**
      * @var Enlight_Plugin_PluginCollection
      */
-	protected $collection;
+    protected $collection;
 
     /**
      * @param   Enlight_Plugin_PluginCollection $collection
-     * @param   $name
+     * @param                                   $name
      */
     public function __construct(Enlight_Plugin_PluginCollection $collection, $name)
     {
         $this->collection = $collection;
-        $this->name = (string) $name;
+        $this->name = (string)$name;
         parent::__construct();
     }
 
     /**
      * @return  string
      */
-	public function getName()
-	{
-		return $this->name;
-	}
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * @param   $collection
      * @return  Enlight_Plugin_PluginCollection
      */
-	public function setCollection($collection)
-	{
-		$this->collection = $collection;
+    public function setCollection($collection)
+    {
+        $this->collection = $collection;
         return $this;
-	}
+    }
 
     /**
      * @return  Enlight_Plugin_PluginCollection
      */
-	public function Collection()
-	{
-		return $this->collection;
-	}
+    public function Collection()
+    {
+        return $this->collection;
+    }
 
     /**
      * Returns the application instance.

@@ -28,20 +28,20 @@
  */
 class Enlight_Components_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 {
-	/**
+    /**
      * Quote a raw string.
      *
      * @param string $value
      * @return string
      */
-	protected function _quote($value)
+    protected function _quote($value)
     {
-    	if($value instanceof Zend_Date) {
-    		$value = $value->toString('yyyy-MM-dd HH:mm:ss');
-    	}
-    	return parent::_quote($value);
+        if ($value instanceof Zend_Date) {
+            $value = $value->toString('yyyy-MM-dd HH:mm:ss');
+        }
+        return parent::_quote($value);
     }
-    
+
     /**
      * Special handling for PDO query().
      * All bind parameter names must begin with ':'
@@ -59,15 +59,15 @@ class Enlight_Components_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
         if (!empty($bind)) {
             foreach ($bind as $name => $value) {
-                if($value instanceof Zend_Date) {
-		    		$bind[$name] = $value->toString('yyyy-MM-dd HH:mm:ss');
-		    	}
+                if ($value instanceof Zend_Date) {
+                    $bind[$name] = $value->toString('yyyy-MM-dd HH:mm:ss');
+                }
             }
         }
-        
+
         return parent::query($sql, $bind);
     }
-    
+
     /**
      * Creates a PDO object and connects to the database.
      *
@@ -80,18 +80,19 @@ class Enlight_Components_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         if ($this->_connection) {
             return;
         }
-        
+
         try {
-        	parent::_connect();
-        } catch (Exception $e) {
-        	$message = $e->getMessage();
-        	$message = str_replace(array(
-        		$this->_config['username'],
-        		$this->_config['password']
-        	), '******', $message);
+            parent::_connect();
+        }
+        catch (Exception $e) {
+            $message = $e->getMessage();
+            $message = str_replace(array(
+                    $this->_config['username'],
+                    $this->_config['password']
+                ), '******', $message);
             throw new Zend_Db_Adapter_Exception($message, $e->getCode(), $e->getPrevious());
         }
-        
+
         // finally, we delete the authorization data
         unset($this->_config['username'], $this->_config['password']);
     }

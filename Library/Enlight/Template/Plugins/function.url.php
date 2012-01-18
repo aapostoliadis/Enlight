@@ -20,14 +20,15 @@
  * @author     Heiner Lohaus
  * @author     $Author$
  */
+
 /**
  * Build an link based on given controller and action name
- * 
+ *
  * Parameters known by $params
  * - module     : name of the module
  * - controller : name of the controller
- * - action     : name of the action  
- * 
+ * - action     : name of the action
+ *
  * @param $params
  * @param $smarty
  * @param $template
@@ -35,7 +36,7 @@
  */
 function smarty_function_url($params, $smarty, $template)
 {
-	$front = Enlight_Application::Instance()->Bootstrap()->getResource('Front');
-	
-	return $front->Router()->assemble($params);
+    $front = Enlight_Application::Instance()->Bootstrap()->getResource('Front');
+
+    return $front->Router()->assemble($params);
 }

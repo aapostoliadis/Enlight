@@ -42,76 +42,76 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
     /**
      * @var mixed
      */
-	protected $_return;
+    protected $_return;
 
     /**
-     * @param   $name
+     * @param              $name
      * @param   array|null $args
      */
-    public function __construct($name, array $args=null)
-	{
-		$this->_name = $name;
+    public function __construct($name, array $args = null)
+    {
+        $this->_name = $name;
         parent::__construct($args);
-	}
+    }
 
     /**
      * @return  Enlight_Event_EventArgs
      */
     public function stop()
-	{
-		$this->_processed = true;
+    {
+        $this->_processed = true;
         return $this;
-	}
+    }
 
     /**
      * @param   $processed
      * @return  Enlight_Event_EventArgs
      */
-	public function setProcessed($processed)
-	{
-		$this->_processed = (bool) $processed;
+    public function setProcessed($processed)
+    {
+        $this->_processed = (bool)$processed;
         return $this;
-	}
+    }
 
     /**
      * @return bool
      */
-	public function isProcessed()
-	{
-		return $this->_processed;
-	}
+    public function isProcessed()
+    {
+        return $this->_processed;
+    }
 
     /**
      * @param   $name
      * @return  string
      */
-	public function setName($name)
-	{
-		$this->_name = $name;
-	}
+    public function setName($name)
+    {
+        $this->_name = $name;
+    }
 
     /**
      * @return string
      */
     public function getName()
-	{
-		return $this->_name;
-	}
+    {
+        return $this->_name;
+    }
 
     /**
      * @param   mixed $return
      * @return  void
      */
-	public function setReturn($return)
-	{
-		$this->_return = $return;
-	}
+    public function setReturn($return)
+    {
+        $this->_return = $return;
+    }
 
     /**
      * @return  mixed
      */
-	public function getReturn()
-	{
-		return $this->_return;
-	}
+    public function getReturn()
+    {
+        return $this->_return;
+    }
 }

@@ -20,25 +20,26 @@
  * @author     Heiner Lohaus
  * @author     $Author$
  */
+
 /**
  * Formats a given decimal value to a local aware currency value
- * 
- * 
+ *
+ *
  * @link http://framework.zend.com/manual/de/zend.currency.options.html
- * @param float $value Value can have a coma as a decimal separator 
- * @param array $config
+ * @param float  $value Value can have a coma as a decimal separator
+ * @param array  $config
  * @param string $position where the currency symbol should be displayed
  * @return float|string
  */
-function smarty_modifier_currency($value, $config=null, $position=null)
+function smarty_modifier_currency($value, $config = null, $position = null)
 {
-    if(!Enlight_Application::Instance()->Bootstrap()->hasResource('Currency')) {
+    if (!Enlight_Application::Instance()->Bootstrap()->hasResource('Currency')) {
         return $value;
     }
 
-    if(!empty($config) && is_string($config)) {
+    if (!empty($config) && is_string($config)) {
         $config = strtoupper($config);
-        if(defined('Zend_Date::' . $config)) {
+        if (defined('Zend_Date::' . $config)) {
             $config = array('display' => constant('Zend_Currency::' . $config));
         } else {
             $config = array();
@@ -47,9 +48,9 @@ function smarty_modifier_currency($value, $config=null, $position=null)
         $config = array();
     }
 
-    if(!empty($position) && is_string($position)) {
+    if (!empty($position) && is_string($position)) {
         $position = strtoupper($position);
-        if(defined('Zend_Date::' . $position)) {
+        if (defined('Zend_Date::' . $position)) {
             $config['position'] = constant('Zend_Currency::' . $position);
         }
     }
@@ -57,7 +58,7 @@ function smarty_modifier_currency($value, $config=null, $position=null)
     $currency = Enlight_Application::Instance()->Currency();
     $value = floatval(str_replace(',', '.', $value));
     $value = $currency->toCurrency($value, $config);
-    if(function_exists('mb_convert_encoding')) {
+    if (function_exists('mb_convert_encoding')) {
         $value = mb_convert_encoding($value, 'HTML-ENTITIES', 'UTF-8');
     }
     $value = htmlentities($value, ENT_COMPAT, 'UTF-8', false);

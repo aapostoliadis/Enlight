@@ -31,7 +31,7 @@ class Enlight_Components_Currency extends Zend_Currency
     /**
      * @var int
      */
-	protected $id;
+    protected $id;
 
     /**
      * Returns the locale id
@@ -40,7 +40,7 @@ class Enlight_Components_Currency extends Zend_Currency
      */
     public function getId()
     {
-    	return $this->id;
+        return $this->id;
     }
 
     /**
@@ -53,8 +53,8 @@ class Enlight_Components_Currency extends Zend_Currency
      */
     public function setFormat(array $options = array())
     {
-        if(isset($options['id'])) {
-            $this->id = (int) $options['id'];
+        if (isset($options['id'])) {
+            $this->id = (int)$options['id'];
         }
         return parent::setFormat($options);
     }

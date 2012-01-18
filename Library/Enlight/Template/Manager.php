@@ -45,23 +45,23 @@ class Enlight_Template_Manager extends Smarty
      */
     public function __construct($options = null)
     {
-    	// self pointer needed by some other class methods
+        // self pointer needed by some other class methods
         $this->smarty = $this;
         $this->start_time = microtime(true);
-        
+
         // set default dirs
         $this->setTemplateDir('.' . DS . 'templates' . DS)
-            ->setCompileDir('.' . DS . 'templates_c' . DS)
-            ->setPluginsDir(array(dirname(__FILE__) . '/Plugins/', SMARTY_PLUGINS_DIR))
-            ->setCacheDir('.' . DS . 'cache' . DS)
-            ->setConfigDir('.' . DS . 'configs' . DS);
+             ->setCompileDir('.' . DS . 'templates_c' . DS)
+             ->setPluginsDir(array(dirname(__FILE__) . '/Plugins/', SMARTY_PLUGINS_DIR))
+             ->setCacheDir('.' . DS . 'cache' . DS)
+             ->setConfigDir('.' . DS . 'configs' . DS);
 
         $this->debug_tpl = 'file:' . SMARTY_DIR . '/debug.tpl';
 
-        if($options instanceof Enlight_Config) {
+        if ($options instanceof Enlight_Config) {
             $options = $options->toArray();
         }
-        if($options !== null) {
+        if ($options !== null) {
             foreach ($options as $key => $option) {
                 $key = str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
                 $this->{'set' . $key}($option);
@@ -70,15 +70,15 @@ class Enlight_Template_Manager extends Smarty
     }
 
     /**
-    * Creates a template object
-    *
-    * @param string $template the resource handle of the template file
-    * @param mixed $cache_id cache id to be used with this template
-    * @param mixed $compile_id compile id to be used with this template
-    * @param object $parent next higher level of Smarty variables
-    * @param boolean $do_clone flag is Smarty object shall be cloned
-    * @return object template object
-    */
+     * Creates a template object
+     *
+     * @param string  $template the resource handle of the template file
+     * @param mixed   $cache_id cache id to be used with this template
+     * @param mixed   $compile_id compile id to be used with this template
+     * @param object  $parent next higher level of Smarty variables
+     * @param boolean $do_clone flag is Smarty object shall be cloned
+     * @return object template object
+     */
     public function createTemplate($template, $cache_id = null, $compile_id = null, $parent = null, $do_clone = false)
     {
         return parent::createTemplate($template, $cache_id, $compile_id, $parent, $do_clone);

@@ -28,21 +28,21 @@
  * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Components_Test_TestSuite extends PHPUnit_Framework_TestSuite
-{	
-	/**
+{
+    /**
      * Adds a test to the suite.
      *
      * @param  PHPUnit_Framework_Test $test
-     * @param  array $groups
+     * @param  array                  $groups
      * @return Enlight_Components_Test_TestSuite
      */
-	public function addTest(PHPUnit_Framework_Test $test, $groups = array())
+    public function addTest(PHPUnit_Framework_Test $test, $groups = array())
     {
-    	parent::addTest($test, $groups);
-    	
-    	return $this;
+        parent::addTest($test, $groups);
+
+        return $this;
     }
-    
+
     /**
      * Adds the tests from the given class to the suite.
      *
@@ -52,19 +52,18 @@ class Enlight_Components_Test_TestSuite extends PHPUnit_Framework_TestSuite
      */
     public function addTestSuite($testClass)
     {
-    	if (is_string($testClass) && class_exists($testClass)) {
+        if (is_string($testClass) && class_exists($testClass)) {
             $testClass = new ReflectionClass($testClass);
         }
-    	if($testClass instanceof ReflectionClass 
-    	  && $testClass->isSubclassOf('PHPUnit_Framework_TestCase')) {
-    		$this->addTest(new self($testClass));
-    	} else {
-    		parent::addTestSuite($testClass);
-    	}
-    	
-    	return $this;
+        if ($testClass instanceof ReflectionClass && $testClass->isSubclassOf('PHPUnit_Framework_TestCase')) {
+            $this->addTest(new self($testClass));
+        } else {
+            parent::addTestSuite($testClass);
+        }
+
+        return $this;
     }
-    
+
     /**
      * Returns the test groups of the suite.
      *
@@ -72,11 +71,10 @@ class Enlight_Components_Test_TestSuite extends PHPUnit_Framework_TestSuite
      */
     public function getGroups()
     {
-    	$groups = parent::getGroups();
-    	if($this->getName()
-    	  && !class_exists($this->getName(), false)) {
-    		$groups[] = $this->getName();
-    	}
-    	return $groups;
+        $groups = parent::getGroups();
+        if ($this->getName() && !class_exists($this->getName(), false)) {
+            $groups[] = $this->getName();
+        }
+        return $groups;
     }
 }

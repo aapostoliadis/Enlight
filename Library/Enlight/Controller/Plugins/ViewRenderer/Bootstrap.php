@@ -68,26 +68,23 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_PostDispatch',
             array($this, 'onPostDispatch'),
-            400
-        );
+            400);
         $this->Application()->Events()->registerListener($event);
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_PreDispatch',
             array($this, 'onPreDispatch'),
-            400
-        );
+            400);
         $this->Application()->Events()->registerListener($event);
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_Init',
             array($this, 'onActionInit'),
-            400
-        );
+            400);
         $this->Application()->Events()->registerListener($event);
     }
 
     /**
      * @param   Enlight_Event_EventArgs $args
-     * @return 
+     * @return
      */
     public function onDispatchLoopStartup(Enlight_Event_EventArgs $args)
     {
@@ -115,7 +112,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     public function onPreDispatch(Enlight_Event_EventArgs $args)
     {
-        if($this->shouldRender() && !$this->Action()->View()->hasTemplate()) {
+        if ($this->shouldRender() && !$this->Action()->View()->hasTemplate()) {
             $this->Action()->View()->loadTemplate($this->getTemplateName());
         }
     }
@@ -135,7 +132,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     protected function initEngine()
     {
-        if($this->engine === null) {
+        if ($this->engine === null) {
             $this->engine = $this->Application()->Bootstrap()->getResource('Template');
         }
     }
@@ -150,7 +147,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     }
 
     /**
-     * @param   string $template
+     * @param   string      $template
      * @param   string|null $name
      * @return  Enlight_Controller_Plugins_ViewRenderer_Bootstrap
      */
@@ -158,17 +155,21 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     {
         $action = $this->Action();
 
-        $this->Application()->Events()->notify('Enlight_Plugins_ViewRenderer_PreRender', array('subject'=>$this, 'template'=>$template));
-
-        $render = $action->View()->render($template);
-        $render = $this->Application()->Events()->filter('Enlight_Plugins_ViewRenderer_FilterRender', $render, array('subject'=>$this, 'template'=>$template));
-
-        $action->Response()->appendBody(
-            $render,
-            $name
+        $this->Application()->Events()->notify(
+            'Enlight_Plugins_ViewRenderer_PreRender',
+            array('subject' => $this, 'template' => $template)
         );
 
-        $this->Application()->Events()->notify('Enlight_Plugins_ViewRenderer_PostRender', array('subject'=>$this));
+        $render = $action->View()->render($template);
+        $render = $this->Application()->Events()->filter(
+            'Enlight_Plugins_ViewRenderer_FilterRender',
+            $render,
+            array('subject' => $this, 'template' => $template)
+        );
+
+        $action->Response()->appendBody($render, $name);
+
+        $this->Application()->Events()->notify('Enlight_Plugins_ViewRenderer_PostRender', array('subject' => $this));
 
         return $this;
     }
@@ -188,11 +189,11 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     public function shouldRender()
     {
         return (!$this->Front()->getParam('noViewRenderer')
-            && !$this->neverRender
-            && !$this->noRender
-            && $this->Action()
-            && $this->Action()->Request()->isDispatched()
-            && !$this->Action()->Response()->isRedirect()
+                 && !$this->neverRender
+                 && !$this->noRender
+                 && $this->Action()
+                 && $this->Action()->Request()->isDispatched()
+                 && !$this->Action()->Response()->isRedirect()
         );
     }
 
@@ -218,7 +219,8 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     public function setNoRender($flag = true)
     {
-        $this->noRender = $flag ? true : false;;
+        $this->noRender = $flag ? true : false;
+        ;
         return $this;
     }
 

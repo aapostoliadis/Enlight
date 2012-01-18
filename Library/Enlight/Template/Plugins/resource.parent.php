@@ -13,7 +13,7 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Template
+ * @package    Enlight_Template_Plugins
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
@@ -37,7 +37,7 @@ class Smarty_Resource_Parent extends Smarty_Internal_Resource_File
      * @return string fully qualified filepath
      * @throws SmartyException if default template handler is registered but not callable
      */
-    protected function buildFilepath(Smarty_Template_Source $source, Smarty_Internal_Template $_template=null)
+    protected function buildFilepath(Smarty_Template_Source $source, Smarty_Internal_Template $_template = null)
     {
         $file = $source->name;
         $hit = false;
@@ -45,7 +45,7 @@ class Smarty_Resource_Parent extends Smarty_Internal_Resource_File
         foreach ($source->smarty->getTemplateDir() as $_directory) {
             $_filePath = $_directory . $file;
             if ($this->fileExists($source, $_filePath)) {
-                if($hit) {
+                if ($hit) {
                     return $_filePath;
                 }
                 $hit = true;
