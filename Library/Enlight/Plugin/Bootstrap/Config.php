@@ -40,16 +40,6 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 	protected $collection;
 
     /**
-     * @param   string $name
-     * @param   Enlight_Plugin_Namespace_Config $namespace
-     */
-    public function __construct($name, $namespace = null)
-    {
-        $this->setCollection($namespace);
-        parent::__construct($name);
-    }
-
-    /**
      * Returns the application instance.
      *
      * @return  Enlight_Config

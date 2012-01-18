@@ -70,10 +70,10 @@ class Enlight_Event_Subscriber_Plugin extends Enlight_Event_Subscriber_Config
             }
             $this->listeners[] = new Enlight_Event_Handler_Plugin(
                 $entry->name,
-                $entry->position,
                 $this->namespace,
                 $entry->plugin,
-                $entry->listener
+                $entry->listener,
+                $entry->position
             );
         }
         return $this;
