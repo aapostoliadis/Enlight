@@ -40,7 +40,7 @@ class Enlight_Tests_Controller_Plugins_AllTests
 	{
 		$suite = new Enlight_Components_Test_TestSuite('Enlight Plugins Tests');
 
-		//$suite->addTest(Enlight_Tests_Controller_Plugins_Json_AllTests::suite());
+        $suite->addTestFiles(glob(dirname(__FILE__) . '/*Test.php'));
 
 		return $suite;
 	}

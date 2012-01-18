@@ -59,6 +59,10 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     public function init()
     {
+        if($this->Collection() === null) {
+            return;
+        }
+
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Front_DispatchLoopStartup',
             array($this, 'onDispatchLoopStartup'),
