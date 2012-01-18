@@ -30,18 +30,23 @@
 class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 {
     /**
-     * @var     Enlight_Config
+     * @var Enlight_Config
      */
 	protected $config;
+
+    /**
+     * @var Enlight_Plugin_Namespace_Config
+     */
+	protected $collection;
 
     /**
      * @param   string $name
      * @param   Enlight_Plugin_Namespace_Config $namespace
      */
-    public function __construct($namespace, $name)
+    public function __construct($name, $namespace = null)
     {
-        parent::__construct($namespace, $name);
-        $this->config = $namespace->getConfig($name);
+        $this->setCollection($namespace);
+        parent::__construct($name);
     }
 
     /**
@@ -51,6 +56,9 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
      */
     public function Config()
     {
+        if($this->config === null) {
+            $this->config = $this->Collection()->getConfig($this->getName());
+        }
         return $this->config;
     }
 

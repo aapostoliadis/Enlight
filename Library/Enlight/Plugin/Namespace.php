@@ -67,10 +67,10 @@ abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
     }
 
     /**
-     * @param Enlight_Plugin_PluginCollection $manager
-     * @return Enlight_Plugin_PluginCollection
+     * @param Enlight_Plugin_PluginManager $manager
+     * @return Enlight_Plugin_PluginManager
      */
-    public function setManager(Enlight_Plugin_PluginCollection $manager)
+    public function setManager(Enlight_Plugin_PluginManager $manager)
     {
         $this->manager = $manager;
         return $this;
