@@ -95,24 +95,24 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Plugin install method
-     */
-    public function install()
-    {
-        $this->subscribeEvent(
-            'Enlight_Controller_Front_StartDispatch',
-            null,
-            'onStartDispatch'
-        );
-    }
+<<<<<<< HEAD
+	 * Plugin install method
+	 */
+	public function install()
+	{
+		 $this->subscribeEvent(
+			'Enlight_Controller_Front_StartDispatch',
+			'onStartDispatch'
+		);
+	}
 
-    /**
-     * Plugin event method
-     */
-    public function onStartDispatch()
-    {
-        $this->registerErrorHandler(E_ALL | E_STRICT);
-    }
+	/**
+	 * Plugin event method
+	 */
+	public function onStartDispatch()
+	{
+		$this->registerErrorHandler(E_ALL | E_STRICT);
+	}
 
     /**
      * Register error handler callback

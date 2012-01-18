@@ -39,11 +39,11 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function install()
     {
-        $this->subscribeEvent('Enlight_Bootstrap_InitResource_Log', null, 'onInitResourceLog');
+        $this->subscribeEvent('Enlight_Bootstrap_InitResource_Log', 'onInitResourceLog');
 
-        $this->subscribeEvent('Enlight_Controller_Front_RouteStartup', null, 'onRouteStartup');
+        $this->subscribeEvent('Enlight_Controller_Front_RouteStartup', 'onRouteStartup');
 
-        $this->subscribeEvent('Enlight_Controller_Front_DispatchLoopShutdown', 500, 'onDispatchLoopShutdown');
+        $this->subscribeEvent('Enlight_Controller_Front_DispatchLoopShutdown', 'onDispatchLoopShutdown', 500);
     }
 
     /**
