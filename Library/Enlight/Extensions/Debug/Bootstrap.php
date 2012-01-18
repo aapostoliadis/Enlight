@@ -41,13 +41,11 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	{
 		$this->subscribeEvent(
             'Enlight_Controller_Front_StartDispatch',
-            null,
 			'onStartDispatch'
          );
 
         $this->subscribeEvent(
             'Enlight_Controller_Front_DispatchLoopShutdown',
-            null,
 			'onDispatchLoopShutdown'
         );
 	}

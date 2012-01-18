@@ -101,7 +101,6 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
 	{
 		 $this->subscribeEvent(
 			'Enlight_Controller_Front_StartDispatch',
-             null,
 			'onStartDispatch'
 		);
 	}

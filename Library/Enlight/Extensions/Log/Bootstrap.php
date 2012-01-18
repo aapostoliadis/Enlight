@@ -41,7 +41,6 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	{
 		$this->subscribeEvent(
             'Enlight_Bootstrap_InitResource_Log',
-            null,
             'onInitResourceLog'
         );
 
