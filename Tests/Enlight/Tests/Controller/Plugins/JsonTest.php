@@ -1,5 +1,4 @@
 <?php
-class Enlight extends Enlight_Application {}
 /**
  * Enlight
  *
@@ -76,7 +75,7 @@ class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_
                         ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action',null, array($request, $response) );
+		$action = $this->getMock('Enlight_Controller_Action', null, array($request, $response) );
 
 		$eventArgs = $this->createEventArgs()->setSubject($action);
 
