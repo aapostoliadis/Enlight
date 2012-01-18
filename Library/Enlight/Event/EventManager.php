@@ -44,7 +44,7 @@ class Enlight_Event_EventManager extends Enlight_Class
     {
         $list =& $this->listeners[$handler->getName()];
 
-        if($handler->getPosition()) {
+        if ($handler->getPosition()) {
             $position = (int) $handler->getPosition();
         } else {
             $position = count($list);
@@ -67,7 +67,7 @@ class Enlight_Event_EventManager extends Enlight_Class
      */
     public function removeListener(Enlight_Event_Handler $handler)
     {
-        if(!empty($this->listeners[$handler->getName()])) {
+        if (!empty($this->listeners[$handler->getName()])) {
             $this->listeners[$handler->getName()] = array_diff($this->listeners[$handler->getName()], array($handler));
         }
         return $this;
@@ -90,7 +90,7 @@ class Enlight_Event_EventManager extends Enlight_Class
      */
     public function getListeners($event)
     {
-        if(isset($this->listeners[$event])) {
+        if (isset($this->listeners[$event])) {
             return $this->listeners[$event];
         } else {
             return array();
@@ -115,14 +115,14 @@ class Enlight_Event_EventManager extends Enlight_Class
      */
     public function notify($event, $eventArgs = null)
     {
-        if(!$this->hasListeners($event)) {
+        if (!$this->hasListeners($event)) {
             return null;
         }
-        if(isset($eventArgs) && is_array($eventArgs)) {
+        if (isset($eventArgs) && is_array($eventArgs)) {
             $eventArgs = new Enlight_Event_EventArgs($event, $eventArgs);
-        } elseif(!isset($eventArgs)) {
+        } elseif (!isset($eventArgs)) {
             $eventArgs = new Enlight_Event_EventArgs($event);
-        } elseif(!$eventArgs instanceof Enlight_Event_EventArgs) {
+        } elseif (!$eventArgs instanceof Enlight_Event_EventArgs) {
             throw new Enlight_Event_Exception('Parameter "eventArgs" must be an instance of "Enlight_Event_EventArgs"');
         }
         $eventArgs->setName($event);
@@ -142,14 +142,14 @@ class Enlight_Event_EventManager extends Enlight_Class
      */
     public function notifyUntil($event, $eventArgs = null)
     {
-        if(!$this->hasListeners($event)) {
+        if (!$this->hasListeners($event)) {
             return null;
         }
-        if(isset($eventArgs) && is_array($eventArgs)) {
+        if (isset($eventArgs) && is_array($eventArgs)) {
             $eventArgs = new Enlight_Event_EventArgs($event, $eventArgs);
-        } elseif(!isset($eventArgs)) {
+        } elseif (!isset($eventArgs)) {
             $eventArgs = new Enlight_Event_EventArgs($event);
-        } elseif(!$eventArgs instanceof Enlight_Event_EventArgs) {
+        } elseif (!$eventArgs instanceof Enlight_Event_EventArgs) {
             throw new Enlight_Exception('Parameter "eventArgs" must be an instance of "Enlight_Event_EventArgs"');
         }
         $eventArgs->setName($event);
@@ -160,7 +160,7 @@ class Enlight_Event_EventManager extends Enlight_Class
                 $eventArgs->setProcessed(true);
                 $eventArgs->setReturn($return);
             }
-            if($eventArgs->isProcessed()) {
+            if ($eventArgs->isProcessed()) {
                 return $eventArgs;
             }
         }
@@ -176,14 +176,14 @@ class Enlight_Event_EventManager extends Enlight_Class
      */
     public function filter($event, $value, $eventArgs = null)
     {
-        if(!$this->hasListeners($event)) {
+        if (!$this->hasListeners($event)) {
             return $value;
         }
-        if(isset($eventArgs) && is_array($eventArgs)) {
+        if (isset($eventArgs) && is_array($eventArgs)) {
             $eventArgs = new Enlight_Event_EventArgs($event, $eventArgs);
-        } elseif(!isset($eventArgs)) {
+        } elseif (!isset($eventArgs)) {
             $eventArgs = new Enlight_Event_EventArgs($event);
-        } elseif(!$eventArgs instanceof Enlight_Event_EventArgs) {
+        } elseif (!$eventArgs instanceof Enlight_Event_EventArgs) {
             throw new Enlight_Event_Exception('Parameter "eventArgs" must be an instance of "Enlight_Event_EventArgs"');
         }
         $eventArgs->setReturn($value);

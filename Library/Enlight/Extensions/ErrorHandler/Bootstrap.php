@@ -62,23 +62,8 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     /**
      * @var array
      */
-    protected $errorLevelList = array(
-     	E_ERROR				=> 'E_ERROR',
-		E_WARNING			=> 'E_WARNING',
-		E_PARSE				=> 'E_PARSE',
-		E_NOTICE			=> 'E_NOTICE',
-		E_CORE_ERROR		=> 'E_CORE_ERROR',
-		E_CORE_WARNING		=> 'E_CORE_WARNING',
-		E_COMPILE_ERROR		=> 'E_COMPILE_ERROR',
-		E_COMPILE_WARNING	=> 'E_COMPILE_WARNING',
-		E_USER_ERROR		=> 'E_USER_ERROR',
-		E_USER_WARNING		=> 'E_USER_WARNING',
-		E_USER_NOTICE		=> 'E_USER_NOTICE',
-		E_ALL				=> 'E_ALL',
-		E_STRICT			=> 'E_STRICT',
-		E_RECOVERABLE_ERROR	=> 'E_RECOVERABLE_ERROR',
-		//E_DEPRECATED		=> 'E_DEPRECATED',
-		//E_USER_DEPRECATED	=> 'E_USER_DEPRECATED',
+    protected $errorLevelList = array(E_ERROR => 'E_ERROR', E_WARNING => 'E_WARNING', E_PARSE => 'E_PARSE', E_NOTICE => 'E_NOTICE', E_CORE_ERROR => 'E_CORE_ERROR', E_CORE_WARNING => 'E_CORE_WARNING', E_COMPILE_ERROR => 'E_COMPILE_ERROR', E_COMPILE_WARNING => 'E_COMPILE_WARNING', E_USER_ERROR => 'E_USER_ERROR', E_USER_WARNING => 'E_USER_WARNING', E_USER_NOTICE => 'E_USER_NOTICE', E_ALL => 'E_ALL', E_STRICT => 'E_STRICT', E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',//E_DEPRECATED        => 'E_DEPRECATED',
+        //E_USER_DEPRECATED    => 'E_USER_DEPRECATED',
     );
 
     /**
@@ -95,6 +80,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
+<<<<<<< HEAD
 	 * Plugin install method
 	 */
 	public function install()
@@ -154,7 +140,14 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
             $hashId = md5($errorLevel . $errorMessage . $errorFile . $errorLine);
             if (!isset($this->errorList[$hashId])) {
                 $errorName = isset($this->errorLevelList[$errorLevel]) ? $this->errorLevelList[$errorLevel] : '';
-                $this->errorList[$hashId] = array('count' => 1, 'code' => $errorLevel, 'name' => $errorName, 'message' => $errorMessage, 'line' => $errorLine, 'file' => $errorFile);
+                $this->errorList[$hashId] = array(
+                    'count' => 1,
+                    'code' => $errorLevel,
+                    'name' => $errorName,
+                    'message' => $errorMessage,
+                    'line' => $errorLine,
+                    'file' => $errorFile
+                );
             } else {
                 ++$this->errorList[$hashId]['count'];
             }
@@ -163,7 +156,14 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
         //throw new ErrorException($errorMessage, 0, $errorLevel, $errorFile, $errorLine);
 
         if ($this->origErrorHandler !== null) {
-            return call_user_func($this->origErrorHandler, $errorLevel, $errorMessage, $errorFile, $errorLine, $errorContext);
+            return call_user_func(
+                $this->origErrorHandler,
+                $errorLevel,
+                $errorMessage,
+                $errorFile,
+                $errorLine,
+                $errorContext
+            );
         }
         return true;
     }

@@ -125,7 +125,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
-     * Returns the controller directory. If more than one directory exists the function will return the controller directory of the given module.
+     * Returns the controller directory.
+     * If more than one directory exists the function will return the controller directory of the given module.
      * @param null $module
      * @return array|null
      */
@@ -345,7 +346,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         $moduleName = $this->formatModuleName($this->curModule);
         if ($event = Enlight_Application::Instance()->Events()->notifyUntil(
                 'Enlight_Controller_Dispatcher_ControllerPath_' . $moduleName . '_' . $controllerName,
-                array('subject' => $this, 'request' => $request))
+                array('subject' => $this, 'request' => $request)
+                )
         ) {
             $path = $event->getReturn();
         } else {
@@ -355,7 +357,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
-     * Returns the action method of the given request class. If no action name set in the request class, the default action will used.
+     * Returns the action method of the given request class.
+     * If no action name set in the request class, the default action will used.
      * @param   Enlight_Controller_Request_Request $request
      * @return  string
      */
@@ -398,8 +401,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
      */
     public function getFullActionName(Enlight_Controller_Request_Request $request)
     {
-        $parts = array($this->formatModuleName(
-            $request->getModuleName()),
+        $parts = array(
+            $this->formatModuleName($request->getModuleName()),
             $this->formatControllerName($request->getControllerName()),
             $this->formatActionName($request->getActionName())
         );
@@ -456,14 +459,19 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
      * @param Enlight_Controller_Response_Response $response
      * @throws Enlight_Controller_Exception|Enlight_Exception|Exception
      */
-    public function dispatch(Enlight_Controller_Request_Request $request, Enlight_Controller_Response_Response $response)
+    public function dispatch(Enlight_Controller_Request_Request $request,
+                             Enlight_Controller_Response_Response $response
+    )
     {
         $this->setResponse($response);
 
         if (!$this->isDispatchable($request)) {
             $controller = $request->getControllerName();
             if (!$this->Front()->getParam('useDefaultControllerAlways') && !empty($controller)) {
-                throw new Enlight_Controller_Exception('Controller "' . $controller . '" not found', Enlight_Controller_Exception::Controller_Dispatcher_Controller_Not_Found);
+                throw new Enlight_Controller_Exception(
+                    'Controller "' . $controller . '" not found',
+                    Enlight_Controller_Exception::Controller_Dispatcher_Controller_Not_Found
+                );
             }
             $request->setControllerName($this->defaultController);
         }

@@ -77,8 +77,8 @@ class Enlight_Components_Mail extends Zend_Mail
     /*
      public function addAttachment($attachment)
      {
-         if(!$attachment instanceof Zend_Mime_Part) {
-             if(func_num_args() > 1) {
+         if (!$attachment instanceof Zend_Mime_Part) {
+             if (func_num_args() > 1) {
                  $filename = func_get_arg(1);
              } else {
                  $filename = basename($attachment);

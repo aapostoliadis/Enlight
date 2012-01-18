@@ -238,7 +238,11 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
 
         $listeners = new Enlight_Event_Subscriber_Array();
         foreach ($events as $event) {
-            $listeners->registerListener(new Enlight_Event_Handler_Default($event, array($this, 'onBenchmarkEvent'), -99));
+            $listeners->registerListener(
+                new Enlight_Event_Handler_Default(
+                    $event, array($this, 'onBenchmarkEvent'), -99
+                )
+            );
         }
         return $listeners;
     }
