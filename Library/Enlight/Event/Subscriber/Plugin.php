@@ -35,7 +35,7 @@ class Enlight_Event_Subscriber_Plugin extends Enlight_Event_Subscriber_Config
     protected $namespace;
 
     /**
-     * @param $namespace
+     * @param      $namespace
      * @param null $options
      */
     public function __construct($namespace, $options = null)
@@ -50,7 +50,7 @@ class Enlight_Event_Subscriber_Plugin extends Enlight_Event_Subscriber_Config
     public function write()
     {
         $this->storage->listeners = $this->toArray();
-		$this->storage->write();
+        $this->storage->write();
         return $this;
     }
 
@@ -63,28 +63,29 @@ class Enlight_Event_Subscriber_Plugin extends Enlight_Event_Subscriber_Config
     {
         $this->listeners = array();
 
-        if($this->storage->listeners !== null)
-        foreach($this->storage->listeners as $entry) {
-            if(!$entry instanceof Enlight_Config) {
-                continue;
+        if ($this->storage->listeners !== null) {
+            foreach ($this->storage->listeners as $entry) {
+                if (!$entry instanceof Enlight_Config) {
+                    continue;
+                }
+                $this->listeners[] = new Enlight_Event_Handler_Plugin(
+                    $entry->name,
+                    $entry->position,
+                    $this->namespace,
+                    $entry->plugin,
+                    $entry->listener
+                );
             }
-            $this->listeners[] = new Enlight_Event_Handler_Plugin(
-                $entry->name,
-                $this->namespace,
-                $entry->plugin,
-                $entry->listener,
-                $entry->position
-            );
         }
         return $this;
     }
 
     public function toArray()
     {
-         $listeners = array();
+        $listeners = array();
         /** @var $handler Enlight_Event_Handler_Plugin */
-        foreach($this->listeners as $handler) {
-            $listeners[] =  $handler->toArray();
+        foreach ($this->listeners as $handler) {
+            $listeners[] = $handler->toArray();
         }
         return $listeners;
     }

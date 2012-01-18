@@ -30,14 +30,19 @@
 class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 {
     /**
-     * @var Enlight_Config
+     * @var     Enlight_Config
      */
-	protected $config;
+    protected $config;
 
     /**
-     * @var Enlight_Plugin_Namespace_Config
+     * @param   string                          $name
+     * @param   Enlight_Plugin_Namespace_Config $namespace
      */
-	protected $collection;
+    public function __construct($namespace, $name)
+    {
+        parent::__construct($namespace, $name);
+        $this->config = $namespace->getConfig($name);
+    }
 
     /**
      * Returns the application instance.
@@ -46,23 +51,20 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
      */
     public function Config()
     {
-        if($this->config === null) {
-            $this->config = $this->Collection()->getConfig($this->getName());
-        }
         return $this->config;
     }
 
     /**
      * @return  Enlight_Plugin_Namespace_Config
      */
-	public function Collection()
-	{
-		return $this->collection;
-	}
+    public function Collection()
+    {
+        return $this->collection;
+    }
 
     /**
-     * @param   string $event
-     * @param   integer $position
+     * @param   string   $event
+     * @param   integer  $position
      * @param   callback $listener
      * @return  Enlight_Plugin_Bootstrap_Config
      */
@@ -70,7 +72,11 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
     {
         $namespace = $this->Collection();
         $handler = new Enlight_Event_Handler_Plugin(
-            $event, $namespace, $this, $listener, $position
+            $event,
+            $namespace,
+            $this,
+            $listener,
+            $position
         );
         $namespace->Subscriber()->registerListener($handler);
         return $this;
@@ -81,6 +87,5 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
      */
     public function install()
     {
-
     }
 }

@@ -28,7 +28,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license/new-bsd     New BSD License
  */
-class Enlight_Tests_Controller_Plugins_JsonTest extends Enlight_Components_Test_Plugin_TestCase
+class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_Test_Plugin_TestCase
 {
 	/**
 	 * @var Enlight_Controller_Plugins_Json_Bootstrap
@@ -37,14 +37,8 @@ class Enlight_Tests_Controller_Plugins_JsonTest extends Enlight_Components_Test_
 
 	public function setUp()
     {
-        $this->json = $this->getMock('Enlight_Controller_Plugins_Json_Bootstrap', null, array('Json'));
-        /** @var $viewRenderer Enlight_Controller_Plugins_ViewRenderer_Bootstrap */
-        $viewRenderer = $this->getMock('Enlight_Controller_Plugins_ViewRenderer_Bootstrap', null, array('ViewRenderer'));
-
-        /** @var $namespace Enlight_Plugin_Namespace */
-        $namespace = $this->getMock('Enlight_Plugin_Namespace', null, array('Controller'));
-        $namespace->registerPlugin($viewRenderer);
-        $namespace->registerPlugin($this->json);
+		/** @var $foo Enlight_Controller_Plugins_Json_Bootstrap*/
+		$this->json = Enlight_TestHelper::Instance()->Front()->getParam('controllerPlugins')->Json();
 	}
 
 	public function tearDown()
@@ -101,8 +95,6 @@ class Enlight_Tests_Controller_Plugins_JsonTest extends Enlight_Components_Test_
         $response = $this->Response();
 
 		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
-
-
 		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
 		$this->json->onPostDispatch($eventArgs);
 		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
@@ -135,7 +127,6 @@ class Enlight_Tests_Controller_Plugins_JsonTest extends Enlight_Components_Test_
 
 	public function testWithoutPadding()
 	{
-        return;
 		$this->json->setPadding(false);
 		$this->json->setRenderer(true);
 
@@ -144,11 +135,7 @@ class Enlight_Tests_Controller_Plugins_JsonTest extends Enlight_Components_Test_
                         ->setDispatched(true);
         $response = $this->Response();
 
-        /** @var $action Enlight_Controller_Action */
 		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
-
-        $view = new Enlight_View_Default($this->engine);
-        $action->setView($view);
 
         $action->View()->loadTemplate('string:');
         $action->View()->assign('foo','bar');
@@ -164,8 +151,6 @@ class Enlight_Tests_Controller_Plugins_JsonTest extends Enlight_Components_Test_
 
 	public function testRendererOnPaddingOff()
 	{
-        return;
-
 		$this->json->setRenderer(true);
 		$this->json->setPadding(false);
 
@@ -189,8 +174,6 @@ class Enlight_Tests_Controller_Plugins_JsonTest extends Enlight_Components_Test_
 	}
 	public function testRendererOnPaddingOn()
 	{
-        return;
-
 		$this->json->setRenderer(true);
 		$this->json->setPadding(true);
 
@@ -216,8 +199,6 @@ class Enlight_Tests_Controller_Plugins_JsonTest extends Enlight_Components_Test_
 	
 	public function testRendererOffPaddingOff()
 	{
-        return;
-
 		$this->json->setRenderer(false);
 		$this->json->setPadding(false);
 
@@ -241,8 +222,6 @@ class Enlight_Tests_Controller_Plugins_JsonTest extends Enlight_Components_Test_
 
 	public function testRendererOffPaddingOn()
 	{
-        return;
-
 		$this->json->setRenderer(false);
 		$this->json->setPadding(true);
 

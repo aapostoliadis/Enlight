@@ -13,19 +13,19 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category    Enlight
- * @package	    Enlight_Session
+ * @package     Enlight_Session
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	    http://enlight.de/license	 New BSD License
- * @version	    $Id$
- * @author	    Heiner Lohaus
- * @author	    $Author$
+ * @license     http://enlight.de/license     New BSD License
+ * @version     $Id$
+ * @author      Heiner Lohaus
+ * @author      $Author$
  */
 
 /**
  * @category    Enlight
- * @package	    Enlight_Session
+ * @package     Enlight_Session
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
- * @license	    http://enlight.de/license	 New BSD License
+ * @license     http://enlight.de/license     New BSD License
  */
 class Enlight_Components_Session_Namespace extends Zend_Session_Namespace implements Countable, IteratorAggregate, ArrayAccess
 {
@@ -34,7 +34,7 @@ class Enlight_Components_Session_Namespace extends Zend_Session_Namespace implem
      * @param mixed $key A key to check for.
      * @return boolean Returns true on success or false on failure.
      */
-	public function offsetExists($key)
+    public function offsetExists($key)
     {
         return $this->__isset($key);
     }

@@ -52,7 +52,7 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
         ))
         ) {
             $params = $event->getReturn();
-        } elseif($request instanceof Enlight_Controller_Request_RequestHttp) {
+        } elseif ($request instanceof Enlight_Controller_Request_RequestHttp) {
             /** @var $request Enlight_Controller_Request_RequestHttp */
             $params = $this->routeDefault($request);
         } else {
@@ -74,7 +74,7 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
     {
         $path = $request->getPathInfo();
 
-        if(empty($path)) {
+        if (empty($path)) {
             return array();
         }
 
@@ -82,23 +82,23 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
 
         $query = array();
         $params = array();
-        foreach(explode($this->separator, trim($path, $this->separator)) as $routePart) {
+        foreach (explode($this->separator, trim($path, $this->separator)) as $routePart) {
             $routePart = urldecode($routePart);
-            if(empty($query[$request->getModuleKey()]) && $dispatcher->isValidModule($routePart)) {
+            if (empty($query[$request->getModuleKey()]) && $dispatcher->isValidModule($routePart)) {
                 $query[$request->getModuleKey()] = $routePart;
-            } elseif(empty($query[$request->getControllerKey()])) {
+            } elseif (empty($query[$request->getControllerKey()])) {
                 $query[$request->getControllerKey()] = $routePart;
-            } elseif(empty($query[$request->getActionKey()])) {
+            } elseif (empty($query[$request->getActionKey()])) {
                 $query[$request->getActionKey()] = $routePart;
             } else {
                 $params[] = $routePart;
             }
         }
 
-        if($params) {
+        if ($params) {
             $chunks = array_chunk($params, 2, false);
-            foreach($chunks as $chunk) {
-                if(isset($chunk[1])) {
+            foreach ($chunks as $chunk) {
+                if (isset($chunk[1])) {
                     $query[$chunk[0]] = $chunk[1];
                 } else {
                     $query[$chunk[0]] = '';
@@ -115,38 +115,45 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
      */
     public function assemble($userParams = array())
     {
-        if(is_string($userParams)) {
+        if (is_string($userParams)) {
             $userParams = parse_url($userParams, PHP_URL_QUERY);
             parse_str($userParams, $userParams);
         }
 
         $request = $this->front->Request();
 
-        Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Router_PreAssemble',
-                                                          array('subject' => $this, 'request' => $request));
+        Enlight_Application::Instance()->Events()->notify(
+            'Enlight_Controller_Router_PreAssemble',
+            array('subject' => $this, 'request' => $request)
+        );
 
         $params = array_merge($this->globalParams, $userParams);
 
-        $params = Enlight_Application::Instance()->Events()->filter('Enlight_Controller_Router_FilterAssembleParams', $params,
-                                                                    array('subject' => $this, 'request' => $request));
+        $params = Enlight_Application::Instance()->Events()->filter(
+            'Enlight_Controller_Router_FilterAssembleParams',
+            $params,
+            array('subject' => $this, 'request' => $request)
+        );
 
-        if($event = Enlight_Application::Instance()->Events()->notifyUntil('Enlight_Controller_Router_Assemble', array(
-            'subject' => $this,
-            'params' => $params,
-            'userParams' => $userParams
-        ))) {
+        if ($event = Enlight_Application::Instance()->Events()->notifyUntil(
+                        'Enlight_Controller_Router_Assemble',
+                        array('subject' => $this, 'params' => $params, 'userParams' => $userParams))
+                    ) {
             $url = $event->getReturn();
         } else {
             $url = $this->assembleDefault($params);
         }
 
-        $url = Enlight_Application::Instance()->Events()->filter('Enlight_Controller_Router_FilterUrl', $url, array(
-            'subject' => $this,
-            'params' => $params,
-            'userParams' => $userParams
-        ));
+        $url = Enlight_Application::Instance()->Events()->filter(
+                'Enlight_Controller_Router_FilterUrl',
+                $url, array(
+                    'subject' => $this,
+                    'params' => $params,
+                    'userParams' => $userParams
+                )
+        );
 
-        if(!preg_match('|^[a-z]+://|', $url)) {
+        if (!preg_match('|^[a-z]+://|', $url)) {
             $url = rtrim($request->getBaseUrl(), '/') . '/' . $url;
         }
 
@@ -170,21 +177,21 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
 
         unset($params[$request->getModuleKey()], $params[$request->getControllerKey()], $params[$request->getActionKey()]);
 
-        if($module != $dispatcher->getDefaultModule()) {
+        if ($module != $dispatcher->getDefaultModule()) {
             $route[] = $module;
         }
-        if(count($params) > 0 || $controller != 'index' || $action != 'index') {
+        if (count($params) > 0 || $controller != 'index' || $action != 'index') {
             $route[] = $controller;
         }
-        if(count($params) > 0 || $action != 'index') {
+        if (count($params) > 0 || $action != 'index') {
             $route[] = $action;
         }
 
-        foreach($params as $key => $value) {
+        foreach ($params as $key => $value) {
             $route[] = $key;
             $route[] = $value;
         }
-        
+
         $route = array_map('urlencode', $route);
         return implode($this->separator, $route);
     }

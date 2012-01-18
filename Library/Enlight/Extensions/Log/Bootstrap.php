@@ -34,42 +34,29 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     protected $channel;
 
-	/**
-	 * Install log plugin
-	 */
-	public function install()
-	{
-		$this->subscribeEvent(
-            'Enlight_Bootstrap_InitResource_Log',
-            'onInitResourceLog'
-        );
+    /**
+     * Install log plugin
+     */
+    public function install()
+    {
+        $this->subscribeEvent('Enlight_Bootstrap_InitResource_Log', 'onInitResourceLog');
 
-        $this->subscribeEvent(
-            'Enlight_Controller_Front_RouteStartup',
-            null,
-            'onRouteStartup'
-        );
+        $this->subscribeEvent('Enlight_Controller_Front_RouteStartup', 'onRouteStartup');
 
-        $this->subscribeEvent(
-            'Enlight_Controller_Front_DispatchLoopShutdown',
-            500,
-			'onDispatchLoopShutdown'
-        );
-	}
+        $this->subscribeEvent('Enlight_Controller_Front_DispatchLoopShutdown', 'onDispatchLoopShutdown', 500);
+    }
 
-	/**
-	 * Resource handler for log plugin
-
-	 * @param Enlight_Event_EventArgs $args
-	 * @return Zend_Log
-	 */
-	public function onInitResourceLog(Enlight_Event_EventArgs $args)
-	{
-		return Enlight_Components_Log::factory(array(
+    /**
+     * Resource handler for log plugin
+     *
+     * @param Enlight_Event_EventArgs $args
+     * @return Zend_Log
+     */
+    public function onInitResourceLog(Enlight_Event_EventArgs $args)
+    {
+        return Enlight_Components_Log::factory(array(
             array('writerName' => 'Null'),
-
-            array('writerName' => 'Firebug'),
-/*
+            array('writerName' => 'Firebug'),/*
             array(
                 'writerName' => 'Db',
                 'writerParams' => array(
@@ -101,42 +88,41 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
                 'filterParams' => array(
                     'priority' => Enlight_Components_Log::WARN
                 )
-            )*/
-        ));
-	}
+            )*/));
+    }
 
-	/**
-	 * On Route add user-agent and remote-address to log component
+    /**
+     * On Route add user-agent and remote-address to log component
      *
-	 * @param Enlight_Event_EventArgs $args
-	 */
-	public function onRouteStartup(Enlight_Event_EventArgs $args)
-	{
+     * @param Enlight_Event_EventArgs $args
+     */
+    public function onRouteStartup(Enlight_Event_EventArgs $args)
+    {
         /** @var $request Enlight_Controller_Request_RequestHttp */
-		$request = $args->getSubject()->Request();
+        $request = $args->getSubject()->Request();
         /** @var $request Enlight_Controller_Request_ResponseHttp */
-		$response = $args->getSubject()->Response();
+        $response = $args->getSubject()->Response();
 
         /** @var $log Zend_Log */
-		$log = $this->Application()->Log();
+        $log = $this->Application()->Log();
 
-		$log->setEventItem('remote_address', $request->getClientIp(false));
-		$log->setEventItem('user_agent', $request->getServer('HTTP_USER_AGENT'));
+        $log->setEventItem('remote_address', $request->getClientIp(false));
+        $log->setEventItem('user_agent', $request->getServer('HTTP_USER_AGENT'));
 
         $this->channel = Zend_Wildfire_Channel_HttpHeaders::getInstance();
         $this->channel->setRequest($request);
         $this->channel->setResponse($response);
-	}
+    }
 
     /**
-	 * On Dispatch Shutdown collect sql performance results and dump to log component
-	 *
-	 * @param Enlight_Event_EventArgs $args
-	 */
-	public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
+     * On Dispatch Shutdown collect sql performance results and dump to log component
+     *
+     * @param Enlight_Event_EventArgs $args
+     */
+    public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
     {
-        if($this->channel !== null) {
+        if ($this->channel !== null) {
             $this->channel->flush();
         }
-	}
+    }
 }

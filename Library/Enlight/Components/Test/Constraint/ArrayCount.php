@@ -28,21 +28,21 @@
  */
 class Enlight_Components_Test_Constraint_ArrayCount extends PHPUnit_Framework_Constraint
 {
-	/**
+    /**
      * @var int
      */
     protected $count;
 
     /**
      * Constructor method
-     * 
+     *
      * @param int $count
      */
     public function __construct($count)
     {
         $this->count = $count;
     }
-	
+
     /**
      * Evaluates the constraint for parameter $other. Returns TRUE if the
      * constraint is met, FALSE otherwise.
@@ -52,9 +52,9 @@ class Enlight_Components_Test_Constraint_ArrayCount extends PHPUnit_Framework_Co
      */
     public function evaluate($other)
     {
-    	return count($other)===$this->count;
+        return count($other) === $this->count;
     }
-    
+
     /**
      * @param mixed   $other
      * @param string  $description
@@ -63,11 +63,7 @@ class Enlight_Components_Test_Constraint_ArrayCount extends PHPUnit_Framework_Co
      */
     protected function customFailureDescription($other, $description, $not)
     {
-        return sprintf(
-          'Failed asserting that an array %s.',
-
-           $this->toString()
-        );
+        return sprintf('Failed asserting that an array %s.', $this->toString());
     }
 
     /**
@@ -77,6 +73,6 @@ class Enlight_Components_Test_Constraint_ArrayCount extends PHPUnit_Framework_Co
      */
     public function toString()
     {
-        return  'has ' . PHPUnit_Util_Type::toString($this->count) .' values';
+        return 'has ' . PHPUnit_Util_Type::toString($this->count) . ' values';
     }
 }

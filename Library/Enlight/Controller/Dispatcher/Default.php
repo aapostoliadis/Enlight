@@ -85,13 +85,13 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
 
     /**
      * Adds a controller directory. If no module given, the default module will used.
-     * @param $path
+     * @param      $path
      * @param null $module
      * @return Enlight_Controller_Dispatcher_Default
      */
     public function addControllerDirectory($path, $module = null)
     {
-        if(empty($module)) {
+        if (empty($module)) {
             $module = $this->defaultModule;
         }
 
@@ -106,17 +106,17 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     /**
      * Sets the controller directory. The directory can given as array or string.
      * @param string|array $directory
-     * @param string|null $module
+     * @param string|null  $module
      * @return Enlight_Controller_Dispatcher_Default
      */
     public function setControllerDirectory($directory, $module = null)
     {
         $this->controllerDirectory = array();
 
-        if(is_string($directory)) {
+        if (is_string($directory)) {
             $this->addControllerDirectory($directory, $module);
         } else {
-            foreach((array)$directory as $module => $path) {
+            foreach ((array)$directory as $module => $path) {
                 $this->addControllerDirectory($path, $module);
             }
         }
@@ -131,11 +131,11 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
      */
     public function getControllerDirectory($module = null)
     {
-        if($module === null) {
+        if ($module === null) {
             return $this->controllerDirectory;
         }
         $module = $this->formatModuleName($module);
-        if(isset($this->controllerDirectory[$module])) {
+        if (isset($this->controllerDirectory[$module])) {
             return $this->controllerDirectory[$module];
         } else {
             return null;
@@ -150,7 +150,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     public function removeControllerDirectory($module)
     {
         $module = (string)$module;
-        if(isset($this->controllerDirectory[$module])) {
+        if (isset($this->controllerDirectory[$module])) {
             unset($this->controllerDirectory[$module]);
             return true;
         } else {
@@ -168,18 +168,19 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     {
         try {
             $dir = new DirectoryIterator($path);
-        } catch(Exception $e) {
+        }
+        catch (Exception $e) {
             throw new Enlight_Controller_Exception("Directory $path not readable", 0, $e);
         }
-        foreach($dir as $file) {
-            if($file->isDot() || !$file->isDir()) {
+        foreach ($dir as $file) {
+            if ($file->isDot() || !$file->isDir()) {
                 continue;
             }
 
             $module = $file->getFilename();
 
             // Don't use SCCS directories as modules
-            if(preg_match('/^[^a-z]/i', $module) || ('CVS' == $module)) {
+            if (preg_match('/^[^a-z]/i', $module) || ('CVS' == $module)) {
                 continue;
             }
 
@@ -223,19 +224,19 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     /**
      * internal helper function to format action, controller and module names.
      *
-     * @param $unFormatted
+     * @param      $unFormatted
      * @param bool $isAction
      * @return string
      */
     protected function formatName($unFormatted, $isAction = false)
     {
-        if(!$isAction) {
+        if (!$isAction) {
             $segments = explode($this->pathDelimiter, $unFormatted);
         } else {
             $segments = (array)$unFormatted;
         }
 
-        foreach($segments as $key => $segment) {
+        foreach ($segments as $key => $segment) {
             $segment = preg_replace('#[A-Z]#', ' $0', $segment);
             $segment = str_replace($this->wordDelimiter, ' ', strtolower($segment));
             $segment = preg_replace('/[^a-z0-9 ]/', '', $segment);
@@ -312,10 +313,10 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
      */
     public function getControllerClass(Enlight_Controller_Request_Request $request)
     {
-        if(!$request->getControllerName()) {
+        if (!$request->getControllerName()) {
             $request->setControllerName($this->defaultController);
         }
-        if(!$request->getModuleName()) {
+        if (!$request->getModuleName()) {
             $request->setModuleName($this->defaultModule);
         }
 
@@ -342,13 +343,10 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         $controllerName = $request->getControllerName();
         $controllerName = $this->formatControllerName($controllerName);
         $moduleName = $this->formatModuleName($this->curModule);
-        if($event = Enlight_Application::Instance()->Events()->notifyUntil(
-            'Enlight_Controller_Dispatcher_ControllerPath_' . $moduleName . '_' . $controllerName,
-            array(
-                'subject' => $this,
-                'request' => $request
-            )
-        )) {
+        if ($event = Enlight_Application::Instance()->Events()->notifyUntil(
+                'Enlight_Controller_Dispatcher_ControllerPath_' . $moduleName . '_' . $controllerName,
+                array('subject' => $this, 'request' => $request))
+        ) {
             $path = $event->getReturn();
         } else {
             $path = $this->curDirectory . $controllerName . '.php';
@@ -364,7 +362,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     public function getActionMethod(Enlight_Controller_Request_Request $request)
     {
         $action = $request->getActionName();
-        if(empty($action)) {
+        if (empty($action)) {
             $action = $this->getDefaultAction();
             $request->setActionName($action);
         }
@@ -400,12 +398,12 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
      */
     public function getFullActionName(Enlight_Controller_Request_Request $request)
     {
-        $parts = array(
-            $this->formatModuleName($request->getModuleName()),
+        $parts = array($this->formatModuleName(
+            $request->getModuleName()),
             $this->formatControllerName($request->getControllerName()),
             $this->formatActionName($request->getActionName())
         );
-        return implode('_', $parts); 
+        return implode('_', $parts);
     }
 
     /**
@@ -419,10 +417,10 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     public function isDispatchable(Enlight_Controller_Request_Request $request)
     {
         $className = $this->getControllerClass($request);
-        if(!$className) {
+        if (!$className) {
             return false;
         }
-        if(class_exists($className, false)) {
+        if (class_exists($className, false)) {
             return true;
         }
         $path = $this->getControllerPath($request);
@@ -437,7 +435,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
      */
     public function isValidModule($module)
     {
-        if(!is_string($module)) {
+        if (!is_string($module)) {
             return false;
         }
 
@@ -454,7 +452,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
      * After that, run the dispatch on the controller.
      * Ending with the Body added to the response object
      *
-     * @param Enlight_Controller_Request_Request $request
+     * @param Enlight_Controller_Request_Request   $request
      * @param Enlight_Controller_Response_Response $response
      * @throws Enlight_Controller_Exception|Enlight_Exception|Exception
      */
@@ -462,9 +460,9 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     {
         $this->setResponse($response);
 
-        if(!$this->isDispatchable($request)) {
+        if (!$this->isDispatchable($request)) {
             $controller = $request->getControllerName();
-            if(!$this->Front()->getParam('useDefaultControllerAlways') && !empty($controller)) {
+            if (!$this->Front()->getParam('useDefaultControllerAlways') && !empty($controller)) {
                 throw new Enlight_Controller_Exception('Controller "' . $controller . '" not found', Enlight_Controller_Exception::Controller_Dispatcher_Controller_Not_Found);
             }
             $request->setControllerName($this->defaultController);
@@ -475,7 +473,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
 
         try {
             Enlight_Application::Instance()->Loader()->loadClass($class, $path);
-        } catch(Exception $e) {
+        }
+        catch (Exception $e) {
             throw new Enlight_Exception('Controller "' . $class . '" can\'t load failure');
         }
 
@@ -488,24 +487,25 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
 
         $disableOb = $this->Front()->getParam('disableOutputBuffering');
         $obLevel = ob_get_level();
-        if(empty($disableOb)) {
+        if (empty($disableOb)) {
             ob_start();
         }
 
         try {
             $controller->dispatch($action);
-        } catch(Exception $e) {
+        }
+        catch (Exception $e) {
             $curObLevel = ob_get_level();
-            if($curObLevel > $obLevel) {
+            if ($curObLevel > $obLevel) {
                 do {
                     ob_get_clean();
                     $curObLevel = ob_get_level();
-                } while($curObLevel > $obLevel);
+                } while ($curObLevel > $obLevel);
             }
             throw $e;
         }
 
-        if(empty($disableOb)) {
+        if (empty($disableOb)) {
             $content = ob_get_clean();
             $response->appendBody($content);
         }

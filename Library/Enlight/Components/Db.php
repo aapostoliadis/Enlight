@@ -32,9 +32,9 @@ class Enlight_Components_Db extends Zend_Db
     /**
      * @var string
      */
-	protected static $_adapterNamespace = 'Enlight_Components_Db_Adapter';
+    protected static $_adapterNamespace = 'Enlight_Components_Db_Adapter';
 
-     /**
+    /**
      * Factory for Db-Adapter classes.
      *
      * First argument may be a string containing the base of the adapter class
@@ -59,7 +59,7 @@ class Enlight_Components_Db extends Zend_Db
      * @return Zend_Db_Adapter_Abstract
      * @throws Zend_Db_Exception
      */
-	public static function factory($adapter, $config = array())
+    public static function factory($adapter, $config = array())
     {
         if ($config instanceof Zend_Config) {
             $config = $config->toArray();
@@ -73,18 +73,18 @@ class Enlight_Components_Db extends Zend_Db
                 $config = $adapter->params->toArray();
             }
             if (isset($adapter->adapter)) {
-                $adapter = (string) $adapter->adapter;
+                $adapter = (string)$adapter->adapter;
             } else {
                 $adapter = null;
             }
         }
 
         $adapterName = str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapter))));
-        
-        if(empty($config['adapterNamespace']) && class_exists(self::$_adapterNamespace . '_' . $adapterName)) {
-        	$config['adapterNamespace'] = self::$_adapterNamespace;
+
+        if (empty($config['adapterNamespace']) && class_exists(self::$_adapterNamespace . '_' . $adapterName)) {
+            $config['adapterNamespace'] = self::$_adapterNamespace;
         }
-        
+
         return parent::factory($adapter, $config);
     }
 }

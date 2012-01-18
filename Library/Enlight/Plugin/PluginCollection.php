@@ -35,7 +35,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     protected $plugins;
 
     /**
-     * 
+     *
      */
     public function __construct()
     {
@@ -79,7 +79,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
      */
     public function get($name)
     {
-        if(!$this->plugins->offsetExists($name)) {
+        if (!$this->plugins->offsetExists($name)) {
             $this->load($name);
         }
         return $this->plugins->offsetGet($name);
@@ -92,28 +92,28 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
      */
     public function load($name)
     {
-        if(!$this->plugins->offsetExists($name)) {
-            throw new Enlight_Exception('Plugin "'.$name.'" not found failure');
+        if (!$this->plugins->offsetExists($name)) {
+            throw new Enlight_Exception('Plugin "' . $name . '" not found failure');
         }
         return $this;
     }
 
     /**
-     * @param   string $name
+     * @param   string     $name
      * @param   array|null $args
      * @return  Enlight_Plugin_Namespace|Enlight_Plugin_Bootstrap
      */
-    public function __call ($name, $args=null)
+    public function __call($name, $args = null)
     {
-    	return $this->get($name);
+        return $this->get($name);
     }
 
     /**
      * @return Enlight_Plugin_PluginManager
      */
     public function reset()
-	{
-		$this->plugins->exchangeArray(array());
-		return $this;
-	}
+    {
+        $this->plugins->exchangeArray(array());
+        return $this;
+    }
 }

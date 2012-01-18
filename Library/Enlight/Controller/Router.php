@@ -32,25 +32,25 @@ abstract class Enlight_Controller_Router extends Enlight_Class
     /**
      * @var Enlight_Controller_Front
      */
-	protected $front;
+    protected $front;
 
     /**
      * @var array
      */
     protected $globalParams = array();
-	
-	/**
-	 * Set front controller
-	 *
-	 * @param Enlight_Controller_Front $front
-	 * @return Enlight_Controller_Router_Router
-	 */
-	public function setFront(Enlight_Controller_Front $front)
+
+    /**
+     * Set front controller
+     *
+     * @param Enlight_Controller_Front $front
+     * @return Enlight_Controller_Router_Router
+     */
+    public function setFront(Enlight_Controller_Front $front)
     {
         $this->front = $front;
         return $this;
     }
-    
+
     /**
      * Returns front controller
      *
@@ -58,7 +58,7 @@ abstract class Enlight_Controller_Router extends Enlight_Class
      */
     public function Front()
     {
-    	return $this->front;
+        return $this->front;
     }
 
     /**

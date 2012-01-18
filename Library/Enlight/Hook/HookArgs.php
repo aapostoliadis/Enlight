@@ -47,82 +47,82 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     /**
      * @var return value of the hook arguments
      */
-	protected $_return;
+    protected $_return;
 
     /**
      * Class constructor requires the class and method of the hook.
      *
-     * @param $class
-     * @param $method
+     * @param            $class
+     * @param            $method
      * @param array|null $args
      */
-	public function __construct ($class, $method, array $args=null)
-	{
-		$this->_name = get_parent_class($class);
-		$this->_class = $class;
-		$this->_method = $method;
-		parent::__construct($args);
-	}
+    public function __construct($class, $method, array $args = null)
+    {
+        $this->_name = get_parent_class($class);
+        $this->_class = $class;
+        $this->_method = $method;
+        parent::__construct($args);
+    }
 
     /**
      * Standard getter function to return the class property
      * @return mixed
      */
-	public function getSubject()
-	{
-		return $this->_class;
-	}
+    public function getSubject()
+    {
+        return $this->_class;
+    }
 
     /**
      * Standard getter function to return the method property
      * @return mixed
      */
-	public function getMethod()
-	{
-		return $this->_method;
-	}
+    public function getMethod()
+    {
+        return $this->_method;
+    }
 
     /**
      * Standard getter function to return the array values of the elements property
      * @return array
      */
     public function getArgs()
-	{
+    {
         return array_values($this->_elements);
-	}
+    }
 
     /**
      * Standard getter function to return the name property
      * @return string
      */
     public function getName()
-	{
-		return $this->_name;
-	}
+    {
+        return $this->_name;
+    }
 
     /**
      * Standard setter function to set the return property
      * @param $return
      */
-	public function setReturn($return)
-	{
-		$this->_return = $return;
-	}
+    public function setReturn($return)
+    {
+        $this->_return = $return;
+    }
 
     /**
      * Standard getter function to return the return property
      * @return mixed
      */
     public function getReturn()
-	{
-		return $this->_return;
-	}
+    {
+        return $this->_return;
+    }
 
     /**
      * Sets the given property to null.
      * @param $key
      */
-	public function remove($key)
+    public function remove($key)
     {
         $this->set($key, null);
     }
@@ -134,9 +134,8 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
      */
     public function set($key, $value)
     {
-    	if($this->containsKey($key))
-    	{
-    		parent::set($key, $value);
-    	}
+        if ($this->containsKey($key)) {
+            parent::set($key, $value);
+        }
     }
 }

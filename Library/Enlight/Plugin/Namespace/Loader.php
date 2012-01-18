@@ -40,7 +40,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
      */
     public function get($name)
     {
-        if(!$this->plugins->offsetExists($name)) {
+        if (!$this->plugins->offsetExists($name)) {
             $this->load($name);
         }
         return $this->plugins->offsetGet($name);
@@ -57,8 +57,8 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
      */
     public function addPrefixPath($prefix, $path)
     {
-        if(!file_exists($path) || !is_dir($path)) {
-            throw new Enlight_Exception('Parameter path "'.$path.'" is not a valid directory failure');
+        if (!file_exists($path) || !is_dir($path)) {
+            throw new Enlight_Exception('Parameter path "' . $path . '" is not a valid directory failure');
         }
         $prefix = trim($prefix, '_');
         $path = realpath($path) . DIRECTORY_SEPARATOR;
@@ -69,18 +69,18 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     /**
      * Instantiates a plugin from the plugin namespace.
      *
-     * @param   string $name
-     * @param   string $prefix
+     * @param   string      $name
+     * @param   string      $prefix
      * @param   string|null $file
      * @return  Enlight_Plugin_Namespace_Loader
      */
-    protected function initPlugin($name, $prefix, $file=null)
+    protected function initPlugin($name, $prefix, $file = null)
     {
         $class = implode('_', array($prefix, $name, 'Bootstrap'));
-        if(!class_exists($class, false)) {
+        if (!class_exists($class, false)) {
             Enlight_Application::Instance()->Loader()->loadClass($class, $file);
         }
-        $plugin = new $class($name, $this);
+        $plugin = new $class($this, $name);
         $this->plugins[$name] = $plugin;
         return $this;
     }
@@ -93,12 +93,12 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
      */
     public function load($name)
     {
-        if($this->plugins->offsetExists($name)) {
+        if ($this->plugins->offsetExists($name)) {
             return $this;
         }
         foreach ($this->prefixPaths as $path => $prefix) {
             $file = $path . $name . $this->Application()->DS() . 'Bootstrap.php';
-            if(!file_exists($file)) {
+            if (!file_exists($file)) {
                 continue;
             }
             $this->initPlugin($name, $prefix, $file);
@@ -116,11 +116,11 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     {
         foreach ($this->prefixPaths as $path => $prefix) {
             foreach (new DirectoryIterator($path) as $dir) {
-                if(!$dir->isDir() || $dir->isDot()){
+                if (!$dir->isDir() || $dir->isDot()) {
                     continue;
                 }
                 $file = $dir->getPathname() . DIRECTORY_SEPARATOR . 'Bootstrap.php';
-                if(!file_exists($file)){
+                if (!file_exists($file)) {
                     continue;
                 }
                 $name = $dir->getFilename();

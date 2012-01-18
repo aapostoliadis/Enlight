@@ -33,18 +33,18 @@ interface Enlight_View_Cache
      * @param   bool $value
      * @return  Enlight_View_Cache
      */
-	public function setCaching($value = true);
+    public function setCaching($value = true);
 
     /**
      * @return bool
      */
-	public function isCached();
+    public function isCached();
 
     /**
      * @param   string|array $cache_id
      * @return  Enlight_View_Cache
      */
-	public function setCacheId($cache_id = null);
+    public function setCacheId($cache_id = null);
 
     /**
      * @param   string|array $cache_id

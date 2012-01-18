@@ -35,12 +35,12 @@ class Enlight_Components_Form_DisplayGroup extends Zend_Form_DisplayGroup
      */
     public function loadDefaultDecorators()
     {
-        if($this->loadDefaultDecoratorsIsDisabled()) {
+        if ($this->loadDefaultDecoratorsIsDisabled()) {
             return $this;
         }
 
         $decorators = $this->getDecorators();
-        if(empty($decorators)) {
+        if (empty($decorators)) {
             $this->addDecorator('FormElements')
                  ->addDecorator('Wrapper');
         }
