@@ -27,4 +27,6 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-interface Enlight_Singleton {}
+interface Enlight_Singleton
+{
+}
