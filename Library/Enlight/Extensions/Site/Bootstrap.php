@@ -36,19 +36,16 @@ class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 	{
 		$this->subscribeEvent(
             'Enlight_Bootstrap_InitResource_Site',
-            null,
             'onInitResourceSite'
         );
 
         $this->subscribeEvent(
             'Enlight_Bootstrap_InitResource_Sites',
-            null,
             'onInitResourceSiteManager'
         );
 
         $this->subscribeEvent(
             'Enlight_Controller_Front_DispatchLoopStartup',
-            null,
             'onStartDispatch'
         );
 	}
