@@ -142,11 +142,11 @@ class Enlight_Components_Form extends Zend_Form
             $data['elements'][$key] = $this->toArrayElement($element);
         }
 
-        //if(($decorators = $this->getElementDecorators()) !== null) {
+        //if (($decorators = $this->getElementDecorators()) !== null) {
         //    $data['elementDecorators'] = $this->convertElementDecorators($decorators);
         //}
 
-        //if(($decorators = $this->getDecorators()) !== null) {
+        //if (($decorators = $this->getDecorators()) !== null) {
         //    $data['decorators'] = $this->convertFormDecorators($decorators);
         //}
 

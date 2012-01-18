@@ -95,7 +95,7 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
 
             $params['tag'] = strtolower($params['tag']);
 
-            //if(!empty($params['class'])) {
+            //if (!empty($params['class'])) {
             //    $params['class'] .= ' shopware_studio_snippet';
             //} else {
             //    $params['class'] = 'shopware_studio_snippet';
