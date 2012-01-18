@@ -95,7 +95,6 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-<<<<<<< HEAD
 	 * Plugin install method
 	 */
 	public function install()

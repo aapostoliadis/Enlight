@@ -36,6 +36,9 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function init()
     {
+        if(!$this->Collection()) {
+            return;
+        }
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Action_PostDispatch',
             array($this, 'onPostDispatch'),

@@ -86,7 +86,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
         $item = $this->storage->plugins->$name;
 
         /** @var $plugin Enlight_Plugin_Bootstrap_Config */
-        $plugin = new $item->class($this, $name);
+        $plugin = new $item->class($name, $this);
         return parent::registerPlugin($plugin);
     }
 

@@ -36,15 +36,15 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
     {
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Front_RouteShutdown',
-            500,
-            array($this, 'onRouteShutdown')
+            array($this, 'onRouteShutdown'),
+            500
         );
         $this->Application()->Events()->registerListener($event);
 
         $event = new Enlight_Event_Handler_Default(
             'Enlight_Controller_Front_PostDispatch',
-            500,
-            array($this, 'onPostDispatch')
+            array($this, 'onPostDispatch'),
+            500
         );
         $this->Application()->Events()->registerListener($event);
     }
