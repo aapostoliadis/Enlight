@@ -324,7 +324,7 @@ class Enlight_Application
         $environment = $this->Environment();
         $suffix = strtolower(pathinfo($config, PATHINFO_EXTENSION));
 
-        switch($suffix) {
+        switch ($suffix) {
             case 'ini':
                 require_once 'Zend/Config/Ini.php';
                 $config = new Zend_Config_Ini($config, $environment);
@@ -373,7 +373,7 @@ class Enlight_Application
         }
 
         if (!empty($options['autoloadernamespaces'])) {
-            foreach($options['autoloadernamespaces'] as $namespace => $path) {
+            foreach ($options['autoloadernamespaces'] as $namespace => $path) {
                 if (is_int($namespace)) {
                     $namespace = $path;
                     $path = null;
@@ -417,7 +417,7 @@ class Enlight_Application
      */
     public function setPhpSettings(array $settings, $prefix = '')
     {
-        foreach($settings as $key => $value) {
+        foreach ($settings as $key => $value) {
             $key = empty($prefix) ? $key : $prefix . $key;
             if (is_scalar($value)) {
                 ini_set($key, $value);
