@@ -56,10 +56,15 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
             /** @var $request Enlight_Controller_Request_RequestHttp */
             $params = $this->routeDefault($request);
         } else {
-            throw new Enlight_Controller_Exception('No route matched the request', Enlight_Controller_Exception::NO_ROUTE);
+            throw new Enlight_Controller_Exception(
+                'No route matched the request', Enlight_Controller_Exception::NO_ROUTE
+            );
         }
 
-        $params = Enlight_Application::Instance()->Events()->filter('Enlight_Controller_Router_FilterRouteParams', $params);
+        $params = Enlight_Application::Instance()->Events()->filter(
+                    'Enlight_Controller_Router_FilterRouteParams',
+                    $params
+                  );
 
         $request->setParams($params);
 
@@ -172,11 +177,21 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
 
         $route = array();
 
-        $module = isset($params[$request->getModuleKey()]) ? $params[$request->getModuleKey()] : $dispatcher->getDefaultModule();
-        $controller = isset($params[$request->getControllerKey()]) ? $params[$request->getControllerKey()] : $dispatcher->getDefaultControllerName();
-        $action = isset($params[$request->getActionKey()]) ? $params[$request->getActionKey()] : $dispatcher->getDefaultAction();
+        $module = isset($params[$request->getModuleKey()])
+                    ? $params[$request->getModuleKey()]
+                    : $dispatcher->getDefaultModule();
 
-        unset($params[$request->getModuleKey()], $params[$request->getControllerKey()], $params[$request->getActionKey()]);
+        $controller = isset($params[$request->getControllerKey()])
+                        ? $params[$request->getControllerKey()]
+                        : $dispatcher->getDefaultControllerName();
+
+        $action = isset($params[$request->getActionKey()])
+                    ? $params[$request->getActionKey()]
+                    : $dispatcher->getDefaultAction();
+
+        unset($params[$request->getModuleKey()],
+                $params[$request->getControllerKey()],
+                $params[$request->getActionKey()]);
 
         if ($module != $dispatcher->getDefaultModule()) {
             $route[] = $module;

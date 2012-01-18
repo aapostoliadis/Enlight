@@ -44,13 +44,17 @@ abstract class Enlight_Class
             if (!isset(self::$instances[$class])) {
                 self::$instances[$class] = $this;
             } else {
-                throw new Enlight_Exception('Class "'.get_class($this).'" is singleton, please use the instance method');
+                throw new Enlight_Exception(
+                    'Class "'.get_class($this).'" is singleton, please use the instance method'
+                );
             }
         }
         if ($this instanceof Enlight_Hook
           && !$this instanceof Enlight_Hook_Proxy
           && Enlight_Application::Instance()->Hooks()->hasProxy($class)) {
-            throw new Enlight_Exception('Class "'.get_class($this).'" has hooks, please use the instance method');
+            throw new Enlight_Exception(
+                'Class "'.get_class($this).'" has hooks, please use the instance method'
+            );
         }
         if (method_exists($this, 'init')) {
             if (func_num_args()) {
@@ -130,7 +134,10 @@ abstract class Enlight_Class
      */
     public function __call($name, $args=null)
     {
-        throw new Enlight_Exception('Method "'.get_class($this).'::'.$name.'" not found failure', Enlight_Exception::METHOD_NOT_FOUND);
+        throw new Enlight_Exception(
+            'Method "'.get_class($this).'::'.$name.'" not found failure',
+            Enlight_Exception::METHOD_NOT_FOUND
+        );
     }
     
     /**
@@ -141,7 +148,10 @@ abstract class Enlight_Class
      */
     static public function __callStatic($name, $args=null)
     {
-        throw new Enlight_Exception('Method "'.get_called_class().'::'.$name.'" not found failure', Enlight_Exception::METHOD_NOT_FOUND);
+        throw new Enlight_Exception(
+            'Method "'.get_called_class().'::'.$name.'" not found failure',
+            Enlight_Exception::METHOD_NOT_FOUND
+        );
     }
     
     /**

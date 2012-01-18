@@ -50,7 +50,9 @@ function smarty_function_action($params, Enlight_Template_Default $template)
     $response = $front->Response();
 
     if (empty($request) || empty($response)) {
-        $e = new Exception('Action view helper requires both a registered request and response object in the front controller instance');
+        $e = new Exception(
+            'Action view helper requires both a registered request and response object in the front controller instance'
+        );
         //$e->setView($view);
         throw $e;
     }

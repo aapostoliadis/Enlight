@@ -136,7 +136,14 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
             $hashId = md5($errorLevel . $errorMessage . $errorFile . $errorLine);
             if (!isset($this->errorList[$hashId])) {
                 $errorName = isset($this->errorLevelList[$errorLevel]) ? $this->errorLevelList[$errorLevel] : '';
-                $this->errorList[$hashId] = array('count' => 1, 'code' => $errorLevel, 'name' => $errorName, 'message' => $errorMessage, 'line' => $errorLine, 'file' => $errorFile);
+                $this->errorList[$hashId] = array(
+                    'count' => 1,
+                    'code' => $errorLevel,
+                    'name' => $errorName,
+                    'message' => $errorMessage,
+                    'line' => $errorLine,
+                    'file' => $errorFile
+                );
             } else {
                 ++$this->errorList[$hashId]['count'];
             }
@@ -145,7 +152,14 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
         //throw new ErrorException($errorMessage, 0, $errorLevel, $errorFile, $errorLine);
 
         if ($this->origErrorHandler !== null) {
-            return call_user_func($this->origErrorHandler, $errorLevel, $errorMessage, $errorFile, $errorLine, $errorContext);
+            return call_user_func(
+                $this->origErrorHandler,
+                $errorLevel,
+                $errorMessage,
+                $errorFile,
+                $errorLine,
+                $errorContext
+            );
         }
         return true;
     }

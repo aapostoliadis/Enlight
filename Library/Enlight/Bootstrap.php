@@ -256,12 +256,17 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
 
         try {
             $this->resourceStatus[$name] = self::STATUS_BOOTSTRAP;
-            if ($event = $this->Application()->Events()->notifyUntil('Enlight_Bootstrap_InitResource_' . $name, array('subject' => $this))) {
+            if ($event = $this->Application()->Events()->notifyUntil(
+                            'Enlight_Bootstrap_InitResource_' . $name, array('subject' => $this)
+            )
+            ) {
                 $this->resourceList[$name] = $event->getReturn();
             } elseif (method_exists($this, 'init' . $name)) {
                 $this->resourceList[$name] = call_user_func(array($this, 'init' . $name));
             }
-            $this->Application()->Events()->notify('Enlight_Bootstrap_AfterInitResource_' . $name, array('subject' => $this));
+            $this->Application()->Events()->notify(
+                'Enlight_Bootstrap_AfterInitResource_' . $name, array('subject' => $this)
+            );
         }
         catch (Exception $e) {
             $this->resourceStatus[$name] = self::STATUS_NOT_FOUND;

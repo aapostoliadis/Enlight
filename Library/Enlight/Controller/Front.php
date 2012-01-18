@@ -82,7 +82,10 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
             $this->Plugins()->load('ViewRenderer');
         }
 
-        Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_StartDispatch', array('subject' => $this));
+        Enlight_Application::Instance()->Events()->notify(
+            'Enlight_Controller_Front_StartDispatch',
+            array('subject' => $this)
+        );
 
         if (!$this->router) {
             $this->setRouter('Enlight_Controller_Router_Default');
@@ -101,7 +104,10 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
             /**
              * Notify plugins of router startup
              */
-            Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_RouteStartup', array('subject' => $this));
+            Enlight_Application::Instance()->Events()->notify(
+                'Enlight_Controller_Front_RouteStartup',
+                array('subject' => $this)
+            );
 
             /**
              * Route request to controller/action, if a router is provided
@@ -119,12 +125,18 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
             /**
              * Notify plugins of router completion
              */
-            Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_RouteShutdown', array('subject' => $this, 'request' => $this->Request()));
+            Enlight_Application::Instance()->Events()->notify(
+                'Enlight_Controller_Front_RouteShutdown',
+                array('subject' => $this, 'request' => $this->Request())
+            );
 
             /**
              * Notify plugins of dispatch loop startup
              */
-            Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_DispatchLoopStartup', array('subject' => $this, 'request' => $this->Request()));
+            Enlight_Application::Instance()->Events()->notify(
+                'Enlight_Controller_Front_DispatchLoopStartup',
+                array('subject' => $this, 'request' => $this->Request())
+            );
 
             /**
              *  Attempt to dispatch the controller/action. If the $this->request
@@ -138,7 +150,10 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
                  * Notify plugins of dispatch startup
                  */
                 try {
-                    Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_PreDispatch', array('subject' => $this, 'request' => $this->Request()));
+                    Enlight_Application::Instance()->Events()->notify(
+                        'Enlight_Controller_Front_PreDispatch',
+                        array('subject' => $this, 'request' => $this->Request())
+                    );
 
                     /**
                      * Skip requested action if preDispatch() has reset it
@@ -169,7 +184,10 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
                 /**
                  * Notify plugins of dispatch completion
                  */
-                Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_PostDispatch', array('subject' => $this, 'request' => $this->Request()));
+                Enlight_Application::Instance()->Events()->notify(
+                    'Enlight_Controller_Front_PostDispatch',
+                    array('subject' => $this, 'request' => $this->Request())
+                );
             } while (!$this->request->isDispatched());
         }
         catch (Exception $e) {
@@ -183,7 +201,10 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
          * Notify plugins of dispatch loop completion
          */
         try {
-            Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_DispatchLoopShutdown', array('subject' => $this));
+            Enlight_Application::Instance()->Events()->notify(
+                'Enlight_Controller_Front_DispatchLoopShutdown',
+                array('subject' => $this)
+            );
         }
         catch (Exception $e) {
             if ($this->throwExceptions()) {
@@ -196,11 +217,18 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
             return $this->response;
         }
 
-        if (!Enlight_Application::Instance()->Events()->notifyUntil('Enlight_Controller_Front_SendResponse', array('subject' => $this, 'response' => $this->Response(), 'request' => $this->Request()))) {
+        if (!Enlight_Application::Instance()->Events()->notifyUntil(
+            'Enlight_Controller_Front_SendResponse',
+            array('subject' => $this, 'response' => $this->Response(), 'request' => $this->Request())
+        )
+        ) {
             $this->Response()->sendResponse();
         }
 
-        Enlight_Application::Instance()->Events()->notify('Enlight_Controller_Front_AfterSendResponse', array('subject' => $this, 'request' => $this->Request()));
+        Enlight_Application::Instance()->Events()->notify(
+            'Enlight_Controller_Front_AfterSendResponse',
+            array('subject' => $this, 'request' => $this->Request())
+        );
 
         return 0;
     }

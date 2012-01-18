@@ -59,14 +59,22 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
      * @param   Enlight_Controller_Request_Request   $request
      * @param   Enlight_Controller_Response_Response $response
      */
-    public function __construct(Enlight_Controller_Request_Request $request, Enlight_Controller_Response_Response $response)
+    public function __construct(Enlight_Controller_Request_Request $request,
+                                Enlight_Controller_Response_Response $response
+    )
     {
         $this->setRequest($request)->setResponse($response);
 
         $this->controller_name = $this->Front()->Dispatcher()->getFullControllerName($this->Request());
 
-        Enlight_Application::Instance()->Events()->notify(__CLASS__ . '_Init', array('subject' => $this, 'request' => $this->Request(), 'response' => $this->Response()));
-        Enlight_Application::Instance()->Events()->notify(__CLASS__ . '_Init_' . $this->controller_name, array('subject' => $this, 'request' => $this->Request(), 'response' => $this->Response()));
+        Enlight_Application::Instance()->Events()->notify(
+            __CLASS__ . '_Init',
+            array('subject' => $this, 'request' => $this->Request(), 'response' => $this->Response())
+        );
+        Enlight_Application::Instance()->Events()->notify(
+            __CLASS__ . '_Init_' . $this->controller_name,
+            array('subject' => $this, 'request' => $this->Request(), 'response' => $this->Response())
+        );
 
         parent::__construct();
     }
@@ -94,20 +102,36 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
      */
     public function dispatch($action)
     {
-        Enlight_Application::Instance()->Events()->notify(__CLASS__ . '_PreDispatch', array('subject' => $this, 'request' => $this->Request()));
-        Enlight_Application::Instance()->Events()->notify(__CLASS__ . '_PreDispatch_' . $this->controller_name, array('subject' => $this, 'request' => $this->Request()));
+        Enlight_Application::Instance()->Events()->notify(
+            __CLASS__ . '_PreDispatch',
+            array('subject' => $this, 'request' => $this->Request())
+        );
+        Enlight_Application::Instance()->Events()->notify(
+            __CLASS__ . '_PreDispatch_' . $this->controller_name,
+            array('subject' => $this, 'request' => $this->Request())
+        );
         $this->preDispatch();
 
         if ($this->Request()->isDispatched() && !$this->Response()->isRedirect()) {
             $action_name = $this->Front()->Dispatcher()->getFullActionName($this->Request());
-            if (!$event = Enlight_Application::Instance()->Events()->notifyUntil(__CLASS__ . '_' . $action_name, array('subject' => $this))) {
+            if (!$event = Enlight_Application::Instance()->Events()->notifyUntil(
+                            __CLASS__ . '_' . $action_name,
+                            array('subject' => $this)
+            )
+            ) {
                 $this->$action();
             }
             $this->postDispatch();
         }
 
-        Enlight_Application::Instance()->Events()->notify(__CLASS__ . '_PostDispatch_' . $this->controller_name, array('subject' => $this, 'request' => $this->Request()));
-        Enlight_Application::Instance()->Events()->notify(__CLASS__ . '_PostDispatch', array('subject' => $this, 'request' => $this->Request()));
+        Enlight_Application::Instance()->Events()->notify(
+            __CLASS__ . '_PostDispatch_' . $this->controller_name,
+            array('subject' => $this, 'request' => $this->Request())
+        );
+        Enlight_Application::Instance()->Events()->notify(
+            __CLASS__ . '_PostDispatch',
+            array('subject' => $this, 'request' => $this->Request())
+        );
     }
 
     /**
@@ -246,7 +270,10 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
     {
         if ('Action' == substr($name, -6)) {
             $action = substr($name, 0, strlen($name) - 6);
-            throw new Enlight_Controller_Exception('Action "' . $this->controller_name . '_' . $name . '" not found failure', Enlight_Controller_Exception::ActionNotFound);
+            throw new Enlight_Controller_Exception(
+                'Action "' . $this->controller_name . '_' . $name . '" not found failure',
+                Enlight_Controller_Exception::ActionNotFound
+            );
         }
         return parent::__call($name, $value);
     }

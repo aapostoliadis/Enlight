@@ -48,10 +48,24 @@ abstract class Enlight_Components_Test_TestCase extends PHPUnit_Framework_TestCa
      * @throws InvalidArgumentException
      * @since  Method available since Release 3.0.0
      */
-    public function getMock($originalClassName, $methods = array(), array $arguments = array(), $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true)
+    public function getMock($originalClassName,
+                             $methods = array(),
+                             array $arguments = array(),
+                             $mockClassName = '',
+                             $callOriginalConstructor = true,
+                             $callOriginalClone = true,
+                             $callAutoload = true
+    )
     {
         $originalClassName = Enlight_Class::getClassName($originalClassName);
-        return parent::getMock($originalClassName, $methods, $arguments, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload);
+        return parent::getMock($originalClassName,
+                                $methods,
+                                $arguments,
+                                $mockClassName,
+                                $callOriginalConstructor,
+                                $callOriginalClone,
+                                $callAutoload
+        );
     }
 
     /**
