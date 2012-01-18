@@ -38,16 +38,28 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
      * @throws  Enlight_Exception
      * @param   string $event
      * @param   callback $listener
-     * @param   null $position
+     * @param   integer $position
      */
-	public function __construct($event, $position=null, $listener)
+	public function __construct($event, $listener, $position=null)
 	{
-		parent::__construct($event, $position);
-        if(!is_callable($listener, true, $listener_event)) {
-			throw new Enlight_Event_Exception('Listener "'.$listener_event.'" is not callable');
-		}
-        $this->listener = $listener;
+        parent::__construct($event);
+        $this->setListener($listener);
+        $this->setPosition($position);
 	}
+
+    /**
+     * @param   callback $listener
+     * @return  Enlight_Event_Handler_Default
+     * @throws  Enlight_Event_Exception
+     */
+    public function setListener($listener)
+    {
+        if(!is_callable($listener, true, $listener_event)) {
+            throw new Enlight_Event_Exception('Listener "'.$listener_event.'" is not callable');
+        }
+        $this->listener = $listener;;
+        return $this;
+    }
 
     /**
      * @return  callback
@@ -66,10 +78,11 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
 		return call_user_func($this->listener, $args);
 	}
 
+    /**
+     * @return array
+     */
 	public function toArray()
 	{
-		$listener = $this->getListener();
-
 		return array(
             'name' => $this->name,
             'position' => $this->position,

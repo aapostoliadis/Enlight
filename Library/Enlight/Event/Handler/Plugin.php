@@ -46,13 +46,13 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
 
     /**
      * @throws  Enlight_Event_Exception
-     * @param   $event
-     * @param   null $position
-     * @param   null|Enlight_Plugin_Namespace $namespace
-     * @param   $plugin
-     * @param   null $listener
+     * @param   string $event
+     * @param   Enlight_Plugin_Namespace $namespace
+     * @param   Enlight_Plugin_Bootstrap $plugin
+     * @param   string $listener
+     * @param   integer $position
      */
-	public function __construct($event, $position=null, $namespace=null, $plugin=null, $listener=null)
+	public function __construct($event, $namespace=null, $plugin=null, $listener=null, $position=null)
 	{
         if($namespace !== null) {
             $this->setNamespace($namespace);
@@ -63,7 +63,8 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
         if($listener !== null) {
             $this->setListener($listener);
         }
-		parent::__construct($event, $position);
+		parent::__construct($event);
+        $this->setPosition($position);
 	}
 
     /**
