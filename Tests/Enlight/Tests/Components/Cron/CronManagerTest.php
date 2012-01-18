@@ -215,7 +215,7 @@ class Enlight_Tests_Components_Cron_CronManagerTest extends Enlight_Components_T
 		$this->assertNull($this->manager->run($job));
 
 		$handler = new Enlight_Event_Handler_Default(
-							$job->getAction(), null, array($this, 'onJobAction')
+							$job->getAction(), array($this, 'onJobAction')
 		);
 
 		$this->manager->getEventManager()->registerListener($handler);

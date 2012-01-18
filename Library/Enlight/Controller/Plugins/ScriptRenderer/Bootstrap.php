@@ -71,8 +71,8 @@ class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin
     {
             $event = new Enlight_Event_Handler_Default(
                 'Enlight_Controller_Action_PreDispatch',
-                300,
-                array($this, 'onPreDispatch')
+                array($this, 'onPreDispatch'),
+                300
             );
             $this->Application()->Events()->registerListener($event);
     }
