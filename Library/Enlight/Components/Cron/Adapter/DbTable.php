@@ -21,6 +21,9 @@
  */
 
 /**
+ * This adapter allows you to implement cron tasks in your application.
+ * The adapter handles all action between the controller and database.
+ *
  * @category   Enlight
  * @package    Enlight_Cron
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

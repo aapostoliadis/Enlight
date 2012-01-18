@@ -102,7 +102,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     }
     
     /**
-     * Reset all instances
+     * Reset all instances, resources and init the internal view, template and front properties
      */
     public function reset()
     {		

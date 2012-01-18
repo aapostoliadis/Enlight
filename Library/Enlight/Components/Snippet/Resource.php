@@ -13,7 +13,7 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Components_Snippet
+ * @package    Enlight_Snippet
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
@@ -25,14 +25,14 @@ require_once('Smarty/Smarty.class.php');
 
 /**
  * @category   Enlight
- * @package    Enlight_Components_Snippet
+ * @package    Enlight_Snippet
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Extends
 {
     /**
-     * @var     Enlight_Components_Snippet_Manager
+     * @var     Enlight_Components_Snippet_Manager Snippet manager which has to be set in the constructor
      */
     protected $snippets;
 
@@ -67,6 +67,7 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     }
 
     /**
+     * Compiles the given snippet block if the content parameter is filled.
      * @param   $params
      * @param   $content
      * @param   Smarty_Internal_TemplateBase $template
@@ -123,6 +124,8 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     }
 
     /**
+     * Compiles the snippet modifier
+     *
      * @param   string $content
      * @param   string $name
      * @param   string|Enlight_Components_Snippet_Namespace $namespace
@@ -220,6 +223,8 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     }
 
     /**
+     * Returns the snippet content for the given snippet namespace and name.
+     * If the force parameter is set to true, the default value will be set and returned.
      * @param   $name
      * @param   $namespace
      * @param   $default
@@ -239,6 +244,7 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     }
 
     /**
+     * Returns the snippet namespace class for the given smarty template source.
      * @throws  Enlight_Exception
      * @param   Smarty_Template_Source $source
      * @return  null|string

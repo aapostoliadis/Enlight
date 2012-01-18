@@ -28,7 +28,11 @@
  */
 class Enlight_Components_Form_Element_Radio extends Zend_Form_Element_Radio
 {
+    /**
+     * @var string separator for the radio element
+     */
     public $_separator = '';
+
     /**
      * Load default decorators
      *

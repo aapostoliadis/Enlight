@@ -30,7 +30,7 @@
 class Enlight_Components_Site_Manager
 {
     /**
-     * @var
+     * @var mixed|Enlight_Config the adapter config, which can set in the constructor
      */
     protected $adapter;
 

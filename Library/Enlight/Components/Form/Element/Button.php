@@ -28,6 +28,9 @@
  */
 class Enlight_Components_Form_Element_Button extends Zend_Form_Element_Button
 {
+    /**
+     * @var string class name for the element (default: 'btn')
+     */
     public $class = 'btn';
 
     /**
