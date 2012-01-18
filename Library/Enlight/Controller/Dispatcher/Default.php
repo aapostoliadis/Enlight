@@ -83,6 +83,12 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
      */
     protected $controllerDirectory = array();
 
+    /**
+     * Adds a controller directory. If no module given, the default module will used.
+     * @param $path
+     * @param null $module
+     * @return Enlight_Controller_Dispatcher_Default
+     */
     public function addControllerDirectory($path, $module = null)
     {
         if(empty($module)) {
@@ -97,6 +103,12 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         return $this;
     }
 
+    /**
+     * Sets the controller directory. The directory can given as array or string.
+     * @param string|array $directory
+     * @param string|null $module
+     * @return Enlight_Controller_Dispatcher_Default
+     */
     public function setControllerDirectory($directory, $module = null)
     {
         $this->controllerDirectory = array();
@@ -112,6 +124,11 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         return $this;
     }
 
+    /**
+     * Returns the controller directory. If more than one directory exists the function will return the controller directory of the given module.
+     * @param null $module
+     * @return array|null
+     */
     public function getControllerDirectory($module = null)
     {
         if($module === null) {
@@ -125,6 +142,11 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         }
     }
 
+    /**
+     * Removes the controller directory for the given module.
+     * @param $module
+     * @return bool
+     */
     public function removeControllerDirectory($module)
     {
         $module = (string)$module;
@@ -136,6 +158,12 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         }
     }
 
+    /**
+     * Adds the given path to the module directory
+     * @param $path
+     * @return Enlight_Controller_Dispatcher_Default
+     * @throws Enlight_Controller_Exception
+     */
     public function addModuleDirectory($path)
     {
         try {
@@ -162,21 +190,43 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         return $this;
     }
 
+    /**
+     * Returns the formatted controller name. Removes all '_' .
+     * @param $unFormatted
+     * @return mixed
+     */
     public function formatControllerName($unFormatted)
     {
         return str_replace('_', '', $this->formatName($unFormatted));
     }
 
+    /**
+     * Returns the formatted action name. Removes all '_' .
+     * @param $unFormatted
+     * @return mixed
+     */
     public function formatActionName($unFormatted)
     {
         return str_replace('_', '', $this->formatName($unFormatted));
     }
 
+    /**
+     * Returns the formatted module name. Upper case the first character of the module name.
+     * @param $unFormatted
+     * @return string
+     */
     public function formatModuleName($unFormatted)
     {
         return ucfirst($this->formatName($unFormatted));
     }
 
+    /**
+     * internal helper function to format action, controller and module names.
+     *
+     * @param $unFormatted
+     * @param bool $isAction
+     * @return string
+     */
     protected function formatName($unFormatted, $isAction = false)
     {
         if(!$isAction) {
@@ -195,40 +245,68 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         return implode('_', $segments);
     }
 
+    /**
+     * Sets the default controller name.
+     * @param $controller
+     * @return Enlight_Controller_Dispatcher_Default
+     */
     public function setDefaultControllerName($controller)
     {
         $this->defaultController = (string)$controller;
         return $this;
     }
 
+    /**
+     * Returns the default controller name.
+     * @return string
+     */
     public function getDefaultControllerName()
     {
         return $this->defaultController;
     }
 
+    /**
+     * Sets the default action name
+     * @param $action
+     * @return Enlight_Controller_Dispatcher_Default
+     */
     public function setDefaultAction($action)
     {
         $this->defaultAction = (string)$action;
         return $this;
     }
 
+    /**
+     * Returns the default action name.
+     * @return string
+     */
     public function getDefaultAction()
     {
         return $this->defaultAction;
     }
 
+    /**
+     * Sets the default module name
+     * @param $module
+     * @return Enlight_Controller_Dispatcher_Default
+     */
     public function setDefaultModule($module)
     {
         $this->defaultModule = (string)$module;
         return $this;
     }
 
+    /**
+     * Returns the default module name
+     * @return string
+     */
     public function getDefaultModule()
     {
         return $this->defaultModule;
     }
 
     /**
+     * Returns the controller class of the given request class. The class name will imploded by '_'
      * @param   Enlight_Controller_Request_Request $request
      * @return  array|string
      */
@@ -254,6 +332,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
+     * Returns the controller path of the given request class.
+     *
      * @param   Enlight_Controller_Request_Request $request
      * @return  string
      */
@@ -277,6 +357,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
+     * Returns the action method of the given request class. If no action name set in the request class, the default action will used.
      * @param   Enlight_Controller_Request_Request $request
      * @return  string
      */
@@ -292,6 +373,14 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         return $formatted;
     }
 
+    /**
+     * Returns the full path of the controller name by the given request class.
+     * To generate the full controller path the module and controller name must be set in the given request object.
+     * The module and controller path will imploded by '_'
+     *
+     * @param Enlight_Controller_Request_Request $request
+     * @return string
+     */
     public function getFullControllerName(Enlight_Controller_Request_Request $request)
     {
         $parts = array(
@@ -301,6 +390,14 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         return implode('_', $parts);
     }
 
+    /**
+     * Returns the full path of the action name.
+     * To generate the full action path the module, controller and action name must be set in the given request object.
+     * The module, controller and action path will imploded by '_'.
+     *
+     * @param Enlight_Controller_Request_Request $request
+     * @return string
+     */
     public function getFullActionName(Enlight_Controller_Request_Request $request)
     {
         $parts = array(
@@ -311,6 +408,14 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         return implode('_', $parts); 
     }
 
+    /**
+     * Returns whether the given request object is dispatchable.
+     * Checks first if the controller class of the request object exists.
+     * If the controller class exists, the enlight loader class will check if the controller path is readable.
+     *
+     * @param Enlight_Controller_Request_Request $request
+     * @return bool|string
+     */
     public function isDispatchable(Enlight_Controller_Request_Request $request)
     {
         $className = $this->getControllerClass($request);
@@ -324,6 +429,12 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         return Enlight_Loader::isReadable($path);
     }
 
+    /**
+     * Checks if a controller directory exists for the given module.
+     *
+     * @param $module
+     * @return bool
+     */
     public function isValidModule($module)
     {
         if(!is_string($module)) {
@@ -335,6 +446,18 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
         return !empty($controllerDir);
     }
 
+    /**
+     * If the given request is not dispatchable, the default controller will be set.
+     * Then tried to load the controller class and append the hook proxies.
+     * If the hook proxies added, the dispatched flag of the request object is set to true.
+     * If the disableOutputBuffering parameter isn't set, the output buffering started.
+     * After that, run the dispatch on the controller.
+     * Ending with the Body added to the response object
+     *
+     * @param Enlight_Controller_Request_Request $request
+     * @param Enlight_Controller_Response_Response $response
+     * @throws Enlight_Controller_Exception|Enlight_Exception|Exception
+     */
     public function dispatch(Enlight_Controller_Request_Request $request, Enlight_Controller_Response_Response $response)
     {
         $this->setResponse($response);

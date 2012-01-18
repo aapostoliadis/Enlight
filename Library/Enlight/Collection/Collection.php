@@ -13,7 +13,7 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Collection_Collection
+ * @package    Enlight_Collection
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
@@ -21,8 +21,10 @@
  */
 
 /**
+ * Interface for an enlight collection. Implemented in the Enlight_Collection_ArrayCollection
+ *
  * @category   Enlight
- * @package    Enlight_Collection_Collection
+ * @package    Enlight_Collection
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */

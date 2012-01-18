@@ -1,20 +1,57 @@
 <?php
 /**
- * Enlight Proxy Factory
- * 
- * @link http://www.shopware.de
- * @copyright Copyright (c) 2011, shopware AG
- * @author Heiner Lohaus
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Enlight_Hook
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     Heiner Lohaus
+ * @author     $Author$
+ */
+
+/**
+ * @category   Enlight
+ * @package    Enlight_Hook
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
  */
 class Enlight_Hook_ProxyFactory extends Enlight_Class
 {
-    protected $proxyNamespace;
-    protected $proxyDir;
-    protected $fileExtension = '.php';
-    
     /**
-	 * Constructor method
-	 */
+     * @var null|string namespace of the proxy
+     */
+    protected $proxyNamespace;
+
+    /**
+     * @var directory of the proxy
+     */
+    protected $proxyDir;
+
+    /**
+     * @var string extension of the hook files.
+     */
+    protected $fileExtension = '.php';
+
+    /**
+     * Standard Constructor method.
+     * If no namespace is given, the default namespace _Proxies is used.
+     * If no proxy directory is given, the default directory Proxies is used.
+     *
+     * @param null $proxyNamespace
+     * @param null $proxyDir
+     */
     public function __construct($proxyNamespace=null, $proxyDir=null)
     {
 		if($proxyNamespace === null) {
@@ -28,7 +65,7 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
     }
     
     /**
-     * Return proxy class
+     * Return proxy class for the given class.
      *
      * @param string $class
      * @return string
@@ -94,6 +131,7 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
      * Generate proxy class
      *
      * @param string $class
+     * @return mixed|string
      */
     protected function generateProxyClass($class)
     {
@@ -197,7 +235,10 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
     	}
     	return array('array'=>$methodsArray, 'methods'=>$methods);
     }
-    
+
+    /**
+     * @var string Default proxy class template.
+     */
     protected $proxyClassTemplate =
 '<?php
 class <namespace>_<proxyClassName> extends <className> implements Enlight_Hook_Proxy
@@ -214,6 +255,9 @@ class <namespace>_<proxyClassName> extends <className> implements Enlight_Hook_P
     <methods>
 }
 ';
+    /**
+     * @var string Default proxy method template
+     */
     protected $proxyMethodTemplate =
 '
     <methodModifiers> function <methodName>(<methodParameters>)

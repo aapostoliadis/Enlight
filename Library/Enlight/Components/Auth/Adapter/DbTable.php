@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Auth_Adapter_DbTable is the adapter for the authentication.
+ * It handles all database actions.
+ *
  * @category   Enlight
  * @package	Enlight_Auth
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

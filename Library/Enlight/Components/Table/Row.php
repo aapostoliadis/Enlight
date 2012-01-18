@@ -13,7 +13,7 @@
  * to license@shopware.de so we can send you a copy immediately.
  *
  * @category   Enlight
- * @package    Enlight_Components_Table
+ * @package    Enlight_Table
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  * @version    $Id$
@@ -22,7 +22,7 @@
 
 /**
  * @category   Enlight
- * @package   Enlight_Components_Table
+ * @package   Enlight_Table
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */

@@ -64,10 +64,6 @@ class Enlight_Components_Cron_Job
 	 * @var Integer
 	 */
 	protected $active;
-//	/**
-//	 * @var String
-//	 */
-//	protected $crontab;
 
 	/**
 	 * This is a Cronjob Model. Following option must be provided in the options array
@@ -135,9 +131,6 @@ class Enlight_Components_Cron_Job
 				case 'active':
 					$this->setActive($value);
 					break;
-//				case 'crontab':
-//					$this->setCrontab($value);
-//					break;
 				case 'name':
 					$this->setName($value);
 					break;
@@ -149,7 +142,7 @@ class Enlight_Components_Cron_Job
 					break;
 
 				default:
-					//$this->$fieldName = (string) $value;
+                    break;
 			}
 		}
 	}
