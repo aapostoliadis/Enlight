@@ -30,27 +30,27 @@
 class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_Bootstrap_Default
 {
     /**
-     * @var bool
+     * @var bool Flag if the view should never render
      */
     protected $neverRender = false;
 
     /**
-     * @var bool
+     * @var bool Flag if the view shouldn't render
      */
     protected $noRender = false;
 
     /**
-     * @var Enlight_Controller_Front
+     * @var Enlight_Controller_Front Instance of the enlight front controller
      */
     protected $front;
 
     /**
-     * @var Enlight_Controller_Action
+     * @var Enlight_Controller_Action Used to load and set the template
      */
     protected $action;
 
     /**
-     * @var Enlight_Template_Manager
+     * @var Enlight_Template_Manager Is used when the view is initialized
      */
     protected $engine;
 

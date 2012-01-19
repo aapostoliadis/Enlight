@@ -29,6 +29,7 @@
 class Enlight_Components_Currency extends Zend_Currency
 {
     /**
+     * Unique id of the currency class
      * @var int
      */
     protected $id;

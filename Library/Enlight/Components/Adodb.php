@@ -29,12 +29,12 @@
 class Enlight_Components_Adodb extends Enlight_Class
 {
     /**
-     * @var Zend_Db_Adapter_Abstract
+     * @var Zend_Db_Adapter_Abstract Performs all operations on the database
      */
     protected $db;
 
     /**
-     * @var Zend_Cache_Core
+     * @var Zend_Cache_Core Used for the statement caching.
      */
     protected $cache;
 
@@ -144,9 +144,24 @@ class Enlight_Components_Adodb extends Enlight_Class
         return '?';
     }
 
+    /**
+     * @var string Standard system date expression (default: 'CURDATE()')
+     */
     public $sysDate = 'CURDATE()';
+
+    /**
+     * @var string Standard system timestamp expression (default: 'NOW()')
+     */
     public $sysTimeStamp = 'NOW()';
+
+    /**
+     * @var string Standard date format (default: 'Y-m-d')
+     */
     protected $fmtDate = 'Y-m-d';
+
+    /**
+     * @var string Standard timestamp format (default: 'Y-m-d H:i:s')
+     */
     protected $fmtTimeStamp = 'Y-m-d H:i:s';
 
     /**
@@ -436,10 +451,10 @@ class Enlight_Components_Adodb extends Enlight_Class
     /**
      * Fetch all rows cached
      *
-     * @param unknown_type $timeout
-     * @param unknown_type $sql
-     * @param unknown_type $bind
-     * @param unknown_type $tags
+     * @param unknown_type        $timeout
+     * @param unknown_type        $sql
+     * @param array               $bind
+     * @param array               $tags
      * @return unknown
      */
     public function CacheGetAll($timeout, $sql = null, $bind = array(), $tags = array())
@@ -450,10 +465,10 @@ class Enlight_Components_Adodb extends Enlight_Class
     /**
      * Fetch first row cached
      *
-     * @param int    $timeout
-     * @param string $sql
-     * @param array  $bind
-     * @param array  $tags
+     * @param  int    $timeout
+     * @param  string $sql
+     * @param  array  $bind
+     * @param  array  $tags
      * @return array
      */
     public function CacheGetRow($timeout, $sql = null, $bind = array(), $tags = array())

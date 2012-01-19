@@ -30,7 +30,7 @@
 abstract class Enlight_Components_Test_TestCase extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Extensions_Database_ITester
+     * @var PHPUnit_Extensions_Database_ITester The IDatabaseTester for this testCase
      */
     protected $databaseTester;
 
@@ -162,7 +162,7 @@ abstract class Enlight_Components_Test_TestCase extends PHPUnit_Framework_TestCa
     }
 
     /**
-     *Asserts that a link does not exist.
+     * Asserts that a link does not exist.
      *
      * @param  string $link
      * @param  string $message

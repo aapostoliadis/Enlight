@@ -29,6 +29,7 @@
 class Enlight_Components_Form extends Zend_Form
 {
     /**
+     * Configuration for the adapter
      * @var Enlight_Config
      */
     protected $_adapter;

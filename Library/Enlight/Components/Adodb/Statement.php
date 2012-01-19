@@ -30,7 +30,7 @@ class Enlight_Components_Adodb_Statement extends Enlight_Class
 {
     /**
      * Internal sql statement object
-     * @var
+     * @var object
      */
     protected $_statement;
 

@@ -28,9 +28,28 @@
  */
 class Enlight_Components_Mail extends Zend_Mail
 {
+    /**
+     * Flag if the body is a html body
+     * @var bool
+     */
     protected $_isHtml = false;
+
+    /**
+     * Mail address from the mail sender
+     * @var null|array|string
+     */
     protected $_fromName = null;
+
+    /**
+     * Property for the plain body
+     * @var null
+     */
     protected $_plainBody = null;
+
+    /**
+     * Property for the plain body text. Can be filled by setBodyText function.
+     * @var null
+     */
     protected $_plainBodyText = null;
 
     /**

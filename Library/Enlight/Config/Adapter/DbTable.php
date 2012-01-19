@@ -72,6 +72,7 @@ class Enlight_Config_Adapter_DbTable extends Enlight_Config_Adapter
     protected $_updatedColumn = 'updated';
 
     /**
+     * Database adapter which performs all operations on the database
      * @var Zend_Db_Adapter_Abstract
      */
     protected $_db;

@@ -30,6 +30,9 @@
 class Enlight_Components_Test_Database_DefaultTester extends PHPUnit_Extensions_Database_AbstractTester
 {
     /**
+     * Instance of the database connection class. Can be set in the class constructor.
+     * If no connection is set, the default connection is used.
+     *
      * @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
      */
     protected $connection;

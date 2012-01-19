@@ -30,11 +30,13 @@
 class Enlight_Components_Menu extends Zend_Navigation
 {
     /**
+     * Default page class for the menu item. Used when one or more page(s) created. (default: Enlight_Components_Menu_Item)
      * @var string
      */
     protected $_defaultPageClass = 'Enlight_Components_Menu_Item';
 
     /**
+     * Components adapter to read and write the menu item. Used in the read and write function.
      * @var Enlight_Components_Menu_Adapter
      */
     protected $_adapter;
