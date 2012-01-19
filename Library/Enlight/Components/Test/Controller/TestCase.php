@@ -30,26 +30,31 @@
 abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Components_Test_TestCase
 {
     /**
+     * Instance of the Front resource
      * @var Enlight_Controller_Front
      */
     protected $_front;
     
     /**
+     * Instance of the View resource
      * @var Enlight_Template_Manager
      */
     protected $_template;
     
     /**
+     * Instance of the enlight view. Is filled in the dispatch function with the template.
      * @var Enlight_View_Default
      */
     protected $_view;
 
     /**
+     * Instance of the enlight request. Filled in the dispatch function.
      * @var Zend_Controller_Request_Http
      */
     protected $_request;
 
     /**
+     * Instance of the enlight response. Filled in the dispatch function.
      * @var Zend_Controller_Response_Http
      */
     protected $_response;

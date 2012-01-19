@@ -29,16 +29,27 @@
  */
 class Enlight_Components_Test_TicketListener_Trac extends PHPUnit_Extensions_TicketListener
 {
+    /**
+     * @var string Address of the server. Set in the constructor.
+     */
     protected $serverAddress;
+
+    /**
+     * @var bool If set to true, output a formatted string when the ticket updated.
+     */
     protected $printTicketStateChanges;
+
+    /**
+     * @var bool Will passed to the Zend_XmlRpc_Client::call function
+     */
     protected $notifyTicketStateChanges;
 
     /**
      * Constructor method
      *
-     * @param      $serverAddress
-     * @param bool $printTicketStateChanges
-     * @param bool $notifyTicketStateChanges
+     * @param string $serverAddress
+     * @param bool   $printTicketStateChanges
+     * @param bool   $notifyTicketStateChanges
      */
     public function __construct($serverAddress, $printTicketStateChanges = false, $notifyTicketStateChanges = false)
     {

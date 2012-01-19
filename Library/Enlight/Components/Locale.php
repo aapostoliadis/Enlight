@@ -30,6 +30,7 @@
 class Enlight_Components_Locale extends Zend_Locale
 {
     /**
+     * Unique id for the locale class.
      * @var int
      */
     protected $id;

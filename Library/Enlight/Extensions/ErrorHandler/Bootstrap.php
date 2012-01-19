@@ -62,11 +62,27 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     /**
      * @var array
      */
-    protected $errorLevelList = array(E_ERROR => 'E_ERROR', E_WARNING => 'E_WARNING', E_PARSE => 'E_PARSE', E_NOTICE => 'E_NOTICE', E_CORE_ERROR => 'E_CORE_ERROR', E_CORE_WARNING => 'E_CORE_WARNING', E_COMPILE_ERROR => 'E_COMPILE_ERROR', E_COMPILE_WARNING => 'E_COMPILE_WARNING', E_USER_ERROR => 'E_USER_ERROR', E_USER_WARNING => 'E_USER_WARNING', E_USER_NOTICE => 'E_USER_NOTICE', E_ALL => 'E_ALL', E_STRICT => 'E_STRICT', E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',//E_DEPRECATED        => 'E_DEPRECATED',
+    protected $errorLevelList = array(
+        E_ERROR             => 'E_ERROR',
+        E_WARNING           => 'E_WARNING',
+        E_PARSE             => 'E_PARSE',
+        E_NOTICE            => 'E_NOTICE',
+        E_CORE_ERROR        => 'E_CORE_ERROR',
+        E_CORE_WARNING      => 'E_CORE_WARNING',
+        E_COMPILE_ERROR     => 'E_COMPILE_ERROR',
+        E_COMPILE_WARNING   => 'E_COMPILE_WARNING',
+        E_USER_ERROR        => 'E_USER_ERROR',
+        E_USER_WARNING      => 'E_USER_WARNING',
+        E_USER_NOTICE       => 'E_USER_NOTICE',
+        E_ALL               => 'E_ALL',
+        E_STRICT            => 'E_STRICT',
+        E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+        //E_DEPRECATED        => 'E_DEPRECATED',
         //E_USER_DEPRECATED    => 'E_USER_DEPRECATED',
     );
 
     /**
+     * Initial the error level list.
      * @return void
      */
     public function init()
@@ -80,24 +96,23 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-<<<<<<< HEAD
-	 * Plugin install method
-	 */
-	public function install()
-	{
+     * Plugin install method
+     */
+    public function install()
+    {
 		 $this->subscribeEvent(
 			'Enlight_Controller_Front_StartDispatch',
 			'onStartDispatch'
 		);
-	}
+    }
 
-	/**
-	 * Plugin event method
-	 */
-	public function onStartDispatch()
-	{
-		$this->registerErrorHandler(E_ALL | E_STRICT);
-	}
+    /**
+     * Plugin event method
+     */
+    public function onStartDispatch()
+    {
+        $this->registerErrorHandler(E_ALL | E_STRICT);
+    }
 
     /**
      * Register error handler callback
@@ -141,12 +156,12 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
             if (!isset($this->errorList[$hashId])) {
                 $errorName = isset($this->errorLevelList[$errorLevel]) ? $this->errorLevelList[$errorLevel] : '';
                 $this->errorList[$hashId] = array(
-                    'count' => 1,
-                    'code' => $errorLevel,
-                    'name' => $errorName,
+                    'count'   => 1,
+                    'code'    => $errorLevel,
+                    'name'    => $errorName,
                     'message' => $errorMessage,
-                    'line' => $errorLine,
-                    'file' => $errorFile
+                    'line'    => $errorLine,
+                    'file'    => $errorFile
                 );
             } else {
                 ++$this->errorList[$hashId]['count'];

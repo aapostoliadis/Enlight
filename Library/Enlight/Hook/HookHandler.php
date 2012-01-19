@@ -30,27 +30,27 @@
 class Enlight_Hook_HookHandler
 {
     /**
-     * @var class to which the hook is created.
+     * @var mixed class to which the hook is created.
      */
     protected $class;
 
     /**
-     * @var method on which the hook is created.
+     * @var mixed method on which the hook is created.
      */
     protected $method;
 
     /**
-     * @var
+     * @var mixed property for the hook class
      */
     protected $hook;
 
     /**
-     * @var type of the hook (before, replace or after)
+     * @var int type of the hook (before, replace or after)
      */
     protected $type;
 
     /**
-     * @var position position of the hook. If more than one hook exists on the same
+     * @var int position of the hook. If more than one hook exists on the same
      * class method the hooks are called sequentially by the position.
      */
     protected $position;

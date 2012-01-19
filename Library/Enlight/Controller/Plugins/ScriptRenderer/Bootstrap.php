@@ -30,17 +30,17 @@
 class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin_Bootstrap
 {
     /**
-     * @var string
+     * @var string Used for the Zend_Filter_Inflector
      */
     protected $target = ':module/:controller/:file:suffix';
 
     /**
-     * @var string
+     * @var string Used when no file parameter given.
      */
     protected $defaultFile = null;
 
     /**
-     * @var array
+     * @var array Filter rules for the Zend_Filter_Inflector
      */
     protected $filterRules = array(
         ':module' => array('Word_CamelCaseToUnderscore', 'StringToLower'),
@@ -50,17 +50,17 @@ class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin
     );
 
     /**
-     * @var array
+     * @var array Will be set in the response instance on pre dispatch.
      */
     protected $headers = array('Content-Type' => 'application/javascript;charset=utf-8');
 
     /**
-     * @var bool
+     * @var bool Flag if the view already rendered
      */
     protected $render = false;
 
     /**
-     * @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap
+     * @var Enlight_Controller_Plugins_ViewRenderer_Bootstrap Instance of the enlight view renderer.
      */
     protected $viewRenderer;
 

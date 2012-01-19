@@ -211,6 +211,7 @@ class Enlight_Components_Site
     }
 
     /**
+     * Standard getter function for the id property
      * @return  int
      */
     public function getId()
@@ -219,6 +220,7 @@ class Enlight_Components_Site
     }
 
     /**
+     * Standard getter function for the name property
      * @return  string
      */
     public function getName()
@@ -231,7 +233,7 @@ class Enlight_Components_Site
     }
 
     /**
-     * Returns shop locale
+     * Standard getter function for the host property
      *
      * @return  string
      */
@@ -281,6 +283,8 @@ class Enlight_Components_Site
     }
 
     /**
+     * Standard getter function for the site resources
+     *
      * @return array
      */
     public function getResources()

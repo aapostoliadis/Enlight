@@ -30,12 +30,12 @@
 class Enlight_Controller_Router_Default extends Enlight_Controller_Router
 {
     /**
-     * @var Enlight_Controller_Front
+     * @var Enlight_Controller_Front Is used to get the front dispatcher and request
      */
     protected $front;
 
     /**
-     * @var string
+     * @var string Separator for the router paths
      */
     protected $separator = '/';
 
@@ -62,9 +62,9 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
         }
 
         $params = Enlight_Application::Instance()->Events()->filter(
-                    'Enlight_Controller_Router_FilterRouteParams',
-                    $params
-                  );
+            'Enlight_Controller_Router_FilterRouteParams',
+            $params
+        );
 
         $request->setParams($params);
 

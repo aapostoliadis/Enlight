@@ -30,6 +30,7 @@
 class Enlight_Components_Db extends Zend_Db
 {
     /**
+     * Namespace of the adapter (default : Enlight_Components_Db_Adapter)
      * @var string
      */
     protected static $_adapterNamespace = 'Enlight_Components_Db_Adapter';

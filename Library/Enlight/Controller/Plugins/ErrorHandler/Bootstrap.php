@@ -30,6 +30,7 @@
 class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap_Default
 {
     /**
+     * Initial the default event handlers onRouteShutdown and onPostDispatch
      * @return void
      */
     public function init()
@@ -67,6 +68,9 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
         $this->handleError($args->getSubject(), $args->getRequest());
     }
 
+    /**
+     * Const - No controller exception;
+     */
     const EXCEPTION_NO_CONTROLLER = 'EXCEPTION_NO_CONTROLLER';
 
     /**

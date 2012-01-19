@@ -95,6 +95,7 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
     }
 
     /**
+     * Standard setter method for the adapter
      * @param Enlight_Config_Adapter $adapter
      * @return Enlight_Components_Snippet
      */

@@ -29,7 +29,7 @@
 class Enlight_Components_Table_Row extends Zend_Db_Table_Row implements Enlight_Hook
 {
     /**
-     * _getTableFromString
+     * Returns the class name of the given table
      *
      * @param string $tableName
      * @return Zend_Db_Table_Abstract
