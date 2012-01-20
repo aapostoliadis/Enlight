@@ -85,10 +85,11 @@ class Blog_Controllers_Backend_BlogPosts extends Enlight_Controller_Action
     {
     }
 
+
     /**
      * returns all posts ordered by the creation_date
      *
-     * @return JsonData  all blog post data
+     * @return JsonData | all blog post data
      */
     public function getPostsAction()
     {
@@ -100,7 +101,7 @@ class Blog_Controllers_Backend_BlogPosts extends Enlight_Controller_Action
     /**
      * insert the new blog post data into the db table based on the request data
      *
-     * @return JsonData  the created blog post
+     * @return JsonData | the created blog post
      */
     public function createPostAction()
     {
@@ -123,7 +124,7 @@ class Blog_Controllers_Backend_BlogPosts extends Enlight_Controller_Action
     /**
      * updates the blog post based on the request data
      *
-     * @return JsonData  the updated blog post
+     * @return JsonData | the updated blog post
      */
     public function updatePostAction()
     {
@@ -150,7 +151,6 @@ class Blog_Controllers_Backend_BlogPosts extends Enlight_Controller_Action
 
     /**
      * updates the blog post based on the request data
-     *
      * @return JsonData  success message
      */
     public function deletePostAction()
