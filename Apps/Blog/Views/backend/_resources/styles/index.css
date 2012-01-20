@@ -1,0 +1,18 @@
+html { background: url("../images/bg-grid.png") repeat scroll 0 0 #e9e9e9 }
+html, .x-body { height: 100% }
+.x-body {
+    background: url("../images/logo-enlight.png") no-repeat center center;
+    color: #555;
+}
+
+.x-action-col-icon {
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0 4px 0 0;
+}
+.container { background: url("../images/bg-top.png") repeat-x 0 1px }
+.add { background-image: url("../images/add.png") }
+.delete { background-image: url("../images/delete.png") }
+.pencil { background-image: url("../images/pencil.png") }
