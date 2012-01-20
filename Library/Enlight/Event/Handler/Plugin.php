@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Event_Handler_Plugin is the basic class for plugin events. It extends the standard enlight event
+ * handler with plugin specified methods.
+ *
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

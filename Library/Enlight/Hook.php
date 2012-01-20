@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Hook is an interface for hooked classes.
+ * If a class implements the Enlight_Hook class, it is possible to set hook listener on the class methods.
+ *
  * @category   Enlight
  * @package    Enlight_Hook
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

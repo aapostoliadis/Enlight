@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_View defines the interface for the view within a controller.
+ * If you want to implement your own view class then you have to implement this interface.
+ *
  * @category   Enlight
  * @package    Enlight_View
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

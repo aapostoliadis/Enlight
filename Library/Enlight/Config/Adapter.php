@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Config_Adapter is an interface for the enlight configuration adapters.
+ * To implement an owner config adapter this interface should be implemented.
+ *
  * @category   Enlight
  * @package    Enlight_Config
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

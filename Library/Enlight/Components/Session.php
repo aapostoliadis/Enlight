@@ -21,6 +21,8 @@
  */
 
 /**
+ * The Enlight_Components_Session is an alias for the Zend_Session.
+ *
  * @category   Enlight
  * @package    Enlight_Session
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

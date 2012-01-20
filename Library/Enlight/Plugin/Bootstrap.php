@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Plugin_Bootstrap is the basic class for each plugin bootstrap.
+ * It has an reference to the application and the plugin collection.
+ *
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

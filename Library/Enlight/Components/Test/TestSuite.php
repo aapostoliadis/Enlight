@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Components_Test_TestSuite managed all implemented test cases.
+ * It groups the test test cases and allows to add new test cases.
+ *
  * @category   Enlight
  * @package    Enlight_Test
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

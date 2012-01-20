@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Form_DisplayGroup extends the zend display group element and adds enlight specified html tags
+ * and css classes.
+ *
  * @category   Enlight
  * @package    Enlight_Form
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

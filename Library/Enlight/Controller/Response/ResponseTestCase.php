@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Controller_Response_ResponseTestCase used to test the response in the controller test cases.
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

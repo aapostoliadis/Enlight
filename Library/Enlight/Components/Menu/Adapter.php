@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Components_Menu_Adapter interface grants an easy way to implement an own db adapter for enlight menus.
+ *
  * @category    Enlight
  * @package     Enlight_Menu
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)

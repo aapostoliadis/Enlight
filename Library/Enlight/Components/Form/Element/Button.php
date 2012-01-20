@@ -21,6 +21,8 @@
  */
 
 /**
+ * The Enlight_Components_Form_Element_Button extends the zend form button and adds a css class 'btn'
+ *
  * @category   Enlight
  * @package    Enlight_Form
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

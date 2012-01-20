@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_Namespace represents a single plugin namespace.
+ *
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_Bootstrap_Config is the configuration class for a single plugin.
+ *
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

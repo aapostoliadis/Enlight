@@ -22,6 +22,11 @@
  */
 
 /**
+ * The Enlight_Hook_HookHandler represents an single hook. The hook handler will be registered
+ * by the Enlight_Hook_Subscriber and will be executed by the Enlight_Hook_Manager if the corresponding
+ * original class method would be executed.
+ *
+ *
  * @category   Enlight
  * @package    Enlight_Hook
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

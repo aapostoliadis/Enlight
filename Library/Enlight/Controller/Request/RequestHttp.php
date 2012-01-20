@@ -22,6 +22,9 @@
  */
 
 /**
+ * HTTP request object for use with Enlight_Controller.
+ * The Enlight_Controller_Request_RequestHttp represents the request object (what's in the url, which was read out).
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

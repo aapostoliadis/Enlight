@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Components_Session_Namespace extends the Zend_Session_Namespace with an easy array access.
+ *
  * @category    Enlight
  * @package     Enlight_Session
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)

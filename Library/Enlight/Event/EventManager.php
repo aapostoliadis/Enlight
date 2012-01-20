@@ -22,6 +22,16 @@
  */
 
 /**
+ * The Enlight_Event_EventManager stored all event listeners. It allows to execute the events and forward them to
+ * the registered listeners. In addition the event manager allows to execute events manuel by using the
+ * notify function. <br><br>
+ *
+ * Example to execute an event manuel:<br>
+ *       Enlight_Application::Instance()->Events()->notify(
+ *           'Enlight_Controller_Front_StartDispatch',
+ *           array('subject' => $this)
+ *       );
+ *
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
@@ -30,7 +40,7 @@
 class Enlight_Event_EventManager extends Enlight_Class
 {
     /**
-     * @var array
+     * @var array all registered event listeners
      */
     protected $listeners = array();
 

@@ -21,6 +21,8 @@
  */
 
 /**
+ * The Enlight_Components_Cron_Job represents an single cron job, which can execute by the cron manager.
+ *
  * @category   Enlight
  * @package    Enlight_Cron
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

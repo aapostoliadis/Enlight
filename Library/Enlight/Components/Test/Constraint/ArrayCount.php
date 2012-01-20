@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Test_Constraint_ArrayCount is an extension of the PHPUnit_Framework_Constraint
+ * to get access on all array functions in the test cases.
+ *
  * @category   Enlight
  * @package   Enlight_Test
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

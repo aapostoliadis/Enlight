@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Components_Test_Selenium_TestCase extends the PHPUnit_Extensions_SeleniumTestCase with enlight
+ * specified functions to verify text and generate screen shots automatic.
+ *
  * @category   Enlight
  * @package    Enlight_Test
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

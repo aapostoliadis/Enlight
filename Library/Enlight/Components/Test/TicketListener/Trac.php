@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Components_Test_TicketListener_Trac updates the stored Trac tickets automatically.
+ *
  * @category   Enlight
  * @package    Enlight_Test
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Base class for localization extends the zend locale class with an unique id.
+ *
  * @category   Enlight
  * @package    Enlight_Locale
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

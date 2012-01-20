@@ -22,6 +22,9 @@
  */
 
 /**
+ * A simple container class for Enlight_Components_Menu_Item. Extends the zend navigation class
+ * with an adapter ability and the explicit read of the menu entries.
+ *
  * @category    Enlight
  * @package     Enlight_Menu
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)
