@@ -70,7 +70,8 @@ $config = array(
         'useDefaultControllerAlways' => true,
         'disableOutputBuffering' => false,
         'showException' => true,
-    ));
+    )
+);
 
 // creates a new Enlight application instance
 $app = new Blog_Application('production', $config);
