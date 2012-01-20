@@ -42,11 +42,6 @@ Ext.define('Enlight.apps.BlogPosts.view.main.Create', {
             ]
         });
 
-//        // Load our record if necessary
-//        if(this.record) {
-//            // Add the form panel to our items array
-//            this.createPostForm.getForm().loadRecord(this.record);
-//        }
 //        // Add the form panel to our items array
         this.items = [this.createPostForm];
 

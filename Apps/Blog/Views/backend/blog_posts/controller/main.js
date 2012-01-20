@@ -11,7 +11,7 @@ Ext.define('Enlight.apps.BlogPosts.controller.Main', {
     ],
 
     /**
-     * Creates the neccessary event listener for this
+     * Creates the necessary event listener for this
      * specific controller and opens a new Ext.window.Window
      * to display the subapplication
      */
@@ -23,16 +23,13 @@ Ext.define('Enlight.apps.BlogPosts.controller.Main', {
                 click:this.onCreatePost
             },
             'window button[action=save]':{
-                click:this.onSaveUser
+                click:this.onSavePost
             },
             'postedit button[action=save]':{
                 click:this.editPost
             },
             'grid button[action=deletePosts]':{
                 click:this.deleteMultiplePosts
-            },
-            'grid button[action=deleteUser]':{
-                click:this.deleteSingleUser
             },
             'grid actioncolumn':{
                 render:function (view) {
@@ -63,13 +60,9 @@ Ext.define('Enlight.apps.BlogPosts.controller.Main', {
      * @return void
      */
     handleActionColumn:function (view, rowIndex, colIndex, item) {
-
         switch (item.iconCls) {
             case 'pencil':
                 this.onEditPost(view, item, rowIndex);
-                break;
-            case 'delete':
-                this.deleteSingleUser(view, rowIndex);
                 break;
             default:
                 break;
@@ -78,14 +71,14 @@ Ext.define('Enlight.apps.BlogPosts.controller.Main', {
 
     /**
      * Opens the Ext.window.window which displays
-     * the Ext.form.Panel to create a new user
+     * the Ext.form.Panel to create a new post
      */
     onCreatePost:function () {
         Ext.widget('postcreate');
     },
 
     /**
-     * Event listener method which handles the edit user action column button
+     * Event listener method which handles the edit post action column button
      *
      * @param [object] view
      * @param [object] item
@@ -99,10 +92,10 @@ Ext.define('Enlight.apps.BlogPosts.controller.Main', {
     },
 
     /**
-     * Event listener method which adds a user
+     * Event listener method which adds a post
      * @param button
      */
-    onSaveUser:function (button) {
+    onSavePost:function (button) {
         var win = button.up('window'),
                 form = win.down('form'),
                 values = form.getValues(),
@@ -122,7 +115,7 @@ Ext.define('Enlight.apps.BlogPosts.controller.Main', {
     },
 
     /**
-     * Event listener method which deletes multiple users
+     * Event listener method which deletes multiple posts
      */
     deleteMultiplePosts:function () {
 
@@ -150,7 +143,7 @@ Ext.define('Enlight.apps.BlogPosts.controller.Main', {
         })
     },
     /**
-     * Event listener which updates the user informations
+     * Event listener which updates the post informations
      *
      * @param [object] button
      * @return void
