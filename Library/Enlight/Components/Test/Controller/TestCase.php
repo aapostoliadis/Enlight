@@ -196,7 +196,7 @@ abstract class Enlight_Components_Test_Controller_TestCase extends Enlight_Compo
     public function Template()
     {
         if (null === $this->_template) {
-            $this->_template = Enlight::Instance()->Bootstrap()->getResource('Template');
+            $this->_template = Enlight_Application::Instance()->Bootstrap()->getResource('Template');
         }
         return $this->_template;
     }
