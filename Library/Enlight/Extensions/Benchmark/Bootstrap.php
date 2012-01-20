@@ -81,11 +81,18 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             return;
         }
 
-        $this->Application()->Db()->getProfiler()->setEnabled(true);
-        $this->Application()->Template()->setDebugging(true);
-        $this->Application()->Template()->debug_tpl = 'string:';
+        if(!empty($this->Config()->benchmarkDb)) {
+            $this->Application()->Db()->getProfiler()->setEnabled(true);
+        }
 
-        $this->Application()->Events()->registerSubscriber($this->getListeners());
+        if(!empty($this->Config()->benchmarkTemplate)) {
+            $this->Application()->Template()->setDebugging(true);
+            $this->Application()->Template()->debug_tpl = 'string:';
+        }
+
+        if(!empty($this->Config()->benchmarkEvents)) {
+            $this->Application()->Events()->registerSubscriber($this->getListeners());
+        }
     }
 
     /**

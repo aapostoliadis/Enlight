@@ -82,7 +82,7 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
             $content = $this->generateProxyClass($class);
             $this->writeProxyClass($proxyFile, $content);
         } else {
-            $hooks = array_keys(Enlight::Instance()->Hooks()->getHooks($class));
+            $hooks = array_keys(Enlight_Application::Instance()->Hooks()->getHooks($class));
             $methodes = call_user_func($proxy . '::getHookMethods');
             $diff = array_diff($hooks, $methodes);
             if (!empty($diff)) {
@@ -196,7 +196,7 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
             if (substr($rm->getName(), 0, 2) == '__') {
                 continue;
             }
-            if (!Enlight::Instance()->Hooks()->hasHooks($class, $rm->getName())) {
+            if (!Enlight_Application::Instance()->Hooks()->hasHooks($class, $rm->getName())) {
                 continue;
             }
             $methodsArray[] = $rm->getName();
@@ -263,13 +263,13 @@ class <namespace>_<proxyClassName> extends <className> implements Enlight_Hook_P
 '
     <methodModifiers> function <methodName>(<methodParameters>)
     {
-        if(!Enlight::Instance()->Hooks()->hasHooks(\'<className>\', \'<methodName>\')) {
+        if(!Enlight_Application::Instance()->Hooks()->hasHooks(\'<className>\', \'<methodName>\')) {
             return parent::<methodName>(<proxyMethodParameters>);
         }
         
         $obj_args = new Enlight_Hook_HookArgs($this, \'<methodName>\', array(<arrayMethodParameters>));
         
-        return Enlight::Instance()->Hooks()->executeHooks($obj_args);
+        return Enlight_Application::Instance()->Hooks()->executeHooks($obj_args);
     }
 ';
 }
