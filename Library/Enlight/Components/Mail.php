@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Mail is a component for sending an email. It extends the zend form
+ * with php mailer functions.
+ *
  * @category   Enlight
  * @package    Enlight_Mail
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

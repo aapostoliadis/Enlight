@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Hook_HookArgs are an array of hook arguments which will be passed by the manager to the hook handler.
+ * It contains all data about the hook handler (class name, method name, target function, return value)
+ *
  * @category   Enlight
  * @package    Enlight_Hook
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
@@ -30,22 +33,22 @@
 class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
 {
     /**
-     * @var class to which the hook is created.
+     * @var Enlight_Class class to which the hook is created.
      */
     protected $_class;
 
     /**
-     * @var method on which the hook is created.
+     * @var string method on which the hook is created.
      */
     protected $_method;
 
     /**
-     * @var name of the hook arguments
+     * @var string name of the class
      */
     protected $_name;
 
     /**
-     * @var return value of the hook arguments
+     * @var mixed return value of the hook arguments
      */
     protected $_return;
 

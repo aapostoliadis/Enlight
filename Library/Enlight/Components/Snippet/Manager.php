@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Components_Snippet_Manager manage all snippet namespaces.
+ * It is responsible to read and write the corresponding namespaces.
+ *
  * @category   Enlight
  * @package    Enlight_Snippet
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

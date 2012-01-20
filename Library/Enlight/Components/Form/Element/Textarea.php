@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Form_Element_Textarea extends the zend text area element and surrounds the
+ * component with a div html tag which can be addressed by the css class 'input'
+ *
  * @category   Enlight
  * @package    Enlight_Form
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

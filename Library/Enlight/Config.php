@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Config capsules the configuration parameter,
+ * which can be used instantiated the different enlight components
+ *
  * @category   Enlight
  * @package    Enlight_Config
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

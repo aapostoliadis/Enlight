@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Form_Element_Radio extends the zend radio element and surrounds the component with an additional
+ * div tag which can be addressed by the class 'input inputs-list'
+ *
  * @category   Enlight
  * @package    Enlight_Form
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

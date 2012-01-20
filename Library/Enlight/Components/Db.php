@@ -22,6 +22,8 @@
  */
 
 /**
+ * Class for connecting to SQL databases and performing common operations.
+ *
  * @category   Enlight
  * @package    Enlight_Db
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

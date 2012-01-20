@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Adodb is an interface for the zend db adapter
+ * to have an easy way to get adodb sql syntax for an sql expression.
+ *
  * @category   Enlight
  * @package    Enlight_Adodb
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

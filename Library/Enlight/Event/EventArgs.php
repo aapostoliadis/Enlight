@@ -22,6 +22,10 @@
  */
 
 /**
+ * The Enlight_Event_EventArgs are the arguments of an event handler.
+ * It will created by the event manager and passed the event listener.
+ * The event arguments can be passed to the event manager to execute the event manuel.
+ *
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

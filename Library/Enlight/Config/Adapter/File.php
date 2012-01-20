@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Config_Adapter_File is an adapter to write the enlight configuration to a file and read this.
+ * The adapter use the zend config writer.
+ *
  * @category   Enlight
  * @package    Enlight_Config
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

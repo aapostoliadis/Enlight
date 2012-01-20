@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Event_Handler_Default is the basic event handler without any extended functions.
+ *
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

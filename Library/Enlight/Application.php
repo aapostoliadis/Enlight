@@ -22,6 +22,13 @@
  */
 
 /**
+ * The Enlight_Application component forms the basis for the enlight project.
+ * Creates an new application with the passed configuration. If no configuration is given, enlight loads
+ * the configuration automatically. It loads the different resources, for example classes, loader or the
+ * managers for the different packages (Hook, Plugin, Event).
+ * Afterwards the bootstrap can be loaded by the run method. The individual project resources can be loaded in the
+ * Enlight_Bootstrap over the configuration.
+ *
  * @category   Enlight
  * @package    Enlight_Application
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

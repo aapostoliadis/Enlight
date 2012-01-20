@@ -22,6 +22,13 @@
  */
 
 /**
+ * The Enlight_Controller_Front represents the core controller. It managed everything (classes, data, sequence)
+ * between the request, response, dispatcher and router. If these are not set (classes, data, sequence), the
+ * controller loads them automatically. If nothing else is specified in the configuration, the controller
+ * loads the default plugins viewRenderer and errorHandler. The controller running the dispatch of the request
+ * unless according to request everything was dispatched. Catch automatically exceptions and set them into the
+ * response object. Finally sends the response if nothing else is specified in the configuration.
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

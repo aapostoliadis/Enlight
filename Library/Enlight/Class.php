@@ -22,6 +22,10 @@
  */
 
 /**
+ * The Enlight_Class is the basic class for each enlight class.
+ * If the class will be instantiated enlight will check if a proxy for the class exists and throw
+ * an exception if this is the case.
+ *
  * @category   Enlight
  * @package    Enlight_Class
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

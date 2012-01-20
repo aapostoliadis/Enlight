@@ -21,6 +21,8 @@
  */
 
 /**
+ * Class for handling currency notations. Extends the zend currency with an unique id.
+ *
  * @category   Enlight
  * @package    Enlight_Currency
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
