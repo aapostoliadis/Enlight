@@ -223,7 +223,7 @@ class Enlight_Event_EventManager extends Enlight_Class
      *
      * @return  Enlight_Event_EventManager
      */
-    public function resetEvents()
+    public function reset()
     {
         $this->listeners = array();
         return $this;
