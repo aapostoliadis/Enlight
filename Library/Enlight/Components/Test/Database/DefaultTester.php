@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Components_Test_Database_DefaultTester extends the PHPUnit_Extensions_Database_AbstractTester
+ * with an automatically access on the database resource.
+ *
  * @category   Enlight
  * @package    Enlight_Test
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

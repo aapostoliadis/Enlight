@@ -24,6 +24,10 @@
 require_once('Smarty/Smarty.class.php');
 
 /**
+ * The Enlight_Template_Manager extends smarty so the config can be set manuel in the class constructor.
+ * With the Enlight_Template_Manager it is not only possible to overwrite template files,
+ * it is also possible to overwrite all the individual blocks within the template.
+ *
  * @category   Enlight
  * @package    Enlight_Template
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

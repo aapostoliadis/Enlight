@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Loader is responsible for the automatically class loading. It support different types of
+ * directory structures and used for example for the enlight vendor library.
+ *
  * @category   Enlight
  * @package    Enlight_Loader
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

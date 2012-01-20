@@ -22,6 +22,9 @@
  */
 
 /**
+ * If a class implements the Enlight_Singleton interface, the class can only be instantiated one times, otherwise
+ * enlight throws an exception by trying to instantiated these class a second time.
+ *
  * @category   Enlight
  * @package    Enlight_Singleton
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

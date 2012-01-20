@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Controller_Response_Response is an interface for a response instance which used in the
+ * different controller components.
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

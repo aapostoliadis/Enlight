@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Exception is the basic class for each specified exception class. (Controller_Exception, ...)
+ * Extends the standard exception class with an previous Exception property
+ *
  * @category   Enlight
  * @package    Enlight_Exception
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

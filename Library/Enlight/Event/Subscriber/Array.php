@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Event_Subscriber_Array allows to register and execute multiple event handler over the
+ * event manager.
+ *
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

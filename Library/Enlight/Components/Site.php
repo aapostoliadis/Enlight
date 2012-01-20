@@ -22,6 +22,8 @@
  */
 
 /**
+ * DOKU kommt von Heiner
+ *
  * @category   Enlight
  * @package    Enlight_Site
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

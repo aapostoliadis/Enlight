@@ -22,6 +22,8 @@
  */
 
 /**
+ * An Enlight_Event_Exception is thrown if an error occurs in within an event.
+ *
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

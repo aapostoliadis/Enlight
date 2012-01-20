@@ -23,6 +23,14 @@
  */
 
 /**
+ * The Enlight_Plugin_PluginManager allows to extends the enlight application or enlight components.
+ * Registered plugins will be mapped into a hierarchical structure via namespaces.
+ * The manager can register single plugins or register multiple plugins over namespaces.
+ * Depending on the namespace the plugins will read from a directory structure automatically or will be instantiated
+ * by a passed config.
+ * The Enlight_Plugin_PluginCollection serves as an array of registered plugins, or namespaces.
+ * For additional plugins the Enlight_Bootstrap will serves as basic class.
+ *
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

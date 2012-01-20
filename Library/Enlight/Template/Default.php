@@ -24,6 +24,10 @@
 require_once('Smarty/Smarty.class.php');
 
 /**
+ * The Enlight_Template_Default extends the Smarty_Internal_Template with a scoping for properties and to
+ * extends the template via smarty blocks. With Enlight it is possible to overwrite or extends smarty blocks from
+ * multiple plugins.
+ *
  * @category   Enlight
  * @package    Enlight_Template
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

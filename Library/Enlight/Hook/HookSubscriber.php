@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Hook_HookSubscriber is the basic interface for each specified hook subscriber.
+ * For each application the hook subscribe have to be defined manuel.
+ *
  * @category   Enlight
  * @package    Enlight_Hook
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

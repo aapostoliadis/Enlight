@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Form_Decorator_Errors extends the zend form
+ * decorator error class with enlight specified css classes.
+ *
  * @category   Enlight
  * @package    Enlight_Form
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

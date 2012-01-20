@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Event_Handler is the basic class for each specified event handler.
+ *
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

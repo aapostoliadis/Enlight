@@ -22,6 +22,10 @@
  */
 
 /**
+ * The Enlight_Config_Adapter_DbTable is an adapter to read enlight configurations out of the database.
+ * It supports an automatically serialization of the configuration data, supports configuration sections and
+ * update and create columns.
+ *
  * @category   Enlight
  * @package    Enlight_Config
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

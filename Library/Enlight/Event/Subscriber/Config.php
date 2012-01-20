@@ -22,6 +22,8 @@
  */
 
 /**
+ * Eine collection für event handler, ließt/schreibt diese aus enlight config objekten über einen config adapter aus.
+ *
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

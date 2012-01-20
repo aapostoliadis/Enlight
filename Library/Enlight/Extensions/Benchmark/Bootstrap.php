@@ -22,6 +22,10 @@
  */
 
 /**
+ * The Enlight_Extensions_Benchmark_Bootstrap allows the timekeeping, memory measurement.
+ * It writes the benchmark data into the log. Support the benchmarking of database request,
+ * template rendering and controller events.
+ *
  * @category   Enlight
  * @package    Enlight_Extensions
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

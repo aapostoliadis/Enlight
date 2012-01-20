@@ -22,6 +22,8 @@
  */
 
 /**
+ * Represents a page that is defined by specifying a URI.
+ *
  * @category    Enlight
  * @package     Enlight_Menu
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)

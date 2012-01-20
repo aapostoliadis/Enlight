@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Components_Test_Plugin_TestCase extends the Enlight_Components_Test_Controller_TestCase
+ * to grant an easy way to create Enlight event arguments. This class represents the basic for plugin tests.
+ *
  * @category   Enlight
  * @package    Enlight_Test
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

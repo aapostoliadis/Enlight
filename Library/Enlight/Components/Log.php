@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Components_Log is a component to log data and to output these via appropriate log writer.
+ *
  * @category   Enlight
  * @package    Enlight_Log
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

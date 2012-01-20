@@ -22,6 +22,10 @@
  */
 
 /**
+ * The Enlight_Extensions_Debug_Bootstrap allows to debug the enlight application.
+ * It logs the exceptions into the log and allows to output them into the console or write them into the database
+ * or into log files.
+ *
  * @category   Enlight
  * @package    Enlight_Extensions
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

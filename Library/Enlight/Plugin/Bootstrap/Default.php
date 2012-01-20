@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Plugin_Bootstrap_Default will be used when plugins registered over directory structures.
+ * By register plugins over a directory structure the plugins have no configuration.
+ *
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

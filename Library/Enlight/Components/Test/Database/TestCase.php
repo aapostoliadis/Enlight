@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Components_Test_Database_TestCase extends the PHPUnit_Extensions_Database_TestCase
+ * with an automatically access on the database resource.
+ *
  * @category   Enlight
  * @package    Enlight_Test
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Form_Decorator_Wrapper extends the zend form decorator html tag class with enlight specified
+ * css classes to format exceptions uniformly.
+ *
  * @category   Enlight
  * @package    Enlight_Form
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

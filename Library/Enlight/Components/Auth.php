@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Auth is an extension of the Zend_Auth. It extends the zend authentication with an standard
+ * adapter and refresh the authentication over the session id.
+ *
  * @category   Enlight
  * @package    Enlight_Auth
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
