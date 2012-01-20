@@ -138,19 +138,23 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     public function getConfig($name)
     {
         $item = $this->storage->plugins->$name;
+        if(!isset($item->config)) {
+            $item->config = array();
+        }
         return $item->config;
     }
 
     /**
      * Registers a plugin in the collection.
      *
-     * @param   Enlight_Plugin_Bootstrap $plugin
-     * @return  Enlight_Plugin_PluginManager
+     * @param   Enlight_Plugin_Bootstrap_Config $plugin
+     * @return  Enlight_Plugin_Namespace_Config
      */
-    public function registerPlugin(Enlight_Plugin_Bootstrap $plugin)
+    public function registerPlugin(Enlight_Plugin_Bootstrap_Config $plugin)
     {
+        parent::registerPlugin($plugin);
         $plugin->install();
-        return $this->registerPlugin($plugin);
+        return $this;
     }
 
     /**

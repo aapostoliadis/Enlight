@@ -31,10 +31,9 @@
  *
  * @param $params
  * @param $smarty
- * @param $template
  * @return mixed
  */
-function smarty_function_url($params, $smarty, $template)
+function smarty_function_url($params, $smarty)
 {
     $front = Enlight_Application::Instance()->Bootstrap()->getResource('Front');
 

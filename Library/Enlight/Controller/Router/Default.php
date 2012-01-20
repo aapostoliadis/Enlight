@@ -159,7 +159,7 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
                 )
         );
 
-        if (!preg_match('|^[a-z]+://|', $url)) {
+        if (!preg_match('|^[a-z]+://|', $url) && $url{0} !== '/') {
             $url = rtrim($request->getBaseUrl(), '/') . '/' . $url;
         }
 

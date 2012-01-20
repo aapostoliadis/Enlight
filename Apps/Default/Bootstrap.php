@@ -8,11 +8,20 @@ class Default_Bootstrap extends Enlight_Bootstrap
      */
     public function run()
     {
-        $this->loadResource('Zend');
-        $this->loadResource('ConfigAdapter');
-        $this->loadResource('Extensions');
+        /** @var $front Enlight_Controller_Front */
+        $front = $this->getResource('Front');
 
-        return parent::run();
+        try {
+            $this->loadResource('Zend');
+            $this->loadResource('Symfony');
+            $this->loadResource('Zend');
+            $this->loadResource('ConfigAdapter');
+            $this->loadResource('Extensions');
+        } catch(Exception $e) {
+            $front->Response()->setException($e);
+        }
+
+        return $front->dispatch();
     }
 
     /**
@@ -20,67 +29,20 @@ class Default_Bootstrap extends Enlight_Bootstrap
      */
     public function initSession()
     {
-        $configSession = $this->Application()->getOption('session') ? $this->Application()->getOption('session') : array();
-
-       	if(!empty($configSession['unitTestEnabled'])) {
-       		Enlight_Components_Session::$_unitTestEnabled = true;
-       	}
-       	unset($configSession['unitTestEnabled']);
-
-       	if(Enlight_Components_Session::isStarted())	{
-       		Enlight_Components_Session::writeClose();
-       	}
-
-        /*
-        $front = $this->getResource('Front');
-
-       	$session_id = $this->getResource('SessionID');
-       	if(!empty($session_id)) {
-       		Enlight_Components_Session::setId($session_id);
-       	}
-
-       	if($this->hasResource('Front') && $front->Front()->Request()) {
-       		$request = $front->Request();
-       		$path = rtrim($request->getBasePath(), '/') . '/';
-       		$host = $request->getHttpHost()=='localhost' ? null : '.' . $request->getHttpHost();
-       	} else {
-       		$config = $this->getResource('Config');
-       		$path = rtrim(str_replace($config->get('Host'), '', $config->get('BasePath')),'/').'/';
-       		$host = $config->get('Host')=='localhost' ? null : '.' . $config->get('Host');
-       	}
-        */
-        
-        $defaultConfig = array(
-            'name' => 'SHOPWARESID',
+        $configSession = array_merge(array(
+            'name' => 'ENLIGHTSID',
             //'save_handler' => 'db',
             //'cookie_path' => $path,
             //'cookie_domain' => $host,
             'cookie_lifetime' => 0,
             'use_trans_sid' => 0,
             'gc_probability' => 1,
-        );
-
-        $configSession = array_merge($defaultConfig, $configSession);
-
-       	if($configSession['save_handler'] == 'db') {
-       		$config_save_handler = array(
-   	    		'db'			 => $this->getResource('Db'),
-   		    	'name'           => 'session',
-   		    	'primary'        => 'id',
-   		    	'modifiedColumn' => 'modified',
-   		    	'dataColumn'     => 'data',
-   		    	'lifetimeColumn' => 'expiry'
-   	    	);
-   	    	Enlight_Components_Session::setSaveHandler(new Enlight_Components_Session_SaveHandler_DbTable($config_save_handler));
-   	    	unset($configSession['save_handler']);
-       	}
+        ), (array) $this->Application()->getOption('session'));
 
        	Enlight_Components_Session::start($configSession);
+       	$this->registerResource('SessionId', Enlight_Components_Session::getId());
 
-       	//$this->registerResource('SessionID', Enlight_Components_Session::getId());
-
-   		$namespace = new Enlight_Components_Session_Namespace('Shopware');
-
+   		$namespace = new Enlight_Components_Session_Namespace('Default');
         return $namespace;
     }
 
@@ -89,7 +51,7 @@ class Default_Bootstrap extends Enlight_Bootstrap
      */
     public function initDb()
     {
-    	$db = Enlight_Components_Db::factory(new Zend_Config(array(
+        $configDb = array_merge(array(
             'adapter' => 'PDO_MYSQL',
             'params'  => array(
                 'host'     => '127.0.0.1',
@@ -97,9 +59,11 @@ class Default_Bootstrap extends Enlight_Bootstrap
                 'password' => '',
                 'dbname'   => 'enlight'
             )
-        )));
+        ), (array) $this->Application()->getOption('db'));
+
+    	$db = Enlight_Components_Db::factory(new Enlight_Config($configDb));
     	$db->getConnection();
-		Zend_Db_Table_Abstract::setDefaultAdapter($db);
+
         return $db;
     }
 
@@ -115,18 +79,14 @@ class Default_Bootstrap extends Enlight_Bootstrap
     }
 
     /**
-     * @return Enlight_Config_Adapter_File
+     * Init symfony method
+     *
+     * @return bool
      */
-    public function initConfigAdapterDbTable()
+    protected function initSymfony()
     {
-        $this->loadResource('Zend');
-        $this->loadResource('Db');
-        $adapter =  new Enlight_Config_Adapter_DbTable(array(
-            'automaticSerialization' => true,
-            'namePrefix' => 'config_',
-        ));
-        Enlight_Config::setDefaultAdapter($adapter);
-        return $adapter;
+        $this->Application()->Loader()->registerNamespace('Symfony', 'Symfony/');
+        return true;
     }
 
     /**
@@ -134,7 +94,6 @@ class Default_Bootstrap extends Enlight_Bootstrap
      */
     public function initConfigAdapter()
     {
-        $this->loadResource('Zend');
         $adapter =  new Enlight_Config_Adapter_File(array(
             'configType' => 'ini',
             'configDir' => $this->Application()->AppPath('Configs')
