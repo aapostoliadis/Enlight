@@ -94,7 +94,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             $this->Application()->Template()->debug_tpl = 'string:';
         }
 
-        if(!empty($this->Config()->benchmarkEvents)) {
+        if(!empty($this->Config()->benchmarkController)) {
             $this->Application()->Events()->registerSubscriber($this->getListeners());
         }
     }

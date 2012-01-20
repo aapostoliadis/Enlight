@@ -39,7 +39,13 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     protected $channel;
 
     /**
+     * @var Enlight_Components_Log
+     */
+    protected $log;
+
+    /**
      * Install log plugin
+     * @return bool
      */
     public function install()
     {
@@ -48,51 +54,100 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
         $this->subscribeEvent('Enlight_Controller_Front_RouteStartup', 'onRouteStartup');
 
         $this->subscribeEvent('Enlight_Controller_Front_DispatchLoopShutdown', 'onDispatchLoopShutdown', 500);
+        /*array(
+            'writerName' => 'Db',
+            'writerParams' => array(
+                'table' => 'log',
+                'db' => $this->Application()->Db(),
+                'columnMap' => array(
+                    'priority'       => 'priorityName',
+                    'message'        => 'message',
+                    'date'           => 'timestamp',
+                    'remote_address' => 'remote_address',
+                    'user_agent'     => 'user_agent',
+                )
+            ),
+            'filterName' => 'Priority',
+            'filterParams' => array(
+                'priority' => Enlight_Components_Log::ERR
+            )
+        )
+        array(
+            'writerName' => 'Mail',
+            'writerParams' => array(
+                //'mail' => '',
+                'from' => 'info@shopware.de',
+                'to' => 'info@shopware.de',
+                'subjectPrependText' => 'Fehler: '
+            ),
+            'filterName' => 'Priority',
+            'filterParams' => array(
+                'priority' => Enlight_Components_Log::WARN
+            )
+        )*/
+        return true;
+    }
+
+    /**
+     * @param Enlight_Components_Log|Zend_Log $log
+     */
+    public function setResource(Zend_Log $log = null)
+    {
+        if($log === null) {
+            $config = $this->Config();
+            if(count($config) === 0) {
+               $config = new Enlight_Config(array(
+                   array('writerName' => 'Null'),
+                   array('writerName' => 'Firebug')
+               ));
+            }
+            $log = Enlight_Components_Log::factory($config);
+        }
+        $this->log = $log;
+    }
+
+    /**
+     * @param Zend_Wildfire_Channel_HttpHeaders $channel
+     */
+    public function setFirebugChannel($channel = null)
+    {
+        if($channel === null) {
+            $channel = Zend_Wildfire_Channel_HttpHeaders::getInstance();
+        }
+        $this->channel = $channel;
+    }
+
+    /**
+     * @return Enlight_Components_Log
+     */
+    public function Resource()
+    {
+        if($this->log === null) {
+            $this->setResource();
+        }
+        return $this->log;
+    }
+
+    /**
+     * @return Zend_Wildfire_Channel_HttpHeaders
+     */
+    public function FirebugChannel()
+    {
+        if($this->channel === null) {
+            $this->setFirebugChannel();
+        }
+        return $this->channel;
     }
 
     /**
      * Resource handler for log plugin
      *
-     * @param Enlight_Event_EventArgs $args
-     * @return Zend_Log
+     * @param   Enlight_Event_EventArgs $args
+     * @return  Enlight_Components_Log
      */
     public function onInitResourceLog(Enlight_Event_EventArgs $args)
     {
-        return Enlight_Components_Log::factory(array(
-            array('writerName' => 'Null'),
-            array('writerName' => 'Firebug'),/*
-            array(
-                'writerName' => 'Db',
-                'writerParams' => array(
-                    'table' => 'log',
-                    'db' => $this->Application()->Db(),
-                    'columnMap' => array(
-                        'priority'       => 'priorityName',
-                        'message'        => 'message',
-                        'date'           => 'timestamp',
-                        'remote_address' => 'remote_address',
-                        'user_agent'     => 'user_agent',
-                    )
-                ),
-                'filterName' => 'Priority',
-                'filterParams' => array(
-                    'priority' => Enlight_Components_Log::ERR
-                )
-            )
-            /*
-            array(
-                'writerName' => 'Mail',
-                'writerParams' => array(
-                    //'mail' => '',
-                    'from' => 'hl@shopware.de',
-                    'to' => 'hl@shopware.de',
-                    'subjectPrependText' => 'Fehler: '
-                ),
-                'filterName' => 'Priority',
-                'filterParams' => array(
-                    'priority' => Enlight_Components_Log::WARN
-                )
-            )*/));
+        return $this->Resource();
     }
 
     /**
@@ -108,14 +163,14 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
         $response = $args->getSubject()->Response();
 
         /** @var $log Zend_Log */
-        $log = $this->Application()->Log();
+        $log = $this->Resource();
 
         $log->setEventItem('remote_address', $request->getClientIp(false));
-        $log->setEventItem('user_agent', $request->getServer('HTTP_USER_AGENT'));
+        $log->setEventItem('user_agent', $request->getHeader('USER_AGENT'));
 
-        $this->channel = Zend_Wildfire_Channel_HttpHeaders::getInstance();
-        $this->channel->setRequest($request);
-        $this->channel->setResponse($response);
+        $channel = $this->FirebugChannel();
+        $channel->setRequest($request);
+        $channel->setResponse($response);
     }
 
     /**

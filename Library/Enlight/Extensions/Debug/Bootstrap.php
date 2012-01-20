@@ -74,7 +74,7 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
         */
 
         /** @var $errorHandler Enlight_Extensions_ErrorHandler_Bootstrap  */
-        $errorHandler = $this->Application()->Extensions()->ErrorHandler();
+        $errorHandler = $this->Collection()->ErrorHandler();
         $errorHandler->setEnabledLog(true);
         $errorHandler->registerErrorHandler(E_ALL | E_STRICT);
     }
@@ -97,7 +97,7 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
     {
-        $errorHandler = $this->Application()->Extensions()->ErrorHandler();
+        $errorHandler = $this->Collection()->ErrorHandler();
         $this->logError($errorHandler);
 
         $response = $this->Application()->Front()->Response();
