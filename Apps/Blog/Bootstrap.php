@@ -1,8 +1,45 @@
 <?php
+/**
+ * Enlight
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://enlight.de/license
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@shopware.de so we can send you a copy immediately.
+ *
+ * @category   Enlight
+ * @package    Blog
+ * @subpackage Blog_Bootstrap
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ * @version    $Id$
+ * @author     Heiner Lohaus
+ * @author     Marcel Schmaeing
+ * @author     $Author$
+ */
+
+/**
+ * Blog Bootstrap
+ * creates and loads all needed configuration resources for the Blog Application
+ * For example it will initialize the db adapter or the standard zend configuration.
+ * Place your session handling in here
+ *
+ * @category   Enlight
+ * @package    Blog
+ * @subpackage Blog_Bootstrap
+ * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
+ * @license    http://enlight.de/license     New BSD License
+ */
 class Blog_Bootstrap extends Enlight_Bootstrap
 {
     /**
-     * Run application method
+     * startup method to load all the resources
+     * will be called by the Application starter
      *
      * @return mixed
      */
@@ -10,10 +47,8 @@ class Blog_Bootstrap extends Enlight_Bootstrap
     {
         $front = $this->getResource('Front');
         try {
-            $this->loadResource('Zend');
             $this->loadResource('ConfigAdapter');
             $this->loadResource('Extensions');
-            $this->loadResource('Db');
         }
         catch (Exception $e) {
             if ($front->throwExceptions()) {
@@ -21,74 +56,29 @@ class Blog_Bootstrap extends Enlight_Bootstrap
             }
             $front->Response()->setException($e);
         }
-
-        //        $this->loadResource('Session');
-
         return $front->dispatch();
     }
 
     /**
+     * prepares the session for future use
+     *
      * @return Enlight_Components_Session_Namespace
      */
     public function initSession()
     {
-
-        $configSession = $this->Application()->getOption('session') ? $this->Application()->getOption('session') : array();
-        if (!empty($configSession['unitTestEnabled'])) {
-            Enlight_Components_Session::$_unitTestEnabled = true;
-        }
-        unset($configSession['unitTestEnabled']);
-
-        if (Enlight_Components_Session::isStarted()) {
-            Enlight_Components_Session::writeClose();
-        }
-
-        /*
-        $front = $this->getResource('Front');
-
-       	$session_id = $this->getResource('SessionID');
-       	if(!empty($session_id)) {
-       		Enlight_Components_Session::setId($session_id);
-       	}
-
-       	if($this->hasResource('Front') && $front->Front()->Request()) {
-       		$request = $front->Request();
-       		$path = rtrim($request->getBasePath(), '/') . '/';
-       		$host = $request->getHttpHost()=='localhost' ? null : '.' . $request->getHttpHost();
-       	} else {
-       		$config = $this->getResource('Config');
-       		$path = rtrim(str_replace($config->get('Host'), '', $config->get('BasePath')),'/').'/';
-       		$host = $config->get('Host')=='localhost' ? null : '.' . $config->get('Host');
-       	}
-        */
-
-        $defaultConfig = array('name' => 'SHOPWARESID', //'save_handler' => 'db',
-            //'cookie_path' => $path,
-            //'cookie_domain' => $host,
-            'cookie_lifetime' => 0, 'use_trans_sid' => 0, 'gc_probability' => 1,);
-
-        $configSession = array_merge($defaultConfig, $configSession);
-
-        if ($configSession['save_handler'] == 'db') {
-            $config_save_handler = array('db' => $this->getResource('Db'), 'name' => 's_core_sessions', 'primary' => 'id', 'modifiedColumn' => 'modified', 'dataColumn' => 'data', 'lifetimeColumn' => 'expiry');
-            Enlight_Components_Session::setSaveHandler(new Enlight_Components_Session_SaveHandler_DbTable($config_save_handler));
-            unset($configSession['save_handler']);
-        }
-
-        Enlight_Components_Session::start($configSession);
-
-        //$this->registerResource('SessionID', Enlight_Components_Session::getId());
-
-        $namespace = new Enlight_Components_Session_Namespace('Shopware');
-
+        //implement here the preferred session management
+        $namespace = new Enlight_Components_Session_Namespace('Enlight');
         return $namespace;
     }
 
     /**
+     * initialize and creates the db adapter
+     *
      * @return Zend_Db_Adapter_Pdo_Mysql
      */
     public function initDb()
     {
+        //loads the db application option given in the application starter
         $dbConfig = $this->Application()->getOption("db");
 
         $db = Enlight_Components_Db::factory(new Zend_Config(array('adapter' => 'PDO_MYSQL', 'params' => $dbConfig)));
@@ -98,6 +88,8 @@ class Blog_Bootstrap extends Enlight_Bootstrap
     }
 
     /**
+     * loads the core extensions and register all needed namespaces
+     *
      * @return Enlight_Plugin_Namespace_Config
      */
     public function initExtensions()
@@ -109,11 +101,16 @@ class Blog_Bootstrap extends Enlight_Bootstrap
     }
 
     /**
+     * loads the zend and the db resource
+     * calls internally the initZend() and initDb() method
+     *
      * @return Enlight_Config_Adapter_File
      */
     public function initConfigAdapterDbTable()
     {
+        //calls the initDb method
         $this->loadResource('Zend');
+        //calls the initDb method
         $this->loadResource('Db');
         $adapter = new Enlight_Config_Adapter_DbTable(array('automaticSerialization' => true, 'namePrefix' => 'config_',));
         Enlight_Config::setDefaultAdapter($adapter);
@@ -121,11 +118,13 @@ class Blog_Bootstrap extends Enlight_Bootstrap
     }
 
     /**
+     * loads and creates the Enlight_Config based on the config
+     * file placed in the config directory
+     *
      * @return Enlight_Config_Adapter_File
      */
     public function initConfigAdapter()
     {
-        $this->loadResource('Zend');
         $adapter = new Enlight_Config_Adapter_File(array('configType' => 'ini', 'configDir' => $this->Application()->AppPath('Configs')));
         Enlight_Config::setDefaultAdapter($adapter);
         return $adapter;

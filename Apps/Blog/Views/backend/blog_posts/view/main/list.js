@@ -58,7 +58,8 @@ Ext.define('Enlight.apps.BlogPosts.view.main.List', {
             {
                 header:'Content',
                 dataIndex:'content',
-                flex:1
+                flex:1,
+                renderer:this.contentColumn
             },
             {
                 header:'Creation Date',
@@ -147,6 +148,10 @@ Ext.define('Enlight.apps.BlogPosts.view.main.List', {
      */
     headlineColumn:function (value) {
         return '<strong style="font-weight: 700">' + value + '</strong>';
+    },
+
+    contentColumn:function (value) {
+        return value.substring(0,40)+"...";
     },
 
     /**
