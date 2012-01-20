@@ -1,4 +1,4 @@
-<div class="topbar">
+<nav class="topbar">
   <div class="fill">
     <div class="container">
       <a class="brand" href="{url action=index}">Enlight</a>
@@ -11,4 +11,4 @@
         </form>
     </div>
   </div>
-</div>
+</nav>

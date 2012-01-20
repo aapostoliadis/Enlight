@@ -6,11 +6,12 @@
 {/block}
 
 {block name="frontend/index/inner_container"}
+
 <div class="content">
     <div class="page-header">
-        {if $controller=="Frontend_Listing"}
+        {if $activeMenu=="listing"}
             <h1>All Posts:</h1>
-        {elseif $controller=="Frontend_Search"}
+        {elseif $activeMenu=="search"}
             <h1>Search Result:</h1>
         {/if}
     </div>

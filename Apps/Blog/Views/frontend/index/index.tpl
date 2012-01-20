@@ -1,13 +1,15 @@
 {extends file="frontend/index/base.tpl"}
 
 {block name="frontend/index/inner_container"}
-<div class="hero-unit">
+<section class="hero-unit" role="banner">
     <h1>Example Blog!</h1>
 
     <p>This is our first Enlight based Blog Application</p>
 
-    <p><a class="btn primary large" href="http://www.enlight.de">Learn more &raquo;</a></p>
-</div>
+    <p>
+        <a class="btn primary large" href="http://www.enlight.de">Learn more &raquo;</a>
+    </p>
+</section>
 
 <div class="page-header">
     <h2>Latest Posts:</h2>

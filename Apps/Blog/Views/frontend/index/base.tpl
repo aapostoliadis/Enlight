@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{include file="frontend/index/header.tpl"}
+    {include file="frontend/index/header.tpl"}
 
-<body>
+    <body lang="en">
 
-{action name="menu" controller="index"}
+        {include file="frontend/index/menu.tpl"}
 
-<div class="container">
+        <div class="container">
 
-    <ul class="breadcrumb">
-        {block name="frontend/index/breadcrumbs"}
-            <li><a href="{url action=index}">Home</a> <span class="divider">/</span></li>
-        {/block}
+            <ul class="breadcrumb">
 
-        {*{foreach from=$breadcrumbs item=breadcrumb}*}
-            {*<li><a href="{url controller=$breadcrumb.controller action=$breadcrumb.action}">{$breadcrumb.name}</a> <span class="divider">/</span></li>*}
-        {*{/foreach}*}
-    </ul>
+            {block name="frontend/index/breadcrumbs"}
+                <li><a href="{url action=index}">Home</a> <span class="divider">/</span></li>
+            {/block}
 
-{block name="frontend/index/inner_container"}{/block}
+            </ul>
+            {block name="frontend/index/inner_container"}{/block}
 
-{include file="frontend/index/footer.tpl"}
+            {include file="frontend/index/footer.tpl"}
 
-</div>
-<!-- /container -->
-
-</body>
+        </div>
+    </body>
 </html>

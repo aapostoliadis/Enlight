@@ -135,14 +135,13 @@ Ext.define('Enlight.apps.BlogPosts.controller.Main', {
             if (response == 'yes') {
                 grid.setLoading(true);
                 Ext.each(selection, function (post) {
-                    var userModel = Ext.create('Enlight.apps.BlogPosts.model.Main', post.data);
-                    userModel.destroy({
+                    var postModel = Ext.create('Enlight.apps.BlogPosts.model.Main', post.data);
+                    postModel.destroy({
                         success:function () {
-                            store.remove(userModel);
+                            store.remove(postModel);
                         }
                     });
                 });
-
                 store.load();
                 grid.setLoading(false);
             } else {
