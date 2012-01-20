@@ -1,6 +1,6 @@
 Ext.define('Enlight.apps.BlogPosts.view.main.List', {
     extend:'Ext.grid.Panel',
-    alias:'widget.userlist',
+    alias:'widget.postlist',
 
     /**
      * Describes the rendering region
@@ -35,7 +35,7 @@ Ext.define('Enlight.apps.BlogPosts.view.main.List', {
     listeners:{
         scope:this,
 
-        // Sample event listener which will be fired when the user has edited a grid row
+        // event listener which will be fired when the user has edited a grid row
         edit:function (editor) {
             editor.grid.setLoading(true);
             window.setTimeout(function () {
@@ -169,8 +169,5 @@ Ext.define('Enlight.apps.BlogPosts.view.main.List', {
 
         store.filter('headline', this.value);
         return true;
-    },
-
-    deleteSingleUser:function () {
     }
 });
