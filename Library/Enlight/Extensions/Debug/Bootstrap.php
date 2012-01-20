@@ -55,14 +55,33 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
+     * @param Enlight_Components_Log|Zend_Log $log
+     */
+    public function setLog(Zend_Log $log = null)
+    {
+        if($log === null) {
+            $log = $this->Collection()->Log()->Resource();
+        }
+        $this->log = $log;
+    }
+
+    /**
+     * @return Enlight_Components_Log
+     */
+    public function Log()
+    {
+        if($this->log === null) {
+            $this->setLog();
+        }
+        return $this->log;
+    }
+    /**
      * Plugin event method
      *
      * @param   Enlight_Event_EventArgs $args
      */
     public function onStartDispatch(Enlight_Event_EventArgs $args)
     {
-        $this->log = $this->Application()->Log();
-
         /*
         $request = $args->getSubject()->Request();
 
@@ -134,7 +153,7 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
         }
         $table = array('Error Log (' . count($errors) . ')', $rows);
 
-        $this->log->table($table);
+        $this->Log()->table($table);
     }
 
     /**
