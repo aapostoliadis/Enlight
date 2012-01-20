@@ -31,225 +31,226 @@
  */
 class Enlight_Tests_Controller_Plugins_Json_JsonTest extends Enlight_Components_Test_Plugin_TestCase
 {
-	/**
-	 * @var Enlight_Controller_Plugins_Json_Bootstrap
-	 */
-	private $json = null;
+    /**
+     * @var Enlight_Controller_Plugins_Json_Bootstrap
+     */
+    protected $json = null;
 
-	public function setUp()
+    public function setUp()
     {
-		$this->json = $this->getMock('Enlight_Controller_Plugins_Json_Bootstrap', null, array('Json'));
+        $this->json = $this->getMock('Enlight_Controller_Plugins_Json_Bootstrap', null, array('Json'));
         $viewRenderer = $this->getMock('Enlight_Controller_Plugins_ViewRenderer_Bootstrap', null, array('ViewRenderer'));
 
         $namespace = new Enlight_Plugin_Namespace_Loader('Controller');
         $namespace->registerPlugin($this->json);
         $namespace->registerPlugin($viewRenderer);
-	}
+    }
 
-	public function tearDown()
-	{
-		$this->json = null;
-	}
+    public function tearDown()
+    {
+        $this->json = null;
+    }
 
-	public function testSetEncoding()
-	{
-		$this->json->setEncoding('ISO-8859-15');
-		$this->assertEquals('ISO-8859-15', $this->json->getEncoding());
-	}
+    public function testSetEncoding()
+    {
+        $this->json->setEncoding('ISO-8859-15');
+        $this->assertEquals('ISO-8859-15', $this->json->getEncoding());
+    }
 
-	public function testSetRenderer()
-	{
-		$this->assertInstanceOf('Enlight_Controller_Plugins_Json_Bootstrap', $this->json->setRenderer(true));
-		$this->assertTrue($this->json->getRenderer());
-		$this->assertInstanceOf('Enlight_Controller_Plugins_Json_Bootstrap', $this->json->setRenderer(false));
-		$this->assertFalse($this->json->getRenderer());
-	}
+    public function testSetRenderer()
+    {
+        $this->assertInstanceOf('Enlight_Controller_Plugins_Json_Bootstrap', $this->json->setRenderer(true));
+        $this->assertTrue($this->json->getRenderer());
+        $this->assertInstanceOf('Enlight_Controller_Plugins_Json_Bootstrap', $this->json->setRenderer(false));
+        $this->assertFalse($this->json->getRenderer());
+    }
 
-	public function testSetPadding()
-	{
-		$this->assertInstanceOf('Enlight_Controller_Plugins_Json_Bootstrap', $this->json->setPadding(true));
-		$this->assertTrue($this->json->getPadding());
-		$this->assertInstanceOf('Enlight_Controller_Plugins_Json_Bootstrap', $this->json->setPadding(false));
-		$this->assertFalse($this->json->getPadding());
-	}
+    public function testSetPadding()
+    {
+        $this->assertInstanceOf('Enlight_Controller_Plugins_Json_Bootstrap', $this->json->setPadding(true));
+        $this->assertTrue($this->json->getPadding());
+        $this->assertInstanceOf('Enlight_Controller_Plugins_Json_Bootstrap', $this->json->setPadding(false));
+        $this->assertFalse($this->json->getPadding());
+    }
 
-	public function testPluginCall()
-	{
-		$request = $this->Request()
-                        ->setModuleName('frontend')
-                        ->setDispatched(true);
+    public function testPluginCall()
+    {
+        $request = $this->Request()
+            ->setModuleName('frontend')
+            ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action', null, array($request, $response) );
+        $action = $this->getMock('Enlight_Controller_Action', null, array($request, $response));
 
-		$eventArgs = $this->createEventArgs()->setSubject($action);
+        $eventArgs = $this->createEventArgs()->setSubject($action);
 
-		$this->json->onPostDispatch($eventArgs);
-		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
-	}
-	
-	public function testJavascriptHeader()
-	{
-		$this->json->setPadding(true);
-		$this->assertTrue($this->json->getPadding());
-		
-		$request = $this->Request()
-                        ->setModuleName('frontend')
-						->setParam('callback', 'foo')
-                        ->setDispatched(true);
+        $this->json->onPostDispatch($eventArgs);
+        $this->assertEquals(200, $this->Response()->getHttpResponseCode());
+    }
+
+    public function testJavascriptHeader()
+    {
+        $this->json->setPadding(true);
+        $this->assertTrue($this->json->getPadding());
+
+        $request = $this->Request()
+            ->setModuleName('frontend')
+            ->setParam('callback', 'foo')
+            ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
-		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->json->onPostDispatch($eventArgs);
-		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
+        $action = $this->getMock('Enlight_Controller_Action', null, array($request, $response));
+        $eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
+        $this->json->onPostDispatch($eventArgs);
+        $this->assertEquals(200, $this->Response()->getHttpResponseCode());
 
-		$headers = $this->Response()->getHeaders();
-		
-		$this->assertArrayHasKey('value', $headers[0]);
-		$this->assertEquals('text/javascript',$headers[0]['value']);
-	}
+        $headers = $this->Response()->getHeaders();
 
-	public function testWithPaddingWithOutCallback()
-	{
-		$this->json->setPadding(true);
-		$this->assertTrue($this->json->getPadding());
+        $this->assertArrayHasKey('value', $headers[0]);
+        $this->assertEquals('text/javascript', $headers[0]['value']);
+    }
 
-		$request = $this->Request()
-                        ->setModuleName('frontend')
-                        ->setDispatched(true);
+    public function testWithPaddingWithOutCallback()
+    {
+        $this->json->setPadding(true);
+        $this->assertTrue($this->json->getPadding());
+
+        $request = $this->Request()
+            ->setModuleName('frontend')
+            ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
-		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->json->onPostDispatch($eventArgs);
-		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
-		
-		$headers = $this->Response()->getHeaders();
-		$this->assertArrayCount(0, $headers);
-	}
+        $action = $this->getMock('Enlight_Controller_Action', null, array($request, $response));
+        $eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
+        $this->json->onPostDispatch($eventArgs);
+        $this->assertEquals(200, $this->Response()->getHttpResponseCode());
+
+        $headers = $this->Response()->getHeaders();
+        $this->assertArrayCount(0, $headers);
+    }
 
 
-	public function testWithoutPadding()
-	{
+    public function testWithoutPadding()
+    {
         return;
-		$this->json->setPadding(false);
-		$this->json->setRenderer(true);
+        $this->json->setPadding(false);
+        $this->json->setRenderer(true);
 
-		$request = $this->Request()
-                        ->setModuleName('frontend')
-                        ->setDispatched(true);
+        $request = $this->Request()
+            ->setModuleName('frontend')
+            ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+        $action = $this->getMock('Enlight_Controller_Action', null, array($request, $response));
 
         $action->View()->loadTemplate('string:');
-        $action->View()->assign('foo','bar');
-		$action->View()->assign('a', array(1,2,3));
+        $action->View()->assign('foo', 'bar');
+        $action->View()->assign('a', array(1, 2, 3));
 
-		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->json->onPostDispatch($eventArgs);
-		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
-		$headers = $this->Response()->getHeaders();
-		$this->assertArrayHasKey('value', $headers[0]);
-		$this->assertEquals('application/json',$headers[0]['value']);
-	}
+        $eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
+        $this->json->onPostDispatch($eventArgs);
+        $this->assertEquals(200, $this->Response()->getHttpResponseCode());
+        $headers = $this->Response()->getHeaders();
+        $this->assertArrayHasKey('value', $headers[0]);
+        $this->assertEquals('application/json', $headers[0]['value']);
+    }
 
-	public function testRendererOnPaddingOff()
-	{
+    public function testRendererOnPaddingOff()
+    {
         return;
-		$this->json->setRenderer(true);
-		$this->json->setPadding(false);
+        $this->json->setRenderer(true);
+        $this->json->setPadding(false);
 
-		$request = $this->Request()
-                        ->setModuleName('frontend')
-                        ->setDispatched(true);
+        $request = $this->Request()
+            ->setModuleName('frontend')
+            ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+        $action = $this->getMock('Enlight_Controller_Action', null, array($request, $response));
 
         $action->View()->loadTemplate('string:');
-        $action->View()->assign('foo','bar');
+        $action->View()->assign('foo', 'bar');
 
-		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->json->onPostDispatch($eventArgs);
-		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
-		$headers = $this->Response()->getHeaders();
-		$this->assertArrayHasKey('value', $headers[0]);
-		$this->assertEquals('application/json',$headers[0]['value']);
-		$this->assertContains('{"foo":"bar"', $this->Response()->getBody());
-	}
-	public function testRendererOnPaddingOn()
-	{
+        $eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
+        $this->json->onPostDispatch($eventArgs);
+        $this->assertEquals(200, $this->Response()->getHttpResponseCode());
+        $headers = $this->Response()->getHeaders();
+        $this->assertArrayHasKey('value', $headers[0]);
+        $this->assertEquals('application/json', $headers[0]['value']);
+        $this->assertContains('{"foo":"bar"', $this->Response()->getBody());
+    }
+
+    public function testRendererOnPaddingOn()
+    {
         return;
-		$this->json->setRenderer(true);
-		$this->json->setPadding(true);
+        $this->json->setRenderer(true);
+        $this->json->setPadding(true);
 
-		$request = $this->Request()
-                        ->setModuleName('frontend')
-						->setParam('callback', 'foo')
-                        ->setDispatched(true);
+        $request = $this->Request()
+            ->setModuleName('frontend')
+            ->setParam('callback', 'foo')
+            ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+        $action = $this->getMock('Enlight_Controller_Action', null, array($request, $response));
 
         $action->View()->loadTemplate('string:');
-        $action->View()->assign('foo','bar');
+        $action->View()->assign('foo', 'bar');
 
-		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->json->onPostDispatch($eventArgs);
-		$this->assertEquals(200, $this->Response()->getHttpResponseCode());
-		$headers = $this->Response()->getHeaders();
-		$this->assertArrayHasKey('value', $headers[0]);
-		$this->assertEquals('text/javascript', $headers[0]['value']);
-		$this->assertContains('foo({"foo":"bar"', $this->Response()->getBody());
-	}
-	
-	public function testRendererOffPaddingOff()
-	{
+        $eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
+        $this->json->onPostDispatch($eventArgs);
+        $this->assertEquals(200, $this->Response()->getHttpResponseCode());
+        $headers = $this->Response()->getHeaders();
+        $this->assertArrayHasKey('value', $headers[0]);
+        $this->assertEquals('text/javascript', $headers[0]['value']);
+        $this->assertContains('foo({"foo":"bar"', $this->Response()->getBody());
+    }
+
+    public function testRendererOffPaddingOff()
+    {
         return;
-		$this->json->setRenderer(false);
-		$this->json->setPadding(false);
+        $this->json->setRenderer(false);
+        $this->json->setPadding(false);
 
-		$this->Response()->setBody('test Data');
+        $this->Response()->setBody('test Data');
 
-		$request = $this->Request()
-                        ->setModuleName('frontend')
-						->setParam('callback', 'foo')
-                        ->setDispatched(true);
+        $request = $this->Request()
+            ->setModuleName('frontend')
+            ->setParam('callback', 'foo')
+            ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+        $action = $this->getMock('Enlight_Controller_Action', null, array($request, $response));
 
         $action->View()->loadTemplate('string:');
-        $action->View()->assign('foo','bar');
+        $action->View()->assign('foo', 'bar');
 
-		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->json->onPostDispatch($eventArgs);
-		$this->assertEquals('test Data', $this->Response()->getBody());
-	}
+        $eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
+        $this->json->onPostDispatch($eventArgs);
+        $this->assertEquals('test Data', $this->Response()->getBody());
+    }
 
-	public function testRendererOffPaddingOn()
-	{
+    public function testRendererOffPaddingOn()
+    {
         return;
-		$this->json->setRenderer(false);
-		$this->json->setPadding(true);
+        $this->json->setRenderer(false);
+        $this->json->setPadding(true);
 
-		$this->Response()->setBody('test Data');
+        $this->Response()->setBody('test Data');
 
-		$request = $this->Request()
-                        ->setModuleName('frontend')
-						->setParam('callback', 'foo')
-                        ->setDispatched(true);
+        $request = $this->Request()
+            ->setModuleName('frontend')
+            ->setParam('callback', 'foo')
+            ->setDispatched(true);
         $response = $this->Response();
 
-		$action = $this->getMock('Enlight_Controller_Action',null,	array($request, $response) );
+        $action = $this->getMock('Enlight_Controller_Action', null, array($request, $response));
 
         $action->View()->loadTemplate('string:');
-        $action->View()->assign('foo','bar');
+        $action->View()->assign('foo', 'bar');
 
-		$eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
-		$this->json->onPostDispatch($eventArgs);
-		$this->assertEquals('foo("test Data");', $this->Response()->getBody());
-	}
+        $eventArgs = $this->createEventArgs()->setSubject($action)->setRequest($request)->setResponse($response);
+        $this->json->onPostDispatch($eventArgs);
+        $this->assertEquals('foo("test Data");', $this->Response()->getBody());
+    }
 }

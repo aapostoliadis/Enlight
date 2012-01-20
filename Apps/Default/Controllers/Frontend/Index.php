@@ -23,7 +23,7 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
     public function menuAction()
     {
         if(!$this->View()->isCached()) {
-            $this->View()->Site = Enlight_Application::Instance()->Site();
+            //$this->View()->Site = Enlight_Application::Instance()->Site();
         }
     }
 

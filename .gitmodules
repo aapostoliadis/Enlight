@@ -7,3 +7,15 @@
 [submodule "Library/Zend"]
 	path = Library/Zend
 	url = git@github.com:ShopwareAG/Zend-Library.git
+[submodule "Library/Symfony/Component/Routing"]
+	path = Library/Symfony/Component/Routing
+	url = git://github.com/symfony/Routing.git
+[submodule "Library/Symfony/Component/HttpFoundation"]
+	path = Library/Symfony/Component/HttpFoundation
+	url = git://github.com/symfony/HttpFoundation.git
+[submodule "Library/Symfony/Component/Config"]
+	path = Library/Symfony/Component/Config
+	url = git://github.com/symfony/Config.git
+[submodule "Library/Symfony/Component/Yaml"]
+	path = Library/Symfony/Component/Yaml
+	url = git://github.com/symfony/Yaml.git

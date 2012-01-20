@@ -12,7 +12,7 @@
         </form>
         <form action="" class="pull-right">
             <select id="locale-select" name="__locale" class="auto-submit">
-                <option>{$Site->Locale()}</option>
+                <option>{* $Site->Locale() *}</option>
                 <option>de_DE</option>
                 <option>en_GB</option>
                 <option>fr_FR</option>
