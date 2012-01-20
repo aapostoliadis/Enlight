@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Components_Snippet_Namespace represents a single snippet namespace with all according snippets.
+ *
  * @category   Enlight
  * @package    Enlight_Snippet
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

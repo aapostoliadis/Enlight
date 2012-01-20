@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Extensions_ErrorHandler_Bootstrap logs the exceptions into an array for further processing.
+ * It uses the setErrorHandler function. If the same exception multiple thrown a count property will increased.
+ *
  * @category   Enlight
  * @package    Enlight_Extensions
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

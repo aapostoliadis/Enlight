@@ -22,6 +22,10 @@
  */
 
 /**
+ * The Enlight_Controller_Dispatcher_Default represents a component
+ * to dispatch the request object on the controller. Implements all method to
+ * register single or multiple controllers and load them automatically
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

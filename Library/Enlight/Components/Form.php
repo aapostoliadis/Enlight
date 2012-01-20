@@ -21,6 +21,9 @@
  */
 
 /**
+ * The Enlight_Components_Form is a component to present and validate a form. It extends the zend form class with
+ * an adapter ability
+ *
  * @category   Enlight
  * @package    Enlight_Form
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

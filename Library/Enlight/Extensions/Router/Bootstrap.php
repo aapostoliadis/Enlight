@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Extensions_Router_Bootstrap sets the router resource available.
+ *
  * @category   Enlight
  * @package    Enlight_Extensions
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

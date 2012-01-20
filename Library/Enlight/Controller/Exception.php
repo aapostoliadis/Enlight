@@ -22,6 +22,8 @@
  */
 
 /**
+ * An Enlight_Controller_Exception is thrown if an error occurs in a controller.
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

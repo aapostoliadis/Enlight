@@ -21,6 +21,8 @@
  */
 
 /**
+ * The Enlight_Components_Cron_Adapter interface provides an easy way to implement own cron job managers.
+ *
  * @category   Enlight
  * @package    Enlight_Cron
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

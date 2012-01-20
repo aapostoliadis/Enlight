@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_View_Cache defines an interface to implement the view caching.
+ * If you want to implement your own view class then you have to implement this interface to support the view caching.
+ *
  * @category   Enlight
  * @package    Enlight_View
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

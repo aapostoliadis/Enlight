@@ -21,6 +21,10 @@
  */
 
 /**
+ * Reference concrete class that extends Zend_Db_Table_Row_Abstract.
+ * Developers may also create their own classes that extend the abstract class.
+ * In additional the enlight table row support the hook system.
+ *
  * @category   Enlight
  * @package   Enlight_Table
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

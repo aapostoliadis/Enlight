@@ -22,6 +22,10 @@
  */
 
 /**
+ * The Enlight_Extensions_Site_Bootstrap sets the site resource available.
+ * It loads automatically the appropriate site for the request.
+ * If an appropriate site was found for the user, it is stored in the session.
+ *
  * @category   Enlight
  * @package    Enlight_Extensions
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

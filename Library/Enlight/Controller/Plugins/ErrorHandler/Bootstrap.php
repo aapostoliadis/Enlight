@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Controller_Plugins_ErrorHandler_Bootstrap is a standard controller plugin to catch possibly occurring
+ * exceptions in the controller. It will catch the exceptions, pass them to an error controller and display them.
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

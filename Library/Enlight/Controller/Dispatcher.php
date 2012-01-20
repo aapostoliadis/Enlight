@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Controller_Dispatcher is the basic class for an dispatcher. It dispatch with assistance the request
+ * to a specify controller.
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

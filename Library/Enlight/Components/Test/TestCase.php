@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Components_Test_TestCase is the basic class for all specified test cases.
+ * The enlight test case basic class extends PHPUnit_Framework_TestCase and sets the database link automatically.
+ *
  * @category   Enlight
  * @package    Enlight_Test
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

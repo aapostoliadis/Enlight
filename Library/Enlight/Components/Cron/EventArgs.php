@@ -21,6 +21,8 @@
  */
 
 /**
+ * The Enlight_Components_Cron_EventArgs extends the enlight event arguments with cron job specified properties.
+ *
  * @category   Enlight
  * @package    Enlight_Cron
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

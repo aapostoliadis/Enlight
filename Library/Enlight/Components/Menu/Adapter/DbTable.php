@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Components_Menu_Adapter_DbTable is the table adapter for the menu component. It performs all action
+ * around the database for the menu elements.
+ *
  * @category    Enlight
  * @package     Enlight_Menu
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)

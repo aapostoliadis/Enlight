@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Controller is the basic class for the routing.
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

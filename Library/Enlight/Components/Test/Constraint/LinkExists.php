@@ -21,6 +21,8 @@
  */
 
 /**
+ * The Enlight_Components_Test_Constraint_LinkExists class checks whether links exist.
+ *
  * @category   Enlight
  * @package   Enlight_Test
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

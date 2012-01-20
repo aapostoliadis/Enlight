@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Controller_Request_RequestTestCase extends the zend controller request
+ * with some helper functions.
+ *
  * @category   Enlight
  * @package    Enlight_Controller
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

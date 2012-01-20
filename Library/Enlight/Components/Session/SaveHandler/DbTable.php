@@ -22,6 +22,8 @@
  */
 
 /**
+ * Alias for the Zend_Session_SaveHandler_DbTable.
+ *
  * @category    Enlight
  * @package     Enlight_Session
  * @copyright   Copyright (c) 2011, shopware AG (http://www.shopware.de)

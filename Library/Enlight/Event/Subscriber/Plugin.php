@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Event_Subscriber_Plugin is a collection to manage multiple event handlers within a plugin.
+ *
  * @category   Enlight
  * @package    Enlight_Event
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

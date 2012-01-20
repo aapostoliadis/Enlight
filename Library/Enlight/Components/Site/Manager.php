@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Components_Site_Manager managed all registered sites and provides
+ * interfaces for reading a page available
+ *
  * @category   Enlight
  * @package    Enlight_Site
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
