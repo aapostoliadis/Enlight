@@ -45,7 +45,7 @@ class Blog_Application extends Enlight_Application
     /**
      * helper to return the Db Resource
      *
-     * @return Enlight_Class Db Resource
+     * @return Enlight_Components_Db_Adapter_Pdo_Mysql Db Resource
      */
     public function Db()
     {
