@@ -31,6 +31,8 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
+error_reporting(E_ALL);
+ini_set('display_errors','On');
 // set the include path to the enlight library and to the application directory
 set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../../Library/');
 set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../../Apps/');
@@ -42,22 +44,35 @@ include_once 'Blog/Application.php';
  * these are the configuration values for the application
  */
 $config = array(
-    'app' => 'Blog', //Application name
-    'app_path' => '.', //path to the application dir
-    'db' => array( //database connection data
+
+    // Application name
+    'app' => 'Blog',
+
+    // path to the application dir
+    'app_path' => '.',
+
+    // database adapter
+    'adapter' => 'PDO_MYSQL',
+
+    // database connection data
+    'db' => array(
         'host' => '127.0.0.1',
         'username' => 'root',
         'password' => 'root',
-        'dbname' => 'enlight'
+        'dbname' => 'enlight',
+        'charset' => 'utf8'
     ),
-    'front' => array( // view settings
+
+    // view settings
+    'front' => array(
         'noErrorHandler' => false,
         'throwExceptions' => true,
         'useDefaultControllerAlways' => true,
         'disableOutputBuffering' => false,
         'showException' => true,
-    ));
+    )
+);
 
-//creates a new Enlight application instance
+// creates a new Enlight application instance
 $app = new Blog_Application('production', $config);
 return $app->run();

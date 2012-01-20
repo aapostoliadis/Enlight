@@ -79,9 +79,9 @@ class Blog_Bootstrap extends Enlight_Bootstrap
     public function initDb()
     {
         //loads the db application option given in the application starter
-        $dbConfig = $this->Application()->getOption("db");
+        $config = $this->Application()->getOptions();
 
-        $db = Enlight_Components_Db::factory(new Zend_Config(array('adapter' => 'PDO_MYSQL', 'params' => $dbConfig)));
+        $db = Enlight_Components_Db::factory(new Zend_Config(array('adapter' => $config["adapter"], 'params' => $config["db"])));
         $db->getConnection();
         Zend_Db_Table_Abstract::setDefaultAdapter($db);
         return $db;
