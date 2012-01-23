@@ -33,6 +33,7 @@
  * @method     mixed exception()
  * @method     mixed dump()
  * @method     mixed trace()
+ * @method     mixed err()
  */
 class Enlight_Components_Log extends Zend_Log
 {

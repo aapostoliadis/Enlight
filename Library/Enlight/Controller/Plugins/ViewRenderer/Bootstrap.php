@@ -179,7 +179,10 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
 
         $action->Response()->appendBody($render, $name);
 
-        $this->Application()->Events()->notify('Enlight_Plugins_ViewRenderer_PostRender', array('subject' => $this));
+        $this->Application()->Events()->notify(
+            'Enlight_Plugins_ViewRenderer_PostRender',
+            array('subject' => $this, 'template' => $template)
+        );
 
         return $this;
     }

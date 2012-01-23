@@ -13,7 +13,7 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
         //Enlight_Application::Instance()->Plugins()->Controller()->Json()->setRenderer();
         $this->View()->setCaching(false);
         $this->View()->Template()->cache_lifetime = 1000;
-        $this->View()->setScope(Smarty::SCOPE_GLOBAL);
+        //$this->View()->setScope(Smarty::SCOPE_GLOBAL);
     }
 	
 	public function indexAction()
@@ -25,6 +25,8 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
         if(!$this->View()->isCached()) {
             //$this->View()->Site = Enlight_Application::Instance()->Site();
         }
+
+        $this->View()->assign('test', 1, null, Smarty::SCOPE_GLOBAL);
     }
 
     public function loginAction()
