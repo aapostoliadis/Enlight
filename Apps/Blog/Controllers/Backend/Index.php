@@ -51,11 +51,4 @@ class Blog_Controllers_Backend_Index extends Enlight_Controller_Action
     {
         //place your code to fill the menu data here
     }
-
-    /**
-     * empty needed action method
-     */
-    public function footerAction()
-    {
-    }
 }
