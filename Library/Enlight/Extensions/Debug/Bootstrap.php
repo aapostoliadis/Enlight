@@ -40,18 +40,25 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 
     /**
      * Plugin install method
+     *
+     * @return bool
      */
     public function install()
     {
         $this->subscribeEvent(
             'Enlight_Controller_Front_StartDispatch',
             'onStartDispatch'
-         );
-
+        );
         $this->subscribeEvent(
             'Enlight_Controller_Front_DispatchLoopShutdown',
             'onDispatchLoopShutdown'
         );
+        $this->subscribeEvent(
+            'Enlight_Plugins_ViewRenderer_PostRender',
+            'onAfterRenderView'
+        );
+
+        return true;
     }
 
     /**
@@ -116,20 +123,20 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
     {
+        //$template = $this->Application()->Template();
+        //$this->logTemplate($template);
+
         $errorHandler = $this->Collection()->ErrorHandler();
         $this->logError($errorHandler);
 
-        $response = $this->Application()->Front()->Response();
+        $response = $args->getSubject()->Response();
         $this->logException($response);
-
-        $template = $this->Application()->Template();
-        $this->logTemplate($template);
     }
 
     /**
      * Log error method
      *
-     * @param   $errorHandler
+     * @param   Enlight_Extensions_ErrorHandler_Bootstrap $errorHandler
      */
     public function logError($errorHandler)
     {
@@ -159,39 +166,41 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     /**
      * Log template method
      *
-     * @param   $template
+     * @param   Enlight_Template_Default|Enlight_Template_Manager $template
      */
     public function logTemplate($template)
     {
-        $template_vars = $template->getTemplateVars();
+        $template_name = isset($template->template_resource) ? $template->template_resource : 'Global';
+        $template_name = $this->encode($template_name);
+
+        $template_vars = (array) $template->getTemplateVars();
         unset($template_vars['smarty']);
-        if (empty($template_vars)) {
-            return;
-        }
-        $rows = array(array('spec', 'value'));
-        foreach ($template_vars as $template_spec => $template_var) {
-            $template_var = $this->encode($template_var);
-            $rows[] = array($template_spec, $template_var);
-        }
-        $table = array('Template Vars (' . (count($template_vars)) . ')', $rows);
+        if (!empty($template_vars)) {
+            $rows = array(array('spec', 'value'));
+            foreach ($template_vars as $template_spec => $template_var) {
+                $template_var = $this->encode($template_var);
+                $rows[] = array($template_spec, $template_var);
+            }
+            $table = array('Template Vars > ' . $template_name . ' (' . (count($template_vars)) . ')', $rows);
 
-        $this->log->table($table);
+            $this->Log()->table($table);
+        }
 
-        $config_vars = $template->getConfigVars();
+        $config_vars = (array) $template->getConfigVars();
         if (!empty($config_vars)) {
             $rows = array(array('spec', 'value'));
             foreach ($config_vars as $config_spec => $config_var) {
                 $rows[] = array($config_spec, $config_var);
             }
-            $table = array('Config Vars', $rows);
-            $this->log->table($table);
+            $table = array('Config Vars > ' . $template_name . ' (' . (count($config_vars)) . ')', $rows);
+            $this->Log()->table($table);
         }
     }
 
     /**
      * Log exception method
      *
-     * @param   $response
+     * @param   Enlight_Controller_Response_ResponseHttp $response
      */
     public function logException($response)
     {
@@ -201,6 +210,7 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
         }
 
         $rows = array(array('code', 'name', 'message', 'line', 'file', 'trace'));
+        /** @var $exception Exception */
         foreach ($exceptions as $exception) {
             $rows[] = array(
                 $exception->getCode(),
@@ -240,6 +250,9 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
         } elseif ($data instanceof ArrayObject) {
             /** @var $data ArrayObject */
             $data = $this->encode($data->getArrayCopy());
+        } elseif ($data instanceof Zend_Config) {
+            /** @var $data Zend_Config */
+            $data = $this->encode($data->toArray());
         } elseif (is_object($data)) {
             $data = get_class($data);
         }

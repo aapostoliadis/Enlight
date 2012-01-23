@@ -1,0 +1,9 @@
+blog:
+    pattern:   /blog/{page}
+    defaults:  { controller: index, page: 1 }
+    requirements:
+        page:  \d+
+
+blog_show:
+    pattern:   /blog/{slug}
+    defaults:  { controller: index, action: login }
