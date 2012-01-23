@@ -89,7 +89,7 @@ class Enlight_Tests_Extensions_ErrorHandler_BootstrapTest extends Enlight_Compon
     public function testStartDispatch()
     {
         $this->errorHandler->onStartDispatch();
-
+        restore_error_handler();
         $this->assertTrue($this->errorHandler->isRegisteredErrorHandler());
 
         $this->assertArrayCount(2, $this->errorHandler->getOrigErrorHandler());
@@ -100,9 +100,13 @@ class Enlight_Tests_Extensions_ErrorHandler_BootstrapTest extends Enlight_Compon
      */
     public function testRegisterErrorHandler()
     {
-        $this->assertInstanceOf('Enlight_Extensions_ErrorHandler_Bootstrap', $this->errorHandler->registerErrorHandler(null));
+        $this->errorHandler->registerErrorHandler(null);
+        restore_error_handler();
+        $this->assertEquals(E_ALL | E_STRICT, $this->errorHandler->getErrorLevel());
 
-        $this->assertInstanceOf('Enlight_Extensions_ErrorHandler_Bootstrap', $this->errorHandler->registerErrorHandler(E_ALL));
+        $this->errorHandler->registerErrorHandler(E_ALL);
+        restore_error_handler();
+        $this->assertEquals(E_ALL, $this->errorHandler->getErrorLevel());
 
         $this->assertTrue($this->errorHandler->isRegisteredErrorHandler());
 
@@ -125,18 +129,16 @@ class Enlight_Tests_Extensions_ErrorHandler_BootstrapTest extends Enlight_Compon
     {
         $this->errorHandler->setEnabledLog(true);
 
-        $this->errorHandler->registerErrorHandler();
-
         $this->errorHandler->setOrigErrorHandler(array($this, "myOrigErrorHandler"));
 
         $this->errorHandler->errorHandler(1, "test", "test", 1, array("test"));
 
         $this->assertArrayCount(1, $this->errorHandler->getErrorLog());
-
     }
 
-
-
+    /**
+    * test case
+    */
     public function myOrigErrorHandler()
     {
         $this->assertEquals(array(1, "test", "test", 1, array("test")), func_get_args());
