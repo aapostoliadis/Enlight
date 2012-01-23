@@ -1,26 +1,25 @@
 <head>
+
+    <!-- Meta informations -->
     <meta charset="utf-8">
     <title>Enlight Blog</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description"
+          content="Just an basic blog application based on enlight - the open source eCommerce framework">
+    <meta name="author" content="shopware AG">
+    <link rel="shortcut icon" href="{link file='frontend/_resources/favicon.ico'}">
 
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <!-- Cascading Style Sheet(s) -->
+    <link href="{link file='frontend/_resources/css/bootstrap.css'}" rel="stylesheet">
+    <style type="text/css">
+        body { padding-top: 60px }
+        . space { padding: 0 0 30px }
+    </style>
 
+    <!-- Javascript(s) -->
     <script src="{link file='frontend/_resources/js/jquery.js'}"></script>
     <script src="{link file='frontend/_resources/js/base.js'}"></script>
 
-    <link href="{link file='frontend/_resources/css/bootstrap.css'}" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-      }
-        .space { padding: 0 0 30px }
-    </style>
-
-    <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 </head>
