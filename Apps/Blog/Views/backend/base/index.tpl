@@ -11,8 +11,6 @@
 
     {block name="backend/base/container_inner"}{/block}
 
-    {action controller=index name=footer}
-
     </div>
     {/block}
   </body>
