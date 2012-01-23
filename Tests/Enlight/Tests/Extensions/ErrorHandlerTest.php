@@ -28,7 +28,7 @@
  * @package    Enlight_Tests
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license/new-bsd     New BSD License
- * @covers     Enlight_Components_Site
+ * @covers     Enlight_Extensions_ErrorHandler_Bootstrap
  */
 class Enlight_Tests_Extensions_ErrorHandler_BootstrapTest extends Enlight_Components_Test_Plugin_TestCase
 {
