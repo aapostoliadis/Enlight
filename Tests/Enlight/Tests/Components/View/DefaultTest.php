@@ -58,13 +58,13 @@ class Enlight_Tests_Components_View_DefaultTest extends Enlight_Components_Test_
     public function testSetTemplateDir()
     {
         $this->view->setTemplateDir("/var/www/shopware400/templates/_default");
-        $this->assertEquals("/var/www/shopware400/templates/_default\\", $this->view->Engine()->getTemplateDir(0));
+        $this->assertEquals("/var/www/shopware400/templates/_default/", $this->view->Engine()->getTemplateDir(0));
     }
 
     public function testAddTemplateDir()
     {
         $this->view->addTemplateDir("/var/www/shopware400/templates/_default");
-        $this->assertEquals("/var/www/shopware400/templates/_default\\", $this->view->Engine()->getTemplateDir(1));
+        $this->assertEquals("/var/www/shopware400/templates/_default/", $this->view->Engine()->getTemplateDir(1));
     }
 
     public function testSetTemplate()
