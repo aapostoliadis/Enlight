@@ -34,8 +34,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors','On');
 // set the include path to the enlight library and to the application directory
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../../Library/');
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../../Apps/');
+set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . '/../../Library/');
+set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . '/../../Apps/');
 
 //include the blog application
 include_once 'Blog/Application.php';
