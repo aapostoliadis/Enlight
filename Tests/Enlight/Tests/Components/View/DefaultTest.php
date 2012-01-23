@@ -96,19 +96,24 @@ class Enlight_Tests_Components_View_DefaultTest extends Enlight_Components_Test_
         $this->assertTrue($this->view->hasTemplate());
     }
 
-    public function testExtendsTemplate()
+    public function testReplaceBlock()
     {
-        $this->view->loadTemplate('string:{block name="testBlock"}festerWert{/block}');
-        $this->view->extendsTemplate('string:{block name="testBlock2"}Ersetzt{/block}');
-        $this->assertEquals("festerWert|string:Ersetzt", $this->view->Template()->fetch());
-    }
-
-    public function testExtendsBlock()
-    {
-        //todo: append, prepend
-        $this->view->loadTemplate('string:{block name="testBlock"}{$test}festerWert{/block}');
+        $this->view->loadTemplate('string:{block name="testBlock"}-fest-{/block}');
         $this->view->extendsBlock('testBlock', 'erweiterung', 'replace');
         $this->assertEquals('erweiterung', $this->view->Template()->fetch());
+    }
+
+    public function testAppendBlock()
+    {
+        $this->view->loadTemplate('string:{block name="appendBlock"}-fest-{/block}');
+        $this->view->extendsBlock('appendBlock', 'append', 'append');
+        $this->assertEquals('-fest-append', $this->view->Template()->fetch());
+    }
+    public function testPrependBlock()
+    {
+        $this->view->loadTemplate('string:{block name="prependBlock"}-fest-{/block}');
+        $this->view->extendsBlock('prependBlock', 'prepend', 'prepend');
+        $this->assertEquals('prepend-fest-', $this->view->Template()->fetch());
     }
 
     public function testTemplateExists()
