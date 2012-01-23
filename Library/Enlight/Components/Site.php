@@ -22,7 +22,8 @@
  */
 
 /**
- * DOKU kommt von Heiner
+ * The Enlight_Components_Site represents the old Shopware_Shop class.
+ * It handles the location, currency, template, host and resources of the current site.
  *
  * @category   Enlight
  * @package    Enlight_Site

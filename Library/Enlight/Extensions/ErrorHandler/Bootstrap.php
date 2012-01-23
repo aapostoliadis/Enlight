@@ -211,12 +211,43 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Magic getter
-     * @param $name
-     * @return mixed
+     *
+     * @return array|bool
      */
-    public function __get($name) {
-        return $this->$name;
+    public function isEnabledLog()
+    {
+        return $this->errorLog;
+    }
+
+    /**
+     * @return callback|null
+     */
+    public function getOrigErrorHandler()
+    {
+        return $this->origErrorHandler;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRegisteredErrorHandler()
+    {
+        return $this->registeredErrorHandler;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrorLevelList() {
+        return $this->errorLevelList;
+    }
+
+    /**
+     * @access private
+     * @param $handler
+     */
+    public function setOrigErrorHandler($handler) {
+        $this->origErrorHandler = $handler;
     }
 
 }
