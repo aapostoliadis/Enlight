@@ -100,6 +100,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
 
     /**
      * Plugin install method
+     * @return bool success
      */
     public function install()
     {
@@ -107,6 +108,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
 			'Enlight_Controller_Front_StartDispatch',
 			'onStartDispatch'
 		);
+        return true;
     }
 
     /**
@@ -207,4 +209,14 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
         $this->errorLog = $value ? true : false;
         return $this;
     }
+
+    /**
+     * Magic getter
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name) {
+        return $this->$name;
+    }
+
 }
