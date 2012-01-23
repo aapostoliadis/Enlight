@@ -30,7 +30,7 @@
  * @license    http://enlight.de/license/new-bsd     New BSD License
  * @covers     Enlight_View_Default
  */
-class Enlight_Tests_Components_View_DefaultTest extends Enlight_Components_Test_TestCase
+class Enlight_Tests_View_DefaultTest extends Enlight_Components_Test_TestCase
 {
     /**
      * @var Enlight_View_Default
