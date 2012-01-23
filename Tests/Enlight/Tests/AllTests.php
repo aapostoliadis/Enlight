@@ -31,22 +31,23 @@
  */
 class Enlight_Tests_AllTests
 {
-	/**
-	 * Returns test suite
-	 *
-	 * @return PHPUnit_Framework_TestSuite
-	 */
-	public static function suite()
-	{
-		$suite = new Enlight_Components_Test_TestSuite('Enlight Tests');
+    /**
+     * Returns test suite
+     *
+     * @return PHPUnit_Framework_TestSuite
+     */
+    public static function suite()
+    {
+        $suite = new Enlight_Components_Test_TestSuite('Enlight Tests');
 
         $suite->addTest(Enlight_Tests_Extensions_AllTests::suite());
-		$suite->addTest(Enlight_Tests_Application_AllTests::suite());
-		$suite->addTest(Enlight_Tests_Controller_AllTests::suite());
+        $suite->addTest(Enlight_Tests_Application_AllTests::suite());
+        $suite->addTest(Enlight_Tests_Controller_AllTests::suite());
+        $suite->addTest(Enlight_Tests_Plugin_AllTests::suite());
         $suite->addTest(Enlight_Tests_View_AllTests::suite());
         $suite->addTest(Enlight_Tests_Components_AllTests::suite());
         $suite->addTest(Enlight_Tests_Config_AllTests::suite());
 
-		return $suite;
-	}
+        return $suite;
+    }
 }
