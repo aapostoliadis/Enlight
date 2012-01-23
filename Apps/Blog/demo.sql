@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `content` text CHARACTER SET utf8 NOT NULL,
   `creation_date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=65 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Daten für Tabelle `post`
