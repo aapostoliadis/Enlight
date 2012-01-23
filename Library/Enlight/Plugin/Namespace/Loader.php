@@ -104,7 +104,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
             $this->initPlugin($name, $prefix, $file);
             return $this;
         }
-        throw new Enlight_Exception();
+        throw new Enlight_Exception('Plugin "' . $name .'" in namespace "' . $this->getName() .'" not found');
     }
 
     /**

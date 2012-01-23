@@ -72,6 +72,24 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     }
 
     /**
+     * Returns the application instance.
+     *
+     * @return  Enlight_Config
+     */
+    public function Config()
+    {
+        $config = parent::Config();
+        if(count($config) === 0) {
+            $config->merge(new Enlight_Config(array(
+                'logDb' => true,
+                'logTemplate' => true,
+                'logController' => true,
+            )));
+        }
+        return $this->config;
+    }
+
+    /**
      * On Dispatch start activate db profiling
      *
      * @param Enlight_Event_EventArgs $args
@@ -85,16 +103,16 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             return;
         }
 
-        if(!empty($this->Config()->benchmarkDb)) {
+        if(!empty($this->Config()->logDb)) {
             $this->Application()->Db()->getProfiler()->setEnabled(true);
         }
 
-        if(!empty($this->Config()->benchmarkTemplate)) {
+        if(!empty($this->Config()->logTemplate)) {
             $this->Application()->Template()->setDebugging(true);
             $this->Application()->Template()->debug_tpl = 'string:';
         }
 
-        if(!empty($this->Config()->benchmarkController)) {
+        if(!empty($this->Config()->logController)) {
             $this->Application()->Events()->registerSubscriber($this->getListeners());
         }
     }
@@ -110,9 +128,17 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             return;
         }
 
-        $this->logDb();
-        $this->logTemplate();
-        $this->logController();
+        if(!empty($this->Config()->logDb)) {
+            $this->logDb();
+        }
+
+        if(!empty($this->Config()->logTemplate)) {
+            $this->logTemplate();
+        }
+
+        if(!empty($this->Config()->logController)) {
+            $this->logController();
+        }
     }
 
     /**

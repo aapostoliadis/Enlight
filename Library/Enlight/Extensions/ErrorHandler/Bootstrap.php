@@ -48,9 +48,9 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     protected $errorHandlerMap = null;
 
     /**
-     * @var array
+     * @var int
      */
-    protected $errorLevel = 0;
+    protected $errorLevel = null;
 
     /**
      * @var array
@@ -116,7 +116,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function onStartDispatch()
     {
-        $this->registerErrorHandler(E_ALL | E_STRICT);
+        $this->registerErrorHandler();
     }
 
     /**
@@ -128,18 +128,25 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function registerErrorHandler($errorLevel = null)
     {
-        if ($errorLevel === NULL) {
+        if ($errorLevel === null) {
             $errorLevel = E_ALL | E_STRICT;
         }
 
         // Only register once.  Avoids loop issues if it gets registered twice.
-        if ($this->registeredErrorHandler) {
+        if ($this->registeredErrorHandler
+          && $errorLevel === $this->errorLevel) {
             return $this;
         }
 
-        $this->origErrorHandler = set_error_handler(array($this, 'errorHandler'), $errorLevel);
+        if(isset($this->errorLevel) && isset($this->origErrorHandler)) {
+            set_error_handler(array($this, 'errorHandler'), $errorLevel);
+        } else {
+            $this->origErrorHandler = set_error_handler(array($this, 'errorHandler'), $errorLevel);
+        }
 
+        $this->errorLevel = $errorLevel;
         $this->registeredErrorHandler = true;
+
         return $this;
     }
 
@@ -238,16 +245,25 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     /**
      * @return array
      */
-    public function getErrorLevelList() {
+    public function getErrorLevelList()
+    {
         return $this->errorLevelList;
+    }
+
+    /**
+     * @return array|int
+     */
+    public function getErrorLevel()
+    {
+        return $this->errorLevel;
     }
 
     /**
      * @access private
      * @param $handler
      */
-    public function setOrigErrorHandler($handler) {
+    public function setOrigErrorHandler($handler)
+    {
         $this->origErrorHandler = $handler;
     }
-
 }
