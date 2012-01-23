@@ -29,7 +29,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Enlight_Tests_View_AllTests
+class Enlight_Tests_Plugin_AllTests
 {
     /**
      * Returns the test suite
@@ -38,7 +38,7 @@ class Enlight_Tests_View_AllTests
      */
     public static function suite()
     {
-        $suite = new Enlight_Components_Test_TestSuite('Enlight View Tests');
+        $suite = new Enlight_Components_Test_TestSuite('Enlight Plugin Tests');
 
         $suite->addTestFiles(glob(dirname(__FILE__) . '/*Test.php'));
 
