@@ -109,11 +109,19 @@ class Enlight_Tests_Components_View_DefaultTest extends Enlight_Components_Test_
         $this->view->extendsBlock('appendBlock', 'append', 'append');
         $this->assertEquals('-fest-append', $this->view->Template()->fetch());
     }
+
     public function testPrependBlock()
     {
         $this->view->loadTemplate('string:{block name="prependBlock"}-fest-{/block}');
         $this->view->extendsBlock('prependBlock', 'prepend', 'prepend');
         $this->assertEquals('prepend-fest-', $this->view->Template()->fetch());
+    }
+
+    public function testExtendsTemplate()
+    {
+        $this->view->loadTemplate('string:{block name="prependBlock"}-fest-{/block}');
+        $this->view->extendsTemplate('string:{block name="prependBlock"}-fest2-{/block}');
+        $this->assertEquals('-fest-|string:-fest2-', $this->view->Template()->fetch());
     }
 
     public function testTemplateExists()
@@ -162,7 +170,6 @@ class Enlight_Tests_Components_View_DefaultTest extends Enlight_Components_Test_
 
         $this->view->assign('test', 'Variable', false, 1);
         $this->assertFalse($this->view->Engine()->tpl_vars['test']->nocache);
-
     }
 
     public function testSetScope()
@@ -179,6 +186,7 @@ class Enlight_Tests_Components_View_DefaultTest extends Enlight_Components_Test_
         $this->view->assign('test', 'Variable');
         $this->assertArrayCount(0, $this->view->Engine()->tpl_vars);
     }
+
     public function testSetCaching()
     {
         $this->view->loadTemplate('string:{block name="testBlock"}Content{$test}{/block}');
@@ -216,6 +224,4 @@ class Enlight_Tests_Components_View_DefaultTest extends Enlight_Components_Test_
         $this->view->addCacheId("456");
         $this->assertArrayCount(2, explode('|', $this->view->getCacheId()));
     }
-
-
 }
