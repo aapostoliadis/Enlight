@@ -39,6 +39,7 @@
             <antcall target="static-phpmd" />
             <antcall target="static-phpcpd" />
             <antcall target="static-phploc" />
+            <antcall target="static-docblox" />
         </parallel>
     </target>
 
@@ -78,6 +79,18 @@
             <arg value="--log-csv" />
             <arg value="${log.dir}/loc.csv" />
             <arg value="--count-tests" />
+            <arg value="${library.dir.enlight}" />
+        </exec>
+    </target>
+
+    <target name="static-docblox">
+        <exec executable="docblox">
+            <arg value="project:run" />
+            <arg value="--template" />
+            <arg value="checkstyle" />
+            <arg value="-t" />
+            <arg value="${log.dir}/docblox/" />
+            <arg value="-d" />
             <arg value="${library.dir.enlight}" />
         </exec>
     </target>
