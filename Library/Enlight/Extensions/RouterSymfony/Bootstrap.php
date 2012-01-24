@@ -31,6 +31,9 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 
 /**
+ * Integrated the component of the router from Symfony in Enlight.
+ * Supports the management of routes via yaml files and the plugin configuration.
+ *
  * @category   Enlight
  * @package    Enlight_Extensions
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
@@ -39,7 +42,8 @@ use Symfony\Component\Routing\Loader\YamlFileLoader;
 class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
     /**
-     * Install log plugin
+     * Installs the router plugin.
+     * Registers the router events.
      */
     public function install()
     {
@@ -95,13 +99,15 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
     }
 
     /**
+     * Returns the symfony request context.
+     *
      * @param Enlight_Controller_Request_RequestHttp $request
      * @return Symfony\Component\Routing\RequestContext
      */
     protected function getRequestContext($request)
     {
         return new RequestContext(
-            $request->getBaseUrl(),
+            '',
             $request->getMethod(),
             $request->getHttpHost(),
             $request->getScheme()
@@ -109,6 +115,8 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
     }
 
     /**
+     * Routes the path information, if the router symfony match it.
+     *
      * @param Enlight_Event_EventArgs $args
      * @return array|null
      */
@@ -130,8 +138,10 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
     }
 
     /**
+     * Assembles a url with the symfony url generator based on the parameters.
+     *
      * @param   Enlight_Event_EventArgs $args
-     * @return  null|string
+     * @return  string|null
      */
     public function onAssemble(Enlight_Event_EventArgs $args)
     {
@@ -148,7 +158,7 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
         foreach($routes as $name => $route) {
             try {
                 if(($url = $matcher->generate($name, $params)) !== null) {
-                    return $url;
+                    return ltrim($url, '/');
                 }
             } catch(Exception $e) { }
         }

@@ -123,6 +123,10 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
     {
+        if(!$this->Log()) {
+            return;
+        }
+
         //$template = $this->Application()->Template();
         //$this->logTemplate($template);
 
