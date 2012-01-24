@@ -32,16 +32,31 @@
  */
 class Enlight_Exception extends Exception
 {
+    /**
+     * Constant that a class could not be found
+     */
     const CLASS_NOT_FOUND = 1000;
+
+    /**
+     * Constant that a method could not be found
+     */
     const METHOD_NOT_FOUND = 1100;
+
+    /**
+     * Constant that a class property could not be found
+     */
     const PROPERTY_NOT_FOUND = 1200;
 
     /**
-     * @var Exception|null
+     * @var Exception|null The previous thrown exception.
      */
     protected $previous;
 
     /**
+     * The class constructor will be set the given previous exception into the internal property.
+     * If the given code is one of the internal constants, it will generate a back trace and iterate
+     * the returned values to set the line and file property.
+     *
      * @param string $message
      * @param int $code
      * @param Exception|null $previous
@@ -69,6 +84,7 @@ class Enlight_Exception extends Exception
     }
 
     /**
+     * Returns the exception class as string.
      * @return string
      */
     public function __toString()

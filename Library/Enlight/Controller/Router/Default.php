@@ -44,6 +44,13 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
     protected $separator = '/';
 
     /**
+     * Routes the given request instance to the corresponding controller method.
+     * Before the router will route the request, the Enlight_Controller_Router_Route will be notified
+     * so specified router extensions can trace this event and cancel the standard routing. If the
+     * event returns a value the default routing will be canceled.
+     * If the given request instance is not an instance of the Enlight_Controller_Request_RequestHttp
+     * enlight will thrown an Enlight_Controller_Exceptions.
+     *
      * @throws Enlight_Controller_Exception
      * @param Zend_Controller_Request_Abstract $request
      * @return Zend_Controller_Request_Abstract|Zend_Controller_Request_Http
@@ -76,6 +83,11 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
     }
 
     /**
+     * This method controls the default routing. Don't be called when the
+     * Enlight_Controller_Router_Route event canceled the default routing.
+     * The default routing uses the dispatcher of the front controller to route
+     * the request to the corresponding controller method.
+     *
      * @param Enlight_Controller_Request_RequestHttp $request
      * @return array
      */
@@ -119,6 +131,11 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
     }
 
     /**
+     * The assemble function concat the given url parameters to an url.
+     * The Enlight_Controller_Router_PreAssemble, Enlight_Controller_Router_FilterAssembleParams,
+     * Enlight_Controller_Router_Assemble and Enlight_Controller_Router_FilterUrl events allows
+     * you to extend the default routing with individual routing algorithms.
+     *
      * @param array $userParams
      * @return mixed|string
      */
@@ -171,6 +188,10 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
     }
 
     /**
+     * Default assembling of the default routing controller.
+     * It will concat the given parameters and the data of the request and dispatcher
+     * to an url.
+     *
      * @param array $params
      * @return string
      */

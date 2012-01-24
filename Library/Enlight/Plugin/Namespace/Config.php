@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_Plugin_Namespace_Config contains all settings for a namespace.
+ * It can load, read and write all plugins in the plugin namespace.
+ *
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
@@ -30,16 +33,22 @@
 class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
 {
     /**
-     * @var Enlight_Config
+     * @var Enlight_Config Contains an instance of the Enlight_Config. Can be overwritten in the class
+     * constructor by using the $options["storage"] array element.
      */
     protected $storage;
 
     /**
-     * @var Enlight_Event_Subscriber
+     * @var Enlight_Event_Subscriber Contains an instance of Enlight_Event_Subscriber.
      */
     protected $subscriber;
 
     /**
+     * The Enlight_Plugin_Namespace_Config class constructor expects an storage (Enlight_Config).
+     * The options array must contains an array element named "storage" which contains an additional array
+     * with storage settings or only with a name for the storage.
+     * If the options array aren't given the name will be used to instantiate the storage.
+     *
      * @param   string     $name
      * @param   null|array $options
      */
@@ -72,7 +81,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     }
 
     /**
-     * Loads a plugin in the plugin namespace by name.
+     * Loads a plugin in the plugin namespace by name over the storage.
      *
      * @throws  Enlight_Exception
      * @param   $name
@@ -91,6 +100,9 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     }
 
     /**
+     * Writes all registered plugins into the storage.
+     * The subscriber and the registered plugins will converted to an array.
+     *
      * @return  Enlight_Plugin_Namespace_Config
      */
     public function write()
@@ -102,7 +114,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     }
 
     /**
-     * Loads all plugins in the plugin namespace.
+     * Loads all plugins in the plugin namespace over the storage.
      *
      * @return  Enlight_Plugin_Namespace_Config
      */
@@ -117,7 +129,8 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     }
 
     /**
-     * Returns the application instance.
+     * Returns the instance of the Enlight_Event_Subscriber_Plugin. If the subscriber
+     * isn't instantiate the function will load it automatically.
      *
      * @return  Enlight_Event_Subscriber_Plugin
      */
@@ -130,10 +143,11 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     }
 
     /**
-     * Returns the application instance.
+     * Returns the plugin configuration by the plugin name. If the
+     * plugin has no
      *
      * @param   string $name
-     * @return  Enlight_Config
+     * @return  Enlight_Config|array
      */
     public function getConfig($name)
     {
@@ -158,6 +172,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     }
 
     /**
+     * Converts the internal plugin property to an array and returns it.
      * @return  array
      */
     public function toArray()

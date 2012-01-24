@@ -33,37 +33,40 @@
 class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
     /**
-     * @var callback
+     * @var callback Contains the original error handler
+     * which will be set in the registerErrorHandler method.
+     *
      */
     protected $origErrorHandler = null;
 
     /**
-     * @var boolean
+     * @var boolean Flag whether the error handler is already registered. Will be set in the
+     * registerErrorHandler function.
      */
     protected $registeredErrorHandler = false;
 
     /**
-     * @var array
+     * @var array Contains all mapped error handlers
      */
     protected $errorHandlerMap = null;
 
     /**
-     * @var int
+     * @var int Contains the current error level. Used to set the error handler.
      */
     protected $errorLevel = null;
 
     /**
-     * @var array
+     * @var array Flag whether errors should be logged
      */
     protected $errorLog = false;
 
     /**
-     * @var array
+     * @var array Contains all logged errors.
      */
     protected $errorList = array();
 
     /**
-     * @var array
+     * @var array List of all error levels.
      */
     protected $errorLevelList = array(
         E_ERROR             => 'E_ERROR',
@@ -99,7 +102,9 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Plugin install method
+     * Plugin install method. Subscribes the Enlight_Controller_Front_StartDispatch
+     * event to register the error handler.
+     *
      * @return bool success
      */
     public function install()
@@ -112,7 +117,8 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Plugin event method
+     * Listener method of the Enlight_Controller_Front_StartDispatch event.
+     * Calls the internal function "registerErrorHandler" to register the error handler.
      */
     public function onStartDispatch()
     {
@@ -120,7 +126,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Register error handler callback
+     * Register error handler callback method.
      *
      * @link    http://www.php.net/manual/en/function.set-error-handler.php Custom error handler
      * @param   int $errorLevel
@@ -196,7 +202,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Returns error log list
+     * Getter method for the errorList property. Contains all logged errors.
      *
      * @return  array
      */
@@ -206,7 +212,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Sets enabled log flag
+     * Setter method for the errorLog property. The errorLog is a flag whether errors should be logged.
      *
      * @param   bool $value
      * @return  Shopware_Plugins_Core_ErrorHandler_Bootstrap
@@ -218,6 +224,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * Getter method for the errorLog property.
      *
      * @return array|bool
      */
@@ -227,6 +234,9 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * Returns the original error handler. The original error handler will
+     * be set in the registerErrorHandler method
+     *
      * @return callback|null
      */
     public function getOrigErrorHandler()
@@ -235,6 +245,9 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * Getter method for the registeredErrorHandler property.
+     * Flag whether the error handler is already registered.
+     *
      * @return bool
      */
     public function isRegisteredErrorHandler()
@@ -243,6 +256,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * Getter method for the errorLevelList property. Contains all error levels.
      * @return array
      */
     public function getErrorLevelList()
@@ -251,6 +265,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * Returns the current registered error level.
      * @return array|int
      */
     public function getErrorLevel()
@@ -259,6 +274,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * Setter method for the original error handler method.
      * @access private
      * @param $handler
      */

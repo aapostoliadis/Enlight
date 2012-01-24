@@ -32,20 +32,38 @@
  */
 class Enlight_Loader extends Enlight_Class
 {
+    /**
+     * Constant for the default file separator.
+     */
     const DEFAULT_SEPARATOR = '_\\';
+
+    /**
+     * Constant for the default file extension
+     */
     const DEFAULT_EXTENSION = '.php';
 
+    /**
+     * Constant for the append parameter. Used when a namespace will be registered.
+     */
     const POSITION_APPEND = 'append';
+
+    /**
+     * Constant for the prepend parameter. Used when a namespace will be registered.
+     */
     const POSITION_PREPEND = 'prepend';
+
+    /**
+     * Constant for the remove parameter. Used when a namespace will be registered.
+     */
     const POSITION_REMOVE = 'remove';
 
     /**
-     * @var array
+     * @var array Contains all registered namespaces
      */
     protected $namespaces = array();
 
     /**
-     * @var array
+     * @var array Contains all loaded classes.
      */
     protected $loadedClasses = array();
 
@@ -62,7 +80,9 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Loads a class by name.
+     * Loads a class by name. If the class is not already loaded the class will load
+     * by the method loadFile. Is the class loaded it will be added to the internal
+     * loadedClasses array.
      *
      * @param   string|array $class
      * @param   string $path
@@ -93,7 +113,9 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Loads file method
+     * Loads file method. If the path is not readable, the output buffering can't be started or the
+     * path don't passed the security check, the function will thrown an exception.
+     * Otherwise the path will be included and result will be returned.
      *
      * @param   string $path
      * @return  mixed
@@ -117,7 +139,9 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Checks the file is readable
+     * Checks the file is readable. If the is_readable class fails the function will use
+     * the stream_resolve_include_path function. In case the stream_resolve_include_path
+     * don't exist the path will be exploded if the path is given as stream schema.
      *
      * @param   string $path
      * @return  string|bool
@@ -155,7 +179,7 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Explode include path
+     * Explode the given path by the PATH_SEPARATOR constant
      *
      * @param   string $path
      * @return  array
@@ -178,7 +202,11 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Returns class path
+     * Returns the path of the given class name. Iterate all namespaces
+     * and checks if the namespace contains the class name.
+     * After the namespace founded the namespace will be split by the separator
+     * and concat with the DIRECTORY_SEPARATOR constant.
+     * Last is to consider whether the path is readable.
      *
      * @param   string $class
      * @return  string|void
@@ -201,7 +229,7 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Check class is loaded
+     * Checks if the given class is loaded.
      *
      * @param   string $class
      * @return  bool
@@ -212,7 +240,8 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Register namespace
+     * This function register a namespace. The position specifies
+     * at what point you want to add the namespace in the array.
      *
      * @param   string $namespace
      * @param   string $path
@@ -248,8 +277,8 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Adds a path to the include paths
-     * Returns the old include paths
+     * Adds a path to the include paths array and returns the old include paths.
+     * The position specifies at what point you want to add the include path in the array.
      *
      * @param   string $path
      * @param   string $position
@@ -285,8 +314,8 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Sets the include path
-     * Returns the old include paths
+     * Sets the include path. If the given parameter is an array, the array elements will be imploded
+     * by the PATH_SEPARATOR constant.
      *
      * @param   string|array $path
      * @return  string
@@ -306,7 +335,7 @@ class Enlight_Loader extends Enlight_Class
     }
 
     /**
-     * Returns loaded classes
+     * Returns the internal array loadedClasses which contains all already loaded classes.
      *
      * @return  array
      */

@@ -65,12 +65,24 @@ class Enlight_Hook_HookHandler
      */
     protected $plugin;
 
+    /**
+     * Constant that defines that the class method should be overwritten.
+     */
     const TypeReplace = 1;
+
+    /**
+     * Constant that defines that the hook method called before the original method.
+     */
     const TypeBefore = 2;
+
+    /**
+     * Constant that defines that the hook method called after the original method.
+     */
     const TypeAfter = 3;
 
     /**
-     * Class constructor for a hook. The class, method and  the listener are required.
+     * Class constructor for a hook. The class, method and the listener are required.
+     * The given parameter will be set in the internal properties.
      *
      * @param      $class
      * @param      $method

@@ -37,46 +37,74 @@
 class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, Enlight_Singleton
 {
     /**
-     * @var Enlight_Plugin_Namespace_Loader
+     * @var Enlight_Plugin_Namespace_Loader Contains an instance of the Enlight_Plugin_Namespace_Loader
      */
     protected $plugins;
 
     /**
-     * @var Enlight_Controller_Router
+     * @var Enlight_Controller_Router Contains an instance of the Enlight_Controller_Router.
+     * Used to route the request to the controller/action.
      */
     protected $router;
 
     /**
-     * @var Enlight_Controller_Dispatcher
+     * @var Enlight_Controller_Dispatcher Contains in instance of the
+     * Enlight_Controller_Dispatcher. Used to dispatch the request.
      */
     protected $dispatcher;
 
     /**
-     * @var Enlight_Controller_Request_RequestHttp
+     * @var Enlight_Controller_Request_RequestHttp Contains an instance of the
+     * Enlight_Controller_Request_RequestHttp. Used for the routing,
+     * the different events which will be notified in the dispatch function and for the
+     * dispatch itself.
      */
     protected $request;
 
     /**
-     * @var Enlight_Controller_Response_ResponseHttp
+     * @var Enlight_Controller_Response_ResponseHttp Contains an
+     * instance of the Enlight_Controller_Response_ResponseHttp. Used for the dispatch of the request
+     * and to log the thrown exception. After the dispatch, the response will be sent.
      */
     protected $response;
 
     /**
-     * @var bool
+     * @var bool Flag whether an exception should be thrown directly at the dispatch. If the
+     * flag is set to false, the exceptions will be set in the response instance.
      */
     protected $throwExceptions;
 
     /**
-     * @var bool
+     * @var bool Flag whether the response object should be returned in the dispatch.
      */
     protected $returnResponse;
 
     /**
-     * @var array
+     * @var array Contains all invoked params. The invoked params can be set by the setParam/s function and
+     * can be access by the getParams function.
      */
     protected $invokeParams = array();
 
     /**
+     * Dispatch function of the front controller.
+     * If the flags noErrorHandler and noViewRenderer aren't set, the error handler and the view renderer
+     * plugins will be loaded. After the plugins loaded the Enlight_Controller_Front_StartDispatch
+     * event will be notify.
+     * After the event done, enlight sets automatically the router, dispatcher, request and response object.
+     * If the objects has been set, the Enlight_Controller_Front_RouteStartup event will be notify.
+     * After the event is done, the route, route the request to controller/action.
+     * Than the Enlight_Controller_Front_RouteShutdown event and the Enlight_Controller_Front_DispatchLoopStartup
+     * event are notified. After this events the controller running the dispatch
+     * of the request unless according to request everything was dispatched. During the dispatch
+     * two events will be notified:<br>
+     *  - Enlight_Controller_Front_PreDispatch  => before the dispatch<br>
+     *  - Enlight_Controller_Front_PostDispatch => after the dispatch<br><br>
+     * When everything is dispatched the Enlight_Controller_Front_DispatchLoopShutdown event will be notified.
+     * Last the response will be send. As well as the dispatch, two events will be notified:
+     *  - Enlight_Controller_Front_SendResponse      => before the response sent<br>
+     *  - Enlight_Controller_Front_AfterSendResponse => after the response sent
+     *
+     *
      * @throws  Exception
      * @return  Enlight_Controller_Response_ResponseHttp
      */
@@ -241,6 +269,8 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
     }
 
     /**
+     * Setter method for the plugin property.
+     *
      * @throws  Enlight_Exception
      * @param   string|Enlight_Plugin_Namespace $plugins
      * @return  Enlight_Controller_Front
@@ -256,6 +286,9 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
     }
 
     /**
+     * Setter method for the router. Sets the front controller instance
+     * automatically in the given router.
+     *
      * @throws  Enlight_Exception
      * @param   string|Enlight_Controller_Router $router
      * @return  Enlight_Controller_Front
@@ -274,6 +307,9 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
     }
 
     /**
+     * Setter method for the dispatcher. Sets the front controller instance
+     * automatically in the given dispatcher.
+     *
      * @throws  Enlight_Exception
      * @param   string|Enlight_Controller_Dispatcher $dispatcher
      * @return  Enlight_Controller_Front
@@ -349,6 +385,8 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
     }
 
     /**
+     * Getter method for the plugin property.
+     *
      * @return Enlight_Plugin_Namespace_Loader
      */
     public function Plugins()
@@ -406,6 +444,8 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
     }
 
     /**
+     * Setter method for the throwException property.
+     *
      * @param   bool|null $flag
      * @return  bool|Enlight_Controller_Front
      */
@@ -419,6 +459,8 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
     }
 
     /**
+     * Setter method to set a single parameter into the invokeParams property.
+     *
      * @param   string $name
      * @param   mixed  $value
      * @return  Enlight_Controller_Front
@@ -431,6 +473,8 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
     }
 
     /**
+     * Setter method for the invokeParams property.
+     *
      * @param   array $params
      * @return  Enlight_Controller_Front
      */

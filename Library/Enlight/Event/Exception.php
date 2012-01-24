@@ -22,7 +22,7 @@
  */
 
 /**
- * An Enlight_Event_Exception is thrown if an error occurs in within an event.
+ * An Enlight_Event_Exception is thrown if an error occurs within an event.
  *
  * @category   Enlight
  * @package    Enlight_Event

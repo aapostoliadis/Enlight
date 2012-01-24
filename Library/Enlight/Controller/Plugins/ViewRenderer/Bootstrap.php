@@ -59,6 +59,16 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     protected $engine;
 
     /**
+     * Initialisation of the view renderer.
+     * Subscribes the Enlight_Controller_Front_DispatchLoopStartup event, to
+     * draw the front controller and the template manager out of the Enlight_Event_EventArgs
+     * and set them into the internal variables.
+     * In the Enlight_Controller_Action_PostDispatch event, enlight will render the template and
+     * reset the template in the view instance of the Enlight_Controller_Action.
+     * In the Enlight_Controller_Action_PreDispatch event, enlight will load the template object.
+     * In the Enlight_Controller_Action_Init event, enlight will drawn the Enlight_Controller_Action out of
+     * the Enlight_Event_EventArgs and initial the Enlight_Template_Manager and the Enlight_View_Default.
+     *
      * @return void
      */
     public function init()
