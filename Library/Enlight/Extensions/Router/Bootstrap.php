@@ -61,9 +61,10 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
     }
 
     /**
-     * Resource handler for log plugin
+     * Updates the base url and the http host on route startup.
+     * Adds the support for the HTTPS proxy system.
+     *
      * @param   Enlight_Event_EventArgs $args
-     * @return  Zend_Log
      */
     public function onRouteStartup(Enlight_Event_EventArgs $args)
     {
@@ -87,9 +88,10 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
     }
 
     /**
-     * Resource handler for log plugin
+     * Filter the router flags from the url params.
+     *
      * @param Enlight_Event_EventArgs $args
-     * @return mixed
+     * @return array
      */
     public function onFilterAssemble(Enlight_Event_EventArgs $args)
     {
@@ -99,7 +101,7 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
     }
 
     /**
-     * Event listener method
+     * Complements the generated urls with scheme, host and basePath, if required.
      *
      * @param Enlight_Event_EventArgs $args
      * @return string
