@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
- * @author     Heiner Lohaus
+ * @author     Oliver Denter
  * @author     $Author$
  */
 
@@ -29,23 +29,19 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Enlight_Tests_Components_AllTests
+class Enlight_Tests_View_AllTests
 {
-	/**
-	 * Returns test suite
-	 *
-	 * @return PHPUnit_Framework_TestSuite
-	 */
-	public static function suite()
-	{
-		$suite = new Enlight_Components_Test_TestSuite('Enlight Components Tests');
+    /**
+     * Returns the test suite
+     *
+     * @return PHPUnit_Framework_TestSuite
+     */
+    public static function suite()
+    {
+        $suite = new Enlight_Components_Test_TestSuite('Enlight View Tests');
 
-		$suite->addTest(Enlight_Tests_Components_Auth_Adapter_AllTests::suite());
-        $suite->addTest(Enlight_Tests_Components_Menu_AllTests::suite());
-		$suite->addTest(Enlight_Tests_Components_Snippet_AllTests::suite());
-		$suite->addTest(Enlight_Tests_Components_Cron_AllTests::suite());
-        $suite->addTest(Enlight_Tests_Components_Form_AllTests::suite());
-        $suite->addTest(Enlight_Tests_Components_Site_AllTests::suite());
-		return $suite;
-	}
+        $suite->addTestFiles(glob(dirname(__FILE__) . '/*Test.php'));
+
+        return $suite;
+    }
 }

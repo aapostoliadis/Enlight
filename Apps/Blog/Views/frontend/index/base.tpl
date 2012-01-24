@@ -5,21 +5,27 @@
 
     <body lang="en">
 
+        <!-- Menu component -->
         {include file="frontend/index/menu.tpl"}
 
+        <!-- Container -->
         <div class="container">
 
+            <!-- Breadcrumb -->
             <ul class="breadcrumb">
-
             {block name="frontend/index/breadcrumbs"}
-                <li><a href="{url action=index}">Home</a> <span class="divider">/</span></li>
+                <li>
+                    <a href="{url action=index}">Home</a> <span class="divider">/</span>
+                </li>
             {/block}
+            </ul> <!-- //Breadcrumb -->
 
-            </ul>
-            {block name="frontend/index/inner_container"}{/block}
+        <!-- Content area block -->
+        {block name="frontend/index/inner_container"}{/block}
 
-            {include file="frontend/index/footer.tpl"}
+        <!-- Footer component -->
+        {include file="frontend/index/footer.tpl"}
 
-        </div>
+        </div> <!-- //Container -->
     </body>
 </html>
