@@ -51,10 +51,22 @@ class Enlight_Controller_Request_RequestHttp
     }
 
     /**
+     * Sets the request URI scheme
+     *
+     * @param $value
+     * @return Enlight_Controller_Request_RequestHttp
+     */
+    public function setSecure($value = true)
+    {
+        $_SERVER['HTTPS'] = $value ? 'on' : null;
+        return $this;
+    }
+
+    /**
      * Set HTTP host method
      *
      * @param string $host
-     * @return \Enlight_Controller_Request_RequestHttp
+     * @return Enlight_Controller_Request_RequestHttp
      */
     public function setHttpHost($host)
     {

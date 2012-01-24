@@ -3,7 +3,7 @@
     <div class="container">
       <a class="brand" href="#">Enlight</a>
       <ul class="nav">
-        <li class="active"><a href="{url action=index}">Home</a></li>
+        <li class="active"><a href="{url action=index forceSecure=true}">Home</a></li>
         <li><a href="{url action=login}">Form</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
