@@ -34,7 +34,11 @@
 class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
     /**
-     * Install site plugin
+     * Install site plugin.
+     * Subscribes the init resource events for the site and site manager component.
+     * In additional the Enlight_Controller_Front_DispatchLoopStartup will be subscribed
+     * to set the site instance into the session object and set
+     * the corresponding locale and currency object.
      */
     public function install()
     {

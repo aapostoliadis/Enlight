@@ -23,7 +23,7 @@
 
 /**
  * The Enlight_Config capsules the configuration parameter,
- * which can be used instantiated the different enlight components
+ * which can be used to initialize the different enlight components
  *
  * @category   Enlight
  * @package    Enlight_Config
@@ -83,7 +83,9 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     protected $_adapter;
 
     /**
-     * Constructor method
+     * The class constructor draw the different setting out of the options parameter and set them into
+     * the internal properties. The config adapter can be set in options["adapter"] but have to been an instance of
+     * the Enlight_Config_Adapter.
      *
      * @param array|null|string $config
      * @param array|bool $options
@@ -137,7 +139,8 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     }
 
     /**
-     * Set value method
+     * Reset the internal data property and sets the given data array elements into the internal properties.
+     * If one of the data array elements is an array the function will capsule this value into a new config class.
      * @param array $data
      */
     public function setData(array $data)
@@ -281,7 +284,8 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     }
 
     /**
-     * Set allow modifications
+     * Set allow modifications property. If the data property is already set, the allowModifications flag
+     * is passed in all sub-configurations.
      *
      * @param bool $option
      * @return Enlight_Config

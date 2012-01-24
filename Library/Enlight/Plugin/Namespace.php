@@ -32,16 +32,19 @@
 abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
 {
     /**
-     * @var Enlight_Plugin_PluginManager
+     * @var Enlight_Plugin_PluginManager This property contains an instance of the Enlight_Plugin_PluginManager
      */
     protected $manager;
 
     /**
-     * @var string
+     * @var string This property contains the name of the namespace.
      */
     protected $name;
 
     /**
+     * The Enlight_Plugin_Namespace class constructor expects the name of the namespace and set it
+     * into the internal property.
+     *
      * @param   string $name
      */
     public function __construct($name)
@@ -51,6 +54,7 @@ abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
     }
 
     /**
+     * Getter method for the namespace name property.
      * @return string
      */
     public function getName()
@@ -59,7 +63,7 @@ abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
     }
 
     /**
-     * Returns the application instance.
+     * Returns the application instance of the Enlight_Plugin_PluginManager
      *
      * @return Enlight_Application
      */
@@ -69,6 +73,8 @@ abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
     }
 
     /**
+     * Setter method for the manager property.
+     *
      * @param Enlight_Plugin_PluginCollection $manager
      * @return Enlight_Plugin_PluginCollection
      */
@@ -79,7 +85,7 @@ abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
     }
 
     /**
-     * Returns the application instance.
+     * Getter method for the manager property.
      *
      * @return  Enlight_Plugin_PluginManager
      */

@@ -40,12 +40,15 @@
 class Enlight_Event_EventManager extends Enlight_Class
 {
     /**
-     * @var array all registered event listeners
+     * @var array Contains all registered event listeners. A listener can be registered by the
+     * registerListener(Enlight_Event_Handler $handler) function.
      */
     protected $listeners = array();
 
     /**
-     * Register a listener to an event.
+     * Registers the given event handler and adds it to the internal listeners array.
+     * If no event position is set in the event handler, the event handler will be added to the
+     * end of the list.
      *
      * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_EventManager
@@ -70,7 +73,7 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
-     * Remove an event listener.
+     * Removes the listeners for the given event handler.
      *
      * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_EventManager
@@ -84,6 +87,7 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
+     * Checks if the given event name has an event listener.
      * @param   string $event
      * @return  bool
      */
@@ -118,6 +122,14 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
+     * Checks if the event has registered listeners.
+     * If the event has listeners this listeners will be executed with the given event arguments.
+     * The event arguments have to been an array or an instance of the Enlight_Event_EventArgs class.
+     * If the given arguments not an array or an instance of the Enlight_Event_EventArgs class enlight
+     * throw an Enlight_Event_Exception.
+     * Before the listener will be executed the the flag "processed" will be set to false in the event arguments.
+     * After all event listeners has been executed the "processed" flag will be set to true.
+     *
      * @throws  Enlight_Event_Exception
      * @param   string $event
      * @param   Enlight_Event_EventArgs|array|null $eventArgs
@@ -145,6 +157,16 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
+     * Checks if the event has registered listeners.
+     * If the event has listeners this listeners will be executed with the given event arguments.
+     * The event arguments have to been an array or an instance of the Enlight_Event_EventArgs class.
+     * If the given arguments not an array or an instance of the Enlight_Event_EventArgs class enlight
+     * throw an Enlight_Event_Exception.
+     * Before the listener will be executed the the flag "processed" will be set to false in the event arguments.
+     * After all event listeners has been executed the "processed" flag will be set to true.
+     *
+     * The event listeners will be executed until one of the listeners return not null.
+     *
      * @throws  Enlight_Exception
      * @param   string $event
      * @param   Enlight_Event_EventArgs|array|null $eventArgs
@@ -178,6 +200,16 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
+     * Checks if the event has registered listeners.
+     * If the event has listeners this listeners will be executed with the given event arguments.
+     * The event arguments have to been an array or an instance of the Enlight_Event_EventArgs class.
+     * If the given arguments not an array or an instance of the Enlight_Event_EventArgs class enlight
+     * throw an Enlight_Event_Exception.
+     * Before the listener will be executed the the flag "processed" will be set to false in the event arguments.
+     * After all event listeners has been executed the "processed" flag will be set to true.
+     *
+     * The return value of the execute method will be set in the event arguments return value.
+     *
      * @throws  Enlight_Event_Exception
      * @param   string $event
      * @param   mixed $value
@@ -207,6 +239,8 @@ class Enlight_Event_EventManager extends Enlight_Class
     }
 
     /**
+     * Registers all listeners of the given Enlight_Event_Subscriber.
+     *
      * @param   Enlight_Event_Subscriber $subscriber
      * @return  void
      */

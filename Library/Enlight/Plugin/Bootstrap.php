@@ -33,16 +33,19 @@
 abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
 {
     /**
-     * @var string
+     * @var string Contains the name of the plugin.
      */
     protected $name;
 
     /**
-     * @var Enlight_Plugin_PluginCollection
+     * @var Enlight_Plugin_PluginCollection Contains an instance of the Enlight_Plugin_PluginCollection
      */
     protected $collection;
 
     /**
+     * The Enlight_Plugin_Bootstrap expects a name for the plugin and
+     * optionally an instance of the Enlight_Plugin_PluginCollection
+     *
      * @param   Enlight_Plugin_PluginCollection $collection
      * @param                                   $name
      */
@@ -54,6 +57,7 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
     }
 
     /**
+     * Getter method for the plugin name property.
      * @return  string
      */
     public function getName()
@@ -62,6 +66,7 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
     }
 
     /**
+     * Setter method for the collection property.
      * @param   $collection
      * @return  Enlight_Plugin_PluginCollection
      */
@@ -72,6 +77,7 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
     }
 
     /**
+     * Getter method for the collection property.
      * @return  Enlight_Plugin_PluginCollection
      */
     public function Collection()
@@ -80,7 +86,7 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
     }
 
     /**
-     * Returns the application instance.
+     * Returns the application instance of the collection property.
      *
      * @return  Enlight_Application
      */

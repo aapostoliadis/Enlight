@@ -56,6 +56,7 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * Getter method for the collection property. Contains an instance of the Enlight_Plugin_Namespace_Config.
      * @return  Enlight_Plugin_Namespace_Config
      */
 	public function Collection()
@@ -64,6 +65,10 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 	}
 
     /**
+     * Subscribes an plugin events. The given parameters and the internal instance of
+     * the Enlight_Plugin_Namespace_Config will be used to instantiate a new Enlight_Event_Handler_Plugin.
+     * This Enlight_Event_Handler_Plugin will subscribed over the namespace subscriber.
+     *
      * @param   string $event
      * @param   integer $position
      * @param   callback $listener
@@ -80,6 +85,7 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * This function installs the plugin.
      * @return void
      */
     public function install()

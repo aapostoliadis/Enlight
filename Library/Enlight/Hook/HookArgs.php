@@ -48,7 +48,9 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     protected $_name;
 
     /**
-     * @var mixed return value of the hook arguments
+     * @var mixed return value of the hook arguments.
+     * You can access the return value by the $args->getReturn() method
+     * The return value can be overwritten by the $args->setReturn()
      */
     protected $_return;
 

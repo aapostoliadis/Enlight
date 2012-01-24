@@ -47,6 +47,9 @@ abstract class Enlight_Config_Adapter extends Enlight_Class
     protected $_nameSuffix = '';
 
     /**
+     * The Enlight_Config_Adapter class constructor expects an config array which should contains a
+     * suffix and a prefix for the configuration names.
+     *
      * @param array $config
      */
     public function __construct(array $config)

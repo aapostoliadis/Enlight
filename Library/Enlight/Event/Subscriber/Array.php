@@ -38,6 +38,8 @@ class Enlight_Event_Subscriber_Array extends Enlight_Event_Subscriber
     protected $listeners = array();
 
     /**
+     * The Enlight_Event_Subscriber_Array class constructor register all listeners in the options parameter.
+     *
      * @param   null|array $options
      */
     public function __construct($options = null)

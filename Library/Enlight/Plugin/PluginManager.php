@@ -39,13 +39,16 @@
 class Enlight_Plugin_PluginManager extends Enlight_Plugin_PluginCollection
 {
     /**
-     * Application instance.
+     * Instance of the Enlight_Application.
      *
      * @var Enlight_Application
      */
     protected $application;
 
     /**
+     * The Enlight_Plugin_PluginManager class constructor expects an instance of the Enlight_Application, which
+     * will be set in the internal property.
+     *
      * @param Enlight_Application $application
      */
     public function __construct(Enlight_Application $application)
@@ -55,6 +58,10 @@ class Enlight_Plugin_PluginManager extends Enlight_Plugin_PluginCollection
     }
 
     /**
+     * Register the given plugin namespace. The instance of the Enlight_Plugin_PluginManager will be
+     * set into the namespace by using the Enlight_Plugin_Namespace::setManager() function.
+     * The namespace name will be used as array key.
+     *
      * @param Enlight_Plugin_Namespace $namespace
      * @return Enlight_Plugin_PluginManager
      */
@@ -66,7 +73,7 @@ class Enlight_Plugin_PluginManager extends Enlight_Plugin_PluginCollection
     }
 
     /**
-     * Sets the application instance.
+     * Setter for the application property.
      *
      * @param  Enlight_Application $application
      * @return Enlight_Bootstrap

@@ -35,12 +35,23 @@ require_once('Smarty/Smarty.class.php');
  */
 class Enlight_Template_Default extends Smarty_Internal_Template
 {
+    /**
+     * Constant to overwrite smarty blocks.
+     */
     const BLOCK_REPLACE = 'replace';
+
+    /**
+     * Constant to add a content before the smarty block
+     */
     const BLOCK_APPEND = 'append';
+
+    /**
+     * Constant to add a content after the smarty block
+     */
     const BLOCK_PREPEND = 'prepend';
 
     /**
-     * Assigns a smarty variable
+     * Assigns a smarty variable.
      *
      * @param array|string $tpl_var the template variable name(s)
      * @param mixed        $value   the value to assign
@@ -139,6 +150,7 @@ class Enlight_Template_Default extends Smarty_Internal_Template
     }
 
     /**
+     * This function extends the whole template file.
      * @param $template_name
      * @return void
      */
@@ -187,6 +199,7 @@ class Enlight_Template_Default extends Smarty_Internal_Template
     }
 
     /**
+     * Returns the instance of the Enlight_Template_Manager
      * @return Enlight_Template_Manager
      */
     public function Engine()
@@ -195,6 +208,7 @@ class Enlight_Template_Default extends Smarty_Internal_Template
     }
 
     /**
+     * Returns the instance of the Enlight_Template_Default
      * @return Enlight_Template_Default
      */
     public function Template()

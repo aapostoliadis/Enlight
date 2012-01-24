@@ -43,7 +43,8 @@ class Enlight_Template_Manager extends Smarty
     public $template_class = 'Enlight_Template_Default';
 
     /**
-     * Class constructor, initializes basic smarty properties
+     * Class constructor, initializes basic smarty properties:
+     * Template, compile, plugin, cache and config directory.
      *
      * @param   null|array|Enlight_Config $options
      */

@@ -33,7 +33,7 @@
 class Enlight_Config_Adapter_File extends Enlight_Config_Adapter
 {
     /**
-     * Wether to exclusively lock the file or not
+     * Whether to exclusively lock the file or not
      *
      * @var bool
      */

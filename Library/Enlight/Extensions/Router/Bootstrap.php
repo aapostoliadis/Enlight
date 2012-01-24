@@ -31,6 +31,10 @@
  */
 class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
+
+    /**
+     * @var bool
+     */
     protected $useModRewrite = false;
 
     protected $forceSecureControllers = array();
@@ -66,7 +70,7 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
 
     /**
      * Resource handler for log plugin
-
+     *
      * @param Enlight_Event_EventArgs $args
      * @return Zend_Log
      */
@@ -77,7 +81,7 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
 
     /**
      * Resource handler for log plugin
-
+     *
      * @param Enlight_Event_EventArgs $args
      * @return Zend_Log
      */
@@ -96,8 +100,9 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
 
     /**
      * Resource handler for log plugin
-
+     *
      * @param Enlight_Event_EventArgs $args
+     * @return mixed
      */
     public function onFilterAssemble(Enlight_Event_EventArgs $args)
     {
@@ -113,6 +118,7 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
      * Event listener method
      *
      * @param Enlight_Event_EventArgs $args
+     * @return mixed|string
      */
     public function onFilterUrl(Enlight_Event_EventArgs $args)
     {
