@@ -22,6 +22,8 @@
  */
 
 /**
+ * Basic class for each Enlight subscriber.
+ *
  * The Enlight_Event_Subscriber is the basic class for each specified event subscriber (array, config, plugin)
  * To implement an own subscriber the Enlight_Event_Subscriber must be extended.
  *

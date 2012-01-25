@@ -21,6 +21,8 @@
  */
 
 /**
+ * Error component for the enlight form decorator.
+ *
  * The Enlight_Components_Form_Decorator_Errors extends the zend form
  * decorator error class with enlight specified css classes.
  *

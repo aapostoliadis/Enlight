@@ -107,7 +107,6 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
      *  - Enlight_Controller_Front_SendResponse      => before the response sent<br>
      *  - Enlight_Controller_Front_AfterSendResponse => after the response sent
      *
-     *
      * @throws  Exception
      * @return  Enlight_Controller_Response_ResponseHttp
      */

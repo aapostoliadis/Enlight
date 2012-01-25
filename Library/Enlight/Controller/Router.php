@@ -22,6 +22,8 @@
  */
 
 /**
+ * Basic class for each Enlight router controller.
+ *
  * The Enlight_Controller is the basic class for the routing.
  *
  * @category   Enlight

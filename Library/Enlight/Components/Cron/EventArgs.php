@@ -21,7 +21,10 @@
  */
 
 /**
- * The Enlight_Components_Cron_EventArgs extends the enlight event arguments with cron job specified properties.
+ * The Enlight_Components_Cron_EventArgs will be passed to cron job listener method.
+ *
+ * Extends the enlight event arguments with cron job specified properties.
+ * The arguments will be passed by the cron job manager to the running cron job.
  *
  * @category   Enlight
  * @package    Enlight_Cron

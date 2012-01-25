@@ -22,6 +22,8 @@
  */
 
 /**
+ * Database adapter for the menu component.
+ *
  * The Enlight_Components_Menu_Adapter_DbTable is the table adapter for the menu component. It performs all action
  * around the database for the menu elements.
  *

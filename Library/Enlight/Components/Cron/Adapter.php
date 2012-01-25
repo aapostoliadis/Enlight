@@ -21,7 +21,9 @@
  */
 
 /**
- * The Enlight_Components_Cron_Adapter interface provides an easy way to implement own cron job managers.
+ * Interface for specific cron job adapter.
+ *
+ * The Enlight_Components_Cron_Adapter interface provides an easy way to implement own cron job adapter.
  *
  * @category   Enlight
  * @package    Enlight_Cron

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Basic class for enlight selenium test cases.
+ *
  * The Enlight_Components_Test_Selenium_TestCase extends the PHPUnit_Extensions_SeleniumTestCase with enlight
  * specified functions to verify text and generate screen shots automatic.
  *

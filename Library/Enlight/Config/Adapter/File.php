@@ -22,6 +22,8 @@
  */
 
 /**
+ * File adapter for the enlight config classes.
+ *
  * The Enlight_Config_Adapter_File is an adapter to write the enlight configuration to a file and read this.
  * The adapter use the zend config writer.
  *

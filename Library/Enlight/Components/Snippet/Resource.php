@@ -24,6 +24,8 @@
 require_once('Smarty/Smarty.class.php');
 
 /**
+ * Enlight resource to compile snippets.
+ *
  * The Enlight_Components_Snippet_Resource is a template resource with the ability to process snippets.
  *
  * @category   Enlight

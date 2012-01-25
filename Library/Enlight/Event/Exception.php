@@ -22,6 +22,8 @@
  */
 
 /**
+ * Class for an Enlight event exception.
+ *
  * An Enlight_Event_Exception is thrown if an error occurs within an event.
  *
  * @category   Enlight

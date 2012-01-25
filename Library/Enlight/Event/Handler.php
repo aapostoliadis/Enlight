@@ -22,9 +22,10 @@
  */
 
 /**
+ * Basic class for each Enlight event handler.
+ *
  * The Enlight_Event_Handler is the basic class for each specified event handler.
  * The Enlight_Event_EventManager will execute the registered event handlers.
- *
  *
  * @category   Enlight
  * @package    Enlight_Event

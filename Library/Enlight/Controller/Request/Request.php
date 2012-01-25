@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller interface for the enlight request class.
+ *
  * The Enlight_Controller_Request_Request is an interface for a request instance which used in the
  * different controller components.
  *

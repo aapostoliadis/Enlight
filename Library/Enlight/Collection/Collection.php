@@ -21,6 +21,8 @@
  */
 
 /**
+ * Interface for the Enlight_Collection_ArrayCollection.
+ *
  * Interface for an enlight collection. Implemented in the Enlight_Collection_ArrayCollection.
  *
  * @category   Enlight

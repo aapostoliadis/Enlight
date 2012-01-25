@@ -21,7 +21,11 @@
  */
 
 /**
- * The Enlight_Components_Cron_Job represents an single cron job, which can execute by the cron manager.
+ * The Enlight_Components_Cron_Job represents an single cron job.
+ *
+ * The Enlight_Components_Cron_Job can be executed by the cron job manager.
+ * When the cron job will be executed the cron job manager will pass the cron job arguments
+ * to the listener method.
  *
  * @category   Enlight
  * @package    Enlight_Cron

@@ -21,7 +21,10 @@
  */
 
 /**
+ * Table component, which performs all actions for the specified table.
+ *
  * The Enlight_Components_Table extend the zend db table with the hook ability.
+ *
  *
  * @category   Enlight
  * @package    Enlight_Table

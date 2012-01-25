@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight debug extension to log exceptions and display the logged exceptions.
+ *
  * The Enlight_Extensions_Debug_Bootstrap allows to debug the enlight application.
  * It logs the exceptions into the log and allows to output them into the console or write them into the database
  * or into log files.

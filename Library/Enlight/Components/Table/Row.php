@@ -21,6 +21,8 @@
  */
 
 /**
+ * Enlight table row component is an extension of the zend table row.
+ *
  * Reference concrete class that extends Zend_Db_Table_Row_Abstract.
  * Developers may also create their own classes that extend the abstract class.
  * In additional the enlight table row support the hook system.

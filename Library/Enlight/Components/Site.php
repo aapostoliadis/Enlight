@@ -22,10 +22,12 @@
  */
 
 /**
- * Forms the interface to the three components, for easy configuration and localization of websites specific properties.
+ * Forms the interface to the location, currency and template, for easy configuration and localization of websites specific properties.
  *
- * The Enlight_Components_Site handles the location, currency, template, host and resources of the current site.
+ * The Enlight_Components_Site handles the location, currency, template, host and resources of a single website.
  * With the Enlight_Components_Site it is possible to operate Subshop eCommerce.
+ * When creating a new site component the passed options array contains the different settings and resources.
+ * For the special option array keys look at the constructor function.
  *
  * @category   Enlight
  * @package    Enlight_Site
@@ -45,8 +47,8 @@ class Enlight_Components_Site
     protected $resources = array();
 
     /**
-     * When creating a new site component is passed to the option component
-     * is an array containing the following key knows:<br>
+     * When creating a new site component the passed options array could contains the
+     * different settings and resources with the following keys:<br>
      * <b>id</b> - The numerical identifier of the site.
      * This is for example used for switching to determine which site of a configuration may be one other<br>
      * <b>name</b> - A name that describes the site. For example 'My Shop - Germany' or 'My Shop U.S.'<br>

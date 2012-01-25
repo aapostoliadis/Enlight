@@ -22,6 +22,8 @@
  */
 
 /**
+ * Basic class for each controller dispatcher.
+ *
  * The Enlight_Controller_Dispatcher is the basic class for an dispatcher. It dispatch with assistance the request
  * to a specify controller action.
  *

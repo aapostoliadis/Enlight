@@ -22,6 +22,8 @@
  */
 
 /**
+ * Event handler for Enlight plugins.
+ *
  * The Enlight_Event_Handler_Plugin is the basic class for plugin events. It extends the standard enlight event
  * handler with plugin specified methods.
  *

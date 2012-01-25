@@ -21,6 +21,8 @@
  */
 
 /**
+ * Interface allows an easy implementation for the Countable, IteratorAggregate, ArrayAccess class
+ *
  * Array collection class which implements the Enlight_Collection_Collection interface.
  * The interface allows an easy implementation for the Countable, IteratorAggregate, ArrayAccess class.
  *

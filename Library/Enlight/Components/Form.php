@@ -21,6 +21,8 @@
  */
 
 /**
+ * Enlight component for a form component.
+ *
  * The Enlight_Components_Form is a component to present and validate a form. It extends the zend form class with
  * an adapter ability
  *

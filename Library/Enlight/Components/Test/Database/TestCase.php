@@ -22,6 +22,8 @@
  */
 
 /**
+ * Test case for Enlight database connections.
+ *
  * The Enlight_Components_Test_Database_TestCase extends the PHPUnit_Extensions_Database_TestCase
  * with an automatically access on the database resource.
  *

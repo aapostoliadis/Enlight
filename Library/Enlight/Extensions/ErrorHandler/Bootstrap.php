@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight error handler extension to log the exception into an array.
+ *
  * The Enlight_Extensions_ErrorHandler_Bootstrap logs the exceptions into an array for further processing.
  * It uses the setErrorHandler function. If the same exception multiple thrown a count property will increased.
  *

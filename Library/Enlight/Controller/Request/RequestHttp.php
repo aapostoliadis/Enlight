@@ -22,7 +22,8 @@
  */
 
 /**
- * HTTP request object for use with Enlight_Controller.
+ * HTTP request controller for use with Enlight_Controller.
+ *
  * The Enlight_Controller_Request_RequestHttp represents the request object (what's in the url, which was read out).
  *
  * @category   Enlight

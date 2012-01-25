@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller for Enlight request test cases.
+ *
  * The Enlight_Controller_Request_RequestTestCase extends the zend controller request
  * with some helper functions.
  *

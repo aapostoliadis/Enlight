@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight component to get database access.
+ *
  * Class for connecting to SQL databases and performing common operations.
  * The factory function of the Enlight_Components_Db class creates
  * a new instance of the database component. The factory expects the

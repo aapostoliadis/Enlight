@@ -22,6 +22,8 @@
  */
 
 /**
+ * Basic Enlight log component.
+ *
  * The Enlight_Components_Log is a component to log data and to output these via appropriate log writer.
  *
  * @category   Enlight

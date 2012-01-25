@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight event config subscriber.
+ *
  * The Enlight_Event_Subscriber_Config is a collection for event listeners which can be read and write over
  * an Enlight_Config object.
  *

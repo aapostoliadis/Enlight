@@ -22,6 +22,8 @@
  */
 
 /**
+ * Manager for the registered site components.
+ *
  * The Enlight_Components_Site_Manager managed all registered sites and provides
  * interfaces for reading a page available
  *

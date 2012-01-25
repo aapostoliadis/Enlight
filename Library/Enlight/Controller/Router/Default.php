@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller of the Enlight default router.
+ *
  * The Enlight_Controller_Router_Default handles the controller routing.
  * It reads the controller data from the request url (controller, action, parameter).
  * Conversely, it also generates the corresponding urls using of parameters that were passed.
