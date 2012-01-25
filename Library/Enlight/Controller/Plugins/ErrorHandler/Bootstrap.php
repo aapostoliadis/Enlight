@@ -54,6 +54,8 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
     }
 
     /**
+     * Listener method for the Enlight_Controller_Front_RouteShutdown event.
+     *
      * @param   Enlight_Event_EventArgs $args
      * @return  void
      */
@@ -105,9 +107,15 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
      */
     protected $_exceptionCountAtFirstEncounter = 0;
 
-    /*
-     * @var     Enlight_Controller_Front $front
-     * @var     Enlight_Controller_Request_Request $request
+
+    /**
+     * The handle error function checks for an exception and
+     * allow the error handler controller the option to forward
+     *
+     * @param Enlight_Controller_Front $front
+     * @param Enlight_Controller_Request_Request $request
+     * @return mixed
+     * @throws mixed
      */
     protected function handleError($front, Enlight_Controller_Request_Request $request)
     {
