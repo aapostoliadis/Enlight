@@ -68,7 +68,9 @@ class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin
     protected $viewRenderer;
 
     /**
-     * Plugin install method
+     * Plugin install method.
+     * Subscribes the Enlight_Controller_Action_PreDispatch event to
+     * render the script template and set the headers in the response instance.
      */
     public function init()
     {
@@ -107,8 +109,7 @@ class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin
     }
 
     /**
-     * Sets the render flag.
-     * Loads the view renderer.
+     * Sets the render flag. Loads the view renderer.
      *
      * @param   bool $flag
      * @return  Enlight_Controller_Plugins_ScriptRenderer_Bootstrap

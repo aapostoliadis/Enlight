@@ -65,6 +65,8 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
     }
 
     /**
+     * Listener method for the Enlight_Controller_Front_PostDispatch event.
+     *
      * @param   Enlight_Event_EventArgs $args
      * @return  void
      */

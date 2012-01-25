@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight_Controller_Front managed everything between the request, response, dispatcher and router.
+ *
  * The Enlight_Controller_Front represents the core controller. It managed everything (classes, data, sequence)
  * between the request, response, dispatcher and router. If these are not set (classes, data, sequence), the
  * controller loads them automatically. If nothing else is specified in the configuration, the controller

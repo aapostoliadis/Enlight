@@ -44,12 +44,15 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     protected $noRender = false;
 
     /**
-     * @var Enlight_Controller_Front Instance of the enlight front controller
+     * @var Enlight_Controller_Front Instance of the enlight front controller.
+     * Will be set in the Enlight_Controller_Front_DispatchLoopStartup event.
+     * Used to get the module, controller and action name in the getTempalteName function.
      */
     protected $front;
 
     /**
-     * @var Enlight_Controller_Action Used to load and set the template
+     * @var Enlight_Controller_Action Used to load and set the template.
+     * Will be set in the onActionInit function.
      */
     protected $action;
 

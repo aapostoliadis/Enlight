@@ -38,6 +38,9 @@ use Symfony\Component\Routing\Loader\YamlFileLoader;
  * @package    Enlight_Extensions
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
+ * @config     array|string $routes
+ * @config     int $routeIndex
+ * @config     int $assembleIndex
  */
 class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
@@ -48,7 +51,7 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
     public function install()
     {
         $this->subscribeEvent(
-            'Enlight_Bootstrap_InitResource_Routes',
+            'Enlight_Bootstrap_InitResource_SymfonyRoutes',
             'onInitResourceRoutes'
         );
 
@@ -79,17 +82,16 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
             $loader = new YamlFileLoader($locator);
             return $loader->load($configRoutes);
         } elseif($configRoutes instanceof Enlight_Config) {
-            /** @var $configRoutes Zend_Config */
-            $configRoutes = $configRoutes->toArray();
             $routes = new RouteCollection();
+            /** @var $route Enlight_Config */
             foreach($configRoutes as $routeKey => $route) {
                 $routes->add(
-                    isset($route->name) ? $route->name : $routeKey,
+                    $route->get('name', $routeKey),
                     new Route(
-                        $route['pattern'],
-                        isset($route['defaults']) ? $route['defaults'] : array(),
-                        isset($route['requirements']) ? $route['requirements'] : array(),
-                        isset($route['options']) ? $route['options'] : array()
+                        $route->get('pattern'),
+                        $route->get('defaults', array()),
+                        $route->get('requirements', array()),
+                        $route->get('options', array())
                     )
                 );
             }
@@ -125,7 +127,7 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
         /** @var $request Enlight_Controller_Request_RequestHttp */
         $request = $args->getRequest();
         /** @var $routes Symfony\Component\Routing\RouteCollection */
-        $routes = $this->Application()->Routes();
+        $routes = $this->Application()->SymfonyRoutes();
 
         $context = $this->getRequestContext($request);
         $matcher = new UrlMatcher($routes, $context);
@@ -150,7 +152,7 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
         /** @var $params array */
         $params = $args->get('params');
         /** @var $routes Symfony\Component\Routing\RouteCollection */
-        $routes = $this->Application()->Routes();
+        $routes = $this->Application()->SymfonyRoutes();
 
         $context = $this->getRequestContext($request);
         $matcher = new UrlGenerator($routes, $context);
