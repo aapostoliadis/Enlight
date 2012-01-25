@@ -14,7 +14,6 @@ class Default_Bootstrap extends Enlight_Bootstrap
         try {
             $this->loadResource('Zend');
             $this->loadResource('Symfony');
-            $this->loadResource('Zend');
             $this->loadResource('ConfigAdapter');
             $this->loadResource('Extensions');
         } catch(Exception $e) {

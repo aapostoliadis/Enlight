@@ -30,7 +30,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-class Enlight_Loader extends Enlight_Class
+class Enlight_Loader
 {
     const DEFAULT_SEPARATOR = '_\\';
     const DEFAULT_EXTENSION = '.php';
@@ -52,7 +52,7 @@ class Enlight_Loader extends Enlight_Class
     /**
      * Init loader method
      */
-    public function init()
+    public function __construct()
     {
         if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
             spl_autoload_register(array($this, 'autoload'), true, true);
