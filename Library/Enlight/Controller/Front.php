@@ -89,6 +89,7 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
 
     /**
      * Dispatch function of the front controller.
+     *
      * If the flags noErrorHandler and noViewRenderer aren't set, the error handler and the view renderer
      * plugins will be loaded. After the plugins loaded the Enlight_Controller_Front_StartDispatch
      * event will be notify.

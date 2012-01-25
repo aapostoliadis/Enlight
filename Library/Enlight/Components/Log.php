@@ -29,14 +29,15 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license/new-bsd     New BSD License
  *
- * @method     mixed table()
- * @method     mixed exception()
- * @method     mixed dump()
- * @method     mixed trace()
- * @method     mixed err()
+ * @method  mixed table()
+ * @method  mixed exception()
+ * @method  mixed dump()
+ * @method  mixed trace()
+ * @method  mixed err()
  */
 class Enlight_Components_Log extends Zend_Log
 {
+
     const TABLE = 8;
     const EXCEPTION = 9;
     const DUMP = 10;

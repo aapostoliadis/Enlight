@@ -22,7 +22,13 @@
 
 /**
  * The Enlight_Components_Auth_Adapter_DbTable is the adapter for the authentication.
- * It handles all database actions.
+ *
+ * The following parameters can be given to the constructor when instantiating
+ * db: Zend_Database<br>
+ * <b>tableName</b>: The name of the table which stores the login information.<br>
+ * <b>identityColumn</b>: The name of the table column that has a unique user ID.<br>
+ * <b>credentialColumn</b>: The name of the table column which stores the MD5 hash password.<br>
+ * <b>credentialTreatment</b>: SQL command to evaluate the influence of the password.  <br>
  *
  * @category   Enlight
  * @package    Enlight_Auth

@@ -22,8 +22,10 @@
  */
 
 /**
- * The Enlight_Components_Site represents the old Shopware_Shop class.
- * It handles the location, currency, template, host and resources of the current site.
+ * Forms the interface to the three components, for easy configuration and localization of websites specific properties.
+ *
+ * The Enlight_Components_Site handles the location, currency, template, host and resources of the current site.
+ * With the Enlight_Components_Site it is possible to operate Subshop eCommerce.
  *
  * @category   Enlight
  * @package    Enlight_Site
@@ -33,17 +35,34 @@
 class Enlight_Components_Site
 {
     /**
-     * @var array
+     * @var array Contains all site properties which can be set in the class constructor or in the setter method.
      */
     protected $properties = array();
 
     /**
-     * @var array
+     * @var array Contains all site resources which can be set in the class constructor or in the setter method.
      */
     protected $resources = array();
 
     /**
-     * Class constructor, initializes the basic options
+     * When creating a new site component is passed to the option component
+     * is an array containing the following key knows:<br>
+     * <b>id</b> - The numerical identifier of the site.
+     * This is for example used for switching to determine which site of a configuration may be one other<br>
+     * <b>name</b> - A name that describes the site. For example 'My Shop - Germany' or 'My Shop U.S.'<br>
+     * <b>locale</b> - Expects an instance of the Enlight_Components_Locale class, which keeping
+     * all locale settings for a specific site<br>
+     * <b>currency</b> - a currency Enlight component can be stored under this key.<br>
+     * <b>localeswitch</b> - Determines which can be changed on locale settings.
+     * For example: 1 | 2 | 4 Would this mean to change the locale settings with IDs 1, 2 or 4 are expected.<br>
+     * <b>currencyswitch</b> - Sets may be exchanged for the currency settings.
+     * For example: 1 | 2 This should be changed back and forth between the two currencies settings 1 and 2.<br>
+     * <b>siteswitch</b> - Determines which may be changed on site configurations.
+     * For example: 1 This must not be changed.<br>
+     * <b>host</b> - the domain name that applies to this site. This makes it possible to automatically
+     * switch to a particular site if a particular domain is called.<br>
+     * <b>template</b> - The configuration of the template engine. Thus, the different
+     * sites get different look easily and comfortably.<br>
      *
      * @param null|array|Enlight_Config $options
      */
@@ -192,6 +211,9 @@ class Enlight_Components_Site
     }
 
     /**
+     * Setter method for the template resource. The template resource must contains
+     * a compile_id and a template directory.
+     *
      * @param   null|string|array $template
      */
     public function setTemplate($template = null)
@@ -275,6 +297,7 @@ class Enlight_Components_Site
     }
 
     /**
+     * Getter method for the template resource.
      * @return Enlight_Template_Manager
      */
     public function Template()
