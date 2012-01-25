@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight array event subscriber.
+ *
  * The Enlight_Event_Subscriber_Array allows to register and execute multiple event handler over the
  * event manager.
  *

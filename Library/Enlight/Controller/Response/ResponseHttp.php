@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller for the Enlight HTTP response.
+ *
  * The Enlight_Controller_Response_ResponseHttp extends the zend controller response http with
  * some helper functions. It represents the output (which cookies set, ...). Capsules the html output
  * which are created.

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Adapter interface for the specified config adapters.
+ *
  * The Enlight_Config_Adapter is an interface for the enlight configuration adapters.
  * To implement an owner config adapter this interface should be implemented.
  *

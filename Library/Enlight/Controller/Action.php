@@ -21,6 +21,8 @@
  */
 
 /**
+ * Basic class for each Enlight controller action.
+ *
  * The Enlight_Controller_Action is the basic class for the specified controllers. It is responsible
  * for the data access. After the dispatcher dispatched the controller Enlight_Controller_Action
  * takes care that the right action will be executed.

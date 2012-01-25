@@ -31,6 +31,8 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 
 /**
+ * Symfony router extension.
+ *
  * Integrated the component of the router from Symfony in Enlight.
  * Supports the management of routes via yaml files and the plugin configuration.
  *

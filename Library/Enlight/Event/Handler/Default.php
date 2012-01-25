@@ -22,6 +22,8 @@
  */
 
 /**
+ * Default Enlight event handler.
+ *
  * The Enlight_Event_Handler_Default is the basic event handler without any extended functions.
  *
  * @category   Enlight

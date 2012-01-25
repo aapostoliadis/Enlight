@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller of the enlight view renderer plugin
+ *
  * The Enlight_Controller_Plugins_ViewRenderer_Bootstrap is a standard plugin to load the specify
  * controller action template and render it.  The template will load in the
  * pre dispatch and rendered in the post dispatch.

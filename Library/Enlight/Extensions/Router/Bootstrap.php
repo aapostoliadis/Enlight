@@ -22,7 +22,10 @@
  */
 
 /**
- * The Enlight_Extensions_Router_Bootstrap sets the router resource available.
+ * Enlight router extension to set the router resource available.
+ *
+ * The Enlight_Extensions_Router_Bootstrap subscribes all required events for the routing process and
+ * register the aliases sViewport and sAction for the controller and the action name.
  *
  * @category   Enlight
  * @package    Enlight_Extensions

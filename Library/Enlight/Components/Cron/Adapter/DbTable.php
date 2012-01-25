@@ -21,6 +21,8 @@
  */
 
 /**
+ * Database adapter for the cron job component.
+ *
  * This adapter allows you to implement cron tasks in your application.
  * The adapter handles all action between the controller and database.
  *

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Namespace for an Enlight snippet.
+ *
  * The Enlight_Components_Snippet_Namespace represents a single snippet namespace with all according snippets.
  *
  * @category   Enlight

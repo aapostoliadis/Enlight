@@ -23,6 +23,7 @@
 
 /**
  * The Enlight_Event_EventArgs are the arguments of an event handler.
+ *
  * It will created by the event manager and passed the event listener.
  * The event arguments can be passed to the event manager to execute the event manuel.
  *

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Test case for Enlight controller.
+ *
  * The Enlight_Components_Test_Controller_TestCase extends the basic Enlight_Components_Test_TestCase
  * with controller specified functions to grant an easily access to standard controller actions.
  *

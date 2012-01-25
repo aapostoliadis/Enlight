@@ -21,6 +21,8 @@
  */
 
 /**
+ * Enlight form button component.
+ *
  * The Enlight_Components_Form_Element_Button extends the zend form button and adds a css class 'btn'
  *
  * @category   Enlight

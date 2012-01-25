@@ -21,6 +21,8 @@
  */
 
 /**
+ * Link Validator.
+ *
  * The Enlight_Components_Test_Constraint_LinkExists class checks whether links exist.
  *
  * @category   Enlight

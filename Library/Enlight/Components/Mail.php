@@ -21,6 +21,8 @@
  */
 
 /**
+ * Basic Enlight mail component.
+ *
  * The Enlight_Components_Mail is a component for sending an email. It extends the zend form
  * with php mailer functions.
  *

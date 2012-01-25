@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight log extension to support various writer.
+ *
  * The Enlight_Extensions_Log_Bootstrap sets the log resource available.
  * It supports various writer, for example firebug, database tables and log files.
  * In additionally the Enlight_Extensions_Log_Bootstrap support to log the ip and the user agents.

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Adapter interface for the menu database adapter component.
+ *
  * The Enlight_Components_Menu_Adapter interface grants an easy way to implement an own db adapter for enlight menus.
  *
  * @category    Enlight

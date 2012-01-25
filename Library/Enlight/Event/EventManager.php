@@ -22,7 +22,9 @@
  */
 
 /**
- * The Enlight_Event_EventManager stored all event listeners. It allows to execute the events and forward them to
+ * The Enlight_Event_EventManager stores all event listeners.
+ *
+ * It allows to execute the events and forward them to
  * the registered listeners. In addition the event manager allows to execute events manuel by using the
  * notify function. <br><br>
  *

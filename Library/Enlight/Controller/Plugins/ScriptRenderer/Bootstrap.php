@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller of the enlight script renderer plugin
+ *
  * The Enlight_Controller_Plugins_ScriptRenderer_Bootstrap is a standard plugin to render javascript files over the
  * controller. Used by the extjs application module.
  *

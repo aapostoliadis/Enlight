@@ -21,7 +21,10 @@
  */
 
 /**
- * The Enlight_Components_Auth_Adapter_DbTable is the adapter for the authentication.
+ * Adapter for the authentication.
+ *
+ * The Enlight_Components_Auth_Adapter_DbTable is responsible for the validation
+ * of the authentication.
  *
  * The following parameters can be given to the constructor when instantiating
  * db: Zend_Database<br>

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Manager for the Enlight snippet component.
+ *
  * The Enlight_Components_Snippet_Manager manage all snippet namespaces.
  * It is responsible to read and write the corresponding namespaces.
  *
