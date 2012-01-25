@@ -23,6 +23,7 @@
 
 /**
  * The Enlight_Application component forms the basis for the enlight project.
+ *
  * Creates an new application with the passed configuration. If no configuration is given, enlight loads
  * the configuration automatically. It loads the different resources, for example classes, loader or the
  * managers for the different packages (Hook, Plugin, Event).

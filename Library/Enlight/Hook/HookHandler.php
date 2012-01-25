@@ -22,6 +22,8 @@
  */
 
 /**
+ * Contains all data about the hook. (Hooked class, method, listener, position)
+ *
  * The Enlight_Hook_HookHandler represents an single hook. The hook handler will be registered
  * by the Enlight_Hook_Subscriber and will be executed by the Enlight_Hook_Manager if the corresponding
  * original class method would be executed.

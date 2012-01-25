@@ -23,6 +23,7 @@
 
 /**
  * The Enlight_Hook_ProxyFactory is the factory for the class proxies.
+ *
  * If a class is hooked, a proxy will be generated for this class.
  * The generated class extends the origin class and implements the Enlight_Hook interface.
  * Instead of the origin methods, the registered hook handler methods will be executed.

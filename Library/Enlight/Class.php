@@ -23,6 +23,7 @@
 
 /**
  * The Enlight_Class is the basic class for each enlight class.
+ *
  * If the class will be instantiated enlight will check if a proxy for the class exists and throw
  * an exception if this is the case.
  *

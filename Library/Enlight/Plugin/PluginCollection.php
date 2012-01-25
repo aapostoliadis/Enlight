@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_PluginCollection provides an array containing each registered plugin.
+ *
  * The Enlight_Plugin_PluginCollection is an array for each registered plugin.
  *
  *

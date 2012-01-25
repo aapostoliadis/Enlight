@@ -22,6 +22,8 @@
  */
 
 /**
+ * Hook arguments which will be passed to the hook listener.
+ *
  * The Enlight_Hook_HookArgs are an array of hook arguments which will be passed by the manager to the hook handler.
  * It contains all data about the hook handler (class name, method name, target function, return value)
  *

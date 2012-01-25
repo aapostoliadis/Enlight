@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_Namespace_Config class contains and edits all configs for a single namespace.
+ *
  * The Enlight_Plugin_Namespace_Config contains all settings for a namespace.
  * It can load, read and write all plugins in the plugin namespace.
  *

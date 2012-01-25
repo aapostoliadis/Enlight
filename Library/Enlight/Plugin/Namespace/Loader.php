@@ -22,6 +22,11 @@
  */
 
 /**
+ * Allows to register multiple plugins from a namespace.
+ *
+ * The Enlight_Plugin_Namespace_Loader reads all plugins from the namespace and register them over the
+ * Enlight_Plugin_Manager.
+ *
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
