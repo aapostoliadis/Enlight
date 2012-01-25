@@ -48,8 +48,8 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
      * The Enlight_Plugin_Bootstrap expects a name for the plugin and
      * optionally an instance of the Enlight_Plugin_PluginCollection
      *
-     * @param   Enlight_Plugin_PluginCollection $collection
-     * @param                                   $name
+     * @param $name
+     * @param Enlight_Plugin_PluginCollection $collection
      */
     public function __construct($name, $collection = null)
     {

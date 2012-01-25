@@ -61,6 +61,8 @@ class Enlight_Components_Test_Constraint_ArrayCount extends PHPUnit_Framework_Co
     }
 
     /**
+     * Returns an custom failure description.
+     *
      * @param mixed   $other
      * @param string  $description
      * @param boolean $not

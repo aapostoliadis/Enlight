@@ -172,6 +172,8 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     }
 
     /**
+     * Returns the snippet content of the passed smarty template source instance.
+     *
      * @throws  SmartyException
      * @param   Smarty_Template_Source $source
      * @return  string
@@ -229,11 +231,12 @@ class Enlight_Components_Snippet_Resource extends Smarty_Internal_Resource_Exten
     /**
      * Returns the snippet content for the given snippet namespace and name.
      * If the force parameter is set to true, the default value will be set and returned.
-     * @param        $name
-     * @param        $namespace
-     * @param        $default
-     * @param   bool $force
-     * @return  mixed
+     *
+     * @param $namespace
+     * @param $name
+     * @param $default
+     * @param bool $force
+     * @return mixed
      */
     protected function getSnippet($namespace, $name, $default, $force = false)
     {
