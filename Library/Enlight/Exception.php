@@ -22,6 +22,8 @@
  */
 
 /**
+ * Basic Enlight exception class.
+ *
  * The Enlight_Exception is the basic class for each specified exception class. (Controller_Exception, ...)
  * Extends the standard exception class with an previous Exception property
  *

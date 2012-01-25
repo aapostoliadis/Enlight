@@ -23,6 +23,7 @@
 
 /**
  * The Enlight_Bootstrap is responsible to manage the application resources.
+ *
  * To load the resources the bootstrap used the application configuration which could
  * contains the database connection data.
  *

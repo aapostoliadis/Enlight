@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_Namespace is an abstract class to represent the namespace of a single plugin.
+ *
  * The Enlight_Plugin_Namespace represents a single plugin namespace.
  *
  * @category   Enlight

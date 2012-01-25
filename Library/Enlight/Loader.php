@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight auto loader class.
+ *
  * The Enlight_Loader is responsible for the automatically class loading. It support different types of
  * directory structures and used for example for the enlight vendor library.
  *

@@ -23,6 +23,8 @@
  */
 
 /**
+ * The Enlight_Plugin_PluginManager class allows extending the enlight applications or the enlight components.
+ *
  * The Enlight_Plugin_PluginManager allows to extends the enlight application or enlight components.
  * Registered plugins will be mapped into a hierarchical structure via namespaces.
  * The manager can register single plugins or register multiple plugins over namespaces.

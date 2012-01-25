@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_Bootstrap_Config contains the configs of a single plugin.
+ *
  * The Enlight_Plugin_Bootstrap_Config is the configuration class for a single plugin.
  *
  * @category   Enlight

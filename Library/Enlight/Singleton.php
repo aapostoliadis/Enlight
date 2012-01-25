@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight singleton class interface.
+ *
  * If a class implements the Enlight_Singleton interface, the class can only be instantiated one times, otherwise
  * enlight throws an exception by trying to instantiated these class a second time.
  *

@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_Bootstrap is the class, which each plugin-bootstrap extends from.
+ *
  * The Enlight_Plugin_Bootstrap is the basic class for each plugin bootstrap.
  * It has an reference to the application and the plugin collection.
  *
