@@ -22,120 +22,158 @@
  */
 
 /**
- * Default Enlight router extension for HTTPS support and more individual settings.
- * Provides support for HTTPS proxy, if the host has deposited it in the settings.
+ * Enlight router extension to set the router resource available.
+ *
+ * The Enlight_Extensions_Router_Bootstrap subscribes all required events for the routing process and
+ * register the aliases sViewport and sAction for the controller and the action name.
  *
  * @category   Enlight
  * @package    Enlight_Extensions
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
- * @config     string $baseUrl
- * @config     string $httpHost
- * @config     string $secureBaseUrl
- * @config     string $secureHttpHost
- * @config     bool $forceSecure
- * @config     bool $enableSecure
- * @config     bool $forceAbsolute
  */
 class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
+
+    /**
+     * @var bool
+     */
+    protected $useModRewrite = false;
+
+    protected $forceSecureControllers = array();
+
+    protected $absolute;
+
     /**
      * Install log plugin
      */
     public function install()
     {
         $this->subscribeEvent(
+            'Enlight_Bootstrap_InitResource_Router',
+            'onInitResourceRouter'
+        );
+
+        $this->subscribeEvent(
             'Enlight_Controller_Front_RouteStartup',
             'onRouteStartup'
         );
 
         $this->subscribeEvent(
-            'Enlight_Controller_Router_FilterAssembleParams',
-            'onFilterAssemble'
+            'Enlight_Controller_Front_DispatchLoopShutdown',
+            'onDispatchLoopShutdown',
+            500
         );
 
-        $this->subscribeEvent(
-            'Enlight_Controller_Router_FilterUrl',
-            'onFilterUrl'
-        );
+        //fullPath
+        //forceSecure
+        //appendSession
+        //scheme
     }
 
     /**
-     * Updates the base url and the http host on route startup.
-     * Adds the support for the HTTPS proxy system.
+     * Resource handler for log plugin
      *
-     * @param   Enlight_Event_EventArgs $args
+     * @param Enlight_Event_EventArgs $args
+     * @return Zend_Log
+     */
+    public function onInitResourceRouter(Enlight_Event_EventArgs $args)
+    {
+
+    }
+
+    /**
+     * Resource handler for log plugin
+     *
+     * @param Enlight_Event_EventArgs $args
+     * @return Zend_Log
      */
     public function onRouteStartup(Enlight_Event_EventArgs $args)
     {
-        /** @var $request Enlight_Controller_Request_RequestHttp */
-        $request = $args->get('subject')->Request();
-
-        if(($host = $request->getHeader('X_FORWARDED_HOST') !== null)
-          && $host === $this->Config()->secureHttpHost) {
-            $request->setSecure();
-        }
-
-        if($request->isSecure()) {
-            $request->getPathInfo();
-            $request->setBaseUrl($this->Config()->secureBaseUrl);
-            $request->setHttpHost($this->Config()->secureHttpHost);
-        } else {
-            $request->getPathInfo();
-            $request->setBaseUrl($this->Config()->baseUrl);
-            $request->setHttpHost($this->Config()->httpHost);
+        $aliases = array(
+            'controller' => 'sViewport',
+            'action' => 'sAction',
+        );
+        foreach ($aliases as $key=>$aliase) {
+            if (($value = $request->getParam($key))!==null) {
+                $request->setParam($aliase, $value);
+            }
         }
     }
 
     /**
-     * Filter the router flags from the url params.
+     * Resource handler for log plugin
      *
      * @param Enlight_Event_EventArgs $args
-     * @return array
+     * @return mixed
      */
     public function onFilterAssemble(Enlight_Event_EventArgs $args)
     {
         $params = $args->getReturn();
-        unset($params['forceSecure'], $params['forceAbsolute']);
+        $request = $args->getRequest();
+
+        unset($params['fullPath'], $params['appendSession'], $params['forceSecure'], $params['session']);
+
         return $params;
     }
 
     /**
-     * Complements the generated urls with scheme, host and basePath, if required.
+     * Event listener method
      *
      * @param Enlight_Event_EventArgs $args
-     * @return string
+     * @return mixed|string
      */
     public function onFilterUrl(Enlight_Event_EventArgs $args)
     {
-        /** @var $userParams array */
+        $params = $args->getParams();
         $userParams = $args->get('userParams');
 
-        /** @var $request Enlight_Controller_Request_RequestHttp */
-        $request = $args->get('subject')->Front()->Request();
-        /** @var $url string */
-        $url = $args->getReturn();
-
-        if (!empty($url) && ($url{0} === '/' || preg_match('|^[a-z]+://|', $url))) {
-            return $url;
+        if (!empty($params['module']) && $params['module']!='frontend' && empty($userParams['fullPath'])) {
+            return $args->getReturn();
         }
 
-        $forceSecure = !empty($this->Config()->forceSecure) || !empty($userParams['forceSecure']);
-        $forceSecure = $forceSecure && !empty($this->Config()->enableSecure);
-        $forceAbsolute = !empty($this->Config()->forceAbsolute) || !empty($userParams['forceAbsolute']);
+        if (empty(Shopware()->Config()->UseSSL)) {
+            $useSSL = false;
+        } elseif (!empty($userParams['sUseSSL'])||!empty($userParams['forceSecure'])) {
+            $useSSL = true;
+        } elseif (!empty($params['sViewport']) &&
+          in_array($params['sViewport'], array('account', 'checkout', 'register', 'ticket', 'note'))) {
+            $useSSL = true;
+        } else {
+            $useSSL = false;
+        }
 
-        if ($forceAbsolute || $forceSecure) {
-            $prepend = $forceSecure ? 'https://' : 'http://';
-            if($forceSecure) {
-                $prepend .= $this->Config()->get('secureHttpHost', $request->getHttpHost());
-                $prepend .= $this->Config()->get('secureBaseUrl', $request->getBaseUrl());
+        $url = '';
+
+        if (!isset($userParams['fullPath']) || !empty($userParams['fullPath'])) {
+            $url = $useSSL ? 'https://' : 'http://';
+            if (Shopware()->Bootstrap()->hasResource('Shop')
+              && Shopware()->Bootstrap()->hasResource('Front')) {
+                $url .= Shopware()->Shop()->getHost().Shopware()->Front()->Request()->getBasePath();
             } else {
-                $prepend .= $this->Config()->get('httpHost', $request->getHttpHost());
-                $prepend .= $this->Config()->get('baseUrl', $request->getBaseUrl());
+                $url .= Shopware()->Config()->BasePath;
             }
-            $url = $prepend .'/' . $url;
+            $url .= '/';
         }
+
+        if (empty(Shopware()->Config()->RouterUseModRewrite)
+          && (!empty($params['sViewport']) || empty(Shopware()->Config()->RedirectBaseFile))) {
+            $url .= Shopware()->Config()->BaseFile;
+            $url .= '/';
+        }
+
+        $url .= $args->getReturn();
 
         return $url;
+    }
+
+    /**
+     * Resource handler for log plugin
+
+     * @param Enlight_Event_EventArgs $args
+     */
+    public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
+    {
+
     }
 }

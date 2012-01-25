@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight session namespace component.
+ *
  * The Enlight_Components_Session_Namespace extends the Zend_Session_Namespace with an easy array access.
  *
  * @category    Enlight

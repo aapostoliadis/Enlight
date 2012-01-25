@@ -23,6 +23,7 @@
 
 /**
  * The Enlight_Event_EventArgs are the arguments of an event handler.
+ *
  * It will created by the event manager and passed the event listener.
  * The event arguments can be passed to the event manager to execute the event manuel.
  *
@@ -34,21 +35,23 @@
 class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
 {
     /**
-     * @var bool
+     * @var bool Flag whether the listener has finished running.
      */
     protected $_processed;
 
     /**
-     * @var string
+     * @var string Contains the name of the event.
      */
     protected $_name;
 
     /**
-     * @var mixed
+     * @var mixed Contains the return value, which can be set by the setReturn method.
      */
     protected $_return;
 
     /**
+     * The Enlight_Event_EventArgs class constructor expects the name of the event.
+     *
      * @param              $name
      * @param   array|null $args
      */
@@ -59,6 +62,7 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
+     * Stops the execution of the listener and set the processed flag to true.
      * @return  Enlight_Event_EventArgs
      */
     public function stop()
@@ -68,6 +72,8 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
+     * Setter method for the processed property.
+     *
      * @param   $processed
      * @return  Enlight_Event_EventArgs
      */
@@ -78,6 +84,7 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
+     * Getter method for the processed property.
      * @return bool
      */
     public function isProcessed()
@@ -86,6 +93,7 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
+     * Setter method for the event name property.
      * @param   $name
      * @return  string
      */
@@ -95,6 +103,7 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
+     * Getter method for the event name property.
      * @return string
      */
     public function getName()
@@ -103,6 +112,7 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
+     * Setter method for the return property.
      * @param   mixed $return
      * @return  void
      */
@@ -112,6 +122,7 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
+     * Getter method for the return property.
      * @return  mixed
      */
     public function getReturn()

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight benchmark extension to benchmark database queries, controller actions and template rendering.
+ *
  * The Enlight_Extensions_Benchmark_Bootstrap allows the timekeeping, memory measurement.
  * It writes the benchmark data into the log. Support the benchmarking of database request,
  * template rendering and controller events.
@@ -34,27 +36,30 @@
 class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
     /**
-     * @var Enlight_Components_Log
+     * @var Enlight_Components_Log Contains an instance of the Enlight_Components_Log
      */
     protected $log;
 
     /**
-     * @var array
+     * @var array Contains all measured events.
      */
     protected $results = array();
 
     /**
-     * @var null
+     * @var null Contains the start time of the Benchmarking
      */
     protected $startTime;
 
     /**
-     * @var null
+     * @var null Contains the start memory size of the Benchmarking
      */
     protected $startMemory;
 
     /**
-     * Install benchmark plugin
+     * Install benchmark plugin.
+     * Subscribes the Enlight_Controller_Front_StartDispatch event to start the benchmarking and
+     * the Enlight_Controller_Front_DispatchLoopShutdown to stop the benchmarking.
+     *
      */
     public function install()
     {
@@ -72,14 +77,15 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     }
 
     /**
-     * Returns the application instance.
+     * Returns the instance of the enlight configuration. If no configuration is set,
+     * the logDb, logTemplate and the logController flags will be set to true.
      *
      * @return  Enlight_Config
      */
     public function Config()
     {
         $config = parent::Config();
-        if(count($config) === 0) {
+        if (count($config) === 0) {
             $config->merge(new Enlight_Config(array(
                 'logDb' => true,
                 'logTemplate' => true,
@@ -90,6 +96,12 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     }
 
     /**
+     * Listener method of the Enlight_Controller_Front_StartDispatch event.
+     * Set the instance of the application log resource into the internal property.
+     * Enables the database profiler if the logDb flag in the configuration is set to true.
+     * Activate the template debugging if the logTemplate flag in the configuration is set to true.
+     * Register the listeners to log the controllers if the logController flag in the configuration is set to true.
+     *
      * On Dispatch start activate db profiling
      *
      * @param Enlight_Event_EventArgs $args
@@ -103,22 +115,24 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             return;
         }
 
-        if(!empty($this->Config()->logDb)) {
+        if (!empty($this->Config()->logDb)) {
             $this->Application()->Db()->getProfiler()->setEnabled(true);
         }
 
-        if(!empty($this->Config()->logTemplate)) {
+        if (!empty($this->Config()->logTemplate)) {
             $this->Application()->Template()->setDebugging(true);
             $this->Application()->Template()->debug_tpl = 'string:';
         }
 
-        if(!empty($this->Config()->logController)) {
+        if (!empty($this->Config()->logController)) {
             $this->Application()->Events()->registerSubscriber($this->getListeners());
         }
     }
 
     /**
-     * On Dispatch Shutdown collect sql performance results and dump to log component
+     * Listener method of the Enlight_Controller_Front_DispatchLoopShutdown event.
+     * On Dispatch Shutdown collect sql performance results, template results and controller results
+     * and dump to log component.
      *
      * @param Enlight_Event_EventArgs $args
      */
@@ -128,21 +142,23 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             return;
         }
 
-        if(!empty($this->Config()->logDb)) {
+        if (!empty($this->Config()->logDb)) {
             $this->logDb();
         }
 
-        if(!empty($this->Config()->logTemplate)) {
+        if (!empty($this->Config()->logTemplate)) {
             $this->logTemplate();
         }
 
-        if(!empty($this->Config()->logController)) {
+        if (!empty($this->Config()->logController)) {
             $this->logController();
         }
     }
 
     /**
-     * Log template compile and render times
+     * Logs all database process to the internal log object.
+     * Iterates all queries of the query profiler and writes the query,
+     * the parameter and the elapsed seconds for the query into a new row of the log.
      *
      * @return void
      */
@@ -190,7 +206,8 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     }
 
     /**
-     * Benchmark Controllers
+     * Logs all controller events into the internal log object.
+     * Each logged events contains the event name, the execution time and the allocated peak of memory.
      *
      * @param Enlight_Event_EventArgs $args
      * @return void
@@ -211,7 +228,9 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     }
 
     /**
-     * Log template compile and render times
+     * Logs all rendered templates into the internal log object.
+     * Each logged template contains the template name, the required compile time,
+     * the required render time and the required cache time.
      *
      * @return void
      */

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller of the Enlight response test cases.
+ *
  * The Enlight_Controller_Response_ResponseTestCase used to test the response in the controller test cases.
  *
  * @category   Enlight

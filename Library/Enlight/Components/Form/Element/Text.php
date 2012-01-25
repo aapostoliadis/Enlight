@@ -21,6 +21,8 @@
  */
 
 /**
+ * Enlight form text component.
+ *
  * The Enlight_Components_Form_Element_Text extends the zend text element and surrounds the
  * component with a div html tag which can be addressed by the css class 'input'
  *

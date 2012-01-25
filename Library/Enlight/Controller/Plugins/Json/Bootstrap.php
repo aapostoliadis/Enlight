@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller of the enlight json plugin
+ *
  * The Enlight_Controller_Plugins_Json_Bootstrap is a standard plugin to pass the view data as json.
  * It supports the rendering of the view as json object and capsules the output to an javascript function
  * known as jsonp.
@@ -40,7 +42,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function init()
     {
-        if(!$this->Collection()) {
+        if (!$this->Collection()) {
             return;
         }
         $event = new Enlight_Event_Handler_Default(

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Grants an automatically access on the database, in test cases.
+ *
  * The Enlight_Components_Test_Database_DefaultTester extends the PHPUnit_Extensions_Database_AbstractTester
  * with an automatically access on the database resource.
  *

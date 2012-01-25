@@ -22,6 +22,8 @@
  */
 
 /**
+ * Database adapter for the menu component.
+ *
  * The Enlight_Components_Menu_Adapter_DbTable is the table adapter for the menu component. It performs all action
  * around the database for the menu elements.
  *
@@ -48,15 +50,15 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract imp
 
     /**
      * Column names
-     * id - Name of the field which holds the primary key. Data type: Integer
-     * parent - Name of the field which holds the ID of the parent menu element. Data type: Integer
-     * uri - Name of the field which holds an URI. Data type: String
-     * label - Name of the field which holds the name of the menu entry. Data type: String
-     * onClick - Name of the field which holds the onClick Action. Data type: String
-     * style - Name of the field which holds the name of the style. Data type: String
-     * class - Name of the field which holds the css class name. Data type: String
-     * position - Name of the field which holds the position of the menu entry Data type: Integer
-     * active - Name of the field which holds the active flag.Data type: Integer
+     * id - Name of the field which holds the primary key. Data type: Integer<br>
+     * parent - Name of the field which holds the ID of the parent menu element. Data type: Integer<br>
+     * uri - Name of the field which holds an URI. Data type: String<br>
+     * label - Name of the field which holds the name of the menu entry. Data type: String<br>
+     * onClick - Name of the field which holds the onClick Action. Data type: String<br>
+     * style - Name of the field which holds the name of the style. Data type: String<br>
+     * class - Name of the field which holds the css class name. Data type: String<br>
+     * position - Name of the field which holds the position of the menu entry Data type: Integer<br>
+     * active - Name of the field which holds the active flag.Data type: Integer<br>
      *
      * @var     array
      */
@@ -80,7 +82,16 @@ class Enlight_Components_Menu_Adapter_DbTable extends Zend_Db_Table_Abstract imp
     protected $_order = array('parent', 'position', 'id');
 
     /**
-     * setOptions()
+     * Expects an array of adapter options. The following array key will be handled:<br>
+     * id - Name of the field which holds the primary key. Data type: Integer<br>
+     * parent - Name of the field which holds the ID of the parent menu element. Data type: Integer<br>
+     * uri - Name of the field which holds an URI. Data type: String<br>
+     * label - Name of the field which holds the name of the menu entry. Data type: String<br>
+     * onClick - Name of the field which holds the onClick Action. Data type: String<br>
+     * style - Name of the field which holds the name of the style. Data type: String<br>
+     * class - Name of the field which holds the css class name. Data type: String<br>
+     * position - Name of the field which holds the position of the menu entry Data type: Integer<br>
+     * active - Name of the field which holds the active flag.Data type: Integer<br>
      *
      * @param   array $options
      * @return  Enlight_Components_Menu_Adapter_DbTable

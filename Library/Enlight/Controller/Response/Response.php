@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller interface for the Enlight response class.
+ *
  * The Enlight_Controller_Response_Response is an interface for a response instance which used in the
  * different controller components.
  *

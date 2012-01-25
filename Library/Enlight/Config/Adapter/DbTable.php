@@ -22,6 +22,8 @@
  */
 
 /**
+ * Database adapter for the enlight config classes.
+ *
  * The Enlight_Config_Adapter_DbTable is an adapter to read enlight configurations out of the database.
  * It supports an automatically serialization of the configuration data, supports configuration sections and
  * update and create columns.

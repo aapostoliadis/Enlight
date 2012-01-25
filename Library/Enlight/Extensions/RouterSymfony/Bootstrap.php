@@ -31,6 +31,8 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 
 /**
+ * Symfony router extension.
+ *
  * Integrated the component of the router from Symfony in Enlight.
  * Supports the management of routes via yaml files and the plugin configuration.
  *
@@ -77,14 +79,14 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
     public function onInitResourceRoutes(Enlight_Event_EventArgs $args)
     {
         $configRoutes = $this->Config()->get('routes');
-        if(is_string($configRoutes)) {
+        if (is_string($configRoutes)) {
             $locator = new FileLocator(array('.'));
             $loader = new YamlFileLoader($locator);
             return $loader->load($configRoutes);
-        } elseif($configRoutes instanceof Enlight_Config) {
+        } elseif ($configRoutes instanceof Enlight_Config) {
             $routes = new RouteCollection();
             /** @var $route Enlight_Config */
-            foreach($configRoutes as $routeKey => $route) {
+            foreach ($configRoutes as $routeKey => $route) {
                 $routes->add(
                     $route->get('name', $routeKey),
                     new Route(
@@ -157,9 +159,9 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
         $context = $this->getRequestContext($request);
         $matcher = new UrlGenerator($routes, $context);
 
-        foreach($routes as $name => $route) {
+        foreach ($routes as $name => $route) {
             try {
-                if(($url = $matcher->generate($name, $params)) !== null) {
+                if (($url = $matcher->generate($name, $params)) !== null) {
                     return ltrim($url, '/');
                 }
             } catch(Exception $e) { }

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Event handler for Enlight plugins.
+ *
  * The Enlight_Event_Handler_Plugin is the basic class for plugin events. It extends the standard enlight event
  * handler with plugin specified methods.
  *
@@ -33,21 +35,25 @@
 class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
 {
     /**
-     * @var string
+     * @var string Contains the event listener.
      */
     protected $listener;
 
     /**
-     * @var Enlight_Plugin_Namespace
+     * @var Enlight_Plugin_Namespace Contains an instance of the Enlight_Plugin_Namespace.
      */
     protected $namespace;
 
     /**
-     * @var Enlight_Plugin_Bootstrap|string
+     * @var Enlight_Plugin_Bootstrap|string Contains an instance
+     * of the Enlight_Plugin_Bootstrap or the plugin name.
      */
     protected $plugin;
 
     /**
+     * The Enlight_Event_Handler_Plugin class constructor expects the event name.
+     * All parameters will be set in the internal properties.
+     *
      * @throws  Enlight_Event_Exception
      * @param   string                   $event
      * @param   Enlight_Plugin_Namespace $namespace
@@ -71,6 +77,7 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
     }
 
     /**
+     * Setter method for the internal plugin property.
      * @param   $plugin Enlight_Plugin_Bootstrap|string
      * @return  Enlight_Event_Handler_Plugin
      */
@@ -81,6 +88,9 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
     }
 
     /**
+     * Getter method for the internal plugin property. If the plugin property is a string,
+     * enlight will determined the plugin object over the namespace.
+     *
      * @return  Enlight_Plugin_Bootstrap
      */
     public function Plugin()
@@ -92,6 +102,7 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
     }
 
     /**
+     * Setter method for the internal listener property.
      * @param   string $listener
      * @return  Enlight_Event_Handler_Plugin
      */
@@ -102,6 +113,7 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
     }
 
     /**
+     * Setter method for the internal namespace property.
      * @param   Enlight_Plugin_Namespace $namespace
      * @return  Enlight_Event_Handler_Plugin
      */
@@ -112,6 +124,7 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
     }
 
     /**
+     * Execute the listener on the plugin with the given Enlight_Event_EventArgs.
      * @param   Enlight_Event_EventArgs $args
      * @return  mixed
      */
@@ -121,6 +134,7 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
     }
 
     /**
+     * Returns the plugin handler properties as an array.
      * @return array
      */
     public function toArray()

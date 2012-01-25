@@ -22,6 +22,11 @@
  */
 
 /**
+ * Allows to register multiple plugins from a namespace.
+ *
+ * The Enlight_Plugin_Namespace_Loader reads all plugins from the namespace and register them over the
+ * Enlight_Plugin_Manager.
+ *
  * @category   Enlight
  * @package    Enlight_Plugin
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
@@ -30,11 +35,13 @@
 class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
 {
     /**
-     * @var array
+     * @var array List of all added prefix paths
      */
     protected $prefixPaths = array();
 
     /**
+     * Returns the instance of the passed plugin name.
+     *
      * @param   $name
      * @return  Enlight_Plugin_Bootstrap
      */
@@ -47,8 +54,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     }
 
     /**
-     * Adds a prefix path to the plugin namespace.
-     * Is used for the auto loading of plugins.
+     * Adds a prefix path to the plugin namespace. Is used for the auto loading of plugins.
      *
      * @throws  Enlight_Exception
      * @param   string $prefix
@@ -67,7 +73,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     }
 
     /**
-     * Instantiates a plugin from the plugin namespace.
+     * Instantiates a plugin from the plugin namespace and add it to the internal plugins array.
      *
      * @param   string      $name
      * @param   string      $prefix
@@ -108,7 +114,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     }
 
     /**
-     * Loads all plugins in the plugin namespace.
+     * Loads all plugins in the plugin namespace. Iterate the prefix paths and looking for bootstrap files.
      *
      * @return  Enlight_Plugin_PluginNamespace
      */

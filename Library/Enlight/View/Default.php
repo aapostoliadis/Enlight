@@ -22,6 +22,9 @@
  */
 
 /**
+ * The Enlight_View_Default class is the responsible representation of the interface between the template manager of smarty
+ * and the internal smarty template.
+ *
  * The Enlight_View_Default represents the interface between the template manager of smarty and
  * the internal smarty template. This class is responsible for passing the variables to the loaded template,
  * switch the caching or extends the template blocks.
@@ -63,6 +66,9 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     protected $scope;
 
     /**
+     * The Enlight_View_Default constructor expects an instance of the Enlight_Template_Manager and set it
+     * into the internal property.
+     *
      * @param   Enlight_Template_Manager $engine
      */
     public function __construct(Enlight_Template_Manager $engine)
@@ -71,6 +77,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Returns the instance of the Enlight_Template_Manager which has been set in the class constructor.
      * @return  Enlight_Template_Manager
      */
     public function Engine()
@@ -79,6 +86,9 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Returns the instance of the Enlight_Template_Default which will be set by the setTemplate or loadTemplate
+     * function.
+     *
      * @return  Enlight_Template_Default
      */
     public function Template()
@@ -87,7 +97,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
-     * Sets the template path list.
+     * This function sets the default template directory into the internal instance of the Enlight_Template_Manager
      *
      * @param   string|array $path
      * @return  Enlight_View_Default
@@ -99,7 +109,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
-     * Adds a path to the template list.
+     * This function adds a template directory into the internal instance of the Enlight_Template_Manager
      *
      * @param   string|array $path
      * @return  Enlight_View_Default
@@ -111,7 +121,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
-     * Sets the current template instance.
+     * Sets the current template instance into the internal property.
      *
      * @param   Enlight_Template_Default $template
      * @return  Enlight_View_Default
@@ -133,7 +143,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
-     * Loads a template by name.
+     * Loads a template by name over the Enlight_Template_Manager.
      *
      * @param   string $template_name
      * @return  Enlight_View_Default
@@ -145,7 +155,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
-     * Creates a new template by name.
+     * Creates a new template by name over the Enlight_Template_Manager.
      *
      * @param   $template_name
      * @return  Enlight_Template_Default
@@ -156,6 +166,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * This function extends the internal array with the given template.
      * @param   $template_name
      * @return  Enlight_View_Default
      */
@@ -182,6 +193,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Checks if the Enlight_Template_Manager stored the given template.
      * @param   $template_name
      * @return  bool
      */
@@ -192,6 +204,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
 
     /**
      * Assigns a specified value to the template.
+     * If no cache or scope given, the default settings for this property will be used.
      *
      * @param   string $spec
      * @param   mixed  $value
@@ -248,7 +261,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
-     * Fetch an template by name.
+     * Fetch an template by name over the Enlight_Template_Manager.
      *
      * @param   $template_name
      * @return  string
@@ -259,6 +272,8 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Setter method for the nocache property. Used as default if the parameter is not given in the assign method.
+     *
      * @param   bool $value
      * @return  Enlight_View_Default
      */
@@ -269,6 +284,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Setter method for the scope property. Used as default if the parameter is not given in the assign method.
      * @param   int|null $scope
      * @return  Enlight_View_Default
      */
@@ -279,6 +295,8 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Enable or disable the caching within the template.
+     *
      * @param   bool $value
      * @return  Enlight_View_Default
      */
@@ -289,6 +307,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Checks if the template is already cached.
      * @return  bool
      */
     public function isCached()
@@ -297,6 +316,8 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Sets the cache id into the internal template object.
+     *
      * @param   string|array $cache_id
      * @return  Enlight_View_Default
      */
@@ -307,6 +328,8 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Adds a cache id into the internal template object.
+     *
      * @param   string|array $cache_id
      * @return  Enlight_View_Default
      */
@@ -317,6 +340,7 @@ class Enlight_View_Default extends Enlight_View implements Enlight_View_Cache
     }
 
     /**
+     * Returns the cache id of the internal template object.
      * @return  string
      */
     public function getCacheId()

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight array event subscriber.
+ *
  * The Enlight_Event_Subscriber_Array allows to register and execute multiple event handler over the
  * event manager.
  *
@@ -38,6 +40,8 @@ class Enlight_Event_Subscriber_Array extends Enlight_Event_Subscriber
     protected $listeners = array();
 
     /**
+     * The Enlight_Event_Subscriber_Array class constructor register all listeners in the options parameter.
+     *
      * @param   null|array $options
      */
     public function __construct($options = null)

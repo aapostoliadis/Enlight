@@ -22,6 +22,8 @@
  */
 
 /**
+ * Basic class for plugin test cases.
+ *
  * The Enlight_Components_Test_Plugin_TestCase extends the Enlight_Components_Test_Controller_TestCase
  * to grant an easy way to create Enlight event arguments. This class represents the basic for plugin tests.
  *
@@ -33,9 +35,11 @@
 abstract class Enlight_Components_Test_Plugin_TestCase extends Enlight_Components_Test_Controller_TestCase
 {
     /**
-     * Create event args method
+     * Creates a new instance of Enlight_Event_EventArgs by the passed parameters.
+     * If the name didn't passed, the class name will be used.
+     * If the name passed as array, the name will be used as arguments.
      *
-     * @param string|array $name|$args
+     * @param string|array $name
      * @param array        $args
      * @return Enlight_Event_EventArgs
      */

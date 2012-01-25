@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_Bootstrap is the class, which each plugin-bootstrap extends from.
+ *
  * The Enlight_Plugin_Bootstrap is the basic class for each plugin bootstrap.
  * It has an reference to the application and the plugin collection.
  *
@@ -33,18 +35,21 @@
 abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
 {
     /**
-     * @var string
+     * @var string Contains the name of the plugin.
      */
     protected $name;
 
     /**
-     * @var Enlight_Plugin_PluginCollection
+     * @var Enlight_Plugin_PluginCollection Contains an instance of the Enlight_Plugin_PluginCollection
      */
     protected $collection;
 
     /**
-     * @param   Enlight_Plugin_PluginCollection $collection
-     * @param                                   $name
+     * The Enlight_Plugin_Bootstrap expects a name for the plugin and
+     * optionally an instance of the Enlight_Plugin_PluginCollection
+     *
+     * @param $name
+     * @param Enlight_Plugin_PluginCollection $collection
      */
     public function __construct($name, $collection = null)
     {
@@ -54,6 +59,7 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
     }
 
     /**
+     * Getter method for the plugin name property.
      * @return  string
      */
     public function getName()
@@ -62,6 +68,7 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
     }
 
     /**
+     * Setter method for the collection property.
      * @param   $collection
      * @return  Enlight_Plugin_PluginCollection
      */
@@ -72,6 +79,7 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
     }
 
     /**
+     * Getter method for the collection property.
      * @return  Enlight_Plugin_PluginCollection
      */
     public function Collection()
@@ -80,7 +88,7 @@ abstract class Enlight_Plugin_Bootstrap extends Enlight_Class
     }
 
     /**
-     * Returns the application instance.
+     * Returns the application instance of the collection property.
      *
      * @return  Enlight_Application
      */

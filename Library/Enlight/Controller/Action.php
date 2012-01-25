@@ -21,6 +21,8 @@
  */
 
 /**
+ * Basic class for each Enlight controller action.
+ *
  * The Enlight_Controller_Action is the basic class for the specified controllers. It is responsible
  * for the data access. After the dispatcher dispatched the controller Enlight_Controller_Action
  * takes care that the right action will be executed.
@@ -33,32 +35,38 @@
 abstract class Enlight_Controller_Action extends Enlight_Class implements Enlight_Hook
 {
     /**
-     * @var Enlight_Controller_Front
+     * @var Enlight_Controller_Front Contains an instance of the Enlight_Controller_Front.
      */
     protected $front;
 
     /**
-     * @var Enlight_View_Default
+     * @var Enlight_View_Default Contains an instance of the Enlight_View_Default.
      */
     protected $view;
 
     /**
-     * @var Enlight_Controller_Request_Request
+     * @var Enlight_Controller_Request_Request Contains an instance of the Enlight_Controller_Request_Request.
+     * Will be set in the class constructor. Passed to the class init and controller init function.
+     * Required for the forward, dispatch and redirect functions.
      */
     protected $request;
 
     /**
-     * @var Enlight_Controller_Response_Response
+     * @var Enlight_Controller_Response_Response Contains an instance of the Enlight_Controller_Response_Response.
+     * Will be set in the class constructor. Passed to the class init and controller init function.
+     * Required for the forward, dispatch and redirect functions.
      */
     protected $response;
 
     /**
-     * @var string
+     * @var string Contains the name of the controller.
      */
     protected $controller_name;
 
     /**
-     * Constructor method
+     * The Enlight_Controller_Action class constructor expects an instance of the
+     * Enlight_Controller_Request_Request and an instance of the Enlight_Controller_Response_Response.
+     * The response and request instance will be passed to the init events of the class and the controller.
      *
      * @param   Enlight_Controller_Request_Request   $request
      * @param   Enlight_Controller_Response_Response $response
@@ -100,7 +108,7 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
     /**
      * Dispatch action method.
      * After the pre dispatch event notified the internal post dispatch event will executed.
-     * After the internal post dispatch executed the post dispatch event will notify.
+     * After the internal post dispatch executed the post dispatch event is notify.
      *
      * @param $action string
      */
@@ -139,7 +147,7 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
     }
 
     /**
-     * Forward request method
+     * Forward the request to the given controller, module and action with the given parameters.
      *
      * @param string $action
      * @param string $controller
@@ -164,7 +172,7 @@ abstract class Enlight_Controller_Action extends Enlight_Class implements Enligh
     }
 
     /**
-     * Redirect request. The frontend router will assemble the url.
+     * Redirect the request. The frontend router will assemble the url.
      *
      * @param string|array $url
      * @param array        $options

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller for the command line interface.
+ *
  * The Enlight_Controller_Response_ResponseCli is an interface for the enlight response command line interface.
  *
  * @category   Enlight

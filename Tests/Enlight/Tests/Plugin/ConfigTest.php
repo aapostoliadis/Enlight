@@ -39,18 +39,33 @@ class Enlight_Tests_Plugin_ConfigTest extends Enlight_Components_Test_TestCase
 
     public function setUp()
     {
-        $configColl = $this->getMock('Enlight_Plugin_Namespace_Config', null, array('namespaceConfig'));
-        $pluginColl = $this->getMock('Enlight_Plugin_PluginCollection');
+        return;
+        $collection = $this->getMock('Enlight_Plugin_Namespace_Config', array('getConfig'), array('namespaceConfig'), '', false);
+        $collection->expects($this->once())->method('getConfig')
+                   ->with($this->isType('string'))
+                   ->will($this->returnValue("test3"));
 
-        $plugin = $this->getMock('Enlight_Plugin_Bootstrap_Config', null, array('testBootstrap', $pluginColl));
-        $configColl->registerPlugin($plugin);
-
-        $this->config = $this->getMock('Enlight_Plugin_Bootstrap_Config', null, array('test', $configColl));
+        $this->config = $this->getMock('Enlight_Plugin_Bootstrap_Config', null, array('test', $collection));
         parent::setUp();
     }
 
     public function testConfig()
     {
+//        echo "<pre>";
+//        print_r($this->config->Config());
+//        echo "</pre>";
+//        exit();
+    }
+
+    public function testSubscribeEvent()
+    {
+        return;
+        $this->config->subscribeEvent('PostDispatch', 'myFunction', 100);
+
+        $this->config->expects($this->once())
+                     ->method('Subscriber')
+                     ->will($this->returnValue("test00"));
+
     }
 }
 

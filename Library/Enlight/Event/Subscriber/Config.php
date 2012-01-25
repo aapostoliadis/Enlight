@@ -22,7 +22,10 @@
  */
 
 /**
- * Eine collection für event handler, ließt/schreibt diese aus enlight config objekten über einen config adapter aus.
+ * Enlight event config subscriber.
+ *
+ * The Enlight_Event_Subscriber_Config is a collection for event listeners which can be read and write over
+ * an Enlight_Config object.
  *
  * @category   Enlight
  * @package    Enlight_Event
@@ -32,16 +35,21 @@
 class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
 {
     /**
-     * @var array
+     * @var array Contains all registered event listeners
      */
     protected $listeners;
 
     /**
-     * @var Enlight_Config
+     * @var Enlight_Config Contains an instance of the Enlight_Config
      */
     protected $storage;
 
     /**
+     * The Enlight_Event_Subscriber_Config class constructor will instantiated an Enlight_Config and set
+     * it in the internal storage property.
+     * The storage can be overwritten by the options parameter which must contains the "storage" element
+     * which is an instance of the Enlight_Config.
+     *
      * @param   null $options
      */
     public function __construct($options = null)
@@ -100,6 +108,8 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     }
 
     /**
+     * Writes all registered listeners into the Enlight_Config.
+     *
      * @return  Enlight_Event_Subscriber_Config
      */
     public function write()

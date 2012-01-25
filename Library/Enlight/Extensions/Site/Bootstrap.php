@@ -22,9 +22,10 @@
  */
 
 /**
- * The Enlight_Extensions_Site_Bootstrap sets the site resource available.
+ * Enlight site extension to set the site resource available.
+ *
  * It loads automatically the appropriate site for the request.
- * If an appropriate site was found for the user, it is stored in the session.
+ * If an appropriate site was found for the user, it will be stored in the session.
  *
  * @category   Enlight
  * @package    Enlight_Extensions
@@ -34,7 +35,11 @@
 class Enlight_Extensions_Site_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
     /**
-     * Install site plugin
+     * Install site plugin.
+     * Subscribes the init resource events for the site and site manager component.
+     * In additional the Enlight_Controller_Front_DispatchLoopStartup will be subscribed
+     * to set the site instance into the session object and set
+     * the corresponding locale and currency object.
      */
     public function install()
     {

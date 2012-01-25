@@ -22,6 +22,8 @@
  */
 
 /**
+ * Controller for Enlight request test cases.
+ *
  * The Enlight_Controller_Request_RequestTestCase extends the zend controller request
  * with some helper functions.
  *
@@ -119,8 +121,8 @@ class Enlight_Controller_Request_RequestTestCase
     }
 
     /**
-     * Set a request header
-     *
+     * Set a request header.
+     * The key will normalized for setting and retrieval.
      * @param  string $key
      * @param  string $value
      * @return Zend_Controller_Request_HttpTestCase

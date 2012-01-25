@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight session component.
+ *
  * Alias for the Zend_Session_SaveHandler_DbTable.
  *
  * @category    Enlight

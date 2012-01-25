@@ -23,6 +23,7 @@
 
 /**
  * The Enlight_Bootstrap is responsible to manage the application resources.
+ *
  * To load the resources the bootstrap used the application configuration which could
  * contains the database connection data.
  *
@@ -33,37 +34,50 @@
  */
 abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
 {
+    /**
+     * Constant for the bootstrap status, set before the resource will be initial
+     */
     const STATUS_BOOTSTRAP = 0;
+
+    /**
+     * Constant for the bootstrap status, set after the resource successfully initialed
+     */
     const STATUS_LOADED = 1;
+
+    /**
+     * Constant for the bootstrap status, set if an exception thrown by the initialisation
+     */
     const STATUS_NOT_FOUND = 2;
+
+    /**
+     * Constant for the bootstrap status, set when the resource registered.
+     */
     const STATUS_ASSIGNED = 3;
 
     /**
-     * Resource list
+     * Property which contains all registered resources
      *
      * @var array
      */
     protected $resourceList = array();
 
     /**
-     * Resource status list
+     * Property which contains all states for the registered resources.
      *
      * @var array
      */
     protected $resourceStatus = array();
 
     /**
-     * Application instance.
+     * Instance of the enlight application.
      *
      * @var Enlight_Application
      */
     protected $application;
 
     /**
-     * Constructor
-     *
-     * Sets application object, initializes options, and prepares list of
-     * initializer methods.
+     * The class constructor sets the instance of the given enlight application into
+     * the internal $application property.
      *
      * @param Enlight_Application $application
      */
@@ -76,7 +90,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Sets the application instance.
+     * Sets the application instance into the internal $application property.
      *
      * @param  Enlight_Application $application
      * @return Enlight_Bootstrap
@@ -98,7 +112,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Run application method
+     * The run method loads the Enlight_Controller_Front resource and run the dispatch function.
      *
      * @return mixed
      */
@@ -110,7 +124,10 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Init front method
+     * Loads the Zend resource and initials the Enlight_Controller_Front class.
+     * After the front resource loaded, the controller path will be added to the
+     * front dispatcher. After the controller path is set to the dispatcher,
+     * the plugin namespace of the front resource will be set.
      *
      * @return Enlight_Controller_Front
      */
@@ -145,13 +162,15 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Init template method
+     * The init template method instantiates the Enlight_Template_Manager
+     * and sets the cache, template and compile directory into the manager.
+     * After the directories has been set, the template configuration will be set
+     * from the internal config array.
      *
      * @return Enlight_Template_Manager
      */
     protected function initTemplate()
     {
-
         /** @var $template Enlight_Template_Manager */
         $template = Enlight_Class::Instance('Enlight_Template_Manager');
 
@@ -170,7 +189,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Init zend method
+     * Registers the Zend namespace.
      *
      * @return bool
      */
@@ -184,7 +203,8 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Register resource method
+     * Add the given resource to the internal resource list and set the STATUS_ASSIGNED status.
+     * The given name will be used as identifier.
      *
      * @param string $name
      * @param mixed $resource
@@ -198,7 +218,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Has resource method
+     * Checks if the given resource name already registered. If not the resource will be loaded.
      *
      * @param string $name
      * @return bool
@@ -209,7 +229,8 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Returns resource method
+     * Checks if the given resource name already registered.
+     * Unlike as the hasResource method is, if the resource does not exist the resource will not even loaded.
      *
      * @param string $name
      * @return bool
@@ -220,7 +241,9 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Returns resource method
+     * Getter method for a single resource. If the source not already registered, this function will
+     * load the resource automatically. In case the resource is not found the status STATUS_NOT_FOUND will
+     * be set and an Enlight_Exception will be thrown.
      *
      * @param string $name
      * @return Enlight_Class
@@ -237,7 +260,15 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Load resource method
+     * Loads the given resource. If the resource is already registered and the status
+     * is STATUS_BOOTSTRAP an Enlight_Exception will be thrown.
+     * The resource will be initial by the Enlight_Bootstrap_InitResource event.
+     * If this event don't exist for the given resource, the resource will be initial
+     * by call_user_func.
+     * After the resource initialed the event Enlight_Bootstrap_AfterInitResource will
+     * be fired. In case an exception will be thrown by initializing the resource,
+     * Enlight sets the status STATUS_NOT_FOUND for the resource in the resource status list.
+     * In case the resource successfully initialed the resource have the status STATUS_LOADED
      *
      * @param string $name
      * @return bool
@@ -287,7 +318,8 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Reset resource method
+     * If the given resource is set, the resource and the resource status will be removed from the
+     * list properties.
      *
      * @param string $name
      * @return Enlight_Bootstrap

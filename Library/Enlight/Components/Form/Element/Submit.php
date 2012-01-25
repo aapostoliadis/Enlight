@@ -21,6 +21,8 @@
  */
 
 /**
+ * Enlight form submit button component.
+ *
  * The Enlight_Components_Form_Element_Submit extends the zend submit element and adds the css class "actions" to the
  * wrapper decorator.
  *

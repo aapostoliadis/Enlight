@@ -24,6 +24,12 @@
 /**
  * Base class for localization extends the zend locale class with an unique id.
  *
+ * The Enlight_Components_Locale is to facilitate the development of internationalized applications.
+ * Using this component it is possible the appearance of the application to adapt to local conditions.
+ * Whether it is the presentation of prizes or the representation of a date.
+ * The Zend_Locale component has been extended so that a configuration of an ID can be set,
+ * this is achieved that the specific configuration can be conveniently stored and managed
+ *
  * @category   Enlight
  * @package    Enlight_Locale
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
@@ -38,7 +44,7 @@ class Enlight_Components_Locale extends Zend_Locale
     protected $id;
 
     /**
-     * Returns currency id
+     * Returns locale id
      *
      * @return int
      */

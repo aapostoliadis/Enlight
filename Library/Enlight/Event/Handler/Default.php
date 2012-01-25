@@ -22,6 +22,8 @@
  */
 
 /**
+ * Default Enlight event handler.
+ *
  * The Enlight_Event_Handler_Default is the basic event handler without any extended functions.
  *
  * @category   Enlight
@@ -32,11 +34,14 @@
 class Enlight_Event_Handler_Default extends Enlight_Event_Handler
 {
     /**
-     * @var callback
+     * @var callback Contains the callback function.
      */
     protected $listener;
 
     /**
+     * The Enlight_Event_Handler_Default class constructor expects the event name, the callback function and
+     * optional the position of the event handler.
+     *
      * @throws  Enlight_Exception
      * @param   string   $event
      * @param   callback $listener
@@ -50,6 +55,9 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
     }
 
     /**
+     * Checks if the given listener is callable. If it is callable the listener will be set
+     * in the internal property and can be access over the getListener() function.
+     *
      * @param   callback $listener
      * @return  Enlight_Event_Handler_Default
      * @throws  Enlight_Event_Exception
@@ -65,6 +73,7 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
     }
 
     /**
+     * Getter method for the listener property.
      * @return  callback
      */
     public function getListener()
@@ -73,6 +82,7 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
     }
 
     /**
+     * Executes the listener with the given Enlight_Event_EventArgs.
      * @param   Enlight_Event_EventArgs $args
      * @return  mixed
      */
@@ -82,6 +92,7 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
     }
 
     /**
+     * Returns the handler properties as array.
      * @return array
      */
     public function toArray()

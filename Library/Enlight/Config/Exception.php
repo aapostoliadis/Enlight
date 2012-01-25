@@ -22,7 +22,10 @@
  */
 
 /**
+ * Class for config exceptions.
+ *
  * Is thrown if an error occurs by reading or writing the configuration.
+ *
  * @category   Enlight
  * @package    Enlight_Config
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)

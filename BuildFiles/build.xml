@@ -106,6 +106,8 @@
             <arg value="${log.dir}/api" />
             <arg value="-o" />
             <arg value="HTML:frames/Extjs:default" />
+            <arg value="--sourcecode" />
+            <arg value="on" />
         </exec>
     </target>
 

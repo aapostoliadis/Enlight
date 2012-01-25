@@ -23,6 +23,7 @@
 
 /**
  * The Enlight_Application component forms the basis for the enlight project.
+ *
  * Creates an new application with the passed configuration. If no configuration is given, enlight loads
  * the configuration automatically. It loads the different resources, for example classes, loader or the
  * managers for the different packages (Hook, Plugin, Event).
@@ -37,12 +38,13 @@
 class Enlight_Application
 {
     /**
-     * @var string
+     * @var string The application environment can be set in the class constructor. It is used when generating the config
      */
     protected $environment;
 
     /**
-     * @var array
+     * @var array The options property contains the different settings for the enlight application,
+     * for example auto loader namespaces, include paths or the php settings.
      */
     protected $options;
 
@@ -52,57 +54,80 @@ class Enlight_Application
     protected static $ds = DIRECTORY_SEPARATOR;
 
     /**
-     * @var Enlight_Application
+     * @var Enlight_Application Instance of the Enlight application.
+     * Will be set in the class constructor.
      */
     protected static $instance;
 
     /**
-     * @var string Framework path
+     * @var string The path property contains the framework path.
+     * It will used to return the specified paths like, core_path or app_path.
      */
     protected $path;
 
     /**
-     * @var string Application name
+     * @var string Contains the name of the application.
+     * Can be set in the class constructor parameter options["app"].
+     * If no application name given the default name "Default" will be set.
      */
     protected $app;
 
     /**
-     * @var string Application path
+     * @var string Contains the path of the application.
      */
     protected $appPath;
 
     /**
-     * @var string Framework core path
+     * @var string Contains the path of the framework core.
      */
     protected $core_path;
 
     /**
-     * @var Enlight_Loader
+     * @var Enlight_Loader The Enlight_Loader register the application namespaces.
      */
     protected $_loader;
 
     /**
-     * @var Enlight_Hook_HookManager
+     * @var Enlight_Hook_HookManager Instance of the Enlight_Hook_HookManager which contains all registered hooks.
+     * Will be initialed in the class constructor.
      */
     protected $_hooks;
 
     /**
-     * @var Enlight_Event_EventManager
+     * @var Enlight_Event_EventManager Instance of the Enlight_Event_EventManager which contains all registered
+     * events. Will be initialed in the class constructor.
      */
     protected $_events;
 
     /**
-     * @var Enlight_Plugin_PluginManager
+     * @var Enlight_Plugin_PluginManager Instance of the Enlight_Plugin_PluginManager which contains all
+     * registered plugins. Will be initialed in the class constructor.
      */
     protected $_plugins;
 
     /**
-     * @var Enlight_Bootstrap
+     * @var Enlight_Bootstrap Instance of the application bootstrap. Is generated automatically when accessing the
+     * Bootstrap function.
      */
     protected $_bootstrap;
 
     /**
-     * Constructor method
+     * Constructor method.
+     *
+     * The first argument of the class constructor is the name of the application environment.
+     * The second argument is an array of application configurations, an instance of Zend_Config or a config file path.
+     * It can contains the application name (options["app"]) and the application path (options["app"]).
+     *
+     * The application constructor includes the required base classes:
+     * Exception, Hook, Singleton, Class, Loader automatically.
+     * After the required classes included the application the Enlight Loader register
+     * the Enlight library namespace and initials the
+     * Hook, Event and Plugin manager which stores and manages all
+     * registered plugins, events and hooks.
+     *
+     * If all components included the Enlight configuration will be loaded by the
+     * given options parameter.
+     * After the configuration is loaded, the application name and path taken from the config and set in the class properties.
      *
      * @param string $environment
      * @param mixed $options
@@ -110,7 +135,6 @@ class Enlight_Application
     public function __construct($environment, $options = null)
     {
         self::$instance = $this;
-
         $this->environment = $environment;
         $this->path = dirname(dirname(__FILE__)) . $this->DS();
         $this->core_path = $this->path . 'Enlight' . $this->DS();
@@ -154,7 +178,7 @@ class Enlight_Application
     }
 
     /**
-     * Runs the application
+     * Runs the application bootstrap class to load the specify application resources.
      *
      * @return mixed
      */
@@ -174,7 +198,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns base path
+     * Returns the base path of the application.
      *
      * @param string $path
      * @return string
@@ -189,7 +213,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns application path
+     * Returns the application path
      *
      * @param string $path
      * @return string
@@ -234,7 +258,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns application name
+     * Returns the name of the application
      *
      * @return string
      */
@@ -244,7 +268,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns environment method
+     * Returns the application environment method
      *
      * @return string
      */
@@ -254,7 +278,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns loader instance
+     * Returns the instance of the loader, which initialed in the class constructor
      *
      * @return Enlight_Loader
      */
@@ -264,7 +288,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns hook manager
+     * Returns the instance of the hook manager, which initialed in the class constructor
      *
      * @return Enlight_Hook_HookManager
      */
@@ -274,7 +298,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns event manager
+     * Returns the instance of the event manager, which initialed in the class constructor
      *
      * @return Enlight_Event_EventManager
      */
@@ -284,7 +308,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns plugin manager
+     * Returns the instance of the plugin manager, which initialed in the class constructor
      *
      * @return Enlight_Plugin_PluginManager
      */
@@ -294,7 +318,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns bootstrap instance
+     * Returns the instance of the application bootstrap
      *
      * @return Enlight_Bootstrap
      */
@@ -308,7 +332,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns application instance
+     * Returns the instance of the application
      *
      * @return Enlight_Application
      */
@@ -318,10 +342,13 @@ class Enlight_Application
     }
 
     /**
-     * Load config method
+     * This method is used to load a given configuration. The config
+     * parameter can be an instance of Zend_Config, an array of settings or
+     * a file path. If the given config parameter is an file path,
+     * the file will be loaded and returns as an array.
      *
      * @param mixed $config
-     * @return array
+     * @return array Array of application configurations
      */
     public function loadConfig($config)
     {
@@ -365,7 +392,8 @@ class Enlight_Application
     }
 
     /**
-     * Sets the options from config
+     * This method sets the configuration of the options parameter into the different configurations.
+     * If the options not an array, the loadConfig method should be used to convert the options into an array.
      *
      * @param array $options
      * @return Enlight_Application
@@ -398,7 +426,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns options method
+     * Getter method for the internal options array.
      *
      * @return array
      */
@@ -408,7 +436,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns option by key
+     * Getter method for a single option addressed by the given key.
      *
      * @param string $key
      * @return mixed
@@ -421,7 +449,7 @@ class Enlight_Application
     }
 
     /**
-     * Sets the php settings from config
+     * Sets the php settings from the config
      *
      * @param array $settings
      * @param string $prefix

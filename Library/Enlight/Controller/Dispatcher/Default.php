@@ -22,6 +22,8 @@
  */
 
 /**
+ * Implements all method to register single or multiple controllers and load them automatically.
+ *
  * The Enlight_Controller_Dispatcher_Default represents a component
  * to dispatch the request object on the controller. Implements all method to
  * register single or multiple controllers and load them automatically
@@ -34,61 +36,69 @@
 class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatcher
 {
     /**
-     * Current dispatchable directory
-     * @var string
+     * @var string Current directory of the controller.
+     * Will be set in the getControllerClass method or in the getControllerPath method.
      */
     protected $curDirectory;
 
     /**
-     * Current module (formatted)
-     * @var string
+     * @var string Contains the current module.
+     * Will be set in the getControllerClass method or in the getControllerPath method.
+     * If the property set by the getControllerPath method, the string is formatted.
      */
     protected $curModule;
 
     /**
-     * Default action
+     * Contains the default action for each controller.
+     * Will be used in the getActionName function when the passed request instance
+     * don't contains an action name.
+     *
      * @var string
      */
     protected $defaultAction = 'index';
 
     /**
-     * Default controller
+     * Contains the name of the default controller. Will be used in the dispatch function
+     * if the passed request instance don't contains an controller name or the
+     * request is not dispatchable.
+     *
      * @var string
      */
     protected $defaultController = 'index';
 
     /**
-     * Default module
+     * Contains the name of the default module. Will be used in the getControllerClass
+     * function if the passed request instance don't contains an module name and
+     * in the addControllerDirectory function if the module name didn't passed.
+     *
      * @var string
      */
     protected $defaultModule = 'frontend';
 
     /**
-     * Front Controller instance
-     * @var Zend_Controller_Front
+     * @var Zend_Controller_Front Contains the instance of the front controller.
      */
     protected $frontController;
 
     /**
-     * Path delimiter character
-     * @var string
+     * @var string Contains the path delimiter character, used to format action, controller and module names.
      */
     protected $pathDelimiter = '_';
 
     /**
-     * Word delimiter characters
-     * @var array
+     * @var array Contains the word delimiter characters, used to format action, controller and module names.
      */
     protected $wordDelimiter = array('-', '.');
 
     /**
-     * Controller directory(ies)
-     * @var array
+     * @var array Contains all added controller directories. Used to get the controller
+     * directory of a module
      */
     protected $controllerDirectory = array();
 
     /**
-     * Adds a controller directory. If no module given, the default module will used.
+     * Adds a controller directory. If no module given, the default module will be used.
+     *
      * @param      $path
      * @param null $module
      * @return Enlight_Controller_Dispatcher_Default
@@ -109,6 +119,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
 
     /**
      * Sets the controller directory. The directory can given as array or string.
+     *
      * @param string|array $directory
      * @param string|null  $module
      * @return Enlight_Controller_Dispatcher_Default
@@ -131,6 +142,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     /**
      * Returns the controller directory.
      * If more than one directory exists the function will return the controller directory of the given module.
+     * If no module name will be passed, the function returns the whole controller directory array.
      * @param null $module
      * @return array|null
      */

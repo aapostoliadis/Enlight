@@ -22,7 +22,10 @@
  */
 
 /**
+ * Basic class for each Enlight event handler.
+ *
  * The Enlight_Event_Handler is the basic class for each specified event handler.
+ * The Enlight_Event_EventManager will execute the registered event handlers.
  *
  * @category   Enlight
  * @package    Enlight_Event
@@ -32,16 +35,19 @@
 abstract class Enlight_Event_Handler
 {
     /**
-     * @var string
+     * @var string Contains the name of the event handler
      */
     protected $name;
 
     /**
-     * @var integer
+     * @var integer Contains the event position of the event handler.
      */
     protected $position;
 
     /**
+     * The Enlight_Event_Handler class constructor expects an event name. If no name are given
+     * the constructor will throw an Enlight_Event_Exception.
+     *
      * @throws  Enlight_Event_Exception
      * @param   $event
      */
@@ -54,6 +60,7 @@ abstract class Enlight_Event_Handler
     }
 
     /**
+     * Getter method for the name property. Contains the event name.
      * @return  string
      */
     public function getName()
@@ -62,6 +69,7 @@ abstract class Enlight_Event_Handler
     }
 
     /**
+     * Getter method for the position property. Contains the event position of the event handler.
      * @return  integer
      */
     public function getPosition()
@@ -70,6 +78,8 @@ abstract class Enlight_Event_Handler
     }
 
     /**
+     * Setter method for the position property.
+     *
      * @param   integer $position
      * @return  Enlight_Event_Handler
      */
@@ -80,6 +90,7 @@ abstract class Enlight_Event_Handler
     }
 
     /**
+     * Executes the event handler with the Enlight_Event_EventArgs.
      * @param   Enlight_Event_EventArgs $args
      * @return  mixed
      */

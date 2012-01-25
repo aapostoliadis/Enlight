@@ -21,6 +21,8 @@
  */
 
 /**
+ * Grants to get access on all array functions.
+ *
  * The Enlight_Components_Test_Constraint_ArrayCount is an extension of the PHPUnit_Framework_Constraint
  * to get access on all array functions in the test cases.
  *
@@ -59,6 +61,8 @@ class Enlight_Components_Test_Constraint_ArrayCount extends PHPUnit_Framework_Co
     }
 
     /**
+     * Returns an custom failure description.
+     *
      * @param mixed   $other
      * @param string  $description
      * @param boolean $not
