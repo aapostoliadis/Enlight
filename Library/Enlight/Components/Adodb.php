@@ -21,6 +21,8 @@
  */
 
 /**
+ * Adapter for adodb connections.
+ *
  * The Enlight_Components_Adodb is an interface for the zend db adapter
  * to have an easy way to get adodb sql syntax for an sql expression.
  *
@@ -375,7 +377,7 @@ class Enlight_Components_Adodb extends Enlight_Class
     /**
      * Returns found rows cached
      *
-     * @return int
+     * @return int all founded rows
      */
     public function CacheGetFoundRows()
     {
@@ -385,6 +387,9 @@ class Enlight_Components_Adodb extends Enlight_Class
         return $this->foundRows;
     }
 
+    /**
+     * @var null Contains the founded rows.
+     */
     protected $foundRows = null;
 
     /**

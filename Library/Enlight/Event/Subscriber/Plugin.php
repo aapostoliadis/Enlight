@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight plugin event subscriber.
+ *
  * The Enlight_Event_Subscriber_Plugin is a collection to manage multiple event handlers within a plugin.
  *
  * @category   Enlight
@@ -32,11 +34,14 @@
 class Enlight_Event_Subscriber_Plugin extends Enlight_Event_Subscriber_Config
 {
     /**
-     * @var Enlight_Plugin_Namespace
+     * @var Enlight_Plugin_Namespace Contains an instance of the Enlight_Plugin_Namespace.
+     * Will be set in the class constructor.
      */
     protected $namespace;
 
     /**
+     * The Enlight_Event_Subscriber_Plugin class constructor expects an instance of the Enlight_Plugin_Namespace.
+     *
      * @param      $namespace
      * @param null $options
      */
@@ -47,6 +52,8 @@ class Enlight_Event_Subscriber_Plugin extends Enlight_Event_Subscriber_Config
     }
 
     /**
+     * Writes all listeners to the storage.
+     *
      * @return  Enlight_Event_Subscriber_Config
      */
     public function write()
@@ -82,6 +89,10 @@ class Enlight_Event_Subscriber_Plugin extends Enlight_Event_Subscriber_Config
         return $this;
     }
 
+    /**
+     * Returns all listeners as array.
+     * @return array
+     */
     public function toArray()
     {
         $listeners = array();

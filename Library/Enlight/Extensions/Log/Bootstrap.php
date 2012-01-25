@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight log extension to support various writer.
+ *
  * The Enlight_Extensions_Log_Bootstrap sets the log resource available.
  * It supports various writer, for example firebug, database tables and log files.
  * In additionally the Enlight_Extensions_Log_Bootstrap support to log the ip and the user agents.
@@ -34,17 +36,21 @@
 class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
     /**
-     * @var Zend_Wildfire_Channel_HttpHeaders
+     * @var Zend_Wildfire_Channel_HttpHeaders Contains an instance of the Zend_Wildfire_Channel_HttpHeaders
      */
     protected $channel;
 
     /**
-     * @var Enlight_Components_Log
+     * @var Enlight_Components_Log Contains an instance of the Enlight_Components_Log.
      */
     protected $log;
 
     /**
-     * Install log plugin
+     * Installs the log extension plugin.
+     * Subscribes the init resource event to initial the log resource,
+     * the Enlight_Controller_Front_RouteStartup event to startup the routing process and
+     * the Enlight_Controller_Front_DispatchLoopShutdown event to flush the wildfire channel.
+     *
      * @return bool
      */
     public function install()
@@ -89,13 +95,15 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
+     * Sets the given Zend_Log object into the internal log property.
+     * If no log given, a new instance with the internal configuration will be created.
      * @param Enlight_Components_Log|Zend_Log $log
      */
     public function setResource(Zend_Log $log = null)
     {
-        if($log === null) {
+        if ($log === null) {
             $config = $this->Config();
-            if(count($config) === 0) {
+            if (count($config) === 0) {
                $config = new Enlight_Config(array(
                    array('writerName' => 'Null'),
                    array('writerName' => 'Firebug')
@@ -107,33 +115,39 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
+     * Setter method for the channel property. If no channel given
+     * a new instance of the Zend_Wildfire_Channel_HttpHeaders will be used.
+     *
      * @param Zend_Wildfire_Channel_HttpHeaders $channel
      */
     public function setFirebugChannel($channel = null)
     {
-        if($channel === null) {
+        if ($channel === null) {
             $channel = Zend_Wildfire_Channel_HttpHeaders::getInstance();
         }
         $this->channel = $channel;
     }
 
     /**
+     * Getter method for the log property which contains an instance of the Enlight_Components_Log.
      * @return Enlight_Components_Log
      */
     public function Resource()
     {
-        if($this->log === null) {
+        if ($this->log === null) {
             $this->setResource();
         }
         return $this->log;
     }
 
     /**
+     * Getter method of the channel property. If the channel isn't instantiated
+     * a new instance of the Zend_Wildfire_Channel_HttpHeaders will be initial.
      * @return Zend_Wildfire_Channel_HttpHeaders
      */
     public function FirebugChannel()
     {
-        if($this->channel === null) {
+        if ($this->channel === null) {
             $this->setFirebugChannel();
         }
         return $this->channel;
@@ -151,7 +165,9 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
-     * On Route add user-agent and remote-address to log component
+     * Listener method for the Enlight_Controller_Front_RouteStartup event.
+     * Adds the user-agent and the remote-address to the log component.
+     * Sets the request and the response object into the Zend_Wildfire_Channel_HttpHeaders.
      *
      * @param Enlight_Event_EventArgs $args
      */
@@ -174,7 +190,8 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
-     * On Dispatch Shutdown collect sql performance results and dump to log component
+     * Listener method for the Enlight_Controller_Front_DispatchLoopShutdown event.
+     * On Dispatch Shutdown collect sql performance results and dump to log component.
      *
      * @param Enlight_Event_EventArgs $args
      */

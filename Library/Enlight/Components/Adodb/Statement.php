@@ -21,6 +21,8 @@
  */
 
 /**
+ * Adodb statement adapter component.
+ *
  * The Enlight_Components_Adodb_Statement class is the interface for adodb statements,
  * which grants an easy access to sql statement results.
  *

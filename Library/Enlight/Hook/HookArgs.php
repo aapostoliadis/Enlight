@@ -22,6 +22,8 @@
  */
 
 /**
+ * Hook arguments which will be passed to the hook listener.
+ *
  * The Enlight_Hook_HookArgs are an array of hook arguments which will be passed by the manager to the hook handler.
  * It contains all data about the hook handler (class name, method name, target function, return value)
  *
@@ -48,7 +50,9 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     protected $_name;
 
     /**
-     * @var mixed return value of the hook arguments
+     * @var mixed return value of the hook arguments.
+     * You can access the return value by the $args->getReturn() method
+     * The return value can be overwritten by the $args->setReturn()
      */
     protected $_return;
 

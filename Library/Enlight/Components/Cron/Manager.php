@@ -21,15 +21,16 @@
  */
 
 /**
- * The Enlight_Components_Cron_Manager managed all cron jobs. It iterate all cron jobs,
- * reads the events of the cron job adapters and execute them.
+ * Stores and executes all registered cron jobs.
+ *
+ * The Enlight_Components_Cron_Manager is responsible to store all registered cron jobs and
+ * execute the cron jobs with the associated cron job arguments.
  *
  * @category   Enlight
  * @package    Enlight_Cron
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-
 class Enlight_Components_Cron_Manager
 {
     /**

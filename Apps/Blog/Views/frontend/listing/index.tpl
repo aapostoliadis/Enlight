@@ -11,13 +11,6 @@
 
 <!-- Content container -->
 <section class="content">
-    <header class="page-header">
-        {if $activeMenu=="listing"}
-            <h1>All Posts:</h1>
-        {elseif $activeMenu=="search"}
-            <h1>Search Result:</h1>
-        {/if}
-    </header>
 
     <!-- Example row of columns -->
     <div class="row">

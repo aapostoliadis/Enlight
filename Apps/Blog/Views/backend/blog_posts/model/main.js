@@ -4,10 +4,10 @@ Ext.define('Enlight.apps.BlogPosts.model.Main', {
 	proxy: {
 		type: 'ajax',
 		api: {
-			read: '{url module=backend controller=blog_posts action=getPosts}',
-			create: '{url module=backend controller=blog_posts action=createPost}',
-			update: '{url module=backend controller=blog_posts action=updatePost}',
-			destroy: '{url module=backend controller=blog_posts action=deletePost}'
+			read: 'backend/BlogPosts/getPosts',
+			create: 'backend/BlogPosts/createPost',
+			update: 'backend/BlogPosts/updatePost',
+			destroy: 'backend/BlogPosts/deletePost'
 		},
 		reader: {
 			type: 'json',

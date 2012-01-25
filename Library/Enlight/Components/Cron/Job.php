@@ -21,7 +21,11 @@
  */
 
 /**
- * The Enlight_Components_Cron_Job represents an single cron job, which can execute by the cron manager.
+ * The Enlight_Components_Cron_Job represents an single cron job.
+ *
+ * The Enlight_Components_Cron_Job can be executed by the cron job manager.
+ * When the cron job will be executed the cron job manager will pass the cron job arguments
+ * to the listener method.
  *
  * @category   Enlight
  * @package    Enlight_Cron
@@ -35,15 +39,15 @@ class Enlight_Components_Cron_Job
      */
     protected $id;
     /**
-     * @var String
+     * @var String Name or the description of the cron job: Expected data type: String
      */
     protected $name;
     /**
-     * @var String
+     * @var String Name of the action which is called during the execution phase
      */
     protected $action;
     /**
-     * @var String
+     * @var String Data storage. Can be used to store answers from cron job call
      */
     protected $data;
     /**
@@ -51,19 +55,20 @@ class Enlight_Components_Cron_Job
      */
     protected $next;
     /**
-     * @var String MySQL datetime
+     * @var String MySQL datetime. The next time the cronjob is due
      */
     protected $start;
     /**
-     * @var String MySQL datetime
+     * @var String MySQL datetime. The time the last scheduled run ended.
      */
     protected $end;
     /**
-     * @var Integer
+     * @var Integer Time interval in minutes the cronjob is scheduled to run
      */
     protected $interval;
     /**
-     * @var Integer
+     * @var Integer Boolean value which indicates if a cronjob is enabled or not.
+     * If the cronjob is disabled the cronjob will not be executed
      */
     protected $active;
 

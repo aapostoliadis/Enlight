@@ -21,6 +21,8 @@
  */
 
 /**
+ * Enlight form display group component.
+ *
  * The Enlight_Components_Form_DisplayGroup extends the zend display group element and adds enlight specified html tags
  * and css classes.
  *

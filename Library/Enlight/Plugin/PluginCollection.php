@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_PluginCollection provides an array containing each registered plugin.
+ *
  * The Enlight_Plugin_PluginCollection is an array for each registered plugin.
  *
  *
@@ -33,12 +35,13 @@
 abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements IteratorAggregate
 {
     /**
+     * Property which contains all registered plugins.
      * @var ArrayObject
      */
     protected $plugins;
 
     /**
-     *
+     * The Enlight_Plugin_PluginCollection initial the internal plugin list.
      */
     public function __construct()
     {
@@ -54,7 +57,9 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     abstract public function Application();
 
     /**
-     * Registers a plugin in the collection.
+     * Registers the given plugin bootstrap. The Enlight_Plugin_PluginCollection instance will be
+     * set into the plugin by using the Enlight_Plugin_Bootstrap::setCollection() method.
+     * The name of the plugin will be used as array key.
      *
      * @param Enlight_Plugin_Bootstrap $plugin
      * @return Enlight_Plugin_PluginManager
@@ -67,6 +72,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
+     * Getter method for the plugin list.
      * @return  ArrayIterator
      */
     public function getIterator()
@@ -75,7 +81,8 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
-     * Returns a plugin by name.
+     * Returns a plugin by name. If the plugin isn't registered, the Enlight_Plugin_PluginCollection
+     * will load it automatically.
      *
      * @param   $name
      * @return  Enlight_Plugin_Namespace|Enlight_Plugin_Bootstrap
@@ -89,6 +96,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
+     * Loads the plugin instance of the given plugin name.
      * @throws  Enlight_Exception
      * @param   $name
      * @return  Enlight_Plugin_PluginCollection
@@ -102,6 +110,8 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
+     * Magic caller
+     *
      * @param   string     $name
      * @param   array|null $args
      * @return  Enlight_Plugin_Namespace|Enlight_Plugin_Bootstrap
@@ -112,6 +122,8 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
+     * Removes all stored plugins.
+     *
      * @return Enlight_Plugin_PluginManager
      */
     public function reset()

@@ -21,6 +21,8 @@
  */
 
 /**
+ * Pdo adapter for Mysql.
+ *
  * The Enlight_Components_Db_Adapter_Pdo_Mysql extends the zend pdo mysql adapter to format dates automatically
  * and removes for safety reasons, the database connection settings.
  *

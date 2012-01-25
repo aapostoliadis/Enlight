@@ -21,6 +21,8 @@
  */
 
 /**
+ * Enlight session component.
+ *
  * The Enlight_Components_Session is an alias for the Zend_Session.
  *
  * @category   Enlight

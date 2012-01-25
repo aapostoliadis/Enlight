@@ -21,7 +21,12 @@
  */
 
 /**
- * Class for handling currency notations. Extends the zend currency with an unique id.
+ * Class for handling currency notations.
+ *
+ * Besides the ability to deal with multiple languages ​​to Enlightenment also offers the ability to handle multiple currencies.
+ * This brings the Enlight_Components_Currency component.
+ * This extends from the Zend_Currency component, but it extends to an ID.
+ * This makes it easy to access a particular currency representation.
  *
  * @category   Enlight
  * @package    Enlight_Currency

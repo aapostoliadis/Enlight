@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight hook subscriber interface.
+ *
  * The Enlight_Hook_HookSubscriber is the basic interface for each specified hook subscriber.
  * For each application the hook subscribe have to be defined manuel.
  *

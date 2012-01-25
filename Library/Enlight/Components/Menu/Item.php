@@ -22,7 +22,14 @@
  */
 
 /**
+ * Factory for Enlight_Components_Menu_Item classes.
+ *
  * Represents a page that is defined by specifying a URI.
+ * A specific type to construct can be specified by set the key
+ * 'type' in $options. If type is 'uri' or 'mvc', the type will be resolved
+ * to Zend_Navigation_Page_Uri or Zend_Navigation_Page_Mvc. Any other value
+ * for 'type' will be considered the full name of the class to construct.
+ * A valid custom page class must extend Zend_Navigation_Page.
  *
  * @category    Enlight
  * @package     Enlight_Menu

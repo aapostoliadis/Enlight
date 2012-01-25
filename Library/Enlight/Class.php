@@ -23,6 +23,7 @@
 
 /**
  * The Enlight_Class is the basic class for each enlight class.
+ *
  * If the class will be instantiated enlight will check if a proxy for the class exists and throw
  * an exception if this is the case.
  *
@@ -34,12 +35,18 @@
 abstract class Enlight_Class
 {
     /**
+     * Contains all initialed enlight instances.
      * @var array
      */
     static protected $instances = array();
     
     /**
-     * Constructor method
+     * Constructor method.
+     *
+     * The constructor will prevent the initialization and thrown an Enlight_Exception if the class is flagged
+     * as singleton and has already initialed.
+     * If an hook proxy exist for the class, the constructor will prevent the initialization and throw an exception
+     * that the instance method should be used.
      */
     public function __construct ()
     {
@@ -70,7 +77,8 @@ abstract class Enlight_Class
     }
     
     /**
-     * Returns the class name
+     * Returns the class name of the given class. If no class is given, the class will drawn by
+     * get_called_class(). If the given class has an hook proxy the function will return the proxy class.
      *
      * @param mixed $class
      * @return string
@@ -96,7 +104,8 @@ abstract class Enlight_Class
     }
 
     /**
-     * Returns a new class instance.
+     * Returns a class instance. If the class is already initialed the existing instance will returned.
+     * Otherwise the class will be initialed with the given arguments.
      *
      * @param   string $class
      * @param   array $args
@@ -120,7 +129,7 @@ abstract class Enlight_Class
     }
     
     /**
-     * Reset a instance
+     * Reset the instance of the given class.
      *
      * @param   mixed $class
      */

@@ -21,6 +21,8 @@
  */
 
 /**
+ * Enlight component for a form component.
+ *
  * The Enlight_Components_Form is a component to present and validate a form. It extends the zend form class with
  * an adapter ability
  *
@@ -108,6 +110,8 @@ class Enlight_Components_Form extends Zend_Form
     }
 
     /**
+     * Setter method for the id property.
+     *
      * @param   int $id
      * @return  Enlight_Components_Form
      */

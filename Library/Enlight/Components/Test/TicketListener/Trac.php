@@ -22,7 +22,9 @@
  */
 
 /**
- * The Enlight_Components_Test_TicketListener_Trac updates the stored Trac tickets automatically.
+ * Grants a way to update trac tickets automatically.
+ *
+ * The Enlight_Components_Test_TicketListener_Trac updates the stored Trac tickets for the test case automatically.
  *
  * @category   Enlight
  * @package    Enlight_Test

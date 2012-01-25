@@ -22,6 +22,8 @@
  */
 
 /**
+ * Enlight debug extension to log exceptions and display the logged exceptions.
+ *
  * The Enlight_Extensions_Debug_Bootstrap allows to debug the enlight application.
  * It logs the exceptions into the log and allows to output them into the console or write them into the database
  * or into log files.
@@ -34,12 +36,15 @@
 class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
     /**
-     * @var Enlight_Components_Log
+     * @var Enlight_Components_Log Contains an instance of the Enlight_Components_Log
      */
     protected $log;
 
     /**
-     * Plugin install method
+     * Plugin install method.
+     * Subscribes the Enlight_Controller_Front_StartDispatch event to register the error handler,
+     * the Enlight_Controller_Front_DispatchLoopShutdown event to log the error handler and the exception,
+     * the Enlight_Plugins_ViewRenderer_PostRender event to log the template.
      *
      * @return bool
      */
@@ -62,28 +67,35 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
+     * Setter method for the log property. If no log are given the log resource of the
+     * Enlight_Plugin_Namespace will be used.
+     *
      * @param Enlight_Components_Log|Zend_Log $log
      */
     public function setLog(Zend_Log $log = null)
     {
-        if($log === null) {
+        if ($log === null) {
             $log = $this->Collection()->Log()->Resource();
         }
         $this->log = $log;
     }
 
     /**
+     * Getter method of the log property. If the log isn't set the log property will be initial over the
+     * setLog method, which will use the log resource of the Enlight_Plugin_Namespace
+     *
      * @return Enlight_Components_Log
      */
     public function Log()
     {
-        if($this->log === null) {
+        if ($this->log === null) {
             $this->setLog();
         }
         return $this->log;
     }
     /**
-     * Plugin event method
+     * Listener method of the Enlight_Controller_Front_StartDispatch event.
+     * Registers the error handler of the Enlight_Plugin_Namespace.
      *
      * @param   Enlight_Event_EventArgs $args
      */
@@ -106,7 +118,8 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
-     * Plugin event method
+     * Listener method of the Enlight_Plugins_ViewRenderer_PostRender event.
+     * Logs the template of the given Enlight_Event_EventArgs.
      *
      * @param   Enlight_Event_EventArgs $args
      */
@@ -117,13 +130,14 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
-     * Plugin event method
+     * Listener method of the Enlight_Controller_Front_DispatchLoopShutdown event.
+     * Logs the error handler and the response of the Enlight_Event_EventArgs.
      *
      * @param   Enlight_Event_EventArgs $args
      */
     public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
     {
-        if(!$this->Log()) {
+        if (!$this->Log()) {
             return;
         }
 
@@ -138,7 +152,8 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
-     * Log error method
+     * Iterate all logged errors of the given error handler and write them
+     * into the internal log object.
      *
      * @param   Enlight_Extensions_ErrorHandler_Bootstrap $errorHandler
      */
@@ -168,7 +183,8 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
-     * Log template method
+     * Iterate all template and config variables of the given template object and write them
+     * into the internal log object.
      *
      * @param   Enlight_Template_Default|Enlight_Template_Manager $template
      */
@@ -202,7 +218,7 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
     }
 
     /**
-     * Log exception method
+     * Iterate all exceptions of the given response object and write them into internal log object.
      *
      * @param   Enlight_Controller_Response_ResponseHttp $response
      */

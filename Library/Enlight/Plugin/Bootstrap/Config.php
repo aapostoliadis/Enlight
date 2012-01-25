@@ -22,6 +22,8 @@
  */
 
 /**
+ * The Enlight_Plugin_Bootstrap_Config contains the configs of a single plugin.
+ *
  * The Enlight_Plugin_Bootstrap_Config is the configuration class for a single plugin.
  *
  * @category   Enlight
@@ -34,12 +36,12 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
     /**
      * @var Enlight_Config
      */
-	protected $config;
+    protected $config;
 
     /**
      * @var Enlight_Plugin_Namespace_Config
      */
-	protected $collection;
+    protected $collection;
 
     /**
      * Returns the application instance.
@@ -48,7 +50,7 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
      */
     public function Config()
     {
-        if($this->config === null
+        if ($this->config === null
           && $this->collection instanceof Enlight_Plugin_Namespace_Config) {
             $this->config = $this->collection->getConfig($this->getName());
         }
@@ -56,18 +58,24 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * Getter method for the collection property. Contains an instance of the Enlight_Plugin_Namespace_Config.
      * @return  Enlight_Plugin_Namespace_Config
      */
-	public function Collection()
-	{
-		return $this->collection;
-	}
+    public function Collection()
+    {
+        return $this->collection;
+    }
+
 
     /**
-     * @param   string $event
-     * @param   integer $position
-     * @param   callback $listener
-     * @return  Enlight_Plugin_Bootstrap_Config
+     * Subscribes an plugin events. The given parameters and the internal instance of
+     * the Enlight_Plugin_Namespace_Config will be used to instantiate a new Enlight_Event_Handler_Plugin.
+     * This Enlight_Event_Handler_Plugin will subscribed over the namespace subscriber.
+     *
+     * @param string $event
+     * @param callback $listener
+     * @param integer  $position
+     * @return Enlight_Plugin_Bootstrap_Config
      */
     public function subscribeEvent($event, $listener, $position = null)
     {
@@ -80,6 +88,7 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
     }
 
     /**
+     * This function installs the plugin.
      * @return void
      */
     public function install()

@@ -22,6 +22,8 @@
  */
 
 /**
+ * Test suite class for enlight test cases.
+ *
  * The Enlight_Components_Test_TestSuite managed all implemented test cases.
  * It groups the test test cases and allows to add new test cases.
  *

@@ -21,6 +21,8 @@
  */
 
 /**
+ * Interface allows an easy implementation for the Countable, IteratorAggregate, ArrayAccess class
+ *
  * Array collection class which implements the Enlight_Collection_Collection interface.
  * The interface allows an easy implementation for the Countable, IteratorAggregate, ArrayAccess class.
  *
@@ -32,7 +34,7 @@
 class Enlight_Collection_ArrayCollection implements Enlight_Collection_Collection
 {
     /**
-     * The element list.
+     * This property contains all added elements.
      *
      * @var array
      */
@@ -40,7 +42,6 @@ class Enlight_Collection_ArrayCollection implements Enlight_Collection_Collectio
 
     /**
      * Constructor method
-     *
      * Expects an array as a parameter with default elements.
      *
      * @param   array $elements

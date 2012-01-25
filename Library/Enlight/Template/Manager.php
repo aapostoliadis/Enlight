@@ -24,6 +24,8 @@
 require_once('Smarty/Smarty.class.php');
 
 /**
+ * The Enlight_Template_Manager is an extension of smarty to manually set the config in the class constructor.
+ *
  * The Enlight_Template_Manager extends smarty so the config can be set manuel in the class constructor.
  * With the Enlight_Template_Manager it is not only possible to overwrite template files,
  * it is also possible to overwrite all the individual blocks within the template.
@@ -43,7 +45,8 @@ class Enlight_Template_Manager extends Smarty
     public $template_class = 'Enlight_Template_Default';
 
     /**
-     * Class constructor, initializes basic smarty properties
+     * Class constructor, initializes basic smarty properties:
+     * Template, compile, plugin, cache and config directory.
      *
      * @param   null|array|Enlight_Config $options
      */

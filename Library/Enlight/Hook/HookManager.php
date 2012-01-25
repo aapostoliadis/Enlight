@@ -22,7 +22,9 @@
  */
 
 /**
- * The Enlight_Hook_HookManager allows to hook class methods. Class methods can be hooked by type before,
+ * The Enlight_Hook_HookManager allows to hook class methods.
+ *
+ * Class methods can be hooked by type before,
  * replace and after. It uses a proxy to hook the class on which is the hook placed,
  * so the class method can be overwritten. If a class is hooked, a proxy will be generated for this class.
  * The generated class extends the origin class and implements the Enlight_Hook_Proxy interface.
@@ -34,7 +36,6 @@
  * The hook arguments will passed to the handler, the proxy allows the handler to execute
  * by the manager and overwriting the return of the corresponding method.
  *
- *
  * @category   Enlight
  * @package    Enlight_Hook
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
@@ -43,17 +44,17 @@
 class Enlight_Hook_HookManager extends Enlight_Class
 {
     /**
-     * @var null
+     * @var null|Enlight_Hook_ProxyFactory instance of the Enlight_Hook_ProxyFactory.
      */
     protected $proxy_factory = null;
 
     /**
-     * @var array internal list of all registered hook handlers
+     * @var array Internal list of all registered hook handlers
      */
     protected $list = array();
 
     /**
-     * @var array
+     * @var array Internal list of all registered hook aliases.
      */
     protected $aliases = array();
 
@@ -104,7 +105,8 @@ class Enlight_Hook_HookManager extends Enlight_Class
     }
 
     /**
-     * Checks if the given class have registered hooks. If a method given the examination is limited to the method.
+     * Checks if the given class have registered hooks.
+     * If a method given the examination is limited to the method.
      *
      * @param      $class
      * @param null $method
@@ -143,7 +145,8 @@ class Enlight_Hook_HookManager extends Enlight_Class
     }
 
     /**
-     * Returns the proxy for the given class.
+     * Returns the proxy for the given class. If the Enlight_Hook_ProxyFactory not
+     * already has been instantiate the function instantiate it automatically.
      *
      * @param $class
      * @return mixed

@@ -21,6 +21,8 @@
  */
 
 /**
+ * Enlight component for the authentication.
+ *
  * The Enlight_Components_Auth is an extension of the Zend_Auth. It extends the zend authentication with an standard
  * adapter and refresh the authentication over the session id.
  *
