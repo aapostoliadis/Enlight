@@ -111,10 +111,10 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function install()
     {
-		 $this->subscribeEvent(
-			'Enlight_Controller_Front_StartDispatch',
-			'onStartDispatch'
-		);
+         $this->subscribeEvent(
+            'Enlight_Controller_Front_StartDispatch',
+            'onStartDispatch'
+        );
         return true;
     }
 
@@ -146,7 +146,7 @@ class Enlight_Extensions_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap
             return $this;
         }
 
-        if(isset($this->errorLevel) && isset($this->origErrorHandler)) {
+        if (isset($this->errorLevel) && isset($this->origErrorHandler)) {
             set_error_handler(array($this, 'errorHandler'), $errorLevel);
         } else {
             $this->origErrorHandler = set_error_handler(array($this, 'errorHandler'), $errorLevel);

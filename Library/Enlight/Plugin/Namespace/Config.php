@@ -152,7 +152,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     public function getConfig($name)
     {
         $item = $this->storage->plugins->$name;
-        if(!isset($item->config)) {
+        if (!isset($item->config)) {
             $item->config = array();
         }
         return $item->config;

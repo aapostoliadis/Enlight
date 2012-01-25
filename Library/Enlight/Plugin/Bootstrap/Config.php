@@ -34,12 +34,12 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
     /**
      * @var Enlight_Config
      */
-	protected $config;
+    protected $config;
 
     /**
      * @var Enlight_Plugin_Namespace_Config
      */
-	protected $collection;
+    protected $collection;
 
     /**
      * Returns the application instance.
@@ -48,7 +48,7 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
      */
     public function Config()
     {
-        if($this->config === null
+        if ($this->config === null
           && $this->collection instanceof Enlight_Plugin_Namespace_Config) {
             $this->config = $this->collection->getConfig($this->getName());
         }
@@ -59,10 +59,10 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
      * Getter method for the collection property. Contains an instance of the Enlight_Plugin_Namespace_Config.
      * @return  Enlight_Plugin_Namespace_Config
      */
-	public function Collection()
-	{
-		return $this->collection;
-	}
+    public function Collection()
+    {
+        return $this->collection;
+    }
 
     /**
      * Subscribes an plugin events. The given parameters and the internal instance of

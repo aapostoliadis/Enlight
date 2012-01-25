@@ -85,7 +85,7 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
     public function Config()
     {
         $config = parent::Config();
-        if(count($config) === 0) {
+        if (count($config) === 0) {
             $config->merge(new Enlight_Config(array(
                 'logDb' => true,
                 'logTemplate' => true,
@@ -115,16 +115,16 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             return;
         }
 
-        if(!empty($this->Config()->logDb)) {
+        if (!empty($this->Config()->logDb)) {
             $this->Application()->Db()->getProfiler()->setEnabled(true);
         }
 
-        if(!empty($this->Config()->logTemplate)) {
+        if (!empty($this->Config()->logTemplate)) {
             $this->Application()->Template()->setDebugging(true);
             $this->Application()->Template()->debug_tpl = 'string:';
         }
 
-        if(!empty($this->Config()->logController)) {
+        if (!empty($this->Config()->logController)) {
             $this->Application()->Events()->registerSubscriber($this->getListeners());
         }
     }
@@ -142,15 +142,15 @@ class Enlight_Extensions_Benchmark_Bootstrap extends Enlight_Plugin_Bootstrap_Co
             return;
         }
 
-        if(!empty($this->Config()->logDb)) {
+        if (!empty($this->Config()->logDb)) {
             $this->logDb();
         }
 
-        if(!empty($this->Config()->logTemplate)) {
+        if (!empty($this->Config()->logTemplate)) {
             $this->logTemplate();
         }
 
-        if(!empty($this->Config()->logController)) {
+        if (!empty($this->Config()->logController)) {
             $this->logController();
         }
     }

@@ -78,7 +78,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      */
     public function init()
     {
-        if(!$this->Collection()) {
+        if (!$this->Collection()) {
             return;
         }
         $event = new Enlight_Event_Handler_Default(

@@ -286,7 +286,7 @@ class <namespace>_<proxyClassName> extends <className> implements Enlight_Hook_P
 '
     <methodModifiers> function <methodName>(<methodParameters>)
     {
-        if(!Enlight_Application::Instance()->Hooks()->hasHooks(\'<className>\', \'<methodName>\')) {
+        if (!Enlight_Application::Instance()->Hooks()->hasHooks(\'<className>\', \'<methodName>\')) {
             return parent::<methodName>(<proxyMethodParameters>);
         }
         
