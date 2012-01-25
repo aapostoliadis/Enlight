@@ -69,7 +69,7 @@ class Enlight_Application
     /**
      * @var string Application path
      */
-    protected $app_path;
+    protected $appPath;
 
     /**
      * @var string Framework core path
@@ -136,13 +136,16 @@ class Enlight_Application
             $this->app = 'Default';
         }
         if (!empty($options['app_path'])) {
-            $this->app_path = realpath($options['app_path']) . $this->DS();
+            $options['appPath'] = $options['app_path'];
+        }
+        if (!empty($options['appPath'])) {
+            $this->appPath = realpath($options['appPath']) . $this->DS();
         } else {
-            $this->app_path = realpath('Apps/' . $this->app) . $this->DS();
+            $this->appPath = realpath('Apps/' . $this->app) . $this->DS();
         }
 
-        if (!file_exists($this->app_path) && !is_dir($this->app_path)) {
-            throw new Exception('App "' . $this->app . '" with path "' . $this->app_path . '" not found failure');
+        if (!file_exists($this->appPath) && !is_dir($this->appPath)) {
+            throw new Exception('App "' . $this->app . '" with path "' . $this->appPath . '" not found failure');
         }
 
         $this->_loader->registerNamespace($this->App(), $this->AppPath());
@@ -195,9 +198,9 @@ class Enlight_Application
     {
         if ($path !== null) {
             $path = str_replace('_', $this->DS(), $path);
-            return $this->app_path . $path . $this->DS();
+            return $this->appPath . $path . $this->DS();
         }
-        return $this->app_path;
+        return $this->appPath;
     }
 
     /**
