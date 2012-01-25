@@ -30,7 +30,7 @@
  */
 class Enlight_Components_Cron_EventArgs extends Enlight_Event_EventArgs
 {
-    /** @var Enlight_Components_Cron_Job */
+    /** @var Enlight_Components_Cron_Job Will be set in the class constructor */
     protected $job;
 
     /**

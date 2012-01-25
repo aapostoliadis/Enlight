@@ -48,14 +48,14 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
 
     /**
      * Name mapping between what the app and the real database.
-     * Knows following Columns
-     * -id - An integer field; unique; Primary Kex
-     * -name - String(255); Name or descriptions of the Job eg. Check Stock
-     * -action - Unique string(255) field. action becomes the event name during the execution of the job
-     * -next - datetime; stores the date when the next run is due
-     * -start - datetime; stores the last date when the job has been called
-     * -end - datetime; stores the date/time an which the job stopped
-     * -interval - Integer field; Stores the delta time between two runs in seconds.
+     * Knows following Columns<br>
+     * -id - An integer field; unique; Primary Kex<br>
+     * -name - String(255); Name or descriptions of the Job eg. Check Stock<br>
+     * -action - Unique string(255) field. action becomes the event name during the execution of the job<br>
+     * -next - datetime; stores the date when the next run is due<br>
+     * -start - datetime; stores the last date when the job has been called<br>
+     * -end - datetime; stores the date/time an which the job stopped<br>
+     * -interval - Integer field; Stores the delta time between two runs in seconds.<br>
      * -active - boolean field; 1 = active 0 = inactive.
      *
      * @var array
@@ -75,15 +75,15 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
     /**
      * Constructor - This class is derived from Zend_Db_Table.
      * An array of options can be provided to setup the object. The array should include a mapping
-     * of database columns.
-     * -idColumn - An integer field; unique; Primary Kex
-     * -nameColumn - String(255); Name or descriptions of the Job eg. Check Stock
-     * -actionColumn - Unique string(255) field. action becomes the event name during the execution of the job
-     * -nextColumn - datetime; stores the date when the next run is due
-     * -startColumn - datetime; stores the last date when the job has been called
-     * -endColumn - datetime; stores the date/time an which the job stopped
-     * -intervalColumn - Integer field; Stores the delta time between two runs in seconds.
-     * -activeColumn - boolean field; 1 = active 0 = inactive.
+     * of database columns.<br>
+     * -idColumn - An integer field; unique; Primary Kex<br>
+     * -nameColumn - String(255); Name or descriptions of the Job eg. Check Stock<br>
+     * -actionColumn - Unique string(255) field. action becomes the event name during the execution of the job<br>
+     * -nextColumn - datetime; stores the date when the next run is due<br>
+     * -startColumn - datetime; stores the last date when the job has been called<br>
+     * -endColumn - datetime; stores the date/time an which the job stopped<br>
+     * -intervalColumn - Integer field; Stores the delta time between two runs in seconds.<br>
+     * -activeColumn - boolean field; 1 = active 0 = inactive.<br>
      *
      * @param array|null $options
      * @see http://framework.zend.com/manual/en/zend.db.table.html
