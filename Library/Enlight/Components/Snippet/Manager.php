@@ -55,6 +55,10 @@ class Enlight_Components_Snippet_Manager extends Enlight_Class
     protected $ignoreNamespace;
 
     /**
+     * The Enlight_Components_Snippet_Manager class constructor excepts an configuration for the adapter.
+     * The adapter can be set in the options array element "adapter" and have to been an instance
+     * of the Enlight_Config_Adapter.
+     *
      * @param   array|Enlight_Config_Adapter|null $options
      */
     public function __construct($options = null)

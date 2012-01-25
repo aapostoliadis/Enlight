@@ -110,6 +110,8 @@ class Enlight_Components_Form extends Zend_Form
     }
 
     /**
+     * Setter method for the id property.
+     *
      * @param   int $id
      * @return  Enlight_Components_Form
      */
