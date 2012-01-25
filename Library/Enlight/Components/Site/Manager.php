@@ -35,12 +35,16 @@
 class Enlight_Components_Site_Manager
 {
     /**
-     * @var mixed|Enlight_Config the adapter config, which can set in the constructor
+     * @var mixed|Enlight_Config Contains the adapter config, which can set in the constructor
      */
     protected $adapter;
 
     /**
-     * @param   array|Enlight_Config|null $options
+     * The options parameter will be used to set the config adapter.
+     * If the options parameter will be passed as an array, the array element with the key "adapter"
+     * must be an instance of the Enlight_Config.
+     *
+     * @param   array|Enlight_Config $options
      */
     public function __construct($options = null)
     {

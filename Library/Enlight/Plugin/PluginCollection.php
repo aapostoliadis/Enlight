@@ -96,7 +96,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
-     *
+     * Loads the plugin instance of the given plugin name.
      * @throws  Enlight_Exception
      * @param   $name
      * @return  Enlight_Plugin_PluginCollection
@@ -110,6 +110,8 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
+     * Magic caller
+     *
      * @param   string     $name
      * @param   array|null $args
      * @return  Enlight_Plugin_Namespace|Enlight_Plugin_Bootstrap
@@ -120,6 +122,8 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     }
 
     /**
+     * Removes all stored plugins.
+     *
      * @return Enlight_Plugin_PluginManager
      */
     public function reset()

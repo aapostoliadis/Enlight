@@ -66,15 +66,16 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
         return $this->collection;
     }
 
+
     /**
      * Subscribes an plugin events. The given parameters and the internal instance of
      * the Enlight_Plugin_Namespace_Config will be used to instantiate a new Enlight_Event_Handler_Plugin.
      * This Enlight_Event_Handler_Plugin will subscribed over the namespace subscriber.
      *
-     * @param   string $event
-     * @param   integer $position
-     * @param   callback $listener
-     * @return  Enlight_Plugin_Bootstrap_Config
+     * @param string $event
+     * @param callback $listener
+     * @param integer  $position
+     * @return Enlight_Plugin_Bootstrap_Config
      */
     public function subscribeEvent($event, $listener, $position = null)
     {

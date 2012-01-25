@@ -40,6 +40,8 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     protected $prefixPaths = array();
 
     /**
+     * Returns the instance of the passed plugin name.
+     *
      * @param   $name
      * @return  Enlight_Plugin_Bootstrap
      */
