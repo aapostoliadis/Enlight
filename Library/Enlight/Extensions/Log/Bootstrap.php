@@ -101,9 +101,9 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function setResource(Zend_Log $log = null)
     {
-        if($log === null) {
+        if ($log === null) {
             $config = $this->Config();
-            if(count($config) === 0) {
+            if (count($config) === 0) {
                $config = new Enlight_Config(array(
                    array('writerName' => 'Null'),
                    array('writerName' => 'Firebug')
@@ -122,7 +122,7 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function setFirebugChannel($channel = null)
     {
-        if($channel === null) {
+        if ($channel === null) {
             $channel = Zend_Wildfire_Channel_HttpHeaders::getInstance();
         }
         $this->channel = $channel;
@@ -134,7 +134,7 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function Resource()
     {
-        if($this->log === null) {
+        if ($this->log === null) {
             $this->setResource();
         }
         return $this->log;
@@ -147,7 +147,7 @@ class Enlight_Extensions_Log_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function FirebugChannel()
     {
-        if($this->channel === null) {
+        if ($this->channel === null) {
             $this->setFirebugChannel();
         }
         return $this->channel;

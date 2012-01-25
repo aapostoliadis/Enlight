@@ -74,7 +74,7 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function setLog(Zend_Log $log = null)
     {
-        if($log === null) {
+        if ($log === null) {
             $log = $this->Collection()->Log()->Resource();
         }
         $this->log = $log;
@@ -88,7 +88,7 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function Log()
     {
-        if($this->log === null) {
+        if ($this->log === null) {
             $this->setLog();
         }
         return $this->log;
@@ -137,7 +137,7 @@ class Enlight_Extensions_Debug_Bootstrap extends Enlight_Plugin_Bootstrap_Config
      */
     public function onDispatchLoopShutdown(Enlight_Event_EventArgs $args)
     {
-        if(!$this->Log()) {
+        if (!$this->Log()) {
             return;
         }
 

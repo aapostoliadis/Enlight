@@ -94,7 +94,7 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
             'controller' => 'sViewport',
             'action' => 'sAction',
         );
-        foreach ($aliases as $key=>$aliase)	{
+        foreach ($aliases as $key=>$aliase) {
             if (($value = $request->getParam($key))!==null) {
                 $request->setParam($aliase, $value);
             }
@@ -128,15 +128,15 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
         $params = $args->getParams();
         $userParams = $args->get('userParams');
 
-        if(!empty($params['module']) && $params['module']!='frontend' && empty($userParams['fullPath'])) {
+        if (!empty($params['module']) && $params['module']!='frontend' && empty($userParams['fullPath'])) {
             return $args->getReturn();
         }
 
-        if(empty(Shopware()->Config()->UseSSL)) {
+        if (empty(Shopware()->Config()->UseSSL)) {
             $useSSL = false;
-        } elseif(!empty($userParams['sUseSSL'])||!empty($userParams['forceSecure'])) {
+        } elseif (!empty($userParams['sUseSSL'])||!empty($userParams['forceSecure'])) {
             $useSSL = true;
-        } elseif(!empty($params['sViewport']) &&
+        } elseif (!empty($params['sViewport']) &&
           in_array($params['sViewport'], array('account', 'checkout', 'register', 'ticket', 'note'))) {
             $useSSL = true;
         } else {
@@ -145,9 +145,9 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
 
         $url = '';
 
-        if(!isset($userParams['fullPath']) || !empty($userParams['fullPath'])) {
+        if (!isset($userParams['fullPath']) || !empty($userParams['fullPath'])) {
             $url = $useSSL ? 'https://' : 'http://';
-            if(Shopware()->Bootstrap()->hasResource('Shop')
+            if (Shopware()->Bootstrap()->hasResource('Shop')
               && Shopware()->Bootstrap()->hasResource('Front')) {
                 $url .= Shopware()->Shop()->getHost().Shopware()->Front()->Request()->getBasePath();
             } else {
@@ -156,7 +156,7 @@ class Enlight_Extensions_Router_Bootstrap extends Enlight_Plugin_Bootstrap_Confi
             $url .= '/';
         }
 
-        if(empty(Shopware()->Config()->RouterUseModRewrite)
+        if (empty(Shopware()->Config()->RouterUseModRewrite)
           && (!empty($params['sViewport']) || empty(Shopware()->Config()->RedirectBaseFile))) {
             $url .= Shopware()->Config()->BaseFile;
             $url .= '/';
