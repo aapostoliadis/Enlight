@@ -59,9 +59,10 @@ class Lighter
      * @var array
      */
     protected $consoleRules = array(
-        'app|a=s'      => 'Name of the new application.',
-        'app_path|p=s' => 'The target directory of the application.',
-        'help|h'       => 'Shows this help.'
+        'app|a=s'      => 'name of the new application',
+        'app_path|p=s' => 'the target directory of the application',
+        'help|h|?'       => 'shows this help',
+        'force|f'      => 'overwrite the existing files'
     );
 
     /**
@@ -210,7 +211,6 @@ class %app%_Bootstrap extends Enlight_Bootstrap
                 Zend_Console_Getopt::CONFIG_DASHDASH => false,
             )
         );
-        $console->setAliases(array('h'=>'?'));
         return $console;
     }
 
@@ -221,11 +221,8 @@ class %app%_Bootstrap extends Enlight_Bootstrap
      */
     protected function initApp()
     {
-        if($this->console->getOption('help')) {
-            throw new Exception('Showing help.');
-        }
         if(($app = $this->console->getOption('app')) === null) {
-            throw new Exception('A name for the application are required failure.');
+            return null;
         }
         $app = ucfirst($app);
         if(!preg_match('#^[a-z_]+$#i', $app)) {
@@ -276,7 +273,6 @@ class %app%_Bootstrap extends Enlight_Bootstrap
     {
         try {
             $this->bootstrap();
-   
             $this->dispatch();
         } catch (Zend_Console_Getopt_Exception $e) {
             fwrite(STDERR, $e->getMessage() . PHP_EOL . PHP_EOL . $e->getUsageMessage());
@@ -290,48 +286,64 @@ class %app%_Bootstrap extends Enlight_Bootstrap
 
     /**
      * Dispatch the lighter application.
-     * Creates the new application
      *
      * @throws Exception
      */
     public function dispatch()
     {
+        if($this->console->getOption('help')) {
+            echo $this->console->getUsageMessage();
+        } elseif($this->app !== null) {
+            $this->createProject();
+        } else {
+            throw new Exception('A name for the application are required failure.');
+        }
+    }
+
+    /**
+     * Creates the new project
+     * @throws Exception
+     */
+    public function createProject()
+    {
+        $force = !!$this->console->getOption('force');
         $realAppPath = realpath($this->appPath) . DIRECTORY_SEPARATOR;
         $realLibraryPath = realpath(dirname(__FILE__) . '/../') . DIRECTORY_SEPARATOR;
 
         $libraryPath = 'Library/';
         while(!file_exists($this->appPath . $libraryPath) && strpos($realAppPath, $realLibraryPath) === 0) {
-            $libraryPath = '../' . $libraryPath;
+           $libraryPath = '../' . $libraryPath;
         }
 
         foreach($this->projectFiles as $projectFile => $projectFileValue) {
             if(is_int($projectFile)) {
-                $projectFile = $projectFileValue;
-                $projectFileValue = array();
+               $projectFile = $projectFileValue;
+               $projectFileValue = array();
             }
-            if(file_exists($this->appPath . $projectFile)) {
-                throw new Exception($this->appPath . $projectFile . ' already exists - stopping! ');
+            if(file_exists($this->appPath . $projectFile) && !$force) {
+               throw new Exception('Project file "'. $projectFile . '" already exists failure.');
             }
             if(substr($projectFile, -1) === '/') {
-                if(isset($projectFileValue['chmod'])) {
-                    $old = umask(0);
-                    mkdir($this->appPath . $projectFile, $projectFileValue['chmod']);
-                    umask($old);
-                } else {
+                if(!file_exists($this->appPath . $projectFile)) {
                     mkdir($this->appPath . $projectFile, 0777, !empty($projectFileValue['recursive']));
                 }
+                if(isset($projectFileValue['chmod'])) {
+                    $old = umask(0);
+                    chmod($this->appPath . $projectFile, $projectFileValue['chmod']);
+                    umask($old);
+                }
             } else {
-                $fileContent = isset($projectFileValue['content']) ? $projectFileValue['content'] : '';
-                $fileContent = str_replace(array(
-                    '%app%',
-                    '%appPath%',
-                    '%libraryPath%'
-                ), array(
-                    $this->app,
-                    $this->appPath,
-                    $libraryPath
-                ), $fileContent);
-                file_put_contents($this->appPath . $projectFile, $fileContent);
+               $fileContent = isset($projectFileValue['content']) ? $projectFileValue['content'] : '';
+               $fileContent = str_replace(array(
+                   '%app%',
+                   '%appPath%',
+                   '%libraryPath%'
+               ), array(
+                   $this->app,
+                   $this->appPath,
+                   $libraryPath
+               ), $fileContent);
+               file_put_contents($this->appPath . $projectFile, $fileContent);
             }
         }
     }
