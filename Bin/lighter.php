@@ -59,8 +59,9 @@ class Lighter
      * @var array
      */
     protected $consoleRules = array(
-        'app|a=s'    => 'name of the new application',
-        'app_path|p=s' => 'the target directory of the application'
+        'app|a=s'      => 'Name of the new application.',
+        'app_path|p=s' => 'The target directory of the application.',
+        'help|h'       => 'Shows this help.'
     );
 
     /**
@@ -85,7 +86,7 @@ class Lighter
     {
         public function indexAction()
         {
-
+            // your code here
         }
     }',
         ),
@@ -209,6 +210,7 @@ class %app%_Bootstrap extends Enlight_Bootstrap
                 Zend_Console_Getopt::CONFIG_DASHDASH => false,
             )
         );
+        $console->setAliases(array('h'=>'?'));
         return $console;
     }
 
@@ -219,8 +221,11 @@ class %app%_Bootstrap extends Enlight_Bootstrap
      */
     protected function initApp()
     {
+        if($this->console->getOption('help')) {
+            throw new Exception('Showing help.');
+        }
         if(($app = $this->console->getOption('app')) === null) {
-            $app = 'Default';
+            throw new Exception('A name for the application are required failure.');
         }
         $app = ucfirst($app);
         if(!preg_match('#^[a-z_]+$#i', $app)) {
@@ -251,6 +256,7 @@ class %app%_Bootstrap extends Enlight_Bootstrap
 
     /**
      * Starts the initialization of the components
+     * @return int
      */
     public function bootstrap()
     {
@@ -270,6 +276,7 @@ class %app%_Bootstrap extends Enlight_Bootstrap
     {
         try {
             $this->bootstrap();
+   
             $this->dispatch();
         } catch (Zend_Console_Getopt_Exception $e) {
             fwrite(STDERR, $e->getMessage() . PHP_EOL . PHP_EOL . $e->getUsageMessage());
@@ -301,6 +308,9 @@ class %app%_Bootstrap extends Enlight_Bootstrap
             if(is_int($projectFile)) {
                 $projectFile = $projectFileValue;
                 $projectFileValue = array();
+            }
+            if(file_exists($this->appPath . $projectFile)) {
+                throw new Exception($this->appPath . $projectFile . ' already exists - stopping! ');
             }
             if(substr($projectFile, -1) === '/') {
                 if(isset($projectFileValue['chmod'])) {
