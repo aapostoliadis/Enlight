@@ -9,7 +9,7 @@
     	singleton: true
     });
     Ext.Loader.setConfig('enabled', true);
-    Ext.Loader.setPath('Enlight.apps', '{url module=backend action=index}', '');
+    Ext.Loader.setPath('Enlight.apps', '{url module=backend action=index}', '?file=app');
     Ext.onReady(function(){
         Enlight.app.Application.addSubApplication({ name: 'Enlight.apps.BlogPosts' });
     });
