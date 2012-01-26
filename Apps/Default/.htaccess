@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    #RewriteBase /enlight/
+
+    RewriteCond %{REQUEST_URI} !(Views\/|Files\/)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [PT,L,QSA]
+</IfModule>
+
+<Files ~ "\.(tpl|yml|ini)$">
+    Deny from all
+</Files>
+
+#Options -Indexes
