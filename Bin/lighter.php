@@ -220,7 +220,7 @@ class %app%_Bootstrap extends Enlight_Bootstrap
     protected function initApp()
     {
         if(($app = $this->console->getOption('app')) === null) {
-            $app = 'Default';
+            throw new Exception('A name for the application are required failure.');
         }
         $app = ucfirst($app);
         if(!preg_match('#^[a-z_]+$#i', $app)) {
