@@ -181,6 +181,7 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
      *
      * @param Enlight_Components_Cron_Job $job
      * @return Enlight_Components_Cron_Adapter_Adapter
+     * @throws Enlight_Exception
      */
     public function updateJob(Enlight_Components_Cron_Job $job)
     {
@@ -308,11 +309,12 @@ class Enlight_Components_Cron_Adapter_DbTable extends Zend_Db_Table_Abstract imp
         return $this->getJobByColumn($this->_columns['name'], $name);
     }
 
+
     /**
-     * Removes an job from the crontab
+     * Removes an job from the cron tab
      *
      * @param Enlight_Components_Cron_Job $job
-     * @return \Enlight_Components_Cron_Adapter_Adapter
+     * @return Enlight_Components_Cron_Adapter_DbTable
      */
     public function removeJob(Enlight_Components_Cron_Job $job)
     {

@@ -25,7 +25,8 @@
  * The Enlight_Plugin_PluginCollection provides an array containing each registered plugin.
  *
  * The Enlight_Plugin_PluginCollection is an array for each registered plugin.
- *
+ * If a Enlight_Plugin_Bootstrap registered over the Enlight_Plugin_PluginCollection reference are
+ * added to the Enlight_Plugin_Bootstrap.
  *
  * @category   Enlight
  * @package    Enlight_Plugin
@@ -36,12 +37,13 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
 {
     /**
      * Property which contains all registered plugins.
+     *
      * @var ArrayObject
      */
     protected $plugins;
 
     /**
-     * The Enlight_Plugin_PluginCollection initial the internal plugin list.
+     * The Enlight_Plugin_PluginCollection class constructor initial the internal plugin list.
      */
     public function __construct()
     {
@@ -57,9 +59,9 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     abstract public function Application();
 
     /**
-     * Registers the given plugin bootstrap. The Enlight_Plugin_PluginCollection instance will be
-     * set into the plugin by using the Enlight_Plugin_Bootstrap::setCollection() method.
-     * The name of the plugin will be used as array key.
+     * Registers the given plugin bootstrap. The Enlight_Plugin_PluginCollection instance is
+     * set into the plugin, by using the Enlight_Plugin_Bootstrap::setCollection() method.
+     * The name of the plugin is used as array key.
      *
      * @param Enlight_Plugin_Bootstrap $plugin
      * @return Enlight_Plugin_PluginManager
@@ -73,6 +75,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
 
     /**
      * Getter method for the plugin list.
+     *
      * @return  ArrayIterator
      */
     public function getIterator()
@@ -82,7 +85,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
 
     /**
      * Returns a plugin by name. If the plugin isn't registered, the Enlight_Plugin_PluginCollection
-     * will load it automatically.
+     * loads it automatically.
      *
      * @param   $name
      * @return  Enlight_Plugin_Namespace|Enlight_Plugin_Bootstrap
@@ -97,6 +100,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
 
     /**
      * Loads the plugin instance of the given plugin name.
+     *
      * @throws  Enlight_Exception
      * @param   $name
      * @return  Enlight_Plugin_PluginCollection

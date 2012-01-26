@@ -24,7 +24,7 @@
 /**
  * Hook arguments which will be passed to the hook listener.
  *
- * The Enlight_Hook_HookArgs are an array of hook arguments which will be passed by the manager to the hook handler.
+ * The Enlight_Hook_HookArgs are an array of hook arguments which are passed by the manager to the hook handler.
  * It contains all data about the hook handler (class name, method name, target function, return value)
  *
  * @category   Enlight
@@ -35,17 +35,17 @@
 class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
 {
     /**
-     * @var Enlight_Class class to which the hook is created.
+     * @var Enlight_Class Class to which the hook is created.
      */
     protected $_class;
 
     /**
-     * @var string method on which the hook is created.
+     * @var string Method on which the hook is created.
      */
     protected $_method;
 
     /**
-     * @var string name of the class
+     * @var string Name of the class
      */
     protected $_name;
 
@@ -73,6 +73,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
 
     /**
      * Standard getter function to return the class property
+     *
      * @return mixed
      */
     public function getSubject()
@@ -118,6 +119,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
 
     /**
      * Standard getter function to return the return property
+     *
      * @return mixed
      */
     public function getReturn()
@@ -127,6 +129,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
 
     /**
      * Sets the given property to null.
+     *
      * @param $key
      */
     public function remove($key)
@@ -136,6 +139,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
 
     /**
      * Standard set function to set the value to the given property
+     *
      * @param $key
      * @param $value
      */

@@ -24,10 +24,9 @@
 /**
  * Contains all data about the hook. (Hooked class, method, listener, position)
  *
- * The Enlight_Hook_HookHandler represents an single hook. The hook handler will be registered
- * by the Enlight_Hook_Subscriber and will be executed by the Enlight_Hook_Manager if the corresponding
+ * The Enlight_Hook_HookHandler represents an single hook. The hook handler is registered
+ * over the Enlight_Hook_Subscriber and is executed by the Enlight_Hook_Manager if the corresponding
  * original class method would be executed.
- *
  *
  * @category   Enlight
  * @package    Enlight_Hook
@@ -63,7 +62,7 @@ class Enlight_Hook_HookHandler
     protected $position;
 
     /**
-     * @var the plugin which creates the hook object.
+     * @var object the plugin which creates the hook object.
      */
     protected $plugin;
 
@@ -146,6 +145,7 @@ class Enlight_Hook_HookHandler
 
     /**
      * Standard setter function of the plugin property
+     *
      * @param $plugin
      * @return Enlight_Hook_HookHandler
      */
@@ -211,7 +211,7 @@ class Enlight_Hook_HookHandler
 
     /**
      * Standard getter function of the plugin property.
-     * @return the
+     * @return object
      */
     public function getPlugin()
     {

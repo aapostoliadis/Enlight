@@ -24,7 +24,9 @@
 /**
  * The Enlight_Plugin_Namespace is an abstract class to represent the namespace of a single plugin.
  *
- * The Enlight_Plugin_Namespace represents a single plugin namespace.
+ * The Enlight_Plugin_Namespace represents a single plugin namespace. The Enlight_Plugin_Namespace
+ * has an reference to the Enlight_Plugin_PluginManager. The name of the Enlight_Plugin_Namespace
+ * is used as array key in the Enlight_Plugin_PluginCollection.
  *
  * @category   Enlight
  * @package    Enlight_Plugin
@@ -34,12 +36,15 @@
 abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
 {
     /**
-     * @var Enlight_Plugin_PluginManager This property contains an instance of the Enlight_Plugin_PluginManager
+     * @var Enlight_Plugin_PluginManager This property contains an instance of the Enlight_Plugin_PluginManager.
+     * Can be set over the setManager() method. Is set automatic when the namespace registered over
+     * the plugin manager.
      */
     protected $manager;
 
     /**
-     * @var string This property contains the name of the namespace.
+     * @var string This property contains the name of the namespace. Used as array key in the
+     * Enlight_Plugin_PluginCollection.
      */
     protected $name;
 
@@ -57,6 +62,7 @@ abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
 
     /**
      * Getter method for the namespace name property.
+     *
      * @return string
      */
     public function getName()

@@ -154,6 +154,7 @@ class Enlight_Template_Default extends Smarty_Internal_Template
 
     /**
      * This function extends the whole template file.
+     *
      * @param $template_name
      * @return void
      */

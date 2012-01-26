@@ -261,9 +261,9 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
 
     /**
      * Loads the given resource. If the resource is already registered and the status
-     * is STATUS_BOOTSTRAP an Enlight_Exception will be thrown.
-     * The resource will be initial by the Enlight_Bootstrap_InitResource event.
-     * If this event don't exist for the given resource, the resource will be initial
+     * is STATUS_BOOTSTRAP an Enlight_Exception is thrown.
+     * The resource is initial by the Enlight_Bootstrap_InitResource event.
+     * If this event don't exist for the given resource, the resource is initial
      * by call_user_func.
      * After the resource initialed the event Enlight_Bootstrap_AfterInitResource will
      * be fired. In case an exception will be thrown by initializing the resource,
