@@ -22,10 +22,10 @@
  */
 
 /**
- * Enlight hook subscriber interface.
+ * Interface for hook subscriber
  *
  * The Enlight_Hook_HookSubscriber is the basic interface for each specified hook subscriber.
- * For each application the hook subscribe have to be defined manuel.
+ * For each application the hook subscriber have to be defined manuel.
  *
  * @category   Enlight
  * @package    Enlight_Hook

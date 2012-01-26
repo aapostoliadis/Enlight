@@ -24,8 +24,8 @@
 /**
  * The Enlight_Hook_HookManager allows to hook class methods.
  *
- * Class methods can be hooked by type before,
- * replace and after. It uses a proxy to hook the class on which is the hook placed,
+ * Class methods can be hooked by type before, replace and after.
+ * It uses a proxy to hook the class on which is the hook placed,
  * so the class method can be overwritten. If a class is hooked, a proxy will be generated for this class.
  * The generated class extends the origin class and implements the Enlight_Hook_Proxy interface.
  * Instead of the origin methods, the registered hook handler methods will be executed.

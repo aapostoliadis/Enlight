@@ -238,7 +238,7 @@ class Enlight_Components_Form extends Zend_Form
     /**
      * Converts elements decorators to an array
      *
-     * @param $elementDecorators
+     * @param array $elementDecorators
      * @return array
      */
     protected function convertElementDecorators(array $elementDecorators)
@@ -259,7 +259,7 @@ class Enlight_Components_Form extends Zend_Form
     /**
      * Converts form decorators to an array
      *
-     * @param $decorators
+     * @param array $decorators
      * @return array
      */
     protected function convertFormDecorators(array $decorators)
@@ -273,8 +273,7 @@ class Enlight_Components_Form extends Zend_Form
 
     /**
      * Converts form filters to an array
-     *
-     * @param $filters array
+     * @param array $filters
      * @return array
      */
     protected function convertFilters(array $filters)
@@ -288,8 +287,7 @@ class Enlight_Components_Form extends Zend_Form
 
     /**
      * Converts form validators to an array
-     *
-     * @param $validators
+     * @param array $validators
      * @return array
      */
     protected function convertValidators(array $validators)

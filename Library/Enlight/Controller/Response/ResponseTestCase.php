@@ -35,6 +35,9 @@ class Enlight_Controller_Response_ResponseTestCase
     extends Zend_Controller_Response_HttpTestCase
     implements Enlight_Controller_Response_Response
 {
+    /**
+     * @var array Contains all cookies, which has been set over the "setCookie" function.
+     */
     protected $_cookies = array();
 
     /**

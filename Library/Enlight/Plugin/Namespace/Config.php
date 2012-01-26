@@ -22,10 +22,15 @@
  */
 
 /**
- * The Enlight_Plugin_Namespace_Config class contains and edits all configs for a single namespace.
+ * The Enlight_Plugin_Namespace_Config loads plugins over an Enlight_Config.
  *
- * The Enlight_Plugin_Namespace_Config contains all settings for a namespace.
- * It can load, read and write all plugins in the plugin namespace.
+ * With the Enlight_Plugin_Namespace_Config component, plugins can be loaded and stored over an Enlight_Config.
+ * The Enlight_Plugin_Namespace_Config will be extended automatically if another plugin
+ * is registered for the namespace.
+ * It also offers the possibility to configure the plugin directly from this configuration.
+ * To get the configuration of the loaded plugins, the Enlight_Plugin_Namespace_Config offers
+ * a function to return the config.
+ * So that it can be used directly in the plugin there is the extra extended Plugin_Bootstrap_Config component.
  *
  * @category   Enlight
  * @package    Enlight_Plugin
@@ -49,7 +54,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
      * The Enlight_Plugin_Namespace_Config class constructor expects an storage (Enlight_Config).
      * The options array must contains an array element named "storage" which contains an additional array
      * with storage settings or only with a name for the storage.
-     * If the options array aren't given the name will be used to instantiate the storage.
+     * If the name passed as array, it is used to instantiate the storage.
      *
      * @param   string     $name
      * @param   null|array $options
@@ -83,7 +88,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     }
 
     /**
-     * Loads a plugin in the plugin namespace by name over the storage.
+     * Loads a plugin in the plugin namespace by name over the Enlight_Config.
      *
      * @throws  Enlight_Exception
      * @param   $name
@@ -103,7 +108,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
 
     /**
      * Writes all registered plugins into the storage.
-     * The subscriber and the registered plugins will converted to an array.
+     * The subscriber and the registered plugins are converted to an array.
      *
      * @return  Enlight_Plugin_Namespace_Config
      */

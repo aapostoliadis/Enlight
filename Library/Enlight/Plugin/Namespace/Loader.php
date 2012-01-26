@@ -22,10 +22,13 @@
  */
 
 /**
- * Allows to register multiple plugins from a namespace.
  *
- * The Enlight_Plugin_Namespace_Loader reads all plugins from the namespace and register them over the
- * Enlight_Plugin_Manager.
+ * Allows to register multiple plugins from a namespace over an prefix path.
+ *
+ * The Enlight_Plugin_Namespace_Loader iterates over the specified directory and
+ * check whether bootstrap files are present. If a bootstrap is found, loaded via
+ * the Enlight_Loader the corresponding class.
+ *
  *
  * @category   Enlight
  * @package    Enlight_Plugin
