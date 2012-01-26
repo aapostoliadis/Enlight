@@ -31,8 +31,7 @@
  * @copyright  Copyright (c) 2011, shopware AG (http://www.shopware.de)
  * @license    http://enlight.de/license     New BSD License
  */
-error_reporting(E_ALL);
-ini_set('display_errors','On');
+
 // set the include path to the enlight library and to the application directory
 set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . '/../../Library/');
 set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . '/../../Apps/');
@@ -58,9 +57,17 @@ $config = array(
     'db' => array(
         'host' => '127.0.0.1',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'dbname' => 'enlightBlog',
         'charset' => 'utf8'
+    ),
+
+    // php settings
+    'phpSettings' => array(
+        'error_reporting' => E_ALL | E_STRICT,
+        'display_errors' => 1,
+        'date.timezone' => 'Europe/Berlin',
+        'zend.ze1_compatibility_mode' => 0
     ),
 
     // view settings
