@@ -80,7 +80,7 @@ class Enlight_Extensions_RouterSymfony_Bootstrap extends Enlight_Plugin_Bootstra
     {
         $configRoutes = $this->Config()->get('routes');
         if (is_string($configRoutes)) {
-            $locator = new FileLocator(array('.'));
+            $locator = new FileLocator(array('.', $this->Application()->AppPath()));
             $loader = new YamlFileLoader($locator);
             return $loader->load($configRoutes);
         } elseif ($configRoutes instanceof Enlight_Config) {
