@@ -70,7 +70,11 @@ class Smarty_Compiler_Url extends Smarty_Internal_CompileBase
         $params = array();
         foreach($_attr as $index => $param) {
             if (!preg_match('/^([\'"]?)[a-zA-Z0-9]+(\\1)$/', $param, $match) || !empty($_attr['appendSession'])) {
-                return '<?php echo Enlight_Application::Instance()->Front()->Router()->assemble(' . join( ', ', $_attr ) . '); ?>';
+                $params = '';
+                foreach($_attr as $index => $param) {
+                    $params .= var_export($index, true). ' => ' . $param . ', ';
+                }
+                return '<?php echo Enlight_Application::Instance()->Front()->Router()->assemble(array(' . $params . ')); ?>';
             }
             $params[$index] = substr($param, 1, -1);
         }
