@@ -1,18 +1,11 @@
 <?php
 class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
-{	
-	public function init()
-	{
-        //$this->View()->Engine()->registerFilter('pre', array($this, 'preFilter'));
-		//
-    }
-
+{
     public function preDispatch()
 	{
-        //Enlight_Application::Instance()->Plugins()->Controller()->Json()->setPadding();
-        //Enlight_Application::Instance()->Plugins()->Controller()->Json()->setRenderer();
-        $this->View()->setCaching(false);
-        $this->View()->Template()->cache_lifetime = 1000;
+        //$this->Front()->Plugins()->Json()->setPadding();
+        //$this->Front()->Plugins()->Json()->setRenderer();
+        //$this->View()->setCaching(false);
         //$this->View()->setScope(Smarty::SCOPE_GLOBAL);
     }
 	
@@ -23,10 +16,8 @@ class Default_Controllers_Frontend_Index extends Enlight_Controller_Action
     public function menuAction()
     {
         if(!$this->View()->isCached()) {
-            //$this->View()->Site = Enlight_Application::Instance()->Site();
+            $this->View()->assign('menu', array());
         }
-
-        $this->View()->assign('test', 1, null, Smarty::SCOPE_GLOBAL);
     }
 
     public function loginAction()

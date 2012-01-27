@@ -42,7 +42,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function init()
     {
-        if (!$this->Collection()) {
+        if ($this->Collection() === null) {
             return;
         }
         $event = new Enlight_Event_Handler_Default(
@@ -153,11 +153,13 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
      */
     public function setRenderer($renderer = true)
     {
-        $this->renderer = (bool)$renderer;
+        $this->renderer = (bool) $renderer;
 
         if ($this->renderer === true) {
-            // We do not need to render the whole page
-            $this->Collection()->ViewRenderer()->setNoRender(true);
+            /** @var $viewRenderer Enlight_Controller_Plugins_ViewRenderer_Bootstrap */
+            $viewRenderer = $this->Collection()->get('ViewRenderer');
+            // Disable the default renderer
+            $viewRenderer->setNoRender(true);
         }
 
         return $this;
