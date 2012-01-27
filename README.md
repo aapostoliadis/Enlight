@@ -8,7 +8,7 @@ Under linux: Setting write permission on the cache dir
 
  # chmod 777 Apps/Default/Cache/*
 
-Open Following URL in the browser
+Open following URL in the browser
 
 Apps/Default/
 
@@ -18,7 +18,7 @@ System Requirements
 ---------------------
 
 - PHP 5.2.11 (or later) but PHP 5.3.9 (or later) is highly recommended
-- with enabled mb string extension for UTF-8 support
+- with enabled MB string extension for UTF-8 support
 - MySQL 5.1 for demo application
 - SQLite 3.7 for some test cases
 
