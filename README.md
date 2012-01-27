@@ -6,7 +6,7 @@ Start / Installation
 
 Under linux: Setting write permission on the cache dir
 
-# chmod 777 Apps/Default/Cache/*
+ # chmod 777 Apps/Default/Cache/*
 
 Open Following URL in the browser
 
