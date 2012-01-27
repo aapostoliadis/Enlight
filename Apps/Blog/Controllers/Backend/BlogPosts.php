@@ -38,10 +38,11 @@ class Blog_Controllers_Backend_BlogPosts extends Enlight_Controller_Action
 
     /**
      * Init method will automatically be called when the Controller instance is created
-     *
-     * Decodes the json request params into a standard Web Request so you can access them by default like this:
-     *
+     * 
+     * Decodes the json request params into a standard Web Request so you can access as default like this:
+     * 
      * <code>$this->Request()->...</code>
+     *
      */
     public function init()
     {
