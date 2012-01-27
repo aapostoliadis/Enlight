@@ -24,8 +24,8 @@
 /**
  * The Enlight_Bootstrap is responsible to manage the application resources.
  *
- * To load the resources the bootstrap used the application configuration which could
- * contains the database connection data.
+ * To load the resources the bootstrap uses the application configuration which could
+ * contain the database connection data.
  *
  * @category   Enlight
  * @package    Enlight_Application
@@ -35,22 +35,22 @@
 abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
 {
     /**
-     * Constant for the bootstrap status, set before the resource will be initial
+     * Constant for the bootstrap status, set before the resource is initialed
      */
     const STATUS_BOOTSTRAP = 0;
 
     /**
-     * Constant for the bootstrap status, set after the resource successfully initialed
+     * Constant for the bootstrap status, set after the resource is successfully initialed
      */
     const STATUS_LOADED = 1;
 
     /**
-     * Constant for the bootstrap status, set if an exception thrown by the initialisation
+     * Constant for the bootstrap status, set if an exception is thrown by the initialisation
      */
     const STATUS_NOT_FOUND = 2;
 
     /**
-     * Constant for the bootstrap status, set when the resource registered.
+     * Constant for the bootstrap status, set when the resource is registered.
      */
     const STATUS_ASSIGNED = 3;
 
@@ -112,7 +112,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * The run method loads the Enlight_Controller_Front resource and run the dispatch function.
+     * The run method loads the Enlight_Controller_Front resource and runs the dispatch function.
      *
      * @return mixed
      */
@@ -125,9 +125,9 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
 
     /**
      * Loads the Zend resource and initials the Enlight_Controller_Front class.
-     * After the front resource loaded, the controller path will be added to the
+     * After the front resource is loaded, the controller path is added to the
      * front dispatcher. After the controller path is set to the dispatcher,
-     * the plugin namespace of the front resource will be set.
+     * the plugin namespace of the front resource is set.
      *
      * @return Enlight_Controller_Front
      */
@@ -164,8 +164,8 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     /**
      * The init template method instantiates the Enlight_Template_Manager
      * and sets the cache, template and compile directory into the manager.
-     * After the directories has been set, the template configuration will be set
-     * from the internal config array.
+     * After the directories has been set, the template configuration is set
+     * by the internal config array.
      *
      * @return Enlight_Template_Manager
      */
@@ -203,7 +203,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Add the given resource to the internal resource list and set the STATUS_ASSIGNED status.
+     * Adds the given resource to the internal resource list and sets the STATUS_ASSIGNED status.
      * The given name will be used as identifier.
      *
      * @param string $name
@@ -218,7 +218,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Checks if the given resource name already registered. If not the resource will be loaded.
+     * Checks if the given resource name is already registered. If not the resource is loaded.
      *
      * @param string $name
      * @return bool
@@ -229,7 +229,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Checks if the given resource name already registered.
+     * Checks if the given resource name is already registered.
      * Unlike as the hasResource method is, if the resource does not exist the resource will not even loaded.
      *
      * @param string $name
@@ -241,9 +241,9 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * Getter method for a single resource. If the source not already registered, this function will
-     * load the resource automatically. In case the resource is not found the status STATUS_NOT_FOUND will
-     * be set and an Enlight_Exception will be thrown.
+     * Getter method for a single resource. If the source is not already registered, this function will
+     * load the resource automatically. In case the resource is not found the status STATUS_NOT_FOUND is
+     * set and an Enlight_Exception is thrown.
      *
      * @param string $name
      * @return Enlight_Class
@@ -263,12 +263,12 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
      * Loads the given resource. If the resource is already registered and the status
      * is STATUS_BOOTSTRAP an Enlight_Exception is thrown.
      * The resource is initial by the Enlight_Bootstrap_InitResource event.
-     * If this event don't exist for the given resource, the resource is initial
+     * If this event doesn't exist for the given resource, the resource is initialed
      * by call_user_func.
-     * After the resource initialed the event Enlight_Bootstrap_AfterInitResource will
-     * be fired. In case an exception will be thrown by initializing the resource,
+     * After the resource is initialed the event Enlight_Bootstrap_AfterInitResource is
+     * fired. In case an exception is thrown by initializing the resource,
      * Enlight sets the status STATUS_NOT_FOUND for the resource in the resource status list.
-     * In case the resource successfully initialed the resource have the status STATUS_LOADED
+     * In case the resource successfully initialed the resource has the status STATUS_LOADED
      *
      * @param string $name
      * @return bool
@@ -318,7 +318,7 @@ abstract class Enlight_Bootstrap extends Enlight_Class implements Enlight_Hook
     }
 
     /**
-     * If the given resource is set, the resource and the resource status will be removed from the
+     * If the given resource is set, the resource and the resource status are removed from the
      * list properties.
      *
      * @param string $name

@@ -25,7 +25,7 @@
  * The Enlight_Plugin_PluginCollection provides an array containing each registered plugin.
  *
  * The Enlight_Plugin_PluginCollection is an array for each registered plugin.
- * If a Enlight_Plugin_Bootstrap registered over the Enlight_Plugin_PluginCollection reference are
+ * If a Enlight_Plugin_Bootstrap is registered over the Enlight_Plugin_PluginCollection, references are
  * added to the Enlight_Plugin_Bootstrap.
  *
  * @category   Enlight
@@ -43,7 +43,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
     protected $plugins;
 
     /**
-     * The Enlight_Plugin_PluginCollection class constructor initial the internal plugin list.
+     * The Enlight_Plugin_PluginCollection class constructor initials the internal plugin list.
      */
     public function __construct()
     {
@@ -60,7 +60,7 @@ abstract class Enlight_Plugin_PluginCollection extends Enlight_Class implements 
 
     /**
      * Registers the given plugin bootstrap. The Enlight_Plugin_PluginCollection instance is
-     * set into the plugin, by using the Enlight_Plugin_Bootstrap::setCollection() method.
+     * set into the plugin by using the Enlight_Plugin_Bootstrap::setCollection() method.
      * The name of the plugin is used as array key.
      *
      * @param Enlight_Plugin_Bootstrap $plugin

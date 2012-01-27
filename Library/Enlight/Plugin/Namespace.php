@@ -37,7 +37,7 @@ abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
 {
     /**
      * @var Enlight_Plugin_PluginManager This property contains an instance of the Enlight_Plugin_PluginManager.
-     * Can be set over the setManager() method. Is set automatic when the namespace registered over
+     * Can be set over the setManager() method. Is set automatically when the namespace is registered by
      * the plugin manager.
      */
     protected $manager;
@@ -49,7 +49,7 @@ abstract class Enlight_Plugin_Namespace extends Enlight_Plugin_PluginCollection
     protected $name;
 
     /**
-     * The Enlight_Plugin_Namespace class constructor expects the name of the namespace and set it
+     * The Enlight_Plugin_Namespace class constructor expects the name of the namespace and sets it
      * into the internal property.
      *
      * @param   string $name

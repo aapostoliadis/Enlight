@@ -24,9 +24,9 @@
 /**
  * Controller of the enlight view renderer plugin
  *
- * The Enlight_Controller_Plugins_ViewRenderer_Bootstrap is a standard plugin to load the specify
- * controller action template and render it.  The template will load in the
- * pre dispatch and rendered in the post dispatch.
+ * The Enlight_Controller_Plugins_ViewRenderer_Bootstrap is a default plugin to load the specified
+ * controller action template and render it.  The template loads in the
+ * pre dispatch and renders in the post dispatch.
  *
  * @category   Enlight
  * @package    Enlight_Extensions
@@ -47,14 +47,14 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
 
     /**
      * @var Enlight_Controller_Front Instance of the enlight front controller.
-     * Will be set in the Enlight_Controller_Front_DispatchLoopStartup event.
-     * Used to get the module, controller and action name in the getTempalteName function.
+     * Is set in the Enlight_Controller_Front_DispatchLoopStartup event.
+     * Used to get the module, controller and action name in the getTemplateName function.
      */
     protected $front;
 
     /**
      * @var Enlight_Controller_Action Used to load and set the template.
-     * Will be set in the onActionInit function.
+     * Is set in the onActionInit function.
      */
     protected $action;
 
@@ -65,14 +65,14 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
 
     /**
      * Initialisation of the view renderer.
-     * Subscribes the Enlight_Controller_Front_DispatchLoopStartup event, to
+     * Subscribes the Enlight_Controller_Front_DispatchLoopStartup event to
      * draw the front controller and the template manager out of the Enlight_Event_EventArgs
      * and set them into the internal variables.
-     * In the Enlight_Controller_Action_PostDispatch event, enlight will render the template and
-     * reset the template in the view instance of the Enlight_Controller_Action.
-     * In the Enlight_Controller_Action_PreDispatch event, enlight will load the template object.
-     * In the Enlight_Controller_Action_Init event, enlight will drawn the Enlight_Controller_Action out of
-     * the Enlight_Event_EventArgs and initial the Enlight_Template_Manager and the Enlight_View_Default.
+     * In the Enlight_Controller_Action_PostDispatch event, enlight renders the template and
+     * resets the template in the view instance of the Enlight_Controller_Action.
+     * In the Enlight_Controller_Action_PreDispatch event, enlight loads the template object.
+     * In the Enlight_Controller_Action_Init event, enlight draws the Enlight_Controller_Action out of
+     * the Enlight_Event_EventArgs and initials the Enlight_Template_Manager and the Enlight_View_Default.
      *
      * @return void
      */
@@ -109,7 +109,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
 
     /**
      * Listener method of the Enlight_Controller_Front_DispatchLoopStartup event.
-     * The Enlight_Controller_Front and the Enlight_Template_Manager will be set from the
+     * The Enlight_Controller_Front and the Enlight_Template_Manager are set from the
      * passed Enlight_Event_EventArgs into the internal properties front and engine.
      *
      * @param   Enlight_Event_EventArgs $args
@@ -127,8 +127,8 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     /**
      * Listener method of the Enlight_Controller_Action_PostDispatch event.
      * If the current view instance has a template and the template should be rendered,
-     * the template will be rendered and the view template of the Enlight_Controller_Action
-     * will be initialed.
+     * the template renders and the view template of the Enlight_Controller_Action
+     * initials.
      *
      * @param   Enlight_Event_EventArgs $args
      */
@@ -143,8 +143,8 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
 
     /**
      * Listener method of the Enlight_Controller_Action_PreDispatch event.
-     * If the current view instance has a template and the template should be rendered
-     * the template will be loaded by name.
+     * If the current view instance has a template and the template should be rendered,
+     * the template is loaded by name.
      *
      * @param   Enlight_Event_EventArgs $args
      */
@@ -159,7 +159,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
      * Listener method of the Enlight_Controller_Action_Init event.
      * Sets the Enlight_Controller_Action instance from the Enlight_Event_EventArgs
      * into the internal action property. Additionally the Enlight_Template_Manager
-     * and the Enlight_View_Default will be initialed.
+     * and the Enlight_View_Default are initialed.
      *
      * @param   Enlight_Event_EventArgs $args
      */
@@ -194,8 +194,8 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     /**
      * Renders the passed template.
      * Before the template is rendered the Enlight_Plugins_ViewRenderer_PreRender event
-     * will be notified. After the template has been rendered the
-     * Enlight_Plugins_ViewRenderer_PostRender event will be notified.
+     * is notified. After the template has been rendered the
+     * Enlight_Plugins_ViewRenderer_PostRender event is notified.
      *
      * @param   string      $template
      * @param   string|null $name
@@ -240,7 +240,7 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
     }
 
     /**
-     * Checks if the template should be render.
+     * Checks if the template should be rendered.
      * @return  bool
      */
     public function shouldRender()
@@ -301,8 +301,8 @@ class Enlight_Controller_Plugins_ViewRenderer_Bootstrap extends Enlight_Plugin_B
 
     /**
      * Returns the template name of the current request instance.
-     * The module, controller and action are get over the dispatcher instance of the Enlight_Controller_Front
-     * The template parts will be imploded by "_" character.
+     * The module, controller and action is gotten over the dispatcher instance of the Enlight_Controller_Front.
+     * The template parts are imploded by "_" character.
      *
      * @return  string
      */

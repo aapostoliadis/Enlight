@@ -26,7 +26,7 @@
  *
  * If a class is hooked, a proxy will be generated for this class.
  * The generated class extends the origin class and implements the Enlight_Hook interface.
- * Instead of the origin methods, the registered hook handler methods will be executed.
+ * Instead of the origin methods, the registered hook handler methods are executed.
  *
  * @category   Enlight
  * @package    Enlight_Hook
@@ -71,9 +71,9 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
     }
 
     /**
-     * Returns the proxy of the given class. If the proxy not already created
-     * it will be generate and written.
-     * If the proxy is already created it will drawn by the
+     * Returns the proxy of the given class. If the proxy is not already created
+     * it is generated and written.
+     * If the proxy is already created it is drawn by the
      * Enlight_Application::Instance()->Hooks()->getHooks($class) method.
      *
      * @param string $class
@@ -103,7 +103,7 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
     }
 
     /**
-     * Return proxy class name
+     * Returns proxy class name
      *
      * @param string $class
      * @return string
@@ -114,7 +114,7 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
     }
 
     /**
-     * Format the given class name.
+     * Formats the given class name.
      *
      * @param string $class
      * @return string
@@ -125,7 +125,7 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
     }
 
     /**
-     * Return proxy file name for the given class.
+     * Returns proxy file name for the given class.
      *
      * @param string $class
      * @return string
@@ -138,7 +138,7 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
 
     /**
      * This function creates the proxy class for the given class name.
-     * The proxy class will extends the original class and implements the Enlight_Hook_Proxy.
+     * The proxy class extends the original class and implements the Enlight_Hook_Proxy.
      *
      * @param string $class
      * @return mixed|string
@@ -190,10 +190,10 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
 
     /**
      * Generate the class source code for the hooked method of the given class.
-     * First all methods of the class will be iterate.
+     * First all methods of the class are iterated.
      * Final, static, magic and private methods can't be hooked.
-     * If the method is hooked the enlight will iterate all method parameters to generate
-     * the parameter definition. At least all hooked methods will implement by the
+     * If the method is hooked, enlight iterates all method parameters to generate
+     * the parameter definition. At last all hooked methods are implemented by the
      * $proxyMethodTemplate.
      *
      * @param unknown_type $class
@@ -215,18 +215,18 @@ class Enlight_Hook_ProxyFactory extends Enlight_Class
             if (substr($rm->getName(), 0, 2) == '__') {
                 continue;
             }
-            //checks if for the current method hooks exists.
+            //checks if the current method hooks exists.
             if (!Enlight_Application::Instance()->Hooks()->hasHooks($class, $rm->getName())) {
                 continue;
             }
 
-            //add the hooked method to the array.
+            //adds the hooked method to the array.
             $methodsArray[] = $rm->getName();
             $params = '';
             $proxy_params = '';
             $array_params = '';
 
-            //iterate all parameters to generate the parameter definition.
+            //iterates all parameters to generate the parameter definition.
             foreach ($rm->getParameters() as $rp) {
                 if ($params) {
                     $params .= ', ';

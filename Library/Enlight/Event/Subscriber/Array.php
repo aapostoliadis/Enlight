@@ -24,7 +24,7 @@
 /**
  * Enlight array event subscriber.
  *
- * The Enlight_Event_Subscriber_Array allows to register and execute multiple event handler over the
+ * The Enlight_Event_Subscriber_Array allows to register and execute multiple event handler by the
  * event manager.
  *
  * @category   Enlight
@@ -40,7 +40,7 @@ class Enlight_Event_Subscriber_Array extends Enlight_Event_Subscriber
     protected $listeners = array();
 
     /**
-     * The Enlight_Event_Subscriber_Array class constructor register all listeners in the options parameter.
+     * The Enlight_Event_Subscriber_Array class constructor registers all listeners in the options parameter.
      *
      * @param   null|array $options
      */
@@ -61,7 +61,7 @@ class Enlight_Event_Subscriber_Array extends Enlight_Event_Subscriber
     }
 
     /**
-     * Retrieve a list of listeners registered.
+     * Retrieves a list of listeners registered.
      *
      * @return  array
      */
@@ -71,7 +71,7 @@ class Enlight_Event_Subscriber_Array extends Enlight_Event_Subscriber
     }
 
     /**
-     * Register a listener to an event.
+     * Registers a listener to an event.
      *
      * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_Subscriber
@@ -83,7 +83,7 @@ class Enlight_Event_Subscriber_Array extends Enlight_Event_Subscriber
     }
 
     /**
-     * Remove an event listener from storage.
+     * Removes an event listener from storage.
      *
      * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_Subscriber

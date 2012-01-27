@@ -25,7 +25,7 @@
  * Basic class for each Enlight event handler.
  *
  * The Enlight_Event_Handler is the basic class for each specified event handler.
- * The Enlight_Event_EventManager will execute the registered event handlers.
+ * The Enlight_Event_EventManager executes the registered event handlers.
  *
  * @category   Enlight
  * @package    Enlight_Event
@@ -45,8 +45,8 @@ abstract class Enlight_Event_Handler
     protected $position;
 
     /**
-     * The Enlight_Event_Handler class constructor expects an event name. If no name are given
-     * the constructor will throw an Enlight_Event_Exception.
+     * The Enlight_Event_Handler class constructor expects an event name. If no name is given,
+     * the constructor throws an Enlight_Event_Exception.
      *
      * @throws  Enlight_Event_Exception
      * @param   $event

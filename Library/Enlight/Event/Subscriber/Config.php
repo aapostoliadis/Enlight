@@ -45,9 +45,9 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     protected $storage;
 
     /**
-     * The Enlight_Event_Subscriber_Config class constructor will instantiated an Enlight_Config and set
+     * The Enlight_Event_Subscriber_Config class constructor instantiates an Enlight_Config and sets
      * it in the internal storage property.
-     * The storage can be overwritten by the options parameter which must contains the "storage" element
+     * The storage can be overwritten by the options parameter which must contain the "storage" element
      * which is an instance of the Enlight_Config.
      *
      * @param   null $options
@@ -71,7 +71,7 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     }
 
     /**
-     * Retrieve a list of listeners registered.
+     * Retrieves a list of listeners registered.
      *
      * @return  array
      */
@@ -84,7 +84,7 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     }
 
     /**
-     * Register a listener to an event.
+     * Registers a listener to an event.
      *
      * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_Subscriber
@@ -96,7 +96,7 @@ class Enlight_Event_Subscriber_Config extends Enlight_Event_Subscriber
     }
 
     /**
-     * Remove an event listener from storage.
+     * Removes an event listener from storage.
      *
      * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_Subscriber

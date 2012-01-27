@@ -25,8 +25,8 @@
  * Contains all data about the hook. (Hooked class, method, listener, position)
  *
  * The Enlight_Hook_HookHandler represents an single hook. The hook handler is registered
- * over the Enlight_Hook_Subscriber and is executed by the Enlight_Hook_Manager if the corresponding
- * original class method would be executed.
+ * by the Enlight_Hook_Subscriber and is executed by the Enlight_Hook_Manager if the corresponding
+ * original class method was executed.
  *
  * @category   Enlight
  * @package    Enlight_Hook
@@ -72,12 +72,12 @@ class Enlight_Hook_HookHandler
     const TypeReplace = 1;
 
     /**
-     * Constant that defines that the hook method called before the original method.
+     * Constant that defines that the hook method must be called before the original method.
      */
     const TypeBefore = 2;
 
     /**
-     * Constant that defines that the hook method called after the original method.
+     * Constant that defines that the hook method must be called after the original method.
      */
     const TypeAfter = 3;
 
@@ -109,7 +109,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Standard setter function for the type property. If the given type is null the default type (typeAfter) is set.
+     * Default setter function for the type property. If the given type is null the default type (typeAfter) is set.
      * If the given type isn't one of the supported hook types, an exception is thrown.
      *
      * @param $type
@@ -129,7 +129,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Standard setter method of the position property. If the given position isn't numeric an exception is thrown.
+     * Default setter method of the position property. If the given position isn't numeric an exception is thrown.
      * @param $position
      * @return Enlight_Hook_HookHandler
      * @throws Enlight_Exception
@@ -144,7 +144,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Standard setter function of the plugin property
+     * Default setter function of the plugin property
      *
      * @param $plugin
      * @return Enlight_Hook_HookHandler
@@ -156,7 +156,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Returns the class and method name, concat with '::'
+     * Returns the class and method name, concated with '::'
      * @return string
      */
     public function getName()
@@ -165,7 +165,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Standard getter function of the class property.
+     * Default getter function of the class property.
      * @return class
      */
     public function getClass()
@@ -174,7 +174,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Standard getter function of the method property.
+     * Default getter function of the method property.
      * @return method
      */
     public function getMethod()
@@ -183,7 +183,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Standard getter function of the listener property.
+     * Default getter function of the listener property.
      * @return mixed
      */
     public function getListener()
@@ -192,7 +192,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Standard getter function of the type property.
+     * Default getter function of the type property.
      * @return type
      */
     public function getType()
@@ -201,7 +201,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Standard getter function of the position property.
+     * Default getter function of the position property.
      * @return position
      */
     public function getPosition()
@@ -210,7 +210,7 @@ class Enlight_Hook_HookHandler
     }
 
     /**
-     * Standard getter function of the plugin property.
+     * Default getter function of the plugin property.
      * @return object
      */
     public function getPlugin()
