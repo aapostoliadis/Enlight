@@ -43,7 +43,7 @@ class Enlight_Controller_Request_RequestTestCase
     protected $_serverParams = array();
 
     /**
-     * Set GET values method
+     * Sets GET values method
      *
      * @param  string|array $spec
      * @param  null|mixed   $value
@@ -59,7 +59,7 @@ class Enlight_Controller_Request_RequestTestCase
     }
 
     /**
-     * Set HTTP host method
+     * Sets HTTP host method
      *
      * @param string $host
      * @return Zend_Controller_Request_HttpTestCase
@@ -71,7 +71,7 @@ class Enlight_Controller_Request_RequestTestCase
     }
 
     /**
-     * Set HTTP client method
+     * Sets HTTP client method
      * @param      $ip
      * @param bool $setProxy
      * @return Enlight_Controller_Request_RequestTestCase
@@ -88,7 +88,7 @@ class Enlight_Controller_Request_RequestTestCase
     }
 
     /**
-     * Set a server param
+     * Sets a server param
      *
      * @param  string $key
      * @param  string $value
@@ -101,7 +101,7 @@ class Enlight_Controller_Request_RequestTestCase
     }
 
     /**
-     * Get a server param
+     * Gets a server param
      *
      * @param string $key
      * @param string $default
@@ -121,7 +121,7 @@ class Enlight_Controller_Request_RequestTestCase
     }
 
     /**
-     * Set a request header.
+     * Sets a request header.
      * The key will normalized for setting and retrieval.
      * @param  string $key
      * @param  string $value

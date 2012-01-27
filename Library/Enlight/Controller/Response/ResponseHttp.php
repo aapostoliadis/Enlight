@@ -25,8 +25,8 @@
  * Controller for the Enlight HTTP response.
  *
  * The Enlight_Controller_Response_ResponseHttp extends the zend controller response http with
- * some helper functions. It represents the output (which cookies set, ...). Capsules the html output
- * which are created.
+ * some helper functions. It represents the output (which cookies set, ...). Capsules the html output,
+ * which is created.
  *
  * @category   Enlight
  * @package    Enlight_Controller
@@ -38,12 +38,12 @@ class Enlight_Controller_Response_ResponseHttp
     implements Enlight_Controller_Response_Response
 {
     /**
-     * @var array Contains all cookies which has been set over the "setCookie" function.
+     * @var array Contains all cookies which have been set over the "setCookie" function.
      */
     protected $_cookies = array();
 
     /**
-     * Set a cookie method
+     * Sets a cookie method
      *
      * @param string $name
      * @param string $value
@@ -76,7 +76,7 @@ class Enlight_Controller_Response_ResponseHttp
     }
 
     /**
-     * Send all headers
+     * Sends all headers
      *
      * @return Enlight_Controller_Response_ResponseHttp
      */

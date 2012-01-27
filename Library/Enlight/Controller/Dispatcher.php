@@ -24,8 +24,8 @@
 /**
  * Basic class for each controller dispatcher.
  *
- * The Enlight_Controller_Dispatcher is the basic class for an dispatcher. It dispatch with assistance the request
- * to a specify controller action.
+ * The Enlight_Controller_Dispatcher is the basic class for a dispatcher. It dispatches with assistance the request
+ * to a specified controller action.
  *
  * @category   Enlight
  * @package    Enlight_Controller
@@ -45,7 +45,7 @@ abstract class Enlight_Controller_Dispatcher extends Enlight_Class
     protected $response;
 
     /**
-     * Standard setter method for the front controller property
+     * Default setter method for the front controller property
      *
      * @param   Enlight_Controller_Front $controller
      * @return  Enlight_Controller_Dispatcher
@@ -57,7 +57,7 @@ abstract class Enlight_Controller_Dispatcher extends Enlight_Class
     }
 
     /**
-     * Standard getter method for the front controller
+     * Default getter method for the front controller
      *
      * @return Enlight_Controller_Front
      */
@@ -67,7 +67,7 @@ abstract class Enlight_Controller_Dispatcher extends Enlight_Class
     }
 
     /**
-     * Standard setter method for the response controller
+     * Default setter method for the response controller
      *
      * @param   Enlight_Controller_Response_Response|null $response
      * @return  Enlight_Controller_Dispatcher
@@ -79,7 +79,7 @@ abstract class Enlight_Controller_Dispatcher extends Enlight_Class
     }
 
     /**
-     * Standard getter method for the response controller
+     * Default getter method for the response controller
      *
      * @return Enlight_Controller_Response_Response
      */
@@ -89,7 +89,7 @@ abstract class Enlight_Controller_Dispatcher extends Enlight_Class
     }
 
     /**
-     * Standard dispatch function of the controller
+     * Default dispatch function of the controller
      *
      * @abstract
      * @param Enlight_Controller_Request_Request   $request

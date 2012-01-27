@@ -22,10 +22,10 @@
  */
 
 /**
- * Implements all method to register single or multiple controllers and load them automatically.
+ * Implements all methods to register single or multiple controllers and load them automatically.
  *
  * The Enlight_Controller_Dispatcher_Default represents a component
- * to dispatch the request object on the controller. Implements all method to
+ * to dispatch the request object on the controller. Implements all methods to
  * register single or multiple controllers and load them automatically
  *
  * @category   Enlight
@@ -44,14 +44,14 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     /**
      * @var string Contains the current module.
      * Will be set in the getControllerClass method or in the getControllerPath method.
-     * If the property set by the getControllerPath method, the string is formatted.
+     * If the property is set by the getControllerPath method, the string is formatted.
      */
     protected $curModule;
 
     /**
      * Contains the default action for each controller.
      * Will be used in the getActionName function when the passed request instance
-     * don't contains an action name.
+     * doesn't contain an action name.
      *
      * @var string
      */
@@ -59,7 +59,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
 
     /**
      * Contains the name of the default controller. Will be used in the dispatch function
-     * if the passed request instance don't contains an controller name or the
+     * if the passed request instance doesn't contain an controller name or the
      * request is not dispatchable.
      *
      * @var string
@@ -68,8 +68,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
 
     /**
      * Contains the name of the default module. Will be used in the getControllerClass
-     * function if the passed request instance don't contains an module name and
-     * in the addControllerDirectory function if the module name didn't passed.
+     * function if the passed request instance doesn't contain an module name and
+     * in the addControllerDirectory function if the module name wasn't passed.
      *
      * @var string
      */
@@ -81,12 +81,12 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     protected $frontController;
 
     /**
-     * @var string Contains the path delimiter character, used to format action, controller and module names.
+     * @var string Contains the path delimiter character used to format action, controller and module names.
      */
     protected $pathDelimiter = '_';
 
     /**
-     * @var array Contains the word delimiter characters, used to format action, controller and module names.
+     * @var array Contains the word delimiter characters used to format action, controller and module names.
      */
     protected $wordDelimiter = array('-', '.');
 
@@ -97,7 +97,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     protected $controllerDirectory = array();
 
     /**
-     * Adds a controller directory. If no module given, the default module will be used.
+     * Adds a controller directory. If no module is given, the default module will be used.
      *
      * @param      $path
      * @param null $module
@@ -118,7 +118,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
-     * Sets the controller directory. The directory can given as array or string.
+     * Sets the controller directory. The directory can be given as an array or a string.
      *
      * @param string|array $directory
      * @param string|null  $module
@@ -141,8 +141,8 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
 
     /**
      * Returns the controller directory.
-     * If more than one directory exists the function will return the controller directory of the given module.
-     * If no module name will be passed, the function returns the whole controller directory array.
+     * If more than one directory exists the function returns the controller directory of the given module.
+     * If no module name is passed, the function returns the whole controller directory array.
      * @param null $module
      * @return array|null
      */
@@ -239,7 +239,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
-     * internal helper function to format action, controller and module names.
+     * Internal helper function to format action, controller and module names.
      *
      * @param      $unFormatted
      * @param bool $isAction
@@ -284,7 +284,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
-     * Sets the default action name
+     * Sets the default action name.
      * @param $action
      * @return Enlight_Controller_Dispatcher_Default
      */
@@ -304,7 +304,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
-     * Sets the default module name
+     * Sets the default module name.
      * @param $module
      * @return Enlight_Controller_Dispatcher_Default
      */
@@ -324,7 +324,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
-     * Returns the controller class of the given request class. The class name will imploded by '_'
+     * Returns the controller class of the given request class. The class name is imploded by '_'
      * @param   Enlight_Controller_Request_Request $request
      * @return  array|string
      */
@@ -374,7 +374,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
 
     /**
      * Returns the action method of the given request class.
-     * If no action name set in the request class, the default action will used.
+     * If no action name is set in the request class, the default action is used.
      * @param   Enlight_Controller_Request_Request $request
      * @return  string
      */
@@ -393,7 +393,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     /**
      * Returns the full path of the controller name by the given request class.
      * To generate the full controller path the module and controller name must be set in the given request object.
-     * The module and controller path will imploded by '_'
+     * The module and controller path is imploded by '_'
      *
      * @param Enlight_Controller_Request_Request $request
      * @return string
@@ -410,7 +410,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     /**
      * Returns the full path of the action name.
      * To generate the full action path the module, controller and action name must be set in the given request object.
-     * The module, controller and action path will imploded by '_'.
+     * The module, controller and action path is imploded by '_'.
      *
      * @param Enlight_Controller_Request_Request $request
      * @return string
@@ -428,7 +428,7 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     /**
      * Returns whether the given request object is dispatchable.
      * Checks first if the controller class of the request object exists.
-     * If the controller class exists, the enlight loader class will check if the controller path is readable.
+     * If the controller class exists, the enlight loader class checks if the controller path is readable.
      *
      * @param Enlight_Controller_Request_Request $request
      * @return bool|string
@@ -464,12 +464,12 @@ class Enlight_Controller_Dispatcher_Default extends Enlight_Controller_Dispatche
     }
 
     /**
-     * If the given request is not dispatchable, the default controller will be set.
-     * Then tried to load the controller class and append the hook proxies.
-     * If the hook proxies added, the dispatched flag of the request object is set to true.
-     * If the disableOutputBuffering parameter isn't set, the output buffering started.
+     * If the given request is not dispatchable, the default controller is set.
+     * Then it tries to load the controller class and appends the hook proxies.
+     * If the hook proxies are added, the dispatched flag of the request object is set to true.
+     * If the disableOutputBuffering parameter isn't set, the output buffering starts.
      * After that, run the dispatch on the controller.
-     * Ending with the Body added to the response object
+     * At the ending the body is added to the response object.
      *
      * @param Enlight_Controller_Request_Request   $request
      * @param Enlight_Controller_Response_Response $response

@@ -83,8 +83,8 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     protected $_adapter;
 
     /**
-     * The class constructor draw the different setting out of the options parameter and set them into
-     * the internal properties. The config adapter can be set in options["adapter"] but have to been an instance of
+     * The class constructor draws the different setting out of the options parameter and sets them into
+     * the internal properties. The config adapter can be set in options["adapter"] but have to be an instance of
      * the Enlight_Config_Adapter.
      *
      * @param array|null|string $config
@@ -139,7 +139,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     }
 
     /**
-     * Reset the internal data property and sets the given data array elements into the internal properties.
+     * Resets the internal data property and sets the given data array elements into the internal properties.
      * If one of the data array elements is an array the function will capsule this value into a new config class.
      * @param array $data
      */
@@ -159,7 +159,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     }
 
     /**
-     * Retrieve a value and return $default if there is no element set.
+     * Retrieves a value and returns $default if there is no element set.
      *
      * @param string $name
      * @param mixed $default
@@ -179,7 +179,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     }
 
     /**
-     * Set value method
+     * Sets value method
      *
      * @param string $name
      * @param mixed $value
@@ -203,7 +203,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     }
 
     /**
-     * Support isset() overloading on PHP 5.1
+     * Supports isset() overloading on PHP 5.1
      *
      * @param string $name
      * @return boolean
@@ -217,7 +217,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     }
 
     /**
-     * Set value method
+     * Sets value method
      *
      * @param string $name
      * @param mixed $value
@@ -284,7 +284,7 @@ class Enlight_Config extends Zend_Config implements ArrayAccess
     }
 
     /**
-     * Set allow modifications property. If the data property is already set, the allowModifications flag
+     * Sets allow modifications property. If the data property is already set, the allowModifications flag
      * is passed in all sub-configurations.
      *
      * @param bool $option

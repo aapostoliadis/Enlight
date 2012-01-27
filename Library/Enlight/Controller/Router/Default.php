@@ -26,7 +26,7 @@
  *
  * The Enlight_Controller_Router_Default handles the controller routing.
  * It reads the controller data from the request url (controller, action, parameter).
- * Conversely, it also generates the corresponding urls using of parameters that were passed.
+ * Conversely, it also generates the corresponding urls using the parameters that were passed.
  *
  * @category   Enlight
  * @package    Enlight_Controller
@@ -133,9 +133,9 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
     }
 
     /**
-     * The assemble function concat the given url parameters to an url.
+     * The assemble function concats the given url parameters to an url.
      * The Enlight_Controller_Router_PreAssemble, Enlight_Controller_Router_FilterAssembleParams,
-     * Enlight_Controller_Router_Assemble and Enlight_Controller_Router_FilterUrl events allows
+     * Enlight_Controller_Router_Assemble and Enlight_Controller_Router_FilterUrl events allow
      * you to extend the default routing with individual routing algorithms.
      *
      * @param array $userParams
@@ -191,7 +191,7 @@ class Enlight_Controller_Router_Default extends Enlight_Controller_Router
 
     /**
      * Default assembling of the default routing controller.
-     * It will concat the given parameters and the data of the request and dispatcher
+     * It concats the given parameters and the data of the request and dispatcher
      * to an url.
      *
      * @param array $params

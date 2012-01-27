@@ -24,8 +24,8 @@
 /**
  * The Enlight_Event_EventArgs are the arguments of an event handler.
  *
- * It will created by the event manager and passed the event listener.
- * The event arguments can be passed to the event manager to execute the event manuel.
+ * It will be created by the event manager and passed to the event listener.
+ * The event arguments can be passed to the event manager to execute the event manually.
  *
  * @category   Enlight
  * @package    Enlight_Event
@@ -62,7 +62,7 @@ class Enlight_Event_EventArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
-     * Stops the execution of the listener and set the processed flag to true.
+     * Stops the execution of the listener and sets the processed flag to true.
      * @return  Enlight_Event_EventArgs
      */
     public function stop()

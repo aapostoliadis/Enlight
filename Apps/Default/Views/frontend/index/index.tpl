@@ -1,28 +1,48 @@
 {extends file="frontend/index/base.tpl"}
 
 {block name="frontend/index/inner_container"}
-<div class="hero-unit">
-    <h1>Hello, world!</h1>
-    <p>Vestibulum id ligula porta felis euismod semper. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-    <p><a class="btn primary large">Learn more &raquo;</a></p>
+<div class="logo">
+    <div class="enlight-logo">
+        <a href="http://www.enlight.de/wiki/shopware.php">Enlight - Open Source eCommerce Framework</a>
     </div>
+</div>
+<div class="inner">
 
-    <!-- Example row of columns -->
-    <div class="row">
-    <div class="span-one-third">
-      <h2>Heading</h2>
-      <p>Etiam porta sem malesuada magna mollis euismod. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-      <p><a class="btn" href="#">View details &raquo;</a></p>
+    <div class="content">
+        <div class="alert-message success">
+            <p><strong>Congratulations!</strong> Enlight has been successfully installed!</p>
+        </div>
+
+        <div class="page-header">
+            <h1>
+                Welcome to Enlight&nbsp;<small>- It works!</small>
+            </h1>
+        </div>
+        <div class="description">
+            Congratulations, you have successfully installed Enlight. Now you can use one of the most advanced pure
+            e-commerce frameworks that do exist. Now you have the opportunity to write your own applications whilst you
+            are offered detailed advice. You will find initial information on our Enlight website. In addition to that,
+            you will get hints and tricks on the following sites:
+        </div>
+        <div class="list">
+            <dl>
+                <dt><a href="http://api.enlight.de" target="_blank">API documentation</a></dt>
+                <dd>A detailed source code documentation of the particular Enlight classes</dd>
+
+                <dt>
+                    <a href="http://www.enlight.de/wiki/_detail_679_499.html" target="_blank">
+                        Beginners guide
+                    </a>
+                </dt>
+                <dd>Write your first application with Enlight</dd>
+
+                <dt><a href="http://www.enlight.de/wiki/Tutorials_cat_500.html" target="_blank">Tutorials</a></dt>
+                <dd>Read through the implementation of the different Enlight components</dd>
+
+                <dt><a href="http://www.enlight.de/wiki/Komponenten_cat_501.html" target="_blank">Components</a></dt>
+                <dd>Learn more about the different Enlight components </dd>
+            </dl>
+        </div>
     </div>
-    <div class="span-one-third">
-      <h2>Heading</h2>
-       <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn" href="#">View details &raquo;</a></p>
-    </div>
-    <div class="span-one-third">
-      <h2>Heading</h2>
-      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-      <p><a class="btn" href="#">View details &raquo;</a></p>
-    </div>
- </div>
+</div>
 {/block}
