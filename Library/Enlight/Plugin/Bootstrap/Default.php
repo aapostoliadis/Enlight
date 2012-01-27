@@ -25,7 +25,7 @@
  * Configuration for a single plugin, which loaded over a directory structure.
  *
  * The Enlight_Plugin_Bootstrap_Default is used when plugins registered over directory structures.
- * By register plugins over a directory structure the plugins have no configuration.
+ * By registering plugins over a directory structure the plugins have no configuration.
  *
  * @category   Enlight
  * @package    Enlight_Plugin

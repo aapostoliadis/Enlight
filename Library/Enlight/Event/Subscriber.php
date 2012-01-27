@@ -35,14 +35,14 @@
 abstract class Enlight_Event_Subscriber extends Enlight_Class
 {
     /**
-     * Retrieve a list of listeners registered to a given event.
+     * Retrieves a list of listeners registered to a given event.
      *
      * @return  array
      */
     abstract public function getListeners();
 
     /**
-     * Register a listener to an event.
+     * Registers a listener to an event.
      *
      * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_Subscriber
@@ -50,7 +50,7 @@ abstract class Enlight_Event_Subscriber extends Enlight_Class
     abstract public function registerListener(Enlight_Event_Handler $handler);
 
     /**
-     * Remove an event listener.
+     * Removes an event listener.
      *
      * @param   Enlight_Event_Handler $handler
      * @return  Enlight_Event_Subscriber

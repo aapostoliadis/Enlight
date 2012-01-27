@@ -24,9 +24,9 @@
 /**
  * The Enlight_Hook_Proxy is the interface for hooked classes.
  *
- * If a class is hooked, a proxy will be generated for this class.
+ * If a class is hooked, a proxy is generated for this class.
  * The generated class extends the origin class and implements the Enlight_Hook_Proxy interface.
- * Instead of the origin methods, the registered hook handler methods will be executed.
+ * Instead of the origin methods, the registered hook handler methods are executed.
  *
  * @category   Enlight
  * @package    Enlight_Hook

@@ -25,7 +25,7 @@
  * The Enlight_Plugin_Bootstrap_Config contains the configs of a single plugin.
  *
  * The Enlight_Plugin_Bootstrap_Config is the configuration class for a single plugin.
- * The Enlight_Config will be loaded over the Enlight_Plugin_Namespace_Config.
+ * The Enlight_Config will be loaded by the Enlight_Plugin_Namespace_Config.
  *
  * @category   Enlight
  * @package    Enlight_Plugin
@@ -35,13 +35,13 @@
 class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 {
     /**
-     * @var Enlight_Config Instance of the Enlight_Config, loaded over the Enlight_Plugin_Namespace_Config.
+     * @var Enlight_Config Instance of the Enlight_Config, loaded by the Enlight_Plugin_Namespace_Config.
      */
     protected $config;
 
     /**
      * @var Enlight_Plugin_Namespace_Config Instance of the Enlight_Plugin_Namespace_Config,
-     * which passed to the class constructor.
+     * which was passed to the class constructor.
      */
     protected $collection;
 
@@ -70,7 +70,7 @@ class Enlight_Plugin_Bootstrap_Config extends Enlight_Plugin_Bootstrap
 
 
     /**
-     * Subscribes an plugin events. The given parameters and the internal instance of
+     * Subscribes a plugin event. The given parameters and the internal instance of
      * the Enlight_Plugin_Namespace_Config are used to instantiate a new Enlight_Event_Handler_Plugin.
      * This Enlight_Event_Handler_Plugin is subscribed over the namespace subscriber.
      *

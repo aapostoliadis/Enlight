@@ -24,7 +24,7 @@
 /**
  * HTTP request controller for use with Enlight_Controller.
  *
- * The Enlight_Controller_Request_RequestHttp represents the request object (what's in the url, which was read out).
+ * The Enlight_Controller_Request_RequestHttp represents the request object (what is in the url, what was read out).
  *
  * @category   Enlight
  * @package    Enlight_Controller
@@ -64,7 +64,7 @@ class Enlight_Controller_Request_RequestHttp
     }
 
     /**
-     * Set HTTP host method
+     * Sets HTTP host method
      *
      * @param string $host
      * @return Enlight_Controller_Request_RequestHttp
@@ -76,9 +76,9 @@ class Enlight_Controller_Request_RequestHttp
     }
 
     /**
-     * Set the REQUEST_URI on which the instance operates
+     * Sets the REQUEST_URI on which the instance operates.
      *
-     * If no request URI is passed, uses the value in $_SERVER['REQUEST_URI'],
+     * If no request URI is passed, it uses the value in $_SERVER['REQUEST_URI'],
      * $_SERVER['HTTP_X_REWRITE_URL'], or $_SERVER['ORIG_PATH_INFO'] + $_SERVER['QUERY_STRING'].
      *
      * @param string $requestUri

@@ -25,7 +25,7 @@
  * Basic Enlight exception class.
  *
  * The Enlight_Exception is the basic class for each specified exception class. (Controller_Exception, ...)
- * Extends the standard exception class with an previous Exception property
+ * Extends the default exception class with an previous Exception property
  *
  * @category   Enlight
  * @package    Enlight_Exception
@@ -55,7 +55,7 @@ class Enlight_Exception extends Exception
     protected $previous;
 
     /**
-     * The class constructor will be set the given previous exception into the internal property.
+     * The class constructor sets the given previous exception into the internal property.
      * If the given code is one of the internal constants, it will generate a back trace and iterate
      * the returned values to set the line and file property.
      *

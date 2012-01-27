@@ -30,7 +30,7 @@
  * It also offers the possibility to configure the plugin directly from this configuration.
  * To get the configuration of the loaded plugins, the Enlight_Plugin_Namespace_Config offers
  * a function to return the config.
- * So that it can be used directly in the plugin there is the extra extended Plugin_Bootstrap_Config component.
+ * To use this directly in the plugin there is the extra extended Plugin_Bootstrap_Config component.
  *
  * @category   Enlight
  * @package    Enlight_Plugin
@@ -51,10 +51,10 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
     protected $subscriber;
 
     /**
-     * The Enlight_Plugin_Namespace_Config class constructor expects an storage (Enlight_Config).
-     * The options array must contains an array element named "storage" which contains an additional array
+     * The Enlight_Plugin_Namespace_Config class constructor expects a storage (Enlight_Config).
+     * The options array must contain an array element named "storage" which contains an additional array
      * with storage settings or only with a name for the storage.
-     * If the name passed as array, it is used to instantiate the storage.
+     * If the name is passed as array, it is used to instantiate the storage.
      *
      * @param   string     $name
      * @param   null|array $options
@@ -137,7 +137,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
 
     /**
      * Returns the instance of the Enlight_Event_Subscriber_Plugin. If the subscriber
-     * isn't instantiate the function will load it automatically.
+     * isn't instantiated the function will load it automatically.
      *
      * @return  Enlight_Event_Subscriber_Plugin
      */
@@ -151,7 +151,7 @@ class Enlight_Plugin_Namespace_Config extends Enlight_Plugin_Namespace
 
     /**
      * Returns the plugin configuration by the plugin name. If the
-     * plugin has no
+     * plugin has no config, the config is automatically set an empty array.
      *
      * @param   string $name
      * @return  Enlight_Config|array

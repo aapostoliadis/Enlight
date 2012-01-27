@@ -55,8 +55,8 @@ class Enlight_Event_Handler_Default extends Enlight_Event_Handler
     }
 
     /**
-     * Checks if the given listener is callable. If it is callable the listener will be set
-     * in the internal property and can be access over the getListener() function.
+     * Checks if the given listener is callable. If it is callable the listener is set
+     * in the internal property and can be accessed by using the getListener() function.
      *
      * @param   callback $listener
      * @return  Enlight_Event_Handler_Default

@@ -24,7 +24,7 @@
 /**
  * Hook arguments which will be passed to the hook listener.
  *
- * The Enlight_Hook_HookArgs are an array of hook arguments which are passed by the manager to the hook handler.
+ * The Enlight_Hook_HookArgs is an array of hook arguments which are passed by the manager to the hook handler.
  * It contains all data about the hook handler (class name, method name, target function, return value)
  *
  * @category   Enlight
@@ -72,7 +72,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
-     * Standard getter function to return the class property
+     * Default getter function to return the class property
      *
      * @return mixed
      */
@@ -82,7 +82,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
-     * Standard getter function to return the method property
+     * Default getter function to return the method property
      * @return mixed
      */
     public function getMethod()
@@ -91,7 +91,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
-     * Standard getter function to return the array values of the elements property
+     * Default getter function to return the array values of the elements property
      * @return array
      */
     public function getArgs()
@@ -100,7 +100,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
-     * Standard getter function to return the name property
+     * Default getter function to return the name property
      * @return string
      */
     public function getName()
@@ -109,7 +109,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
-     * Standard setter function to set the return property
+     * Default setter function to set the return property
      * @param $return
      */
     public function setReturn($return)
@@ -118,7 +118,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
-     * Standard getter function to return the return property
+     * Default getter function to return the return property
      *
      * @return mixed
      */
@@ -138,7 +138,7 @@ class Enlight_Hook_HookArgs extends Enlight_Collection_ArrayCollection
     }
 
     /**
-     * Standard set function to set the value to the given property
+     * Default set function to set the value to the given property
      *
      * @param $key
      * @param $value

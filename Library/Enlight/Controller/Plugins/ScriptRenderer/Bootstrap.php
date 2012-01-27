@@ -24,7 +24,7 @@
 /**
  * Controller of the enlight script renderer plugin
  *
- * The Enlight_Controller_Plugins_ScriptRenderer_Bootstrap is a standard plugin to render javascript files over the
+ * The Enlight_Controller_Plugins_ScriptRenderer_Bootstrap is a default plugin to render javascript files over the
  * controller. Used by the extjs application module.
  *
  * @category   Enlight
@@ -40,7 +40,7 @@ class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin
     protected $target = ':module/:controller/:file:suffix';
 
     /**
-     * @var string Used when no file parameter given.
+     * @var string Used when no file parameter is given.
      */
     protected $defaultFile = null;
 
@@ -60,7 +60,7 @@ class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin
     protected $headers = array('Content-Type' => 'application/javascript;charset=utf-8');
 
     /**
-     * @var bool Flag if the view already rendered
+     * @var bool Flag if the view is already rendered
      */
     protected $render = false;
 
@@ -85,7 +85,7 @@ class Enlight_Controller_Plugins_ScriptRenderer_Bootstrap extends Enlight_Plugin
     }
 
     /**
-     * Loads the script template, if no set.
+     * Loads the script template, if not set.
      *
      * @param   Enlight_Event_EventArgs $args
      */
