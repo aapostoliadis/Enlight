@@ -38,24 +38,17 @@ class Blog_Controllers_Backend_BlogPosts extends Enlight_Controller_Action
 
     /**
      * Init method will automatically be called when the Controller instance is created
+     *
+     * Decodes the json request params into a standard Web Request so you can access them by default like this:
+     *
+     * <code>$this->Request()->...</code>
      */
     public function init()
     {
-        /**
-         * @deprecated remove it when the adapter class is done
-         */
+        $this->Front()->Plugins()->JsonRequest()
+                ->setParseInput()
+                ->setParseParams(array('group', 'sort'));
         $this->Front()->Plugins()->ScriptRenderer()->setRender();
-        // Prepare incoming data
-        if ($this->Request()->isPost() && !count($this->Request()->getPost())) {
-            $data = file_get_contents('php://input');
-            $data = Zend_Json::decode($data);
-            // Remove null values because Zend_Request may crash
-            foreach ((array)$data as $key => $value) {
-                if ($value !== null) {
-                    $this->Request()->setPost($key, $value);
-                }
-            }
-        }
     }
 
     /**
