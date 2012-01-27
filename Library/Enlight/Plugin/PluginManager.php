@@ -25,11 +25,11 @@
 /**
  * The Enlight_Plugin_PluginManager class allows extending the enlight applications or the enlight components.
  *
- * Registered plugins will be mapped into a hierarchical structure via namespaces.
+ * Registered plugins are mapped into a hierarchical structure via namespaces.
  * The manager can register single plugins or register multiple plugins over namespaces.
- * Depending on the namespace the plugins reads from a directory structure automatically or instantiate
+ * Depending on the namespace the plugins automatically read from a directory structure or instantiate
  * by a passed config.
- * The Enlight_Plugin_PluginCollection serves as an array of registered plugins, or namespaces.
+ * The Enlight_Plugin_PluginCollection serves as an array of registered plugins or namespaces.
  * For additional plugins the Enlight_Bootstrap serves as basic class.
  *
  * @category   Enlight
@@ -59,7 +59,7 @@ class Enlight_Plugin_PluginManager extends Enlight_Plugin_PluginCollection
     }
 
     /**
-     * Register the given plugin namespace. The instance of the Enlight_Plugin_PluginManager is
+     * Registers the given plugin namespace. The instance of the Enlight_Plugin_PluginManager is
      * set into the namespace by using the Enlight_Plugin_Namespace::setManager() function.
      * The namespace name is used as array key.
      *

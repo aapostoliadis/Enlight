@@ -24,12 +24,12 @@
 /**
  * Enlight_Controller_Front managed everything between the request, response, dispatcher and router.
  *
- * The Enlight_Controller_Front represents the core controller. It managed everything (classes, data, sequence)
+ * The Enlight_Controller_Front represents the core controller. It manages everything (classes, data, sequence)
  * between the request, response, dispatcher and router. If these are not set (classes, data, sequence), the
  * controller loads them automatically. If nothing else is specified in the configuration, the controller
  * loads the default plugins viewRenderer and errorHandler. The controller running the dispatch of the request
- * unless according to request everything was dispatched. Catch automatically exceptions and set them into the
- * response object. Finally sends the response if nothing else is specified in the configuration.
+ * unless according to request everything was dispatched. it catches exceptions automatically and sets them into the
+ * response object. Finally it sends the response if nothing else is specified in the configuration.
  *
  * @category   Enlight
  * @package    Enlight_Controller
@@ -39,24 +39,24 @@
 class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, Enlight_Singleton
 {
     /**
-     * @var Enlight_Plugin_Namespace_Loader Contains an instance of the Enlight_Plugin_Namespace_Loader
+     * @var Enlight_Plugin_Namespace_Loader contains an instance of the Enlight_Plugin_Namespace_Loader
      */
     protected $plugins;
 
     /**
-     * @var Enlight_Controller_Router Contains an instance of the Enlight_Controller_Router.
+     * @var Enlight_Controller_Router contains an instance of the Enlight_Controller_Router.
      * Used to route the request to the controller/action.
      */
     protected $router;
 
     /**
-     * @var Enlight_Controller_Dispatcher Contains in instance of the
+     * @var Enlight_Controller_Dispatcher contains in instance of the
      * Enlight_Controller_Dispatcher. Used to dispatch the request.
      */
     protected $dispatcher;
 
     /**
-     * @var Enlight_Controller_Request_RequestHttp Contains an instance of the
+     * @var Enlight_Controller_Request_RequestHttp contains an instance of the
      * Enlight_Controller_Request_RequestHttp. Used for the routing,
      * the different events which will be notified in the dispatch function and for the
      * dispatch itself.
@@ -64,7 +64,7 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
     protected $request;
 
     /**
-     * @var Enlight_Controller_Response_ResponseHttp Contains an
+     * @var Enlight_Controller_Response_ResponseHttp contains an
      * instance of the Enlight_Controller_Response_ResponseHttp. Used for the dispatch of the request
      * and to log the thrown exception. After the dispatch, the response will be sent.
      */
@@ -72,7 +72,7 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
 
     /**
      * @var bool Flag whether an exception should be thrown directly at the dispatch. If the
-     * flag is set to false, the exceptions will be set in the response instance.
+     * flag is set to false, the exceptions is set in the response instance.
      */
     protected $throwExceptions;
 
@@ -83,7 +83,7 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
 
     /**
      * @var array Contains all invoked params. The invoked params can be set by the setParam/s function and
-     * can be access by the getParams function.
+     * can be accessed by the getParams function.
      */
     protected $invokeParams = array();
 
@@ -92,20 +92,20 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
      *
      * If the flags noErrorHandler and noViewRenderer aren't set, the error handler and the view renderer
      * plugins will be loaded. After the plugins loaded the Enlight_Controller_Front_StartDispatch
-     * event will be notify.
-     * After the event done, enlight sets automatically the router, dispatcher, request and response object.
-     * If the objects has been set, the Enlight_Controller_Front_RouteStartup event will be notify.
-     * After the event is done, the route, route the request to controller/action.
-     * Than the Enlight_Controller_Front_RouteShutdown event and the Enlight_Controller_Front_DispatchLoopStartup
-     * event are notified. After this events the controller running the dispatch
+     * event is notified.
+     * After the event is done, enlight sets the router, dispatcher, request and response object automatically.
+     * If the objects has been set, the Enlight_Controller_Front_RouteStartup event is notified.
+     * After the event is done, the route routes the request to controller/action.
+     * Then the Enlight_Controller_Front_RouteShutdown event and the Enlight_Controller_Front_DispatchLoopStartup
+     * event are notified. After this events the controller runs the dispatch
      * of the request unless according to request everything was dispatched. During the dispatch
-     * two events will be notified:<br>
+     * two events are notified:<br>
      *  - Enlight_Controller_Front_PreDispatch  => before the dispatch<br>
      *  - Enlight_Controller_Front_PostDispatch => after the dispatch<br><br>
      * When everything is dispatched the Enlight_Controller_Front_DispatchLoopShutdown event will be notified.
-     * Last the response will be send. As well as the dispatch, two events will be notified:
-     *  - Enlight_Controller_Front_SendResponse      => before the response sent<br>
-     *  - Enlight_Controller_Front_AfterSendResponse => after the response sent
+     * At last the response is sent. As well as the dispatch, two events are notified:
+     *  - Enlight_Controller_Front_SendResponse      => before the response is sent<br>
+     *  - Enlight_Controller_Front_AfterSendResponse => after the response is sent
      *
      * @throws  Exception
      * @return  Enlight_Controller_Response_ResponseHttp
@@ -176,8 +176,8 @@ class Enlight_Controller_Front extends Enlight_Class implements Enlight_Hook, En
             );
 
             /**
-             *  Attempt to dispatch the controller/action. If the $this->request
-             *  indicates that it needs to be dispatched, move to the next
+             *  Attempts to dispatch the controller/action. If the $this->request
+             *  indicates that it needs to be dispatched, it moves to the next
              *  action in the request.
              */
             do {

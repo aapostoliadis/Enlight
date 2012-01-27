@@ -24,8 +24,8 @@
 /**
  * Enlight auto loader class.
  *
- * The Enlight_Loader is responsible for the automatically class loading. It support different types of
- * directory structures and used for example for the enlight vendor library.
+ * The Enlight_Loader is responsible for the automatic class loading. It supports different types of
+ * directory structures and is used for example for the enlight vendor library.
  *
  * @category   Enlight
  * @package    Enlight_Loader
@@ -83,7 +83,7 @@ class Enlight_Loader
 
     /**
      * Loads a class by name. If the class is not already loaded the class will load
-     * by the method loadFile. Is the class loaded it will be added to the internal
+     * by the method loadFile. If the class is loaded it will be added to the internal
      * loadedClasses array.
      *
      * @param   string|array $class
@@ -116,8 +116,8 @@ class Enlight_Loader
 
     /**
      * Loads file method. If the path is not readable, the output buffering can't be started or the
-     * path don't passed the security check, the function will thrown an exception.
-     * Otherwise the path will be included and result will be returned.
+     * path didn't pass the security check, the function throws an exception.
+     * Otherwise the path is included and the result is returned.
      *
      * @param   string $path
      * @return  mixed
@@ -141,9 +141,9 @@ class Enlight_Loader
     }
 
     /**
-     * Checks the file is readable. If the is_readable class fails the function will use
+     * Checks if the file is readable. If the is_readable class fails the function will use
      * the stream_resolve_include_path function. In case the stream_resolve_include_path
-     * don't exist the path will be exploded if the path is given as stream schema.
+     * doesn't exist the path is exploded if the path is given as stream schema.
      *
      * @param   string $path
      * @return  string|bool
@@ -181,7 +181,7 @@ class Enlight_Loader
     }
 
     /**
-     * Explode the given path by the PATH_SEPARATOR constant
+     * Explodes the given path by the PATH_SEPARATOR constant
      *
      * @param   string $path
      * @return  array
@@ -204,10 +204,10 @@ class Enlight_Loader
     }
 
     /**
-     * Returns the path of the given class name. Iterate all namespaces
+     * Returns the path of the given class name. Iterates all namespaces
      * and checks if the namespace contains the class name.
-     * After the namespace founded the namespace will be split by the separator
-     * and concat with the DIRECTORY_SEPARATOR constant.
+     * After the namespace is founded the namespace is split by the separator
+     * and concated with the DIRECTORY_SEPARATOR constant.
      * Last is to consider whether the path is readable.
      *
      * @param   string $class
@@ -242,7 +242,7 @@ class Enlight_Loader
     }
 
     /**
-     * This function register a namespace. The position specifies
+     * This function registers a namespace. The position specifies
      * at what point you want to add the namespace in the array.
      *
      * @param   string $namespace

@@ -24,7 +24,7 @@
 /**
  * Controller of the Enlight response test cases.
  *
- * The Enlight_Controller_Response_ResponseTestCase used to test the response in the controller test cases.
+ * The Enlight_Controller_Response_ResponseTestCase is used to test the response in the controller test cases.
  *
  * @category   Enlight
  * @package    Enlight_Controller
@@ -36,12 +36,12 @@ class Enlight_Controller_Response_ResponseTestCase
     implements Enlight_Controller_Response_Response
 {
     /**
-     * @var array Contains all cookies, which has been set over the "setCookie" function.
+     * @var array Contains all cookies, which have been set by the "setCookie" function.
      */
     protected $_cookies = array();
 
     /**
-     * Set a cookie method
+     * Sets a cookie method
      *
      * @param string $name
      * @param string $value
@@ -73,7 +73,7 @@ class Enlight_Controller_Response_ResponseTestCase
     }
 
     /**
-     * Get a cookie value
+     * Gets a cookie value
      *
      * @param string $name
      * @param string $default
@@ -85,7 +85,7 @@ class Enlight_Controller_Response_ResponseTestCase
     }
 
     /**
-     * Get a header value
+     * Gets a header value
      *
      * @param string $name
      * @param string $default

@@ -116,18 +116,18 @@ class Enlight_Application
      *
      * The first argument of the class constructor is the name of the application environment.
      * The second argument is an array of application configurations, an instance of Zend_Config or a config file path.
-     * It can contains the application name (options["app"]) and the application path (options["app"]).
+     * It can contain the application name (options["app"]) and the application path (options["app"]).
      *
      * The application constructor includes the required base classes:
      * Exception, Hook, Singleton, Class, Loader automatically.
-     * After the required classes included the application the Enlight Loader register
+     * After the required classes included the application, the Enlight Loader registers
      * the Enlight library namespace and initials the
      * Hook, Event and Plugin manager which stores and manages all
      * registered plugins, events and hooks.
      *
-     * If all components included the Enlight configuration will be loaded by the
+     * If all components are included the Enlight configuration is loaded by the
      * given options parameter.
-     * After the configuration is loaded, the application name and path taken from the config and set in the class properties.
+     * After the configuration is loaded, the application name and path is taken from the config and set in the class properties.
      *
      * @param string $environment
      * @param mixed $options
@@ -278,7 +278,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns the instance of the loader, which initialed in the class constructor
+     * Returns the instance of the loader, which is initialed in the class constructor
      *
      * @return Enlight_Loader
      */
@@ -288,7 +288,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns the instance of the hook manager, which initialed in the class constructor
+     * Returns the instance of the hook manager, which is initialed in the class constructor
      *
      * @return Enlight_Hook_HookManager
      */
@@ -298,7 +298,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns the instance of the event manager, which initialed in the class constructor
+     * Returns the instance of the event manager, which is initialed in the class constructor
      *
      * @return Enlight_Event_EventManager
      */
@@ -308,7 +308,7 @@ class Enlight_Application
     }
 
     /**
-     * Returns the instance of the plugin manager, which initialed in the class constructor
+     * Returns the instance of the plugin manager, which is initialed in the class constructor
      *
      * @return Enlight_Plugin_PluginManager
      */
@@ -344,8 +344,8 @@ class Enlight_Application
     /**
      * This method is used to load a given configuration. The config
      * parameter can be an instance of Zend_Config, an array of settings or
-     * a file path. If the given config parameter is an file path,
-     * the file will be loaded and returns as an array.
+     * a file path. If the given config parameter is a file path,
+     * the file will be loaded and returned as an array.
      *
      * @param mixed $config
      * @return array Array of application configurations
@@ -393,7 +393,7 @@ class Enlight_Application
 
     /**
      * This method sets the configuration of the options parameter into the different configurations.
-     * If the options not an array, the loadConfig method should be used to convert the options into an array.
+     * If the options are not an array, the loadConfig method should be used to convert the options into an array.
      *
      * @param array $options
      * @return Enlight_Application

@@ -25,15 +25,15 @@
  * The Enlight_Hook_HookManager allows to hook class methods.
  *
  * Class methods can be hooked by type before, replace and after.
- * It uses a proxy to hook the class on which is the hook placed,
+ * It uses a proxy to hook the class on which the hook is placed,
  * so the class method can be overwritten. If a class is hooked, a proxy will be generated for this class.
  * The generated class extends the origin class and implements the Enlight_Hook_Proxy interface.
  * Instead of the origin methods, the registered hook handler methods will be executed.
  *
- * The Enlight_Hook_HookManager stored all registered hook handler, which registered
- * by the Enlight_Hook_HookSubscriber. Checks whether a class method of the current one has been hook and executes it.
+ * The Enlight_Hook_HookManager stores all registered hook handlers, which are registered
+ * by the Enlight_Hook_HookSubscriber. Checks whether a class method of the current one has been hooked and executes it.
  *
- * The hook arguments will passed to the handler, the proxy allows the handler to execute
+ * The hook arguments are passed to the handler, the proxy allows the handler to execute
  * by the manager and overwriting the return of the corresponding method.
  *
  * @category   Enlight
@@ -105,8 +105,8 @@ class Enlight_Hook_HookManager extends Enlight_Class
     }
 
     /**
-     * Checks if the given class have registered hooks.
-     * If a method given the examination is limited to the method.
+     * Checks if the given class has registered hooks.
+     * If a method is given the examination is limited to the method.
      *
      * @param      $class
      * @param null $method
@@ -145,8 +145,8 @@ class Enlight_Hook_HookManager extends Enlight_Class
     }
 
     /**
-     * Returns the proxy for the given class. If the Enlight_Hook_ProxyFactory not
-     * already has been instantiate the function instantiate it automatically.
+     * Returns the proxy for the given class. If the Enlight_Hook_ProxyFactory hasn't
+     * already instantiated it, the function instantiates it automatically.
      *
      * @param $class
      * @return mixed
@@ -160,7 +160,7 @@ class Enlight_Hook_HookManager extends Enlight_Class
     }
 
     /**
-     * Checks if a proxy exist for the given class.
+     * Checks if a proxy exists for the given class.
      *
      * @param $class
      * @return bool

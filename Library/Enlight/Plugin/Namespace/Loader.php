@@ -26,7 +26,7 @@
  * Allows to register multiple plugins from a namespace over an prefix path.
  *
  * The Enlight_Plugin_Namespace_Loader iterates over the specified directory and
- * check whether bootstrap files are present. If a bootstrap is found, loaded via
+ * checks whether bootstrap files are present. If a bootstrap is found loaded via
  * the Enlight_Loader the corresponding class.
  *
  *
@@ -76,7 +76,7 @@ class Enlight_Plugin_Namespace_Loader extends Enlight_Plugin_Namespace
     }
 
     /**
-     * Instantiates a plugin from the plugin namespace and add it to the internal plugins array.
+     * Instantiates a plugin from the plugin namespace and adds it to the internal plugins array.
      *
      * @param   string      $name
      * @param   string      $prefix

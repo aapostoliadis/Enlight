@@ -39,7 +39,7 @@ abstract class Enlight_Controller_Router extends Enlight_Class
     protected $front;
 
     /**
-     * @var array Contains all global parameter for the routing process.
+     * @var array Contains all global parameters for the routing process.
      */
     protected $globalParams = array();
 
@@ -66,7 +66,7 @@ abstract class Enlight_Controller_Router extends Enlight_Class
     }
 
     /**
-     * Starts the route process.
+     * Starts the routing-process.
      * @throws Enlight_Controller_Exception
      * @param Zend_Controller_Request_Abstract $request
      * @return Zend_Controller_Request_Abstract|Zend_Controller_Request_Http
@@ -74,7 +74,7 @@ abstract class Enlight_Controller_Router extends Enlight_Class
     abstract public function route(Zend_Controller_Request_Abstract $request);
 
     /**
-     * Assemble the given parameters.
+     * Assembles the given parameters.
      * @param array $userParams
      * @return mixed|string
      */

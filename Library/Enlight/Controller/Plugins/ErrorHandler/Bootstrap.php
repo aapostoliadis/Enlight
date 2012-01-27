@@ -24,7 +24,7 @@
 /**
  * Controller of the enlight error handler plugin
  *
- * The Enlight_Controller_Plugins_ErrorHandler_Bootstrap is a standard controller plugin to catch possibly occurring
+ * The Enlight_Controller_Plugins_ErrorHandler_Bootstrap is a default controller plugin to catch possibly occurring
  * exceptions in the controller. It will catch the exceptions, pass them to an error controller and display them.
  *
  * @category   Enlight
@@ -35,7 +35,7 @@
 class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_Bootstrap_Default
 {
     /**
-     * Initial the default event handlers onRouteShutdown and onPostDispatch
+     * Initials the default event handlers onRouteShutdown and onPostDispatch
      * @return void
      */
     public function init()
@@ -83,7 +83,7 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
     const EXCEPTION_NO_CONTROLLER = 'EXCEPTION_NO_CONTROLLER';
 
     /**
-     * Const - No action exception; controller exists, but action does not
+     * Const - No action exception; controller exists, but action does not exist
      */
     const EXCEPTION_NO_ACTION = 'EXCEPTION_NO_ACTION';
 
@@ -114,7 +114,7 @@ class Enlight_Controller_Plugins_ErrorHandler_Bootstrap extends Enlight_Plugin_B
 
     /**
      * The handle error function checks for an exception and
-     * allow the error handler controller the option to forward
+     * allows the error handler controller the option to forward
      *
      * @param Enlight_Controller_Front $front
      * @param Enlight_Controller_Request_Request $request

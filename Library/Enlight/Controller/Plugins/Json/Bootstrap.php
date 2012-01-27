@@ -24,7 +24,7 @@
 /**
  * Controller of the enlight json plugin
  *
- * The Enlight_Controller_Plugins_Json_Bootstrap is a standard plugin to pass the view data as json.
+ * The Enlight_Controller_Plugins_Json_Bootstrap is a default plugin to pass the view data as json.
  * It supports the rendering of the view as json object and capsules the output to an javascript function
  * known as jsonp.
  *
@@ -36,7 +36,7 @@
 class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap_Default
 {
     /**
-     * Init this plugin. This Plugin should run after the ViewRenderer Plugin
+     * Initializes this plugin. This Plugin should run after the ViewRenderer Plugin
      *
      * @return void
      */
@@ -60,8 +60,8 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
     protected $encoding = 'UTF-8';
 
     /**
-     * Flag which indicates if the whole HTML Output should be converted to JSON or
-     * just the Data provided by smarties data container
+     * Flag which indicates if the whole HTML output should be converted to JSON or
+     * just the data provided by smarties data container
      *
      * @var bool
      */
@@ -120,7 +120,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Sometimes it is necessary to pad an JSON object into a javascript function. If this behaviour need
+     * Sometimes it is necessary to pad an JSON object into a javascript function. If this behaviour is needed
      * this method can be called with a true value as parameter to enable the padding mode.
      * If this mode is active the system takes the name found in the GET parameter 'callback' as the javascript function
      * name.
@@ -135,7 +135,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Returns the Value set with setPadding()
+     * Returns the Value set by setPadding()
      *
      * @return string
      */
@@ -196,7 +196,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Converts an non UTF-8 string in to an UTF-8 string
+     * Converts a non UTF-8 string into an UTF-8 string
      *
      * @param   string|array $data
      * @param   string       $encoding
@@ -219,7 +219,7 @@ class Enlight_Controller_Plugins_Json_Bootstrap extends Enlight_Plugin_Bootstrap
     }
 
     /**
-     * Embedded a JSON object into an callback function
+     * Embedded a JSON object into a callback function
      *
      * @param $data
      * @param $callback

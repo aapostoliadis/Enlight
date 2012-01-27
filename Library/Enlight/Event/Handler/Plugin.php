@@ -24,7 +24,7 @@
 /**
  * Event handler for Enlight plugins.
  *
- * The Enlight_Event_Handler_Plugin is the basic class for plugin events. It extends the standard enlight event
+ * The Enlight_Event_Handler_Plugin is the basic class for plugin events. It extends the default enlight event
  * handler with plugin specified methods.
  *
  * @category   Enlight
@@ -52,7 +52,7 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
 
     /**
      * The Enlight_Event_Handler_Plugin class constructor expects the event name.
-     * All parameters will be set in the internal properties.
+     * All parameters are set in the internal properties.
      *
      * @throws  Enlight_Event_Exception
      * @param   string                   $event
@@ -89,7 +89,7 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
 
     /**
      * Getter method for the internal plugin property. If the plugin property is a string,
-     * enlight will determined the plugin object over the namespace.
+     * enlight determines the plugin object over the namespace.
      *
      * @return  Enlight_Plugin_Bootstrap
      */
@@ -124,7 +124,7 @@ class Enlight_Event_Handler_Plugin extends Enlight_Event_Handler
     }
 
     /**
-     * Execute the listener on the plugin with the given Enlight_Event_EventArgs.
+     * Executes the listener on the plugin with the given Enlight_Event_EventArgs.
      * @param   Enlight_Event_EventArgs $args
      * @return  mixed
      */
